@@ -4,12 +4,15 @@
 [ext_resource type="PackedScene" uid="uid://ep2nyccidheo" path="res://Objects/Player.tscn" id="2_4m2gk"]
 
 [node name="World" type="Node2D"]
+position = Vector2(427, 282)
 
-[node name="Floor2" parent="." instance=ExtResource("1_tncw2")]
-position = Vector2(660, 343)
+[node name="Wall1" parent="." instance=ExtResource("1_tncw2")]
+position = Vector2(515, -4)
+scale = Vector2(0.5, 5)
 
-[node name="Floor" parent="." instance=ExtResource("1_tncw2")]
-position = Vector2(190, 339)
+[node name="Floor1" parent="." instance=ExtResource("1_tncw2")]
+position = Vector2(220, 330)
+scale = Vector2(10, 0.5)
 
 [node name="Player" parent="." instance=ExtResource("2_4m2gk")]
-position = Vector2(189, 156)
+position = Vector2(301, -126)
