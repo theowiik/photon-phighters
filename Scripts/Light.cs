@@ -11,7 +11,7 @@ public partial class Light : Node2D
 
     private PointLight2D _light;
     private bool _isWhite = true;
-    public LightMode LightState { get; private set; }
+    public LightMode LightState { get; private set; } = LightMode.Neutral;
 
     public override void _Ready()
     {
