@@ -2,19 +2,23 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-    private const float Speed = 300.0f;
-    private const float JumpVelocity = -400.0f;
-    private float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+    private const float Speed = 500.0f;
+    private const float FrictionAccelerate = 50.0f;
+    private const float FrictionDecelerate = 30.0f;
+    private const float JumpVelocity = -1000.0f;
+    private float _gravity = 2000.0f;
 
     // Wall sliding
-    private Vector2 _velocity = Vector2.Zero;
     private bool _isOnWall = false;
     private int _wallDirection = 0;
     private float _timeToWallUnstick = WallUnstickTime;
-    private const float WallJumpSpeed = -500.0f;
+    private const float WallJumpSpeed = -1000.0f;
     private const float WallSlideSpeedMax = 150.0f;
     private const float WallStickTime = 0.25f;
     private const float WallUnstickTime = 0.15f;
+
+    // Double jumping
+    private bool _hasDoubleJumped = false;
 
     public override void _PhysicsProcess(double delta)
     {
@@ -31,12 +35,22 @@ public partial class Player : CharacterBody2D
             nextVelocity.Y += _gravity * (float)delta;
 
         var inputDir = Input.GetVector("left", "right", "up", "down");
+        if (Input.IsActionJustPressed("jump")) {
+            nextVelocity.Y = JumpVelocity;
+        }
         if (inputDir != Vector2.Zero)
-            nextVelocity.X = inputDir.X * Speed;
+        {
+            var dir = inputDir.X > 0.0f ? 1 : -1;
+            nextVelocity.X = Mathf.MoveToward(Velocity.X, dir * Speed, FrictionAccelerate);
+        }
         else
-            nextVelocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+        {
+            nextVelocity.X = Mathf.MoveToward(Velocity.X, 0, FrictionDecelerate);
+        }
 
         nextVelocity = HandleWalljump(delta, inputDir, nextVelocity, isOnGround);
+
+        nextVelocity = HandleDoubleJump(delta, inputDir, nextVelocity, isOnGround);
 
         Velocity = nextVelocity;
         MoveAndSlide();
@@ -115,6 +129,21 @@ public partial class Player : CharacterBody2D
         if (!isOnWall)
         {
             _wallDirection = 0;
+        }
+
+        return nextVelocity;
+    }
+
+    private Vector2 HandleDoubleJump(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isonGround)
+    {
+        if (isonGround)
+        {
+            _hasDoubleJumped = false;
+        }
+        else if (Input.IsActionJustPressed("jump") && !_hasDoubleJumped)
+        {
+            nextVelocity.Y = JumpVelocity;
+            _hasDoubleJumped = true;
         }
 
         return nextVelocity;
