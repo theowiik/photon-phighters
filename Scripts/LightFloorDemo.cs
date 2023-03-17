@@ -1,3 +1,4 @@
+using System.Linq;
 using System.Collections.Generic;
 using System.Numerics;
 using Godot;
@@ -22,19 +23,26 @@ public partial class LightFloorDemo : StaticBody2D
         var lights = 100;
         var perSide = lights / 4.0;
         var distancePerSide = sideLength / perSide;
-
     }
 
     private void Place2(){
         var sideLength = 130;
         var half = sideLength / 2;
 
-        var lights = 10;
+        var lights = 20;
         var perSide = lights / 4;
         var distancePerSide = sideLength / perSide;
 
-        var side = BuildSide(new Godot.Vector2(-half, -half), perSide, distancePerSide);
+        var basee = BuildSide(new Godot.Vector2(half, -half), perSide, distancePerSide);
+        var side = basee;
+        var bottom = basee.Select(v => v.Rotated((Mathf.Pi / 2) * 1));
+        var left = basee.Select(v => v.Rotated((Mathf.Pi / 2) * 2));
+        var top = basee.Select(v => v.Rotated((Mathf.Pi / 2) * 3));
+
         Placee(side);
+        Placee(bottom);
+        Placee(left);
+        Placee(top);
     }
 
     private void Placee(IEnumerable<Godot.Vector2> vectors) {
