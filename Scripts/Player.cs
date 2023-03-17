@@ -2,11 +2,24 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
+    // General movement
+    [Export]
     private const float Speed = 500.0f;
+    [Export]
     private const float FrictionAccelerate = 50.0f;
+    [Export]
     private const float FrictionDecelerate = 30.0f;
-    private const float JumpVelocity = -1000.0f;
-    private float _gravity = 2000.0f;
+    
+    // Jumping
+    [Export]
+    private const float JumpHeight = 100;
+    [Export]
+    private const float JumpTimeToPeak = 0.4f;
+    [Export]
+    private const float JumpTimeToDescent = 0.35f;
+    private const float JumpVelocity = ((2.0f * JumpHeight) / JumpTimeToPeak) * -1.0f;
+    private const float JumpGravity = ((-2.0f * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak)) * -1.0f;
+    private const float FallGravity = ((-2.0f * JumpHeight) / (JumpTimeToDescent * JumpTimeToDescent)) * -1.0f;
 
     // Wall sliding
     private bool _isOnWall = false;
@@ -32,7 +45,7 @@ public partial class Player : CharacterBody2D
         var nextVelocity = Velocity;
 
         if (!isOnGround)
-            nextVelocity.Y += _gravity * (float)delta;
+            nextVelocity.Y += GetGravity() * (float)delta;
 
         var inputDir = Input.GetVector("left", "right", "up", "down");
         if (Input.IsActionJustPressed("jump")) {
@@ -147,5 +160,9 @@ public partial class Player : CharacterBody2D
         }
 
         return nextVelocity;
+    }
+
+    private float GetGravity() {
+        return Velocity.Y < 0.0 ? JumpGravity : FallGravity;
     }
 }
