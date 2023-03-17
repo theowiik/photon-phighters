@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://o8u647drhkfe"]
+
+[ext_resource type="Script" path="res://Scripts/Light.cs" id="1_amhmd"]
+[ext_resource type="Texture2D" uid="uid://dnwydht5hmjxm" path="res://Assets/light.webp" id="1_ohd2u"]
+[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="2_8yxqa"]
+
+[node name="Light" type="Node2D" groups=["Light"]]
+script = ExtResource("1_amhmd")
+
+[node name="Light2D" type="PointLight2D" parent="."]
+color = Color(1, 1, 1, 0.992157)
+energy = 1.11
+texture = ExtResource("1_ohd2u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("2_8yxqa")
