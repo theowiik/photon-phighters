@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+using System.Numerics;
 using Godot;
 
 public partial class LightFloorDemo : StaticBody2D
@@ -7,8 +9,8 @@ public partial class LightFloorDemo : StaticBody2D
 
     public override void _Ready()
     {
-        PlaceLights();
         _lights = GetNode<Node2D>("Lights");
+        Place2();
     }
 
     private void PlaceLights()
@@ -21,12 +23,38 @@ public partial class LightFloorDemo : StaticBody2D
         var perSide = lights / 4.0;
         var distancePerSide = sideLength / perSide;
 
-        for (var i = 0; i < lights; i++)
+    }
+
+    private void Place2(){
+        var sideLength = 130;
+        var half = sideLength / 2;
+
+        var lights = 10;
+        var perSide = lights / 4;
+        var distancePerSide = sideLength / perSide;
+
+        var side = BuildSide(new Godot.Vector2(-half, -half), perSide, distancePerSide);
+        Placee(side);
+    }
+
+    private void Placee(IEnumerable<Godot.Vector2> vectors) {
+        foreach (var vector in vectors)
         {
-            var pos = new Vector2((float) (half), (float) (-half + distancePerSide * i));
-            var light = (Light)_lightScene.Instantiate();
-            AddChild(light);
-            light.Position = pos;
+            var light = _lightScene.Instantiate<Node2D>();
+            _lights.AddChild(light);
+            light.Position = vector;
         }
+    }
+
+    private IEnumerable<Godot.Vector2> BuildSide(Godot.Vector2 baseVector, int lightsOnSide, float apart)
+    {
+        var output = new List<Godot.Vector2>();
+
+        for (var i = 0; i < lightsOnSide; i++)
+        {
+            output.Add(baseVector + new Godot.Vector2(0, apart * i));
+        }
+
+        return output;
     }
 }
