@@ -28,12 +28,6 @@ visible = false
 position = Vector2(534, 261)
 texture = ExtResource("1_qy8fx")
 
-[node name="Player" parent="." instance=ExtResource("2_4m2gk")]
-position = Vector2(532, -92)
-scale = Vector2(0.35, 0.35)
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-
 [node name="Map" type="Node2D" parent="."]
 
 [node name="Floor1" parent="Map" instance=ExtResource("1_tncw2")]
@@ -135,3 +129,17 @@ autostart = true
 
 [node name="FakePlayer" parent="." instance=ExtResource("7_wmwm0")]
 position = Vector2(659, -107)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(532, -92)
+scale = Vector2(0.35, 0.35)
+
+[node name="Player1" parent="." instance=ExtResource("2_4m2gk")]
+position = Vector2(949, -119)
+scale = Vector2(0.35, 0.35)
+PlayerNumber = 1
+
+[node name="Player2" parent="." instance=ExtResource("2_4m2gk")]
+position = Vector2(122, -133)
+scale = Vector2(0.35, 0.35)
+PlayerNumber = 2

@@ -2,20 +2,17 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
+    [Export]
+    public int PlayerNumber { get; set; }
+
     // General movement
-    [Export]
     private const float Speed = 500.0f;
-    [Export]
     private const float FrictionAccelerate = 55.0f;
-    [Export]
     private const float FrictionDecelerate = 30.0f;
-    
+
     // Jumping
-    [Export]
     private const float JumpHeight = 100;
-    [Export]
     private const float JumpTimeToPeak = 0.4f;
-    [Export]
     private const float JumpTimeToDescent = 0.35f;
     private const float JumpVelocity = ((2.0f * JumpHeight) / JumpTimeToPeak) * -1.0f;
     private const float JumpGravity = ((-2.0f * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak)) * -1.0f;
@@ -31,22 +28,26 @@ public partial class Player : CharacterBody2D
     private const float WallUnstickTime = 0.15f;
 
     // Multiple jumping
-    private int nrPossibleJumps = 1;
+    private int _nrPossibleJumps = 1;
     private int _nrCurrentJumps = 0;
 
+    // Aim
     private Marker2D _gunMarker;
     public Gun Gun { get; private set; }
+    private bool _aimWithMouse = true;
 
     public override void _Ready()
     {
         _gunMarker = GetNode<Marker2D>("Marker2D");
         Gun = _gunMarker.GetNode<Gun>("Gun");
+        Gun.ShootActionName = $"p{PlayerNumber}_shoot";
+        Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
     }
 
     public override void _PhysicsProcess(double delta)
     {
         Movement(delta);
-        Aim(delta);
+        Aim();
     }
 
     private void Movement(double delta)
@@ -58,7 +59,7 @@ public partial class Player : CharacterBody2D
         if (!isOnGround)
             nextVelocity.Y += GetGravity() * (float)delta;
 
-        var inputDir = Input.GetVector("left", "right", "up", "down");
+        var inputDir = Input.GetVector($"p{PlayerNumber}_left", $"p{PlayerNumber}_right", $"p{PlayerNumber}_up", $"p{PlayerNumber}_down");
 
         if (inputDir != Vector2.Zero)
         {
@@ -111,7 +112,7 @@ public partial class Player : CharacterBody2D
         }
 
         // Handle wall jumping
-        if (Input.IsActionJustPressed("jump"))
+        if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
         {
             if (isOnGround)
             {
@@ -161,7 +162,7 @@ public partial class Player : CharacterBody2D
         {
             _nrCurrentJumps = 0;
         }
-        else if (Input.IsActionJustPressed("jump") && _nrCurrentJumps < nrPossibleJumps)
+        else if (Input.IsActionJustPressed($"p{PlayerNumber}_jump") && _nrCurrentJumps < _nrPossibleJumps)
         {
             nextVelocity.Y = JumpVelocity;
             _nrCurrentJumps++;
@@ -170,12 +171,27 @@ public partial class Player : CharacterBody2D
         return nextVelocity;
     }
 
-    private float GetGravity() {
+    private float GetGravity()
+    {
         return Velocity.Y < 0.0 ? JumpGravity : FallGravity;
     }
-    private void Aim(double delta)
+    private void Aim()
     {
-        var direction = GetGlobalMousePosition() - GlobalPosition;
-        _gunMarker.Rotation = direction.Angle();
+        var joystickDeadzone = 0.05f;
+        var joystickVector = new Vector2(Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX), Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY));
+
+        // Controller has priority over mouse.
+        if (joystickVector.Length() > joystickDeadzone)
+        {
+            _gunMarker.Rotation = joystickVector.Angle();
+            _aimWithMouse = false;
+        }
+
+        // Only player one can play with mouse and keyboard.
+        if (PlayerNumber == 1 && _aimWithMouse)
+        {
+            var direction = GetGlobalMousePosition() - GlobalPosition;
+            _gunMarker.Rotation = direction.Angle();
+        }
     }
 }

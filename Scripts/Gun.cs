@@ -3,13 +3,13 @@ using System;
 
 public partial class Gun : Node2D
 {
-    // PROPERTIES
+    public Light.LightMode LightMode { get; set; }
+    public string ShootActionName { get; set; }
     private double BulletSpeed { get; set; } = 750.0f;
     private double FireRate { get; set; } = 5f;
     private float BulletSizeFactor { get; set; } = 1.0f;
     private float BulletCount { get; set; } = 1.0f;
     private float BulletSpread { get; set; } = 0.2f;
-    private Light.LightMode LightMode { get; set; }
     private PackedScene _bulletScene;
     private Timer _shootTimer;
     private bool _canShoot = true;
@@ -25,18 +25,8 @@ public partial class Gun : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionPressed("shoot") && _canShoot)
-        {
-            LightMode = Light.LightMode.Light;
+        if (Input.IsActionPressed(ShootActionName) && _canShoot)
             Shoot();
-        }
-
-        // TODO: Dev tool, remove this
-        if (Input.IsMouseButtonPressed(MouseButton.Right) && _canShoot)
-        {
-            LightMode = Light.LightMode.Dark;
-            Shoot();
-        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
