@@ -1,6 +1,6 @@
 using Godot;
 
-public partial class FakePlayer : Node2D, IDamageable
+public partial class FakePlayer : Node2D
 {
     private const int MaxHealth = 100;
     private int _health = MaxHealth;
@@ -25,14 +25,10 @@ public partial class FakePlayer : Node2D, IDamageable
 
     public void TakeDamage(int damage)
     {
-        GD.Print($"Player took {damage} damage!");
         _health -= damage;
 
         if (_health <= 0)
-        {
-            GD.Print("Player is dead!");
             QueueFree();
-        }
 
         SetHealthLabel();
     }
@@ -41,10 +37,4 @@ public partial class FakePlayer : Node2D, IDamageable
     {
         _healthBar.SetHealth(_health, MaxHealth);
     }
-}
-
-// Possibly remove
-public interface IDamageable
-{
-    void TakeDamage(int damage);
 }
