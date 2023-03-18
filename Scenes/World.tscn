@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/Overlay.tscn" id="5_73lpy"]
 
 [node name="World" type="Node2D"]
-position = Vector2(427, 282)
 script = ExtResource("1_f0l43")
 
 [node name="RoundsMap" type="Sprite2D" parent="."]
