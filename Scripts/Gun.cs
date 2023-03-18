@@ -13,7 +13,7 @@ public partial class Gun : Node2D
     private PackedScene _bulletScene;
     private Timer _shootTimer;
     private bool _loading = true;
-    public bool Safety { get; set; }
+    public bool Freeze { get; set; }
 
     public override void _Ready()
     {
@@ -26,7 +26,7 @@ public partial class Gun : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Safety)
+        if (Freeze)
             return;
 
         if (Input.IsActionPressed(ShootActionName) && _loading)

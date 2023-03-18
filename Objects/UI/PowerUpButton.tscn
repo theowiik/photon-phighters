@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://baxcaa156aapp"]
+
+[ext_resource type="Texture2D" uid="uid://blvtw5gs7ihyr" path="res://Assets/power-up.png" id="1_ft72r"]
+[ext_resource type="Script" path="res://Scripts/PowerUpButton.cs" id="2_kwm8b"]
+
+[node name="PowerUpButton" type="Button"]
+offset_right = 38.0
+offset_bottom = 38.0
+icon = ExtResource("1_ft72r")
+script = ExtResource("2_kwm8b")

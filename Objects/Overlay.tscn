@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://bqtyoapoavark"]
+[gd_scene load_steps=3 format=3 uid="uid://bqtyoapoavark"]
 
 [ext_resource type="Script" path="res://Scripts/Overlay.cs" id="1_ctivd"]
+[ext_resource type="PackedScene" uid="uid://baxcaa156aapp" path="res://Objects/UI/PowerUpButton.tscn" id="2_12srk"]
 
 [node name="Overlay" type="Control"]
 layout_mode = 3
@@ -34,3 +35,14 @@ offset_top = 160.0
 offset_right = 322.0
 offset_bottom = 287.0
 text = "total score"
+
+[node name="PowerUpDeck" type="HBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 276.0
+offset_bottom = 136.0
+
+[node name="PowerUpButton" parent="PowerUpDeck" instance=ExtResource("2_12srk")]
+layout_mode = 2
+
+[node name="PowerUpButton2" parent="PowerUpDeck" instance=ExtResource("2_12srk")]
+layout_mode = 2

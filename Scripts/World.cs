@@ -36,7 +36,7 @@ public partial class World : Node2D
     private void StartRound()
     {
         foreach (var player in _players)
-            player.AllowInputs = true;
+            player.Freeze = false;
 
         _roundTimer.Start(RoundTime);
         _roundTimer.Timeout += OnRoundFinished;
@@ -47,7 +47,7 @@ public partial class World : Node2D
         GD.Print("Round ended");
 
         foreach (var player in _players)
-            player.AllowInputs = false;
+            player.Freeze = true;
 
         var results = GetResults();
         if (results.On == results.Off)
