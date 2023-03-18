@@ -2,7 +2,7 @@ using System.Linq;
 using System.Collections.Generic;
 using Godot;
 
-public partial class LightFloorDemo : StaticBody2D
+public partial class LightFloor : StaticBody2D
 {
     private PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
 
