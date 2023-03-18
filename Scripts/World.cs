@@ -3,9 +3,13 @@ using System;
 
 public partial class World : Node2D
 {
+    private Overlay _overlay;
+
     public override void _Ready()
     {
+        _overlay = GetNode<Overlay>("Overlay");
         GetNode<Player>("Player").Gun.ShootDelegate += OnShoot;
+        GetNode<Timer>("ScoreUpdateTimer").Timeout += UpdateScore;
     }
 
     private void OnShoot(Node2D bullet)
@@ -26,12 +30,21 @@ public partial class World : Node2D
         {
             GetTree().Quit();
         }
+    }
 
-        if (@event.IsActionPressed("ui_down"))
-        {
-            var results = GetResults();
-            GD.Print($"On: {results.On}, Off: {results.Off}, Neutral: {results.Neutral}");
+    private void UpdateScore()
+    {
+        var results = GetResults();
+
+        if (results.On == 0 && results.Off == 0) {
+            _overlay.Score = "Go!";
+            return;
         }
+
+        var percentageOn = (float)results.On / (results.On + results.Off);
+        var percentageOff = (float)results.Off / (results.On + results.Off);
+        GD.Print(results.On);
+        _overlay.Score = $"Lightness: {percentageOn * 100}%, Darkness: {percentageOff * 100}%";
     }
 
     private Results GetResults()
@@ -41,12 +54,8 @@ public partial class World : Node2D
 
         foreach (var light in lights)
         {
-            var lightNode = light as Light;
-
-            if (lightNode == null)
-            {
+            if (light is not Light lightNode)
                 throw new Exception("Light node is not a Light!!");
-            }
 
             switch (lightNode.LightState)
             {
