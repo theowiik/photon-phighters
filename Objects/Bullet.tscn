@@ -4,10 +4,10 @@
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_xlknr"]
 
 [node name="Bullet" type="Node2D"]
+scale = Vector2(0.1, 0.1)
 script = ExtResource("1_xlknr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_qpr50")
 
 [node name="Timer" type="Timer" parent="."]
