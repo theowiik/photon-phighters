@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://dr31tb7rvoc8x"]
+[gd_scene load_steps=4 format=3 uid="uid://dr31tb7rvoc8x"]
 
+[ext_resource type="Script" path="res://Scripts/LightFloor.cs" id="1_0tmb8"]
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_ng34y"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a12tr"]
 size = Vector2(128, 128)
 
 [node name="Floor" type="StaticBody2D"]
+script = ExtResource("1_0tmb8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_a12tr")

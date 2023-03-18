@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://d3702r8jsief"]
+[gd_scene load_steps=9 format=3 uid="uid://d3702r8jsief"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_f0l43"]
 [ext_resource type="Texture2D" uid="uid://cvlu7ya34qp7l" path="res://Assets/rounds_map.png" id="1_qy8fx"]
 [ext_resource type="PackedScene" uid="uid://dr31tb7rvoc8x" path="res://Objects/Floor.tscn" id="1_tncw2"]
 [ext_resource type="PackedScene" uid="uid://ep2nyccidheo" path="res://Objects/Player.tscn" id="2_4m2gk"]
-[ext_resource type="PackedScene" uid="uid://dd2tm06pwrtxe" path="res://Objects/LightFloorDemo.tscn" id="3_2d3hf"]
 [ext_resource type="Texture2D" uid="uid://yaherysqfje5" path="res://Assets/slate.png" id="3_8238p"]
 [ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/Overlay.tscn" id="5_73lpy"]
 [ext_resource type="PackedScene" uid="uid://dxqb1xlj8to58" path="res://Objects/FakePlayer.tscn" id="7_wmwm0"]
@@ -128,9 +127,6 @@ scale = Vector2(0.3, 0.8)
 [node name="Floor16" parent="Map" instance=ExtResource("1_tncw2")]
 position = Vector2(536, 194)
 scale = Vector2(1, 0.4)
-
-[node name="LightFloorDemo" parent="." instance=ExtResource("3_2d3hf")]
-position = Vector2(381, -69)
 
 [node name="ScoreUpdateTimer" type="Timer" parent="."]
 autostart = true
