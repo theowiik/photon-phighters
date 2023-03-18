@@ -15,7 +15,6 @@ public partial class World : Node2D
 
     private void OnShoot(Node2D bullet)
     {
-        GD.Print("Shooting in World!");
         AddChild(bullet);
     }
 

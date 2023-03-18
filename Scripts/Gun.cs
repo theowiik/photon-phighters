@@ -45,8 +45,6 @@ public partial class Gun : Node2D
 
     private void Shoot()
     {
-        GD.Print("Shooting!"); 
-
         for (int i = 0; i < BulletCount; i++)
         {
             var bullet = _bulletScene.Instantiate<Bullet>();
