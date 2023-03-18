@@ -6,10 +6,12 @@ public partial class Player : CharacterBody2D
     private const float JumpVelocity = -400.0f;
     private float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
     private Marker2D _gunMarker;
+    public Gun Gun { get; private set; }
 
     public override void _Ready()
     {
         _gunMarker = GetNode<Marker2D>("Marker2D");
+        Gun = _gunMarker.GetNode<Gun>("Gun");
     }
 
     public override void _PhysicsProcess(double delta)
