@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class World : Node2D
@@ -7,7 +8,8 @@ public partial class World : Node2D
     private Overlay _overlay;
     private Timer _roundTimer;
     private FollowingCamera _camera;
-    private const int RoundTime = 60;
+    private const int RoundTime = 2;
+    private IEnumerable<Player> _players;
 
     public override void _Ready()
     {
@@ -17,8 +19,9 @@ public partial class World : Node2D
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
         uiUpdateTimer.Timeout += UpdateRoundTimer;
+        _players = this.GetNodes<Player>().ToList();
 
-        foreach (var player in this.GetNodes<Player>())
+        foreach (var player in _players)
         {
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
@@ -29,7 +32,19 @@ public partial class World : Node2D
 
     private void StartRound()
     {
+        foreach (var player in _players)
+            player.AllowInputs = true;
+
         _roundTimer.Start(RoundTime);
+        _roundTimer.Timeout += OnRoundFinished;
+    }
+
+    private void OnRoundFinished()
+    {
+        GD.Print("Round ended");
+
+        foreach (var player in _players)
+            player.AllowInputs = false;
     }
 
     private void OnShoot(Node2D bullet)

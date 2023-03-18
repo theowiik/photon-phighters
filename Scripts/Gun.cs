@@ -12,20 +12,24 @@ public partial class Gun : Node2D
     private float BulletSpread { get; set; } = 0.2f;
     private PackedScene _bulletScene;
     private Timer _shootTimer;
-    private bool _canShoot = true;
+    private bool _loading = true;
+    public bool Safety { get; set; }
 
     public override void _Ready()
     {
         _bulletScene = GD.Load<PackedScene>("res://Objects/Bullet.tscn");
         _shootTimer = GetNode<Timer>("Timer");
-        _shootTimer.Timeout += () => _canShoot = !_canShoot;
+        _shootTimer.Timeout += () => _loading = !_loading;
         LightMode = Light.LightMode.Light;
         _shootTimer.WaitTime = 1 / FireRate;
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionPressed(ShootActionName) && _canShoot)
+        if (Safety)
+            return;
+
+        if (Input.IsActionPressed(ShootActionName) && _loading)
             Shoot();
     }
 
@@ -59,7 +63,7 @@ public partial class Gun : Node2D
             EmitSignal(SignalName.ShootDelegate, bullet);
         }
 
-        _canShoot = false;
+        _loading = false;
         _shootTimer.Start();
     }
 }
