@@ -6,7 +6,6 @@
 [ext_resource type="PackedScene" uid="uid://ep2nyccidheo" path="res://Objects/Player.tscn" id="2_4m2gk"]
 
 [node name="World" type="Node2D"]
-position = Vector2(427, 282)
 script = ExtResource("1_f0l43")
 
 [node name="RoundsMap" type="Sprite2D" parent="."]
