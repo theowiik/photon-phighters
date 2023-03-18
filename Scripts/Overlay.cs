@@ -1,7 +1,10 @@
 using Godot;
+using System.Linq;
 
 public partial class Overlay : Control
 {
+    private PackedScene _powerUpScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
+    private HBoxContainer _powerUpDeck;
     private RichTextLabel _scoreLabel;
     private Label _timerLabel;
     private Label _totalScoreLabel;
@@ -35,5 +38,37 @@ public partial class Overlay : Control
         _scoreLabel = GetNode<RichTextLabel>("ScoreLabel");
         _timerLabel = GetNode<Label>("RoundTimerLabel");
         _totalScoreLabel = GetNode<Label>("TotalScoreLabel");
+        _powerUpDeck = GetNode<HBoxContainer>("PowerUpDeck");
+        ClearPowerUpDeck();
+        FillPowerUpDeck();
+    }
+
+    private void ClearPowerUpDeck()
+    {
+
+        foreach (var powerUpButton in _powerUpDeck.GetNodes<Button>())
+        {
+            powerUpButton.QueueFree();
+        }
+    }
+
+    private void FillPowerUpDeck()
+    {
+        var powerUpCount = 3;
+
+        // TODO: Dont do this. Hackthon level code. Also, this will always apply to the first player
+        var player = GetTree().GetNodesInGroup("players").Cast<Player>().First();
+
+        for (int i = 0; i < powerUpCount; i++)
+        {
+            var powerUpButton = _powerUpScene.Instantiate<PowerUpButton>();
+            powerUpButton.Pressed += () => {
+                powerUpButton.ApplyPowerUp(player);
+                GD.Print("Powerup applied");
+                ClearPowerUpDeck();
+            };
+
+            _powerUpDeck.AddChild(powerUpButton);
+        }
     }
 }

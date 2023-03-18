@@ -11,7 +11,7 @@ radius = 67.0075
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
 size = Vector2(119, 122.5)
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["players"]]
 script = ExtResource("1_be4dv")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

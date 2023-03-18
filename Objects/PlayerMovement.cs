@@ -8,7 +8,7 @@ public partial class PlayerMovement : Node
     public bool Freeze { get; set; }
 
     // General movement
-    private const float Speed = 500.0f;
+    public float Speed { get; set; } = 500.0f;
     private const float FrictionAccelerate = 55.0f;
     private const float FrictionDecelerate = 30.0f;
 
@@ -30,7 +30,7 @@ public partial class PlayerMovement : Node
     private const float WallUnstickTime = 0.15f;
 
     // Multiple jumping
-    private int _nrPossibleJumps = 1;
+    public int NrPossibleJumps { get; set; } = 1;
     private int _nrCurrentJumps = 0;
 
     public override void _PhysicsProcess(double delta)
@@ -156,7 +156,7 @@ public partial class PlayerMovement : Node
         {
             _nrCurrentJumps = 0;
         }
-        else if (Input.IsActionJustPressed($"p{PlayerNumber}_jump") && _nrCurrentJumps < _nrPossibleJumps)
+        else if (Input.IsActionJustPressed($"p{PlayerNumber}_jump") && _nrCurrentJumps < NrPossibleJumps)
         {
             nextVelocity.Y = JumpVelocity;
             _nrCurrentJumps++;

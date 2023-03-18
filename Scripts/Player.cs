@@ -4,7 +4,7 @@ public partial class Player : CharacterBody2D
 {
     [Export]
     public int PlayerNumber { get; set; }
-    private PlayerMovement _playerMovement;
+    public PlayerMovement PlayerMovementDelegate;
     private bool _freeze;
     public bool Freeze
     {
@@ -12,18 +12,14 @@ public partial class Player : CharacterBody2D
         set
         {
             _freeze = value;
-
-            // Turn on gun safety when inputs are disabled
-            Gun.Safety = _freeze;
-
-            // Turn off movement when inputs are disabled
-            _playerMovement.Freeze = _freeze;
+            Gun.Freeze = _freeze;
+            PlayerMovementDelegate.Freeze = _freeze;
         }
     }
 
     // Health
-    public const int MaxHealth = 100;
-    private int _health = MaxHealth;
+    public int MaxHealth { get; set; } = 100;
+    private int _health;
 
     // Aim
     private Marker2D _gunMarker;
@@ -32,14 +28,15 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
+        _health = MaxHealth;
         _gunMarker = GetNode<Marker2D>("Marker2D");
         Gun = _gunMarker.GetNode<Gun>("Gun");
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
-        _playerMovement = GetNode<PlayerMovement>("PlayerMovement");
-        _playerMovement.PlayerNumber = PlayerNumber;
-        _playerMovement.CharacterBody = this;
+        PlayerMovementDelegate = GetNode<PlayerMovement>("PlayerMovement");
+        PlayerMovementDelegate.PlayerNumber = PlayerNumber;
+        PlayerMovementDelegate.CharacterBody = this;
 
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
         bulletDetectionArea.AreaEntered += OnBulletEntered;
