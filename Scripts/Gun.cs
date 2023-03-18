@@ -9,17 +9,17 @@ public partial class Gun : Node2D
     private float BulletSizeFactor { get; set; } = 1.0f;
     private float BulletCount { get; set; } = 1.0f;
     private float BulletSpread { get; set; } = 0.2f;
-
+    private Light.LightMode LightMode { get; set; }
     private PackedScene _bulletScene;
     private Timer _shootTimer;
-    private Boolean _canShoot = true;
+    private bool _canShoot = true;
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         _bulletScene = GD.Load<PackedScene>("res://Objects/Bullet.tscn");
         _shootTimer = GetNode<Timer>("Timer");
         _shootTimer.Timeout += () => _canShoot = !_canShoot;
+        LightMode = Light.LightMode.Light;
         _shootTimer.WaitTime = 1 / FireRate;
     }
 
@@ -29,6 +29,17 @@ public partial class Gun : Node2D
         {
             if (_canShoot)
                 Shoot();
+        }
+    }
+
+    public override void _UnhandledInput(InputEvent @event)
+    {
+        if (@event.IsActionPressed("ui_right"))
+        {
+            if (LightMode == Light.LightMode.Light)
+                LightMode = Light.LightMode.Dark;
+            else
+                LightMode = Light.LightMode.Light;
         }
     }
 
@@ -46,6 +57,7 @@ public partial class Gun : Node2D
             bullet.Rotation = GetParent<Marker2D>().Rotation + shotSpread;
             bullet.Speed = BulletSpeed;
             bullet.Scale *= BulletSizeFactor;
+            bullet.LightMode = LightMode;
 
             EmitSignal(SignalName.ShootDelegate, bullet);
         }
