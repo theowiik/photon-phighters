@@ -5,12 +5,19 @@ using System.Linq;
 public partial class World : Node2D
 {
     private Overlay _overlay;
+    private FollowingCamera _camera;
 
     public override void _Ready()
     {
-        _overlay = GetNode<Overlay>("Overlay");
+        _overlay = GetNode<Overlay>("Camera2D/Overlay");
+        _camera = GetNode<FollowingCamera>("FollowingCamera");
         GetNode<Timer>("ScoreUpdateTimer").Timeout += UpdateScore;
-        this.GetNodes<Player>().ToList().ForEach(p => p.Gun.ShootDelegate += OnShoot);
+
+        foreach (var player in this.GetNodes<Player>())
+        {
+            player.Gun.ShootDelegate += OnShoot;
+            _camera.AddTarget(player);
+        }
     }
 
     private void OnShoot(Node2D bullet)
