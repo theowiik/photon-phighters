@@ -18,12 +18,6 @@ scale = Vector2(0.35, 0.35)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
-offset_right = 40.0
-offset_bottom = 40.0
-
 [node name="Map" type="Node2D" parent="."]
 
 [node name="Floor1" parent="Map" instance=ExtResource("1_tncw2")]
@@ -117,3 +111,33 @@ scale = Vector2(0.3, 0.8)
 [node name="Floor16" parent="Map" instance=ExtResource("1_tncw2")]
 position = Vector2(536, 194)
 scale = Vector2(1, 0.4)
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="SpeedUp" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 32.0
+offset_right = 135.0
+offset_bottom = 31.0
+text = "Speed boost"
+
+[node name="JumpTimes" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 51.0
+offset_right = 168.0
+offset_bottom = 82.0
+text = "Jump increase🐰🐰🐰"
+
+[node name="JumpVelocity" type="Button" parent="Control"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 102.0
+offset_right = 172.0
+offset_bottom = 133.0
+text = "Jump speed boost
+"
