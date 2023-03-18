@@ -33,9 +33,19 @@ public partial class Player : CharacterBody2D
     // Double jumping
     private bool _hasDoubleJumped = false;
 
+    private Marker2D _gunMarker;
+    public Gun Gun { get; private set; }
+
+    public override void _Ready()
+    {
+        _gunMarker = GetNode<Marker2D>("Marker2D");
+        Gun = _gunMarker.GetNode<Gun>("Gun");
+    }
+
     public override void _PhysicsProcess(double delta)
     {
         Movement(delta);
+        Aim(delta);
     }
 
     private void Movement(double delta)
@@ -161,5 +171,10 @@ public partial class Player : CharacterBody2D
 
     private float GetGravity() {
         return Velocity.Y < 0.0 ? JumpGravity : FallGravity;
+    }
+    private void Aim(double delta)
+    {
+        var direction = GetGlobalMousePosition() - GlobalPosition;
+        _gunMarker.Rotation = direction.Angle();
     }
 }
