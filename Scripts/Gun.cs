@@ -25,7 +25,7 @@ public partial class Gun : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionPressed(ShootActionName) && _canShoot)
+        if (Input.IsActionJustPressed("p1_shoot") && _canShoot)
         {
             LightMode = Light.LightMode.Light;
             Shoot();
@@ -55,6 +55,8 @@ public partial class Gun : Node2D
 
     private void Shoot()
     {
+        GD.Print("Shooting!"); 
+
         for (int i = 0; i < BulletCount; i++)
         {
             var bullet = _bulletScene.Instantiate<Bullet>();

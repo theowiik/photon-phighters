@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://d3702r8jsief"]
+[gd_scene load_steps=9 format=3 uid="uid://d3702r8jsief"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_f0l43"]
 [ext_resource type="Texture2D" uid="uid://cvlu7ya34qp7l" path="res://Assets/rounds_map.png" id="1_qy8fx"]
@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/Overlay.tscn" id="5_73lpy"]
 [ext_resource type="PackedScene" uid="uid://dxqb1xlj8to58" path="res://Objects/FakePlayer.tscn" id="7_wmwm0"]
 [ext_resource type="Texture2D" uid="uid://luqaf30xc8ox" path="res://Assets/matte-black.png" id="8_0m4eq"]
-[ext_resource type="Script" path="res://Scripts/MultiplayerDemo.cs" id="9_sfynt"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_f0l43")
@@ -130,9 +129,6 @@ autostart = true
 
 [node name="FakePlayer" parent="." instance=ExtResource("7_wmwm0")]
 position = Vector2(659, -107)
-
-[node name="Node" type="Node" parent="."]
-script = ExtResource("9_sfynt")
 
 [node name="Camera2D" type="Camera2D" parent="."]
 position = Vector2(532, -92)

@@ -175,7 +175,23 @@ public partial class Player : CharacterBody2D
     }
     private void Aim(double delta)
     {
-        var direction = GetGlobalMousePosition() - GlobalPosition;
-        _gunMarker.Rotation = direction.Angle();
+        var controllerAim = true;
+
+        if (controllerAim)
+        {
+            var deadZone = 0.05f;
+            var joystickVector = new Vector2(Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX), Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY));
+
+            if (joystickVector.Length() > deadZone)
+            {
+                _gunMarker.Rotation = joystickVector.Angle();
+            }
+        }
+        else
+        {
+            var direction = GetGlobalMousePosition() - GlobalPosition;
+            _gunMarker.Rotation = direction.Angle();
+        }
+
     }
 }
