@@ -6,7 +6,7 @@ public partial class Player : CharacterBody2D
     [Export]
     private const float Speed = 500.0f;
     [Export]
-    private const float FrictionAccelerate = 50.0f;
+    private const float FrictionAccelerate = 55.0f;
     [Export]
     private const float FrictionDecelerate = 30.0f;
     
@@ -25,7 +25,7 @@ public partial class Player : CharacterBody2D
     private bool _isOnWall = false;
     private int _wallDirection = 0;
     private float _timeToWallUnstick = WallUnstickTime;
-    private const float WallJumpSpeed = -1000.0f;
+    private const float WallJumpSpeed = JumpVelocity;
     private const float WallSlideSpeedMax = 150.0f;
     private const float WallStickTime = 0.25f;
     private const float WallUnstickTime = 0.15f;
@@ -48,17 +48,14 @@ public partial class Player : CharacterBody2D
             nextVelocity.Y += GetGravity() * (float)delta;
 
         var inputDir = Input.GetVector("left", "right", "up", "down");
-        if (Input.IsActionJustPressed("jump")) {
-            nextVelocity.Y = JumpVelocity;
-        }
+
         if (inputDir != Vector2.Zero)
         {
-            var dir = inputDir.X > 0.0f ? 1 : -1;
-            nextVelocity.X = Mathf.MoveToward(Velocity.X, dir * Speed, FrictionAccelerate);
+            nextVelocity.X = Mathf.MoveToward(nextVelocity.X, Speed * inputDir.X, FrictionAccelerate);
         }
         else
         {
-            nextVelocity.X = Mathf.MoveToward(Velocity.X, 0, FrictionDecelerate);
+            nextVelocity.X = Mathf.MoveToward(nextVelocity.X, 0, FrictionDecelerate);
         }
 
         nextVelocity = HandleWalljump(delta, inputDir, nextVelocity, isOnGround);
