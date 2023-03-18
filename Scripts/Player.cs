@@ -2,9 +2,37 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-    private const float Speed = 300.0f;
-    private const float JumpVelocity = -400.0f;
-    private float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+    // General movement
+    [Export]
+    private const float Speed = 500.0f;
+    [Export]
+    private const float FrictionAccelerate = 55.0f;
+    [Export]
+    private const float FrictionDecelerate = 30.0f;
+    
+    // Jumping
+    [Export]
+    private const float JumpHeight = 100;
+    [Export]
+    private const float JumpTimeToPeak = 0.4f;
+    [Export]
+    private const float JumpTimeToDescent = 0.35f;
+    private const float JumpVelocity = ((2.0f * JumpHeight) / JumpTimeToPeak) * -1.0f;
+    private const float JumpGravity = ((-2.0f * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak)) * -1.0f;
+    private const float FallGravity = ((-2.0f * JumpHeight) / (JumpTimeToDescent * JumpTimeToDescent)) * -1.0f;
+
+    // Wall sliding
+    private bool _isOnWall = false;
+    private int _wallDirection = 0;
+    private float _timeToWallUnstick = WallUnstickTime;
+    private const float WallJumpSpeed = JumpVelocity;
+    private const float WallSlideSpeedMax = 150.0f;
+    private const float WallStickTime = 0.25f;
+    private const float WallUnstickTime = 0.15f;
+
+    // Double jumping
+    private bool _hasDoubleJumped = false;
+
     private Marker2D _gunMarker;
     public Gun Gun { get; private set; }
 
@@ -22,29 +50,131 @@ public partial class Player : CharacterBody2D
 
     private void Movement(double delta)
     {
+        bool isOnGround = IsOnFloor();
+
         var nextVelocity = Velocity;
 
-        if (!IsOnFloor())
-            nextVelocity.Y += _gravity * (float)delta;
+        if (!isOnGround)
+            nextVelocity.Y += GetGravity() * (float)delta;
 
-        // TODO: Use "jump"
-        if (Input.IsActionJustPressed("ui_accept") && IsOnFloor())
-            nextVelocity.Y = JumpVelocity;
+        var inputDir = Input.GetVector("left", "right", "up", "down");
 
-        // TODO: Update to use "move_left", "move_right" and such
-        var inputDir = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
         if (inputDir != Vector2.Zero)
-            nextVelocity.X = inputDir.X * Speed;
+        {
+            nextVelocity.X = Mathf.MoveToward(nextVelocity.X, Speed * inputDir.X, FrictionAccelerate);
+        }
         else
-            nextVelocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+        {
+            nextVelocity.X = Mathf.MoveToward(nextVelocity.X, 0, FrictionDecelerate);
+        }
+
+        nextVelocity = HandleWalljump(delta, inputDir, nextVelocity, isOnGround);
+
+        nextVelocity = HandleDoubleJump(delta, inputDir, nextVelocity, isOnGround);
 
         Velocity = nextVelocity;
         MoveAndSlide();
     }
 
+    public Vector2 HandleWalljump(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isOnGround)
+    {
+        // Check if the player is on a wall
+        bool isOnWall = false;
+        int wallDirection = 0;
+        if (inputDir.X != 0.0f)
+        {
+            if ((IsOnWall() && inputDir.X != (int)GetWallNormal().X) || IsOnCeiling())
+            {
+                isOnWall = true;
+                wallDirection = inputDir.X > 0.0f ? 1 : -1;
+            }
+        }
+
+        // Handle wall sliding
+        bool isWallSliding = false;
+        if (isOnWall && !_isOnWall && nextVelocity.Y > 0.0f)
+        {
+            isWallSliding = true;
+            if (nextVelocity.Y > WallSlideSpeedMax)
+            {
+                nextVelocity.Y = WallSlideSpeedMax;
+            }
+        }
+
+        // Handle wall sticking
+        if (isOnWall && !_isOnWall && nextVelocity.Y <= 0.0f)
+        {
+            _isOnWall = true;
+            _wallDirection = wallDirection;
+            _timeToWallUnstick = WallStickTime;
+        }
+
+        // Handle wall jumping
+        if (Input.IsActionJustPressed("jump"))
+        {
+            if (isOnGround)
+            {
+                nextVelocity.Y = JumpVelocity;
+            }
+            else if (isWallSliding)
+            {
+                nextVelocity.Y = WallJumpSpeed;
+                nextVelocity.X = _wallDirection * WallJumpSpeed;
+            }
+            else if (_isOnWall && _timeToWallUnstick > 0.0f && inputDir.X != _wallDirection)
+            {
+                nextVelocity.Y = JumpVelocity;
+                nextVelocity.X = _wallDirection * WallJumpSpeed;
+            }
+        }
+
+
+        // Handle wall sticking time
+        if (_isOnWall && _timeToWallUnstick > 0.0f)
+        {
+            nextVelocity.X = 0.0f;
+            _timeToWallUnstick -= (float)delta;
+            if (inputDir.X == _wallDirection * -1)
+            {
+                _timeToWallUnstick = WallUnstickTime;
+            }
+        }
+        else
+        {
+            _isOnWall = false;
+            _timeToWallUnstick = WallUnstickTime;
+        }
+
+        // Reset the wall direction if the player is no longer on a wall
+        if (!isOnWall)
+        {
+            _wallDirection = 0;
+        }
+
+        return nextVelocity;
+    }
+
+    private Vector2 HandleDoubleJump(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isonGround)
+    {
+        if (isonGround)
+        {
+            _hasDoubleJumped = false;
+        }
+        else if (Input.IsActionJustPressed("jump") && !_hasDoubleJumped)
+        {
+            nextVelocity.Y = JumpVelocity;
+            _hasDoubleJumped = true;
+        }
+
+        return nextVelocity;
+    }
+
+    private float GetGravity() {
+        return Velocity.Y < 0.0 ? JumpGravity : FallGravity;
+    }
     private void Aim(double delta)
     {
-        var direction = GetGlobalMousePosition() - Position;
+        var direction = GetGlobalMousePosition() - GlobalPosition;
         _gunMarker.Rotation = direction.Angle();
     }
 }
