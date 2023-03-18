@@ -13,12 +13,12 @@
 script = ExtResource("1_f0l43")
 
 [node name="Matte-black" type="Sprite2D" parent="."]
-visible = false
 position = Vector2(1214.25, 384.25)
 scale = Vector2(2.99096, 3.25956)
 texture = ExtResource("8_0m4eq")
 
 [node name="Slate" type="Sprite2D" parent="."]
+visible = false
 position = Vector2(548, 366)
 scale = Vector2(1.20521, 1.36852)
 texture = ExtResource("3_8238p")
