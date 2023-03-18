@@ -3,7 +3,7 @@ using System;
 
 public partial class Gun : Node2D
 {
-    // PROPERTIES
+    public string ShootActionName { get; set; }
     private double BulletSpeed { get; set; } = 750.0f;
     private double FireRate { get; set; } = 5f;
     private float BulletSizeFactor { get; set; } = 1.0f;
@@ -25,7 +25,7 @@ public partial class Gun : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionPressed("shoot") && _canShoot)
+        if (Input.IsActionPressed(ShootActionName) && _canShoot)
         {
             LightMode = Light.LightMode.Light;
             Shoot();
