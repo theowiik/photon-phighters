@@ -2,6 +2,8 @@ using Godot;
 
 public partial class Overlay : Control
 {
+    private RichTextLabel _scoreLabel;
+
     public string Score
     {
         set
@@ -10,15 +12,8 @@ public partial class Overlay : Control
         }
     }
 
-    private RichTextLabel _scoreLabel;
-
     public override void _Ready()
     {
         _scoreLabel = GetNode<RichTextLabel>("ScoreLabel");
-    }
-
-    public override void _Process(double delta)
-    {
-
     }
 }

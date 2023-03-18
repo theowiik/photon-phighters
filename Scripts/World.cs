@@ -17,7 +17,7 @@ public partial class World : Node2D
         AddChild(bullet);
     }
 
-    public struct Results
+    private struct Results
     {
         public int On;
         public int Off;
