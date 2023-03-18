@@ -34,6 +34,7 @@ public partial class Player : CharacterBody2D
     // Aim
     private Marker2D _gunMarker;
     public Gun Gun { get; private set; }
+    private bool _aimWithMouse = true;
 
     public override void _Ready()
     {
@@ -46,7 +47,7 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         Movement(delta);
-        Aim(delta);
+        Aim();
     }
 
     private void Movement(double delta)
@@ -174,25 +175,23 @@ public partial class Player : CharacterBody2D
     {
         return Velocity.Y < 0.0 ? JumpGravity : FallGravity;
     }
-    private void Aim(double delta)
+    private void Aim()
     {
-        var controllerAim = true;
+        var joystickDeadzone = 0.05f;
+        var joystickVector = new Vector2(Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX), Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY));
 
-        if (controllerAim)
+        // Controller has priority over mouse.
+        if (joystickVector.Length() > joystickDeadzone)
         {
-            var deadZone = 0.05f;
-            var joystickVector = new Vector2(Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX), Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY));
-
-            if (joystickVector.Length() > deadZone)
-            {
-                _gunMarker.Rotation = joystickVector.Angle();
-            }
+            _gunMarker.Rotation = joystickVector.Angle();
+            _aimWithMouse = false;
         }
-        else
+
+        // Only player one can play with mouse and keyboard.
+        if (PlayerNumber == 1 && _aimWithMouse)
         {
             var direction = GetGlobalMousePosition() - GlobalPosition;
             _gunMarker.Rotation = direction.Angle();
         }
-
     }
 }
