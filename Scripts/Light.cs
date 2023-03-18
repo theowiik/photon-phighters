@@ -32,13 +32,8 @@ public partial class Light : Node2D
         }
     }
 
-    public void TurnOn()
+    public void SetLights(bool on)
     {
-        _light.Enabled = true;
-    }
-
-    public void TurnOff()
-    {
-        _light.Enabled = false;
+        _light.Enabled = on;
     }
 }

@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_ifpna"]
 [ext_resource type="PackedScene" uid="uid://dr31tb7rvoc8x" path="res://Objects/Floor.tscn" id="1_tncw2"]
 [ext_resource type="PackedScene" uid="uid://ep2nyccidheo" path="res://Objects/Player.tscn" id="2_4m2gk"]
-[ext_resource type="PackedScene" uid="uid://b36wakujf5nem" path="res://Objects/LightFloorDemo.tscn" id="3_2d3hf"]
+[ext_resource type="PackedScene" path="res://Objects/LightFloorDemo.tscn" id="3_2d3hf"]
 [ext_resource type="Script" path="res://Scripts/ScoreCounter.cs" id="4_r8c0r"]
 
 [node name="World" type="Node2D"]
