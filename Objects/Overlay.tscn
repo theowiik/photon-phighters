@@ -26,3 +26,11 @@ offset_top = 81.0
 offset_right = 440.0
 offset_bottom = 139.0
 text = "round timer"
+
+[node name="TotalScoreLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 160.0
+offset_right = 322.0
+offset_bottom = 287.0
+text = "total score"

@@ -10,9 +10,11 @@ public partial class World : Node2D
     private FollowingCamera _camera;
     private const int RoundTime = 2;
     private IEnumerable<Player> _players;
+    private Score _score;
 
     public override void _Ready()
     {
+        _score = new Score();
         _roundTimer = GetNode<Timer>("RoundTimer");
         _overlay = GetNode<Overlay>("FollowingCamera/Overlay");
         _camera = GetNode<FollowingCamera>("FollowingCamera");
@@ -45,6 +47,33 @@ public partial class World : Node2D
 
         foreach (var player in _players)
             player.AllowInputs = false;
+
+        var results = GetResults();
+        if (results.On == results.Off)
+        {
+            GD.Print("Round ended in a tie");
+            _score.Ties++;
+        }
+        else if (results.On > results.Off)
+        {
+            GD.Print("Lightness won the round");
+            _score.Light++;
+        }
+        else
+        {
+            GD.Print("Darkness won the round");
+            _score.Dark++;
+        }
+
+        _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
+
+        if (_score.Light == 3 || _score.Dark == 3)
+        {
+            GD.Print("Game over");
+            GetTree().Quit();
+        }
+
+        StartRound();
     }
 
     private void OnShoot(Node2D bullet)
@@ -114,5 +143,12 @@ public partial class World : Node2D
         }
 
         return results;
+    }
+
+    private struct Score
+    {
+        public int Light;
+        public int Dark;
+        public int Ties;
     }
 }

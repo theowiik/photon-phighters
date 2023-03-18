@@ -44,7 +44,7 @@ public partial class Player : CharacterBody2D
         {
             _allowInputs = value;
 
-            // Turn on gu safety when inputs are disabled
+            // Turn on gun safety when inputs are disabled
             Gun.Safety = !_allowInputs;
         }
     }

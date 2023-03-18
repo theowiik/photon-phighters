@@ -4,6 +4,7 @@ public partial class Overlay : Control
 {
     private RichTextLabel _scoreLabel;
     private Label _timerLabel;
+    private Label _totalScoreLabel;
 
     public string Score
     {
@@ -21,9 +22,18 @@ public partial class Overlay : Control
         }
     }
 
+    public string TotalScore
+    {
+        set
+        {
+            _totalScoreLabel.Text = value;
+        }
+    }
+
     public override void _Ready()
     {
         _scoreLabel = GetNode<RichTextLabel>("ScoreLabel");
         _timerLabel = GetNode<Label>("RoundTimerLabel");
+        _totalScoreLabel = GetNode<Label>("TotalScoreLabel");
     }
 }
