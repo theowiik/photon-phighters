@@ -25,10 +25,17 @@ public partial class Gun : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Input.IsActionPressed("shoot"))
+        if (Input.IsActionPressed("shoot") && _canShoot)
         {
-            if (_canShoot)
-                Shoot();
+            LightMode = Light.LightMode.Light;
+            Shoot();
+        }
+
+        // TODO: Dev tool, remove this
+        if (Input.IsMouseButtonPressed(MouseButton.Right) && _canShoot)
+        {
+            LightMode = Light.LightMode.Dark;
+            Shoot();
         }
     }
 

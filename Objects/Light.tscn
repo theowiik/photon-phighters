@@ -9,15 +9,17 @@
 [node name="Light" type="Area2D" groups=["lights"]]
 script = ExtResource("1_amhmd")
 
-[node name="Light2D" type="PointLight2D" parent="."]
+[node name="PointLight2D" type="PointLight2D" parent="."]
+enabled = false
 color = Color(1, 1, 1, 0.992157)
-energy = 1.11
+energy = 0.7
+shadow_enabled = true
 texture = ExtResource("1_ohd2u")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-visible = false
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_8yxqa")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_gngvy")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(67, 53)
+texture = ExtResource("2_8yxqa")
