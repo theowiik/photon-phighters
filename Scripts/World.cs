@@ -11,6 +11,7 @@ public partial class World : Node2D
     private const int RoundTime = 2;
     private IEnumerable<Player> _players;
     private Score _score;
+    private const int ScoreToWin = 10;
 
     public override void _Ready()
     {
@@ -50,24 +51,16 @@ public partial class World : Node2D
 
         var results = GetResults();
         if (results.On == results.Off)
-        {
-            GD.Print("Round ended in a tie");
             _score.Ties++;
-        }
         else if (results.On > results.Off)
-        {
-            GD.Print("Lightness won the round");
             _score.Light++;
-        }
         else
-        {
-            GD.Print("Darkness won the round");
             _score.Dark++;
-        }
 
         _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
 
-        if (_score.Light == 3 || _score.Dark == 3)
+        // TODO: Make this even harder to read
+        if (Math.Sqrt(_score.Dark * _score.Dark) + Math.Sqrt(_score.Light * _score.Light) >= ScoreToWin)
         {
             GD.Print("Game over");
             GetTree().Quit();
