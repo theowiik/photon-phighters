@@ -3,17 +3,18 @@
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_qpr50"]
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_xlknr"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_y8j5i"]
+[sub_resource type="CircleShape2D" id="CircleShape2D_fehsf"]
+radius = 80.6226
 
 [node name="Bullet" type="Area2D"]
+scale = Vector2(0.1, 0.1)
 script = ExtResource("1_xlknr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_qpr50")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource("CircleShape2D_y8j5i")
+shape = SubResource("CircleShape2D_fehsf")

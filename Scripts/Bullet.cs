@@ -2,22 +2,27 @@ using Godot;
 
 public partial class Bullet : Area2D
 {
-    private Timer _timer;
-    public int Damage { get; private set; } = 10;
+    // PROPERTIES
     public double Speed { get; set; }
+    private float GravityFactor { get; set; } = 1.0f;
+    public int Damage { get; set; } = 10;
     public Light.LightMode LightMode { get; set; } = Light.LightMode.Dark;
+    private Vector2 _velocity;
+    private float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
 
     public override void _Ready()
     {
-        _timer = GetNode<Timer>("Timer");
-        _timer.Timeout += OnTimerTimeout;
-        _timer.Start(2);
+        _velocity = Vector2.FromAngle(Rotation) * (float)Speed;
+        var lifeTimeTimer = GetNode<Timer>("Timer");
+        lifeTimeTimer.Timeout += OnTimerTimeout;
+        lifeTimeTimer.Start(5);
         AreaEntered += OnAreaEntered;
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        Translate(Vector2.FromAngle(Rotation) * (float)Speed * (float)delta);
+        _velocity.Y += _gravity * (float)delta;
+        Translate(_velocity * (float)delta);
     }
 
     private void OnTimerTimeout()

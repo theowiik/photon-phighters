@@ -30,8 +30,9 @@ public partial class Player : CharacterBody2D
     private const float WallStickTime = 0.25f;
     private const float WallUnstickTime = 0.15f;
 
-    // Double jumping
-    private bool _hasDoubleJumped = false;
+    // Multiple jumping
+    private int nrPossibleJumps = 1;
+    private int _nrCurrentJumps = 0;
 
     private Marker2D _gunMarker;
     public Gun Gun { get; private set; }
@@ -68,15 +69,15 @@ public partial class Player : CharacterBody2D
             nextVelocity.X = Mathf.MoveToward(nextVelocity.X, 0, FrictionDecelerate);
         }
 
-        nextVelocity = HandleWalljump(delta, inputDir, nextVelocity, isOnGround);
+        nextVelocity = HandleWallJump(delta, inputDir, nextVelocity, isOnGround);
 
-        nextVelocity = HandleDoubleJump(delta, inputDir, nextVelocity, isOnGround);
+        nextVelocity = HandleMultipleJumps(delta, inputDir, nextVelocity, isOnGround);
 
         Velocity = nextVelocity;
         MoveAndSlide();
     }
 
-    public Vector2 HandleWalljump(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isOnGround)
+    public Vector2 HandleWallJump(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isOnGround)
     {
         // Check if the player is on a wall
         bool isOnWall = false;
@@ -154,16 +155,16 @@ public partial class Player : CharacterBody2D
         return nextVelocity;
     }
 
-    private Vector2 HandleDoubleJump(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isonGround)
+    private Vector2 HandleMultipleJumps(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isonGround)
     {
         if (isonGround)
         {
-            _hasDoubleJumped = false;
+            _nrCurrentJumps = 0;
         }
-        else if (Input.IsActionJustPressed("jump") && !_hasDoubleJumped)
+        else if (Input.IsActionJustPressed("jump") && _nrCurrentJumps < nrPossibleJumps)
         {
             nextVelocity.Y = JumpVelocity;
-            _hasDoubleJumped = true;
+            _nrCurrentJumps++;
         }
 
         return nextVelocity;
