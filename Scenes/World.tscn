@@ -123,21 +123,24 @@ scale = Vector2(0.3, 0.8)
 position = Vector2(536, 194)
 scale = Vector2(1, 0.4)
 
-[node name="ScoreUpdateTimer" type="Timer" parent="."]
+[node name="UIUpdateTimer" type="Timer" parent="."]
+wait_time = 0.1
 autostart = true
+
+[node name="RoundTimer" type="Timer" parent="."]
+one_shot = true
 
 [node name="FakePlayer" parent="." instance=ExtResource("7_wmwm0")]
 position = Vector2(659, -107)
 
 [node name="FollowingCamera" type="Camera2D" parent="."]
-scale = Vector2(0.35, 0.35)
 script = ExtResource("8_xdl4t")
 
 [node name="Overlay" parent="FollowingCamera" instance=ExtResource("5_73lpy")]
-offset_left = -1520.0
-offset_top = 262.857
-offset_right = -1520.0
-offset_bottom = 262.857
+offset_left = -544.0
+offset_top = -289.0
+offset_right = -544.0
+offset_bottom = -289.0
 
 [node name="Player1" parent="." instance=ExtResource("2_4m2gk")]
 position = Vector2(949, -119)

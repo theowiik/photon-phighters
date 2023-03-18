@@ -3,6 +3,7 @@ using Godot;
 public partial class Overlay : Control
 {
     private RichTextLabel _scoreLabel;
+    private Label _timerLabel;
 
     public string Score
     {
@@ -12,8 +13,17 @@ public partial class Overlay : Control
         }
     }
 
+    public string Time
+    {
+        set
+        {
+            _timerLabel.Text = value;
+        }
+    }
+
     public override void _Ready()
     {
         _scoreLabel = GetNode<RichTextLabel>("ScoreLabel");
+        _timerLabel = GetNode<Label>("RoundTimerLabel");
     }
 }

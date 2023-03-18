@@ -13,14 +13,16 @@ script = ExtResource("1_ctivd")
 
 [node name="ScoreLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
-offset_right = 274.0
-offset_bottom = 78.0
+offset_left = 10.0
+offset_top = 3.0
+offset_right = 458.0
+offset_bottom = 71.0
 text = "score"
 
-[node name="Label" type="Label" parent="."]
+[node name="RoundTimerLabel" type="Label" parent="."]
 layout_mode = 0
 offset_left = 9.0
 offset_top = 81.0
-offset_right = 49.0
-offset_bottom = 104.0
+offset_right = 440.0
+offset_bottom = 139.0
 text = "round timer"

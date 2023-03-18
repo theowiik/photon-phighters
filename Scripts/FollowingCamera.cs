@@ -5,10 +5,6 @@ public partial class FollowingCamera : Camera2D
 {
     private readonly IList<Node2D> _targets = new List<Node2D>();
 
-    public override void _Ready()
-    {
-    }
-
     public void AddTarget(Node2D target)
     {
         if (_targets.Contains(target))

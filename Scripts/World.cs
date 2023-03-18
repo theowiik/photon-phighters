@@ -5,19 +5,31 @@ using System.Linq;
 public partial class World : Node2D
 {
     private Overlay _overlay;
+    private Timer _roundTimer;
     private FollowingCamera _camera;
+    private const int RoundTime = 60;
 
     public override void _Ready()
     {
-        _overlay = GetNode<Overlay>("Camera2D/Overlay");
+        _roundTimer = GetNode<Timer>("RoundTimer");
+        _overlay = GetNode<Overlay>("FollowingCamera/Overlay");
         _camera = GetNode<FollowingCamera>("FollowingCamera");
-        GetNode<Timer>("ScoreUpdateTimer").Timeout += UpdateScore;
+        var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
+        uiUpdateTimer.Timeout += UpdateScore;
+        uiUpdateTimer.Timeout += UpdateRoundTimer;
 
         foreach (var player in this.GetNodes<Player>())
         {
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
         }
+
+        StartRound();
+    }
+
+    private void StartRound()
+    {
+        _roundTimer.Start(RoundTime);
     }
 
     private void OnShoot(Node2D bullet)
@@ -55,6 +67,11 @@ public partial class World : Node2D
         var percentageOff = (float)results.Off / (results.On + results.Off);
         var roundedOff = Math.Round(percentageOff * 100, 2);
         _overlay.Score = $"Lightness: {roundedOn}%, Darkness: {roundedOff}%";
+    }
+
+    private void UpdateRoundTimer()
+    {
+        _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
     }
 
     private Results GetResults()
