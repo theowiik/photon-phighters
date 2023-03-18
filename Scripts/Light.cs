@@ -2,38 +2,41 @@ using Godot;
 
 public partial class Light : Node2D
 {
-    public enum LightMode
-    {
-        On,
-        Off,
-        Neutral
-    }
-
-    private PointLight2D _light;
-    private bool _isWhite = true;
+    private PointLight2D _light2D;
     public LightMode LightState { get; private set; } = LightMode.Neutral;
+    private Color _whiteColor = new(1, 1, 1);
+    private Color _blackColor = new(0, 0, 0);
+
+    // Used during development
+    private bool _isWhite = false;
 
     public override void _Ready()
     {
-        _light = GetNode<PointLight2D>("Light2D");
+        _light2D = GetNode<PointLight2D>("Light2D");
+        _light2D.Enabled = false;
     }
 
     public override void _Process(double delta)
     {
-        var black = new Color(0, 0, 0);
-        var white = new Color(1, 1, 1);
-
         if (Input.IsActionJustPressed("ui_accept"))
         {
-            var newColor = _isWhite ? black : white;
-            _isWhite = !_isWhite;
+            _light2D.Enabled = true;
+            var newColor = _isWhite ? _blackColor : _whiteColor;
             LightState = _isWhite ? LightMode.On : LightMode.Off;
-            _light.Color = newColor;
+            _light2D.Color = newColor;
+            _isWhite = !_isWhite;
         }
     }
 
     public void SetLights(bool on)
     {
-        _light.Enabled = on;
+        _light2D.Enabled = on;
+    }
+
+    public enum LightMode
+    {
+        On,
+        Off,
+        Neutral
     }
 }
