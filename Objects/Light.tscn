@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://cw8obmyablcs0"]
+[gd_scene load_steps=9 format=3 uid="uid://cw8obmyablcs0"]
 
 [ext_resource type="Script" path="res://Scripts/Light.cs" id="1_amhmd"]
 [ext_resource type="Texture2D" uid="uid://dnwydht5hmjxm" path="res://Assets/light.webp" id="1_ohd2u"]
@@ -6,13 +6,64 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gngvy"]
 
+[sub_resource type="Animation" id="Animation_uj4ne"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+
+[sub_resource type="Animation" id="Animation_gkeya"]
+resource_name = "fade_in"
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0),
+"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 1)
+}
+
+[sub_resource type="Animation" id="Animation_clske"]
+resource_name = "pulsate"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PointLight2D:energy")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0),
+"points": PackedFloat32Array(0.3, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.3, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0, 2, 4)
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_hm70h"]
+_data = {
+"RESET": SubResource("Animation_uj4ne"),
+"fade_in": SubResource("Animation_gkeya"),
+"pulsate": SubResource("Animation_clske")
+}
+
 [node name="Light" type="Area2D" groups=["lights"]]
 script = ExtResource("1_amhmd")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
-enabled = false
 color = Color(1, 1, 1, 0.992157)
-energy = 0.7
+energy = 0.0
 shadow_enabled = true
 texture = ExtResource("1_ohd2u")
 
@@ -23,3 +74,8 @@ shape = SubResource("CircleShape2D_gngvy")
 visible = false
 position = Vector2(67, 53)
 texture = ExtResource("2_8yxqa")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_hm70h")
+}
