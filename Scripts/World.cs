@@ -36,20 +36,22 @@ public partial class World : Node2D
     {
         var results = GetResults();
 
-        if (results.On == 0 && results.Off == 0) {
+        if (results.On == 0 && results.Off == 0)
+        {
             _overlay.Score = "Go!";
             return;
         }
 
         var percentageOn = (float)results.On / (results.On + results.Off);
+        var roundedOn = Math.Round(percentageOn * 100, 2);
         var percentageOff = (float)results.Off / (results.On + results.Off);
-        GD.Print(results.On);
-        _overlay.Score = $"Lightness: {percentageOn * 100}%, Darkness: {percentageOff * 100}%";
+        var roundedOff = Math.Round(percentageOff * 100, 2);
+        _overlay.Score = $"Lightness: {roundedOn}%, Darkness: {roundedOff}%";
     }
 
     private Results GetResults()
     {
-        var lights = GetTree().GetNodesInGroup("Light");
+        var lights = GetTree().GetNodesInGroup("lights");
         var results = new Results();
 
         foreach (var light in lights)
@@ -59,13 +61,13 @@ public partial class World : Node2D
 
             switch (lightNode.LightState)
             {
-                case Light.LightMode.On:
+                case Light.LightMode.Light:
                     results.On++;
                     break;
-                case Light.LightMode.Off:
+                case Light.LightMode.Dark:
                     results.Off++;
                     break;
-                case Light.LightMode.Neutral:
+                case Light.LightMode.None:
                     results.Neutral++;
                     break;
             }

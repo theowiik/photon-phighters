@@ -6,7 +6,7 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gngvy"]
 
-[node name="Light" type="Node2D" groups=["Light"]]
+[node name="Light" type="Area2D" groups=["lights"]]
 script = ExtResource("1_amhmd")
 
 [node name="Light2D" type="PointLight2D" parent="."]
@@ -19,7 +19,5 @@ visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_8yxqa")
 
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_gngvy")

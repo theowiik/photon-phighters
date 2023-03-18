@@ -1,16 +1,19 @@
 using Godot;
-using System;
 
 public partial class Bullet : Node2D
 {
     private Timer _timer;
     public double Speed { get; set; }
-    // Called when the node enters the scene tree for the first time.
+    public Light.LightMode LightMode { get; set; } = Light.LightMode.Dark;
+
     public override void _Ready()
     {
         _timer = GetNode<Timer>("Timer");
         _timer.Timeout += OnTimerTimeout;
         _timer.Start(2);
+
+        var area = GetNode<Area2D>("HitArea");
+        area.AreaEntered += OnAreaEntered;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -21,5 +24,14 @@ public partial class Bullet : Node2D
     private void OnTimerTimeout()
     {
         QueueFree();
+    }
+
+    private void OnAreaEntered(Area2D area)
+    {
+        if (area.IsInGroup("lights") && area is Light light)
+        {
+            light.SetLight(LightMode);
+            QueueFree();
+        }
     }
 }

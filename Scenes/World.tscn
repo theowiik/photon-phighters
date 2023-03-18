@@ -8,7 +8,6 @@
 [ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/Overlay.tscn" id="5_73lpy"]
 
 [node name="World" type="Node2D"]
-position = Vector2(427, 282)
 script = ExtResource("1_f0l43")
 
 [node name="RoundsMap" type="Sprite2D" parent="."]
@@ -116,7 +115,7 @@ position = Vector2(536, 194)
 scale = Vector2(1, 0.4)
 
 [node name="LightFloorDemo" parent="." instance=ExtResource("3_2d3hf")]
-position = Vector2(218, 536)
+position = Vector2(381, -69)
 
 [node name="ScoreUpdateTimer" type="Timer" parent="."]
 autostart = true

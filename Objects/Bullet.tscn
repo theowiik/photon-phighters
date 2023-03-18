@@ -1,7 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://bae6cy4sa0cbc"]
+[gd_scene load_steps=4 format=3 uid="uid://d327kgb1ivyfn"]
 
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_qpr50"]
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_xlknr"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_y8j5i"]
 
 [node name="Bullet" type="Node2D"]
 script = ExtResource("1_xlknr")
@@ -12,3 +14,8 @@ texture = ExtResource("1_qpr50")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0
+
+[node name="HitArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitArea"]
+shape = SubResource("CircleShape2D_y8j5i")
