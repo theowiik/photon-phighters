@@ -40,6 +40,7 @@ public partial class Player : CharacterBody2D
         _gunMarker = GetNode<Marker2D>("Marker2D");
         Gun = _gunMarker.GetNode<Gun>("Gun");
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
+        Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
     }
 
     public override void _PhysicsProcess(double delta)

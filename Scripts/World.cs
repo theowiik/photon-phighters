@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.Linq;
 
 public partial class World : Node2D
 {
@@ -8,12 +9,13 @@ public partial class World : Node2D
     public override void _Ready()
     {
         _overlay = GetNode<Overlay>("Overlay");
-        GetNode<Player>("Player").Gun.ShootDelegate += OnShoot;
         GetNode<Timer>("ScoreUpdateTimer").Timeout += UpdateScore;
+        this.GetNodes<Player>().ToList().ForEach(p => p.Gun.ShootDelegate += OnShoot);
     }
 
     private void OnShoot(Node2D bullet)
     {
+        GD.Print("Shooting in World!");
         AddChild(bullet);
     }
 
