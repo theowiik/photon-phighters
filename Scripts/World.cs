@@ -1,16 +1,72 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 public partial class World : Node2D
 {
     private Overlay _overlay;
+    private Timer _roundTimer;
+    private FollowingCamera _camera;
+    private const int RoundTime = 2;
+    private IEnumerable<Player> _players;
+    private Score _score;
+    private const int ScoreToWin = 10;
 
     public override void _Ready()
     {
-        _overlay = GetNode<Overlay>("Overlay");
-        GetNode<Timer>("ScoreUpdateTimer").Timeout += UpdateScore;
-        this.GetNodes<Player>().ToList().ForEach(p => p.Gun.ShootDelegate += OnShoot);
+        _score = new Score();
+        _roundTimer = GetNode<Timer>("RoundTimer");
+        _overlay = GetNode<Overlay>("FollowingCamera/Overlay");
+        _camera = GetNode<FollowingCamera>("FollowingCamera");
+        var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
+        uiUpdateTimer.Timeout += UpdateScore;
+        uiUpdateTimer.Timeout += UpdateRoundTimer;
+        _players = this.GetNodes<Player>().ToList();
+
+        foreach (var player in _players)
+        {
+            player.Gun.ShootDelegate += OnShoot;
+            _camera.AddTarget(player);
+        }
+
+        StartRound();
+    }
+
+    private void StartRound()
+    {
+        foreach (var player in _players)
+            player.AllowInputs = true;
+
+        _roundTimer.Start(RoundTime);
+        _roundTimer.Timeout += OnRoundFinished;
+    }
+
+    private void OnRoundFinished()
+    {
+        GD.Print("Round ended");
+
+        foreach (var player in _players)
+            player.AllowInputs = false;
+
+        var results = GetResults();
+        if (results.On == results.Off)
+            _score.Ties++;
+        else if (results.On > results.Off)
+            _score.Light++;
+        else
+            _score.Dark++;
+
+        _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
+
+        // TODO: Make this even harder to read
+        if (Math.Sqrt(_score.Dark * _score.Dark) + Math.Sqrt(_score.Light * _score.Light) >= ScoreToWin)
+        {
+            GD.Print("Game over");
+            GetTree().Quit();
+        }
+
+        StartRound();
     }
 
     private void OnShoot(Node2D bullet)
@@ -50,6 +106,11 @@ public partial class World : Node2D
         _overlay.Score = $"Lightness: {roundedOn}%, Darkness: {roundedOff}%";
     }
 
+    private void UpdateRoundTimer()
+    {
+        _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
+    }
+
     private Results GetResults()
     {
         var lights = GetTree().GetNodesInGroup("lights");
@@ -75,5 +136,12 @@ public partial class World : Node2D
         }
 
         return results;
+    }
+
+    private struct Score
+    {
+        public int Light;
+        public int Dark;
+        public int Ties;
     }
 }

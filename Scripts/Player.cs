@@ -36,6 +36,19 @@ public partial class Player : CharacterBody2D
     public Gun Gun { get; private set; }
     private bool _aimWithMouse = true;
 
+    private bool _allowInputs;
+    public bool AllowInputs
+    {
+        get => _allowInputs;
+        set
+        {
+            _allowInputs = value;
+
+            // Turn on gun safety when inputs are disabled
+            Gun.Safety = !_allowInputs;
+        }
+    }
+
     public override void _Ready()
     {
         _gunMarker = GetNode<Marker2D>("Marker2D");
@@ -46,6 +59,9 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
+        if (!AllowInputs)
+            return;
+
         Movement(delta);
         Aim();
     }
