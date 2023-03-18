@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://cvlu7ya34qp7l" path="res://Assets/rounds_map.png" id="1_qy8fx"]
 [ext_resource type="PackedScene" uid="uid://dr31tb7rvoc8x" path="res://Objects/Floor.tscn" id="1_tncw2"]
 [ext_resource type="PackedScene" uid="uid://ep2nyccidheo" path="res://Objects/Player.tscn" id="2_4m2gk"]
-[ext_resource type="PackedScene" path="res://Objects/LightFloorDemo.tscn" id="3_2d3hf"]
+[ext_resource type="PackedScene" uid="uid://dd2tm06pwrtxe" path="res://Objects/LightFloorDemo.tscn" id="3_2d3hf"]
 [ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/Overlay.tscn" id="5_73lpy"]
 
 [node name="World" type="Node2D"]

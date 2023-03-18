@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://b36wakujf5nem"]
+[gd_scene load_steps=4 format=3 uid="uid://dd2tm06pwrtxe"]
 
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_67df0"]
 [ext_resource type="Script" path="res://Scripts/LightFloorDemo.cs" id="1_x4wj6"]
@@ -15,5 +15,3 @@ shape = SubResource("RectangleShape2D_loy8t")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("1_67df0")
-
-[node name="Lights" type="Node2D" parent="."]

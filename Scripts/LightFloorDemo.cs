@@ -5,11 +5,9 @@ using Godot;
 public partial class LightFloorDemo : StaticBody2D
 {
     private PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
-    private Node2D _lights;
 
     public override void _Ready()
     {
-        _lights = GetNode<Node2D>("Lights");
         BasicLightPlacement();
     }
 
@@ -31,12 +29,12 @@ public partial class LightFloorDemo : StaticBody2D
         }
     }
 
-    private void Placee(IEnumerable<Godot.Vector2> vectors)
+    private void Placee(IEnumerable<Vector2> vectors)
     {
         foreach (var vector in vectors)
         {
             var light = _lightScene.Instantiate<Node2D>();
-            _lights.AddChild(light);
+            AddChild(light);
             light.Position = vector;
         }
     }
