@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://o8u647drhkfe"]
+[gd_scene load_steps=5 format=3 uid="uid://cw8obmyablcs0"]
 
 [ext_resource type="Script" path="res://Scripts/Light.cs" id="1_amhmd"]
 [ext_resource type="Texture2D" uid="uid://dnwydht5hmjxm" path="res://Assets/light.webp" id="1_ohd2u"]
@@ -15,6 +15,7 @@ energy = 1.11
 texture = ExtResource("1_ohd2u")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("2_8yxqa")
 
