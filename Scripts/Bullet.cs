@@ -1,8 +1,9 @@
 using Godot;
 
-public partial class Bullet : Node2D
+public partial class Bullet : Area2D
 {
     private Timer _timer;
+    public int Damage { get; private set; } = 10;
     public double Speed { get; set; }
     public Light.LightMode LightMode { get; set; } = Light.LightMode.Dark;
 
@@ -11,9 +12,7 @@ public partial class Bullet : Node2D
         _timer = GetNode<Timer>("Timer");
         _timer.Timeout += OnTimerTimeout;
         _timer.Start(2);
-
-        var area = GetNode<Area2D>("HitArea");
-        area.AreaEntered += OnAreaEntered;
+        AreaEntered += OnAreaEntered;
     }
 
     public override void _PhysicsProcess(double delta)

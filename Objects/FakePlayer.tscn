@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://dxqb1xlj8to58"]
+
+[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_i45hq"]
+[ext_resource type="Script" path="res://Scripts/FakePlayer.cs" id="1_oodti"]
+[ext_resource type="PackedScene" uid="uid://cduge5s1xn61m" path="res://Objects/HealthBar.tscn" id="3_b0sgx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o6k6d"]
+size = Vector2(88, 131)
+
+[node name="FakePlayer" type="Node2D"]
+script = ExtResource("1_oodti")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(2, 1)
+scale = Vector2(0.679688, 1)
+texture = ExtResource("1_i45hq")
+
+[node name="BulletDetectionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BulletDetectionArea"]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_o6k6d")
+
+[node name="HealthBar" parent="." instance=ExtResource("3_b0sgx")]

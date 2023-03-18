@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://cduge5s1xn61m"]
+
+[ext_resource type="Script" path="res://Scripts/HealthBar.cs" id="1_77tdk"]
+
+[node name="HealthBar" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -64.0
+offset_top = 93.0
+offset_right = 63.0
+offset_bottom = 165.0
+script = ExtResource("1_77tdk")
+
+[node name="HealthLabel" type="Label" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "health here"
