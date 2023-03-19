@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bihiracvmrnay"
-path="res://.godot/imported/gun2.svg-fec6e295ab9c949bd725c987575ecfc4.ctex"
+uid="uid://drvdhg48d02qt"
+path="res://.godot/imported/light-wins.png-3119cf275a21b5909081219e876d260a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/gun2.svg"
-dest_files=["res://.godot/imported/gun2.svg-fec6e295ab9c949bd725c987575ecfc4.ctex"]
+source_file="res://Assets/Screens/light-wins.png"
+dest_files=["res://.godot/imported/light-wins.png-3119cf275a21b5909081219e876d260a.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

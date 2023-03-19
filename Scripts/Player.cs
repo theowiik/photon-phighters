@@ -32,7 +32,8 @@ public partial class Player : CharacterBody2D
     private bool _aimWithMouse = true;
 
     // Other
-    private CpuParticles2D explosionParticleEmitter;
+    private CpuParticles2D _explosionParticleEmitter;
+    private CpuParticles2D _jumpParticleEmitter;
 
     public override void _Ready()
     {
@@ -51,7 +52,8 @@ public partial class Player : CharacterBody2D
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
         bulletDetectionArea.AreaEntered += OnBulletEntered;
 
-        explosionParticleEmitter = GetNode<CpuParticles2D>("Sprite2D/ExplosionParticle");
+        _explosionParticleEmitter = GetNode<CpuParticles2D>("Sprite2D/ExplosionParticle");
+        _jumpParticleEmitter = GetNode<CpuParticles2D>("Sprite2D/JumpParticle");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -77,7 +79,7 @@ public partial class Player : CharacterBody2D
             return;
 
         _health -= damage;
-        explosionParticleEmitter.Emitting = true;
+        _explosionParticleEmitter.Emitting = true;
         _deathPlayer.Play();
 
         if (_health <= 0)
@@ -88,7 +90,7 @@ public partial class Player : CharacterBody2D
 
     public void HandleDeath()
     {
-        explosionParticleEmitter.Emitting = true;
+        _explosionParticleEmitter.Emitting = true;
         EmitSignal(SignalName.PlayerDied, this);
     }
 

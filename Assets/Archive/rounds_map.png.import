@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6gciyd15rffc"
-path="res://.godot/imported/bullet2.svg-dcfd88df028baeb2367824c8f8a4684f.ctex"
+uid="uid://cvlu7ya34qp7l"
+path="res://.godot/imported/rounds_map.png-2c0bbe5eccc2374aabd61a357c42480f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/bullet2.svg"
-dest_files=["res://.godot/imported/bullet2.svg-dcfd88df028baeb2367824c8f8a4684f.ctex"]
+source_file="res://Assets/Archive/rounds_map.png"
+dest_files=["res://.godot/imported/rounds_map.png-2c0bbe5eccc2374aabd61a357c42480f.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

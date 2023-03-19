@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dwsfctxnq3r2a"
-path="res://.godot/imported/placeholder-player.png-872a32cafa1babf5cbbc1861ebd7bb22.ctex"
+uid="uid://bgmot52xbfo3v"
+path="res://.godot/imported/darkness-wins.png-f16a0b10d4f2c61422213fb21ad8a254.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/placeholder-player.png"
-dest_files=["res://.godot/imported/placeholder-player.png-872a32cafa1babf5cbbc1861ebd7bb22.ctex"]
+source_file="res://Assets/Screens/darkness-wins.png"
+dest_files=["res://.godot/imported/darkness-wins.png-f16a0b10d4f2c61422213fb21ad8a254.ctex"]
 
 [params]
 

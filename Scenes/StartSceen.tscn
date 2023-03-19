@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://bdu8oidvtatj2"]
+[gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://Scripts/StartSceen.cs" id="1_uo5hh"]
-[ext_resource type="Texture2D" uid="uid://c5y37w7q5y7cu" path="res://Assets/photon_phighter.png" id="2_xv66l"]
+[ext_resource type="Texture2D" uid="uid://c5y37w7q5y7cu" path="res://Assets/Screens/photon_phighter.png" id="2_xv66l"]
 
 [node name="StartScreen" type="Node2D"]
 script = ExtResource("1_uo5hh")

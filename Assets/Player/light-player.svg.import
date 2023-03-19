@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bgmot52xbfo3v"
-path="res://.godot/imported/darkness-wins.png-f3245111d45fb78ae91fabf9f95dcb0d.ctex"
+uid="uid://b746vcsacknmv"
+path="res://.godot/imported/light-player.svg-1d403340a9571a9f31b68acb46853f8e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/darkness-wins.png"
-dest_files=["res://.godot/imported/darkness-wins.png-f3245111d45fb78ae91fabf9f95dcb0d.ctex"]
+source_file="res://Assets/Player/light-player.svg"
+dest_files=["res://.godot/imported/light-player.svg-1d403340a9571a9f31b68acb46853f8e.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
