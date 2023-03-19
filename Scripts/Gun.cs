@@ -9,7 +9,7 @@ public partial class Gun : Node2D
     public double BulletSpeed { get; set; } = 750.0f;
     public double FireRate { get; set; } = 5f;
     public float BulletSizeFactor { get; set; } = 1.0f;
-    public int BulletCount { get; set; } = 3;
+    public int BulletCount { get; set; } = 2;
     public float BulletSpread { get; set; } = 0.2f;
     public float BulletGravity { get; set; } = 1.0f;
     public int BulletDamage { get; set; } = 10;

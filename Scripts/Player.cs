@@ -2,6 +2,9 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
+    [Signal]
+    public delegate void PlayerDiedEventHandler(Player player);
+
     [Export]
     public int PlayerNumber { get; set; }
     public PlayerMovement PlayerMovementDelegate;
@@ -15,11 +18,12 @@ public partial class Player : CharacterBody2D
             _freeze = value;
             Gun.Freeze = _freeze;
             PlayerMovementDelegate.Freeze = _freeze;
+            _health = MaxHealth;
         }
     }
 
     // Health
-    public int MaxHealth { get; set; } = 100;
+    public int MaxHealth { get; set; } = 50;
     private int _health;
 
     // Aim
@@ -85,8 +89,7 @@ public partial class Player : CharacterBody2D
     public void HandleDeath()
     {
         explosionParticleEmitter.Emitting = true;
-        //Visible = false;
-        //SetProcess(false);
+        EmitSignal(SignalName.PlayerDied, this);
     }
 
     public void ResetHealth()
