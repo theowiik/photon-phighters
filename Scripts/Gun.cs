@@ -6,11 +6,13 @@ public partial class Gun : Node2D
     private AudioStreamPlayer2D _shootPlayer;
     public Light.LightMode LightMode { get; set; }
     public string ShootActionName { get; set; }
-    private double BulletSpeed { get; set; } = 750.0f;
-    private double FireRate { get; set; } = 5f;
-    private float BulletSizeFactor { get; set; } = 1.0f;
-    private int BulletCount { get; set; } = 3;
-    private float BulletSpread { get; set; } = 0.2f;
+    public double BulletSpeed { get; set; } = 750.0f;
+    public double FireRate { get; set; } = 5f;
+    public float BulletSizeFactor { get; set; } = 1.0f;
+    public int BulletCount { get; set; } = 3;
+    public float BulletSpread { get; set; } = 0.2f;
+    public float BulletGravity { get; set; } = 1.0f;
+    public int BulletDamage { get; set; } = 10;
     private PackedScene _bulletScene;
     private Timer _shootTimer;
     private bool _loading = true;
@@ -63,6 +65,8 @@ public partial class Gun : Node2D
             bullet.Rotation = GetParent<Marker2D>().Rotation + shotSpread;
             bullet.Speed = GetRandomBetweenRange((float)BulletSpeed * 0.9f, (float)BulletSpeed * 1.1f);
             bullet.Scale *= BulletSizeFactor;
+            bullet.GravityFactor = BulletGravity;
+            bullet.Damage = BulletDamage;
             bullet.LightMode = LightMode;
 
             EmitSignal(SignalName.ShootDelegate, bullet);
