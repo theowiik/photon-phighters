@@ -28,6 +28,13 @@ public partial class World : Node2D
         {
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
+
+            // TODO: dont do this
+            if (player.PlayerNumber == 1)
+                GameState.Player1 = player;
+
+            if (player.PlayerNumber == 2)
+                GameState.Player2 = player;
         }
 
         StartRound();
@@ -35,6 +42,8 @@ public partial class World : Node2D
 
     private void StartRound()
     {
+        ResetLights();
+
         foreach (var player in _players)
             player.Freeze = false;
 
@@ -51,11 +60,19 @@ public partial class World : Node2D
 
         var results = GetResults();
         if (results.On == results.Off)
+        {
             _score.Ties++;
+        }
         else if (results.On > results.Off)
+        {
             _score.Light++;
+            GameState.Player1Won = true;
+        }
         else
+        {
             _score.Dark++;
+            GameState.Player1Won = false;
+        }
 
         _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
 
@@ -67,6 +84,19 @@ public partial class World : Node2D
         }
 
         StartRound();
+    }
+
+    private void ResetLights()
+    {
+        var lights = GetTree().GetNodesInGroup("lights");
+
+        foreach (var light in lights)
+        {
+            if (light is not Light lightNode)
+                throw new Exception("Light node is not a Light!!");
+
+            lightNode.SetLight(Light.LightMode.None);
+        }
     }
 
     private void OnShoot(Node2D bullet)
