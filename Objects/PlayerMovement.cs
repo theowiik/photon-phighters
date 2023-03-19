@@ -54,12 +54,12 @@ public partial class PlayerMovement : Node
 
     private void Movement(double delta)
     {
+        var oldVelocity = CharacterBody.Velocity;
+        var nextVelocity = oldVelocity;
+
         bool isOnGround = CharacterBody.IsOnFloor();
         bool isOnWall = CharacterBody.IsOnWall();
-
-        var oldVelocity = CharacterBody.Velocity;
-
-        var nextVelocity = oldVelocity;
+        bool isRunning = Mathf.Abs(oldVelocity.X) > 0;
 
         var inputDir = Input.GetVector($"p{PlayerNumber}_left", $"p{PlayerNumber}_right", $"p{PlayerNumber}_up", $"p{PlayerNumber}_down");
 
@@ -75,17 +75,15 @@ public partial class PlayerMovement : Node
         nextVelocity = HandleMultipleJumps(delta, inputDir, nextVelocity, isOnGround);
 
         // Animations
-        HandleJumpStretchSquishAnimation(isOnGround, isOnWall, oldVelocity);
+        HandleJumpStretchSquishAnimation(isOnGround, isOnWall, isRunning);
 
-        HandleJumpingAnimation(isOnGround);
-
-        HandleRunningAnimation(isOnGround, Mathf.Abs(oldVelocity.X) > 0);
+        HandleRunningAnimation(isOnGround, isRunning, inputDir);
 
         CharacterBody.Velocity = nextVelocity;
         CharacterBody.MoveAndSlide();
     }
 
-    private void HandleJumpStretchSquishAnimation(bool isOnGround, bool isOnWall, Vector2 velocity)
+    private void HandleJumpStretchSquishAnimation(bool isOnGround, bool isOnWall, bool isRunning)
     {
         // Stretch the character while in the air
         if (_hitTheGround && !isOnGround)
@@ -102,25 +100,24 @@ public partial class PlayerMovement : Node
         }
 
         // Squish the character on collision with a wall
-        if (!isOnGround && isOnWall && Mathf.Abs(velocity.X) > 0) {
-            GD.Print("collision");
+        if (!isOnGround && isOnWall && isRunning)
+        {
             CharacterAnimation.Play("squish_wall");
         }
     }
 
-    private void HandleJumpingAnimation(bool isOnGround)
+    private void HandleRunningAnimation(bool isOnGround, bool isRunning, Vector2 inputDir)
     {
-        if (!isOnGround)
+        if (isOnGround && isRunning)
         {
-            // TODO: Change sprite texture to "falling" sprite
-        }
-    }
-
-    private void HandleRunningAnimation(bool isOnGround, bool isMoving)
-    {
-        if (isOnGround && isMoving)
-        {
-            // TODO: Switch sprite back and forth between two running animations
+            if (inputDir.X > 0)
+            {
+                CharacterAnimation.Play("running_right");
+            }
+            else
+            {
+                CharacterAnimation.Play("running_left");
+            }
         }
     }
 
