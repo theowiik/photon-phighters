@@ -8,16 +8,21 @@ public partial class World : Node2D
     private Overlay _overlay;
     private Timer _roundTimer;
     private FollowingCamera _camera;
-    private const int RoundTime = 60;
+    private const int RoundTime = 8;
     private IEnumerable<Player> _players;
     private Score _score;
-    private const int ScoreToWin = 10;
+    private const int ScoreToWin = 3;
+    private AudioStreamPlayer _lightWin;
+    private AudioStreamPlayer _darkWin;
 
     public override void _Ready()
     {
+        _lightWin = GetNode<AudioStreamPlayer>("Sfx/LightWin");
+        _darkWin = GetNode<AudioStreamPlayer>("Sfx/DarkWin");
         _score = new Score();
         _roundTimer = GetNode<Timer>("RoundTimer");
-        _overlay = GetNode<Overlay>("FollowingCamera/Overlay");
+        _overlay = GetNode<Overlay>("CanvasLayer/Overlay");
+        _overlay.PowerUpSelected += OnPowerUpSelected;
         _camera = GetNode<FollowingCamera>("FollowingCamera");
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
@@ -58,31 +63,53 @@ public partial class World : Node2D
         foreach (var player in _players)
             player.Freeze = true;
 
+        // Remove all bullets
+        foreach (var bullet in GetTree().GetNodesInGroup("bullets"))
+        {
+            bullet.QueueFree();
+        }
+
+        var isTie = false;
         var results = GetResults();
         if (results.On == results.Off)
         {
+            isTie = true;
             _score.Ties++;
         }
         else if (results.On > results.Off)
         {
             _score.Light++;
             GameState.Player1Won = true;
+            _lightWin.Play();
         }
         else
         {
             _score.Dark++;
             GameState.Player1Won = false;
+            _darkWin.Play();
+        }
+
+        if (isTie) {
+            StartRound();
+            return;
         }
 
         _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
-
         // TODO: Make this even harder to read
         if (Math.Sqrt(_score.Dark * _score.Dark) + Math.Sqrt(_score.Light * _score.Light) >= ScoreToWin)
         {
             GD.Print("Game over");
-            GetTree().Quit();
+            GetTree().ChangeSceneToFile("res://Scenes/EndScreen.tscn");
         }
 
+        _overlay.StartPowerUpSelection();
+
+        // Wait for PowerUpSelected signal
+        // StartRound();
+    }
+
+    private void OnPowerUpSelected()
+    {
         StartRound();
     }
 
