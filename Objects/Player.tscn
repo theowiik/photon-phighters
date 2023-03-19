@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://destovvdkmqnx"]
+[gd_scene load_steps=16 format=3 uid="uid://destovvdkmqnx"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/darkness-player.svg" id="2_ykldl"]
@@ -8,6 +8,10 @@
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
 radius = 67.0075
+
+[sub_resource type="Curve" id="Curve_u6tmb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.418182), 0.0, 0.0, 0, 0]
+point_count = 2
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
 size = Vector2(119, 122.5)
@@ -139,6 +143,23 @@ shape = SubResource("CircleShape2D_k4h85")
 position = Vector2(0.5, -9.83477e-06)
 scale = Vector2(0.131, 0.131)
 texture = ExtResource("2_ykldl")
+
+[node name="ExplosionParticle" type="CPUParticles2D" parent="Sprite2D"]
+emitting = false
+amount = 25
+lifetime = 2.0
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+emission_shape = 1
+emission_sphere_radius = 5.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 500.0
+initial_velocity_max = 1000.0
+scale_amount_min = 5.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_u6tmb")
 
 [node name="Marker2D" type="Marker2D" parent="."]
 
