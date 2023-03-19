@@ -1,11 +1,12 @@
-[gd_scene load_steps=17 format=3]
+[gd_scene load_steps=18 format=3 uid="uid://bv45fnxrpq7s8"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
-[ext_resource type="PackedScene" uid="uid://dfq2efmx3yq0c" path="res://Objects/Player/Gun.tscn" id="3_g1rr3"]
+[ext_resource type="PackedScene" path="res://Objects/Player/Gun.tscn" id="3_g1rr3"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovement.cs" id="4_8tcsk"]
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Sfx/jump-sfx.wav" id="5_iig84"]
 [ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Sfx/death.wav" id="6_km5ul"]
+[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="7_etlwl"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
 radius = 67.0075
@@ -145,7 +146,22 @@ position = Vector2(0.5, -9.83477e-06)
 scale = Vector2(0.131, 0.131)
 texture = ExtResource("2_ykldl")
 
+[node name="JumpParticles" type="CPUParticles2D" parent="Sprite2D"]
+scale = Vector2(7.63359, 7.63359)
+emitting = false
+lifetime = 0.6
+one_shot = true
+explosiveness = 0.9
+texture = ExtResource("7_etlwl")
+spread = 180.0
+gravity = Vector2(0, 700)
+initial_velocity_min = 369.57
+initial_velocity_max = 369.57
+scale_amount_min = 0.2
+scale_amount_max = 0.3
+
 [node name="ExplosionParticle" type="CPUParticles2D" parent="Sprite2D"]
+position = Vector2(0, 458.015)
 emitting = false
 amount = 25
 one_shot = true
