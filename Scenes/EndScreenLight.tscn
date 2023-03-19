@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cbhbx3slsg2hc"]
+[gd_scene load_steps=3 format=3 uid="uid://com818jcqyjs1"]
 
 [ext_resource type="Script" path="res://Scripts/EndScreen.cs" id="1_juval"]
-[ext_resource type="Texture2D" uid="uid://drvdhg48d02qt" path="res://Assets/light-wins.png" id="2_m7o5g"]
+[ext_resource type="Texture2D" uid="uid://drvdhg48d02qt" path="res://Assets/Screens/light-wins.png" id="2_m7o5g"]
 
 [node name="EndScreenLight" type="Node2D"]
 script = ExtResource("1_juval")

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://c5y37w7q5y7cu"
-path="res://.godot/imported/photon_phighter.png-18822433f74c75f180984b397963de02.ctex"
+uid="uid://d1to37r6tb2la"
+path="res://.godot/imported/orange-square.png-6aa9cc3d12e5528ad19c8b6f5ef53cb2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/photon_phighter.png"
-dest_files=["res://.godot/imported/photon_phighter.png-18822433f74c75f180984b397963de02.ctex"]
+source_file="res://Assets/Platforms/orange-square.png"
+dest_files=["res://.godot/imported/orange-square.png-6aa9cc3d12e5528ad19c8b6f5ef53cb2.ctex"]
 
 [params]
 

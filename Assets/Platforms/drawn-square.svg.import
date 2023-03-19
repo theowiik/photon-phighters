@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://blvtw5gs7ihyr"
-path="res://.godot/imported/power-up.png-f1a48297cbd7cfd6614ba514f5c15bb5.ctex"
+uid="uid://cjewoufndfiij"
+path="res://.godot/imported/drawn-square.svg-f9e2dde1b104c30edffe8020ba2f47cf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/power-up.png"
-dest_files=["res://.godot/imported/power-up.png-f1a48297cbd7cfd6614ba514f5c15bb5.ctex"]
+source_file="res://Assets/Platforms/drawn-square.svg"
+dest_files=["res://.godot/imported/drawn-square.svg-f9e2dde1b104c30edffe8020ba2f47cf.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

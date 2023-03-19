@@ -1,9 +1,9 @@
-[gd_scene load_steps=17 format=3 uid="uid://destovvdkmqnx"]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
-[ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/darkness-player.svg" id="2_ykldl"]
-[ext_resource type="PackedScene" uid="uid://cxoocvph51e4o" path="res://Objects/Gun.tscn" id="3_g1rr3"]
-[ext_resource type="Script" path="res://Objects/PlayerMovement.cs" id="4_8tcsk"]
+[ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
+[ext_resource type="PackedScene" uid="uid://dfq2efmx3yq0c" path="res://Objects/Player/Gun.tscn" id="3_g1rr3"]
+[ext_resource type="Script" path="res://Scripts/PlayerMovement.cs" id="4_8tcsk"]
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Sfx/jump-sfx.wav" id="5_iig84"]
 [ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Sfx/death.wav" id="6_km5ul"]
 

@@ -21,7 +21,7 @@ public partial class Gun : Node2D
     public override void _Ready()
     {
         _shootPlayer = GetNode<AudioStreamPlayer2D>("ShootPlayer");
-        _bulletScene = GD.Load<PackedScene>("res://Objects/Bullet.tscn");
+        _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
         _shootTimer = GetNode<Timer>("Timer");
         _shootTimer.Timeout += () => _loading = !_loading;
         LightMode = Light.LightMode.Light;

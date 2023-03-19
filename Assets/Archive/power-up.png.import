@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://hgdyfv4h77o0"
-path="res://.godot/imported/gun.svg-63e22a937345db5e0159dc016caea078.ctex"
+uid="uid://blvtw5gs7ihyr"
+path="res://.godot/imported/power-up.png-391fc14bf7220758ff79d3747d53e63b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/gun.svg"
-dest_files=["res://.godot/imported/gun.svg-63e22a937345db5e0159dc016caea078.ctex"]
+source_file="res://Assets/Archive/power-up.png"
+dest_files=["res://.godot/imported/power-up.png-391fc14bf7220758ff79d3747d53e63b.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

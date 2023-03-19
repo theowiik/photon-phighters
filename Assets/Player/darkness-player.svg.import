@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://luqaf30xc8ox"
-path="res://.godot/imported/matte-black.png-40634d7578299ae087dee9301e1563e8.ctex"
+uid="uid://58c2ucus4cer"
+path="res://.godot/imported/darkness-player.svg-8d1f8b03787bb32e6bcda33cb1c2c003.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/matte-black.png"
-dest_files=["res://.godot/imported/matte-black.png-40634d7578299ae087dee9301e1563e8.ctex"]
+source_file="res://Assets/Player/darkness-player.svg"
+dest_files=["res://.godot/imported/darkness-player.svg-8d1f8b03787bb32e6bcda33cb1c2c003.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

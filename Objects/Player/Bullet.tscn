@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://d327kgb1ivyfn"]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Bullet.cs" id="1_xlknr"]
-[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/bullet2.svg" id="2_12ixn"]
+[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="2_12ixn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_fehsf"]
 radius = 80.6226

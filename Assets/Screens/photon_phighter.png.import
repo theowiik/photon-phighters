@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cvlu7ya34qp7l"
-path="res://.godot/imported/rounds_map.png-4d0c3beaec482149b0ba3db3e386dff3.ctex"
+uid="uid://c5y37w7q5y7cu"
+path="res://.godot/imported/photon_phighter.png-4e5f0d8afd7ce91c01536e7585d19bd4.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/rounds_map.png"
-dest_files=["res://.godot/imported/rounds_map.png-4d0c3beaec482149b0ba3db3e386dff3.ctex"]
+source_file="res://Assets/Screens/photon_phighter.png"
+dest_files=["res://.godot/imported/photon_phighter.png-4e5f0d8afd7ce91c01536e7585d19bd4.ctex"]
 
 [params]
 
