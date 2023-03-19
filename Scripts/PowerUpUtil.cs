@@ -16,7 +16,7 @@ public static class PowerUpManager
     public static IPowerUpApplier GetRandomPowerup()
     {
         // Test
-        return new BunnyBoostPowerup();
+        return new GravitationalNeuronBlaster();
 
         var random = new Random();
         var randomIndex = random.Next(0, _powerUps.Count);
@@ -34,7 +34,6 @@ public static class PowerUpManager
         public void Apply(Player player)
         {
             player.PlayerMovementDelegate.Speed += 100;
-            player.PlayerMovementDelegate.NrPossibleJumps += 1;
         }
 
         public string Name => "Photon Boost";
@@ -61,7 +60,7 @@ public static class PowerUpManager
         public string Name => "Bunny Boost";
     }
 
-    public class NoGlidePowerup : IPowerUpApplier
+    public class FrictionlessPowerup : IPowerUpApplier
     {
         public void Apply(Player player)
         {
@@ -70,6 +69,82 @@ public static class PowerUpManager
             player.PlayerMovementDelegate.FrictionDecelerate = playerSpeed;
         }
 
-        public string Name => "No-glide Movement";
+        public string Name => "Frictionless movement";
+    }
+
+    public class AirWalker : IPowerUpApplier
+    {
+        public void Apply(Player player)
+        {
+            player.PlayerMovementDelegate.JumpHeight += 25;
+            player.PlayerMovementDelegate.NrPossibleJumps += 1;
+            player.PlayerMovementDelegate.UpdateMovementVars();
+        }
+
+        public string Name => "Air Walker";
+    }
+
+    public class PhotonMuncher : IPowerUpApplier
+    {
+        public void Apply(Player player)
+        {
+            player.MaxHealth += 50;
+            player.PlayerMovementDelegate.Speed -= -50.0f;
+        }
+
+        public string Name => "Photon Muncher";
+    }
+
+    public class GravitationalNeuronBlaster : IPowerUpApplier
+    {
+        public void Apply(Player player)
+        {
+            player.Gun.BulletGravity = 0.0f;
+        }
+
+        public string Name => "Gravitational Neuron Blaster";
+    }
+
+    public class PhotonAccelerator : IPowerUpApplier
+    {
+        public void Apply(Player player)
+        {
+            player.Gun.BulletSpeed += 250.0f;
+        }
+
+        public string Name => "Photon Accelerator";
+    }
+
+    public class PhotonMultiplier : IPowerUpApplier
+    {
+        public void Apply(Player player)
+        {
+            player.Gun.BulletCount += 2;
+        }
+
+        public string Name => "Photon Multiplier";
+    }
+
+    public class PhotonEnlarger : IPowerUpApplier
+    {
+        public void Apply(Player player)
+        {
+            player.Gun.BulletSizeFactor += 1;
+            player.Gun.BulletDamage += 10;
+            player.Gun.BulletSpeed += 100.0f;
+        }
+
+        public string Name => "Photon Enlarger";
+    }
+
+    public class GlassCannon : IPowerUpApplier
+    {
+        public void Apply(Player player)
+        {
+            player.MaxHealth = 1;
+            player.Gun.BulletDamage = 100;
+        }
+
+        public string Name => "Glass Cannon";
     }
 }

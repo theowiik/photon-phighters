@@ -4,7 +4,7 @@ public partial class Bullet : Area2D
 {
     // PROPERTIES
     public double Speed { get; set; }
-    private float GravityFactor { get; set; } = 1.0f;
+    public float GravityFactor { get; set; } = 1.0f;
     public int Damage { get; set; } = 10;
     public Light.LightMode LightMode { get; set; } = Light.LightMode.Dark;
     private Vector2 _velocity;
@@ -26,7 +26,7 @@ public partial class Bullet : Area2D
 
     public override void _PhysicsProcess(double delta)
     {
-        _velocity.Y += _gravity * (float)delta;
+        _velocity.Y += _gravity * GravityFactor * (float)delta;
         Translate(_velocity * (float)delta);
     }
 
