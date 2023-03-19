@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://x4un7ohg01sl"]
+
+[ext_resource type="Script" path="res://Scripts/EndScreen.cs" id="1_vcjps"]
+[ext_resource type="Texture2D" uid="uid://bgmot52xbfo3v" path="res://Assets/darkness-wins.png" id="2_laqeo"]
+
+[node name="EndScreenDarkness" type="Node2D"]
+script = ExtResource("1_vcjps")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(640, 360)
+scale = Vector2(0.668518, 0.668518)
+texture = ExtResource("2_laqeo")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
