@@ -16,6 +16,16 @@ public partial class Light : Area2D
 
     public void SetLight(LightMode lightMode)
     {
+        if (LightState == lightMode)
+            return;
+
+        if (lightMode == LightMode.None)
+        {
+            _pointLight.Enabled = false;
+            LightState = LightMode.None;
+            return;
+        }
+
         _animationPlayer.Play("pulsate");
 
         _pointLight.Enabled = true;

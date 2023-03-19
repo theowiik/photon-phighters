@@ -1,9 +1,10 @@
-[gd_scene load_steps=14 format=3 uid="uid://destovvdkmqnx"]
+[gd_scene load_steps=15 format=3 uid="uid://destovvdkmqnx"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/darkness-player.svg" id="2_ykldl"]
 [ext_resource type="PackedScene" uid="uid://cxoocvph51e4o" path="res://Objects/Gun.tscn" id="3_g1rr3"]
 [ext_resource type="Script" path="res://Objects/PlayerMovement.cs" id="4_8tcsk"]
+[ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Sfx/jump-sfx.wav" id="5_iig84"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
 radius = 67.0075
@@ -14,52 +15,32 @@ size = Vector2(119, 122.5)
 [sub_resource type="Animation" id="Animation_xkv87"]
 length = 0.001
 
-[sub_resource type="Animation" id="Animation_vdp7y"]
-resource_name = "squish_land"
-length = 0.3
+[sub_resource type="Animation" id="Animation_ignui"]
+resource_name = "running_left"
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
+tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.3),
-"transitions": PackedFloat32Array(1, 0.34151, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0.131, 0.131), Vector2(0.16, 0.12), Vector2(0.131, 0.131)]
+"values": [0.174533]
 }
-
-[sub_resource type="Animation" id="Animation_qj5pb"]
-resource_name = "stretch_jump"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.3),
-"transitions": PackedFloat32Array(1, 3.36358, 1),
-"update": 0,
-"values": [Vector2(0.131, 0.13), Vector2(0.1, 0.175), Vector2(0.131, 0.13)]
-}
-
-[sub_resource type="Animation" id="Animation_7ly8p"]
-resource_name = "squish_wall"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.131, 0.131), Vector2(0.1, 0.15), Vector2(0.131, 0.131)]
+"values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
 }
 
 [sub_resource type="Animation" id="Animation_nk06g"]
@@ -90,32 +71,52 @@ tracks/1/keys = {
 "values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
 }
 
-[sub_resource type="Animation" id="Animation_ignui"]
-resource_name = "running_left"
-length = 0.2
+[sub_resource type="Animation" id="Animation_vdp7y"]
+resource_name = "squish_land"
+length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
+tracks/0/path = NodePath(".:scale")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0, 0.125, 0.3),
+"transitions": PackedFloat32Array(1, 0.34151, 1),
 "update": 0,
-"values": [0.174533]
+"values": [Vector2(0.131, 0.131), Vector2(0.16, 0.12), Vector2(0.131, 0.131)]
 }
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
+
+[sub_resource type="Animation" id="Animation_7ly8p"]
+resource_name = "squish_wall"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
+"values": [Vector2(0.131, 0.131), Vector2(0.1, 0.15), Vector2(0.131, 0.131)]
+}
+
+[sub_resource type="Animation" id="Animation_qj5pb"]
+resource_name = "stretch_jump"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.3),
+"transitions": PackedFloat32Array(1, 3.36358, 1),
+"update": 0,
+"values": [Vector2(0.131, 0.13), Vector2(0.1, 0.175), Vector2(0.131, 0.13)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1me7g"]
@@ -142,7 +143,7 @@ texture = ExtResource("2_ykldl")
 [node name="Marker2D" type="Marker2D" parent="."]
 
 [node name="Gun" parent="Marker2D" instance=ExtResource("3_g1rr3")]
-position = Vector2(150, 2.08165e-12)
+position = Vector2(155, 0)
 scale = Vector2(0.5, 0.5)
 
 [node name="BulletDetectionArea" type="Area2D" parent="."]
@@ -153,6 +154,12 @@ shape = SubResource("RectangleShape2D_d4oxs")
 
 [node name="PlayerMovement" type="Node" parent="."]
 script = ExtResource("4_8tcsk")
+
+[node name="JumpPlayer" type="AudioStreamPlayer2D" parent="PlayerMovement"]
+stream = ExtResource("5_iig84")
+volume_db = 14.497
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="PlayerMovement"]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite2D")

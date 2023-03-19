@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://dr31tb7rvoc8x"]
+[gd_scene load_steps=5 format=3 uid="uid://dr31tb7rvoc8x"]
 
 [ext_resource type="Script" path="res://Scripts/LightFloor.cs" id="1_0tmb8"]
-[ext_resource type="Texture2D" uid="uid://cjewoufndfiij" path="res://Assets/drawn-square.svg" id="2_rquhy"]
+[ext_resource type="Texture2D" uid="uid://y4jqk2yry65x" path="res://Assets/floor2.svg" id="2_j16co"]
+[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="3_4w12k"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a12tr"]
 size = Vector2(128, 128)
@@ -15,4 +16,8 @@ shape = SubResource("RectangleShape2D_a12tr")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-0.500003, 4.76837e-07)
 scale = Vector2(0.3125, 0.32)
-texture = ExtResource("2_rquhy")
+texture = ExtResource("2_j16co")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("3_4w12k")

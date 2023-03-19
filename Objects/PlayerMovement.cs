@@ -8,6 +8,7 @@ public partial class PlayerMovement : Node
     private Vector2 OriginalSpriteScale = new Vector2(0.131f, 0.131f);
     public int PlayerNumber { get; set; }
     public bool Freeze { get; set; }
+    private AudioStreamPlayer2D _jumpPlayer;
 
     // General movement
     public float Speed { get; set; } = 500.0f;
@@ -38,6 +39,7 @@ public partial class PlayerMovement : Node
 
     public override void _Ready()
     {
+        _jumpPlayer = GetNode<AudioStreamPlayer2D>("JumpPlayer");
         UpdateMovementVars();
     }
 
@@ -180,6 +182,8 @@ public partial class PlayerMovement : Node
         // Handle wall jumping
         if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
         {
+            _jumpPlayer.Play();
+
             if (isOnGround)
             {
                 velocity.Y = JumpVelocity;
@@ -230,6 +234,7 @@ public partial class PlayerMovement : Node
         }
         else if (Input.IsActionJustPressed($"p{PlayerNumber}_jump") && _nrCurrentJumps < NrPossibleJumps)
         {
+            _jumpPlayer.Play();
             nextVelocity.Y = JumpVelocity;
             _nrCurrentJumps++;
         }

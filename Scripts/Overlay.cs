@@ -5,7 +5,7 @@ public partial class Overlay : Control
 {
     private PackedScene _powerUpScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
     private HBoxContainer _powerUpDeck;
-    private RichTextLabel _scoreLabel;
+    private Label _scoreLabel;
     private Label _timerLabel;
     private Label _totalScoreLabel;
 
@@ -35,7 +35,7 @@ public partial class Overlay : Control
 
     public override void _Ready()
     {
-        _scoreLabel = GetNode<RichTextLabel>("ScoreLabel");
+        _scoreLabel = GetNode<Label>("ScoreLabel");
         _timerLabel = GetNode<Label>("RoundTimerLabel");
         _totalScoreLabel = GetNode<Label>("TotalScoreLabel");
         _powerUpDeck = GetNode<HBoxContainer>("PowerUpDeck");
@@ -50,6 +50,8 @@ public partial class Overlay : Control
         {
             powerUpButton.QueueFree();
         }
+
+        _powerUpDeck.Visible = false;
     }
 
     private void FillPowerUpDeck()
@@ -62,8 +64,10 @@ public partial class Overlay : Control
         for (int i = 0; i < powerUpCount; i++)
         {
             var powerUpButton = _powerUpScene.Instantiate<PowerUpButton>();
-            powerUpButton.Pressed += () => {
-                powerUpButton.ApplyPowerUp(player);
+            powerUpButton.Pressed += () =>
+            {
+                var losingPlayer = GameState.Player1Won ? GameState.Player2 : GameState.Player1;
+                powerUpButton.ApplyPowerUp(losingPlayer);
                 GD.Print("Powerup applied");
                 ClearPowerUpDeck();
             };
