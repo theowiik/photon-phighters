@@ -14,6 +14,8 @@ public partial class World : Node2D
     private const int ScoreToWin = 3;
     private AudioStreamPlayer _lightWin;
     private AudioStreamPlayer _darkWin;
+    private Node2D _lightSpawn;
+    private Node2D _darkSpawn;
 
     public override void _Ready()
     {
@@ -28,24 +30,44 @@ public partial class World : Node2D
         uiUpdateTimer.Timeout += UpdateScore;
         uiUpdateTimer.Timeout += UpdateRoundTimer;
         _players = this.GetNodes<Player>().ToList();
+        _lightSpawn = GetNode<Node2D>("P1Spawn");
+        _darkSpawn = GetNode<Node2D>("P2Spawn");
 
         var ob = GetNode<Area2D>("OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
 
         foreach (var player in _players)
         {
+            player.PlayerDied += OnPlayerDied;
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
 
             // TODO: dont do this
             if (player.PlayerNumber == 1)
+            {
                 GameState.Player1 = player;
+            }
 
             if (player.PlayerNumber == 2)
+            {
                 GameState.Player2 = player;
+            }
         }
 
         StartRound();
+    }
+
+    private void OnPlayerDied(Player player)
+    {
+        player.GlobalPosition = player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
+        player.Freeze = true;
+
+        var liveTimer = new Timer();
+        liveTimer.OneShot = true;
+        liveTimer.WaitTime = 4;
+        liveTimer.Timeout += () => player.Freeze = false;
+        AddChild(liveTimer);
+        liveTimer.Start();
     }
 
     private void OnOutOfBounds(Node body)

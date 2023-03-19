@@ -186,4 +186,10 @@ shape = SubResource("RectangleShape2D_qg742")
 position = Vector2(2805, -520)
 shape = SubResource("RectangleShape2D_42qnf")
 
+[node name="P1Spawn" type="Marker2D" parent="."]
+position = Vector2(138, 137)
+
+[node name="P2Spawn" type="Marker2D" parent="."]
+position = Vector2(937, 153)
+
 [editable path="Player1"]
