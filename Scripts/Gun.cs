@@ -3,12 +3,13 @@ using System;
 
 public partial class Gun : Node2D
 {
+    private AudioStreamPlayer2D _shootPlayer;
     public Light.LightMode LightMode { get; set; }
     public string ShootActionName { get; set; }
     private double BulletSpeed { get; set; } = 750.0f;
     private double FireRate { get; set; } = 5f;
     private float BulletSizeFactor { get; set; } = 1.0f;
-    private float BulletCount { get; set; } = 1.0f;
+    private int BulletCount { get; set; } = 10;
     private float BulletSpread { get; set; } = 0.2f;
     private PackedScene _bulletScene;
     private Timer _shootTimer;
@@ -17,6 +18,7 @@ public partial class Gun : Node2D
 
     public override void _Ready()
     {
+        _shootPlayer = GetNode<AudioStreamPlayer2D>("ShootPlayer");
         _bulletScene = GD.Load<PackedScene>("res://Objects/Bullet.tscn");
         _shootTimer = GetNode<Timer>("Timer");
         _shootTimer.Timeout += () => _loading = !_loading;
@@ -49,6 +51,9 @@ public partial class Gun : Node2D
 
     private void Shoot()
     {
+        _shootPlayer.PitchScale = GetLightPitch();
+        _shootPlayer.Play();
+
         for (int i = 0; i < BulletCount; i++)
         {
             var bullet = _bulletScene.Instantiate<Bullet>();
@@ -56,7 +61,7 @@ public partial class Gun : Node2D
 
             bullet.GlobalPosition = GlobalPosition;
             bullet.Rotation = GetParent<Marker2D>().Rotation + shotSpread;
-            bullet.Speed = BulletSpeed;
+            bullet.Speed = GetRandomBetweenRange((float)BulletSpeed * 0.9f, (float)BulletSpeed * 1.1f);
             bullet.Scale *= BulletSizeFactor;
             bullet.LightMode = LightMode;
 
@@ -65,5 +70,18 @@ public partial class Gun : Node2D
 
         _loading = false;
         _shootTimer.Start();
+    }
+
+    private float GetRandomBetweenRange(float min, float max)
+    {
+        return (float)GD.RandRange(min, max);
+    }
+
+    private float GetLightPitch()
+    {
+        if (LightMode == Light.LightMode.Light)
+            return (float)GD.RandRange(1.0f, 1.3f);
+        else
+            return (float)GD.RandRange(0.7f, 1.0f);
     }
 }

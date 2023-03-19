@@ -46,3 +46,13 @@ layout_mode = 2
 
 [node name="PowerUpButton2" parent="PowerUpDeck" instance=ExtResource("2_12srk")]
 layout_mode = 2
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 402.0
+offset_top = 239.0
+offset_right = 729.0
+offset_bottom = 381.0
+text = "ROUND START"
+horizontal_alignment = 1
+vertical_alignment = 1

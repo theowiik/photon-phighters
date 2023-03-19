@@ -17,6 +17,11 @@ public partial class Bullet : Area2D
         lifeTimeTimer.Timeout += OnTimerTimeout;
         lifeTimeTimer.Start(5);
         AreaEntered += OnAreaEntered;
+
+        var sprite = GetNode<Sprite2D>("Sprite2D");
+        if (LightMode == Light.LightMode.Dark) {
+            sprite.Modulate = new Color(0, 0, 0, 1);
+        }
     }
 
     public override void _PhysicsProcess(double delta)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://destovvdkmqnx"]
+[gd_scene load_steps=8 format=3 uid="uid://ep2nyccidheo"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/darkness-player.svg" id="2_ykldl"]
-[ext_resource type="PackedScene" uid="uid://cxoocvph51e4o" path="res://Objects/Gun.tscn" id="3_g1rr3"]
+[ext_resource type="PackedScene" uid="uid://dfq2efmx3yq0c" path="res://Objects/Gun.tscn" id="3_g1rr3"]
 [ext_resource type="Script" path="res://Objects/PlayerMovement.cs" id="4_8tcsk"]
+[ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Sfx/jump-sfx.wav" id="5_iig84"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
 radius = 67.0075
@@ -25,7 +26,7 @@ texture = ExtResource("2_ykldl")
 [node name="Marker2D" type="Marker2D" parent="."]
 
 [node name="Gun" parent="Marker2D" instance=ExtResource("3_g1rr3")]
-position = Vector2(150, 2.08165e-12)
+position = Vector2(155, 0)
 scale = Vector2(0.5, 0.5)
 
 [node name="BulletDetectionArea" type="Area2D" parent="."]
@@ -36,3 +37,9 @@ shape = SubResource("RectangleShape2D_d4oxs")
 
 [node name="PlayerMovement" type="Node" parent="."]
 script = ExtResource("4_8tcsk")
+
+[node name="JumpPlayer" type="AudioStreamPlayer2D" parent="PlayerMovement"]
+stream = ExtResource("5_iig84")
+volume_db = 14.497
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="PlayerMovement"]

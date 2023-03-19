@@ -2,20 +2,20 @@
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_f0l43"]
 [ext_resource type="Texture2D" uid="uid://cvlu7ya34qp7l" path="res://Assets/rounds_map.png" id="1_qy8fx"]
-[ext_resource type="PackedScene" uid="uid://dvesluhm6uspf" path="res://Objects/Floor.tscn" id="1_tncw2"]
-[ext_resource type="PackedScene" uid="uid://destovvdkmqnx" path="res://Objects/Player.tscn" id="2_4m2gk"]
+[ext_resource type="PackedScene" uid="uid://dr31tb7rvoc8x" path="res://Objects/Floor.tscn" id="1_tncw2"]
+[ext_resource type="PackedScene" uid="uid://ep2nyccidheo" path="res://Objects/Player.tscn" id="2_4m2gk"]
 [ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_ut05v"]
 [ext_resource type="Texture2D" uid="uid://yaherysqfje5" path="res://Assets/slate.png" id="3_8238p"]
-[ext_resource type="PackedScene" path="res://Objects/Overlay.tscn" id="5_73lpy"]
-[ext_resource type="PackedScene" path="res://Objects/FakePlayer.tscn" id="7_wmwm0"]
+[ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/Overlay.tscn" id="5_73lpy"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="8_xdl4t"]
+[ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="9_xwee1"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_f0l43")
 
 [node name="Light-gray" type="Sprite2D" parent="."]
-position = Vector2(1533, 384.25)
-scale = Vector2(6.1463, 3.25956)
+position = Vector2(1266, 59.4188)
+scale = Vector2(7.60185, 4.18811)
 texture = ExtResource("2_ut05v")
 
 [node name="Slate" type="Sprite2D" parent="."]
@@ -131,9 +131,6 @@ autostart = true
 wait_time = 10.0
 one_shot = true
 
-[node name="FakePlayer" parent="." instance=ExtResource("7_wmwm0")]
-position = Vector2(659, -107)
-
 [node name="FollowingCamera" type="Camera2D" parent="."]
 script = ExtResource("8_xdl4t")
 
@@ -152,3 +149,8 @@ PlayerNumber = 1
 position = Vector2(122, -133)
 scale = Vector2(0.35, 0.35)
 PlayerNumber = 2
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_xwee1")
+volume_db = -30.167
+autoplay = true
