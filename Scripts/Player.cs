@@ -5,6 +5,7 @@ public partial class Player : CharacterBody2D
     [Export]
     public int PlayerNumber { get; set; }
     public PlayerMovement PlayerMovementDelegate;
+    private AudioStreamPlayer2D _deathPlayer;
     private bool _freeze;
     public bool Freeze
     {
@@ -38,6 +39,7 @@ public partial class Player : CharacterBody2D
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
         PlayerMovementDelegate = GetNode<PlayerMovement>("PlayerMovement");
+        _deathPlayer = GetNode<AudioStreamPlayer2D>("DeathPlayer");
         PlayerMovementDelegate.PlayerNumber = PlayerNumber;
         PlayerMovementDelegate.CharacterBody = this;
         PlayerMovementDelegate.CharacterAnimation = GetNode<AnimationPlayer>("AnimationPlayer");
@@ -71,6 +73,8 @@ public partial class Player : CharacterBody2D
             return;
 
         _health -= damage;
+        explosionParticleEmitter.Emitting = true;
+        _deathPlayer.Play();
 
         if (_health <= 0)
         {

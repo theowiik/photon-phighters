@@ -29,6 +29,9 @@ public partial class World : Node2D
         uiUpdateTimer.Timeout += UpdateRoundTimer;
         _players = this.GetNodes<Player>().ToList();
 
+        var ob = GetNode<Area2D>("OutOfBounds");
+        ob.BodyEntered += OnOutOfBounds;
+
         foreach (var player in _players)
         {
             player.Gun.ShootDelegate += OnShoot;
@@ -43,6 +46,14 @@ public partial class World : Node2D
         }
 
         StartRound();
+    }
+
+    private void OnOutOfBounds(Node body)
+    {
+        if (body is Player player)
+        {
+            player.TakeDamage(99999999);
+        }
     }
 
     private void StartRound()
@@ -89,7 +100,8 @@ public partial class World : Node2D
             _darkWin.Play();
         }
 
-        if (isTie) {
+        if (isTie)
+        {
             StartRound();
             return;
         }
