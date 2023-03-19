@@ -37,6 +37,7 @@ public partial class Player : CharacterBody2D
         PlayerMovementDelegate = GetNode<PlayerMovement>("PlayerMovement");
         PlayerMovementDelegate.PlayerNumber = PlayerNumber;
         PlayerMovementDelegate.CharacterBody = this;
+        PlayerMovementDelegate.CharacterAnimation = GetNode<AnimationPlayer>("AnimationPlayer");
 
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
         bulletDetectionArea.AreaEntered += OnBulletEntered;
