@@ -6,7 +6,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_fehsf"]
 radius = 80.6226
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Area2D" groups=["bullets"]]
 scale = Vector2(0.1, 0.1)
 script = ExtResource("1_xlknr")
 

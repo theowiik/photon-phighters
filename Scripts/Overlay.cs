@@ -9,6 +9,9 @@ public partial class Overlay : Control
     private Label _timerLabel;
     private Label _totalScoreLabel;
 
+    [Signal]
+    public delegate void PowerUpSelectedEventHandler();
+
     public string Score
     {
         set
@@ -40,7 +43,6 @@ public partial class Overlay : Control
         _totalScoreLabel = GetNode<Label>("TotalScoreLabel");
         _powerUpDeck = GetNode<HBoxContainer>("PowerUpDeck");
         ClearPowerUpDeck();
-        FillPowerUpDeck();
     }
 
     private void ClearPowerUpDeck()
@@ -54,15 +56,21 @@ public partial class Overlay : Control
         _powerUpDeck.Visible = false;
     }
 
+    public void StartPowerUpSelection()
+    {
+        GD.Print("Start powerup selection");
+        ClearPowerUpDeck();
+        FillPowerUpDeck();
+    }
+
     private void FillPowerUpDeck()
     {
+        _powerUpDeck.Visible = true;
         var powerUpCount = 3;
-
-        // TODO: Dont do this. Hackthon level code. Also, this will always apply to the first player
-        var player = GetTree().GetNodesInGroup("players").Cast<Player>().First();
 
         for (int i = 0; i < powerUpCount; i++)
         {
+            GD.Print("Adding powerup button");
             var powerUpButton = _powerUpScene.Instantiate<PowerUpButton>();
             powerUpButton.Pressed += () =>
             {
@@ -70,6 +78,7 @@ public partial class Overlay : Control
                 powerUpButton.ApplyPowerUp(losingPlayer);
                 GD.Print("Powerup applied");
                 ClearPowerUpDeck();
+                EmitSignal(SignalName.PowerUpSelected);
             };
 
             _powerUpDeck.AddChild(powerUpButton);

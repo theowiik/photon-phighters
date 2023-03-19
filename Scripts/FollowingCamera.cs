@@ -27,6 +27,28 @@ public partial class FollowingCamera : Camera2D
 
         targetPosition /= _targets.Count;
 
-        Position = Position.Lerp(targetPosition, (float)delta * 5.0f); ;
+        Position = Position.Lerp(targetPosition, (float)delta * 5.0f);
+
+        // Zoom
+        FitZoom();
+    }
+
+    private void FitZoom()
+    {
+        // Calculate the bounding box of all objects in the list
+        var bounds = new Rect2();
+        foreach (var obj in _targets)
+        {
+            var rect = obj.GetViewportRect();
+            rect.Position = obj.ToGlobal(rect.Position);
+            bounds = bounds.Merge(rect);
+        }
+
+        // Calculate the target zoom level to fit the bounding box on the screen
+        var screenBounds = GetViewportRect().Size;
+        var targetZoom = Mathf.Min(screenBounds.X / bounds.Size.X, screenBounds.Y / bounds.Size.Y);
+
+        // Smoothly adjust the camera's zoom level and set its offset to the center of the bounding box
+        Zoom = Zoom.Lerp(new Vector2(targetZoom, targetZoom), 1);
     }
 }
