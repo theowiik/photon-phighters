@@ -49,6 +49,6 @@ public partial class FollowingCamera : Camera2D
         var targetZoom = Mathf.Min(screenBounds.X / bounds.Size.X, screenBounds.Y / bounds.Size.Y);
 
         // Smoothly adjust the camera's zoom level and set its offset to the center of the bounding box
-        Zoom = Zoom.Lerp(new Vector2(targetZoom, targetZoom), 1);
+        Zoom = Zoom.Lerp(new Vector2(targetZoom + 0.3f, targetZoom + 0.3f), 1);
     }
 }

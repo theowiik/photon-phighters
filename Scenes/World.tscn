@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://d3702r8jsief"]
+[gd_scene load_steps=13 format=3 uid="uid://d3702r8jsief"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_f0l43"]
 [ext_resource type="Texture2D" uid="uid://cvlu7ya34qp7l" path="res://Assets/rounds_map.png" id="1_qy8fx"]
@@ -10,6 +10,8 @@
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="8_xdl4t"]
 [ext_resource type="Texture2D" uid="uid://b746vcsacknmv" path="res://Assets/light-player.svg" id="9_5gk2c"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="9_xwee1"]
+[ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="11_js3pc"]
+[ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="12_evv5a"]
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_f0l43")
@@ -135,12 +137,6 @@ one_shot = true
 [node name="FollowingCamera" type="Camera2D" parent="."]
 script = ExtResource("8_xdl4t")
 
-[node name="Overlay" parent="FollowingCamera" instance=ExtResource("5_73lpy")]
-offset_left = -640.0
-offset_top = -360.0
-offset_right = -640.0
-offset_bottom = -360.0
-
 [node name="Player1" parent="." instance=ExtResource("2_4m2gk")]
 position = Vector2(949, -119)
 scale = Vector2(0.35, 0.35)
@@ -158,5 +154,17 @@ PlayerNumber = 2
 stream = ExtResource("9_xwee1")
 volume_db = -30.167
 autoplay = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Overlay" parent="CanvasLayer" instance=ExtResource("5_73lpy")]
+
+[node name="Sfx" type="Node" parent="."]
+
+[node name="DarkWin" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("12_evv5a")
+
+[node name="LightWin" type="AudioStreamPlayer" parent="Sfx"]
+stream = ExtResource("11_js3pc")
 
 [editable path="Player1"]
