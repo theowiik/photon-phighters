@@ -55,6 +55,7 @@ public partial class PlayerMovement : Node
     private void Movement(double delta)
     {
         bool isOnGround = CharacterBody.IsOnFloor();
+        bool isOnWall = CharacterBody.IsOnWall();
 
         var oldVelocity = CharacterBody.Velocity;
 
@@ -74,7 +75,7 @@ public partial class PlayerMovement : Node
         nextVelocity = HandleMultipleJumps(delta, inputDir, nextVelocity, isOnGround);
 
         // Animations
-        HandleJumpStretchSquishAnimation(isOnGround);
+        HandleJumpStretchSquishAnimation(isOnGround, isOnWall, oldVelocity);
 
         HandleJumpingAnimation(isOnGround);
 
@@ -84,20 +85,26 @@ public partial class PlayerMovement : Node
         CharacterBody.MoveAndSlide();
     }
 
-    private void HandleJumpStretchSquishAnimation(bool isOnGround)
+    private void HandleJumpStretchSquishAnimation(bool isOnGround, bool isOnWall, Vector2 velocity)
     {
         // Stretch the character while in the air
         if (_hitTheGround && !isOnGround)
         {
             _hitTheGround = false;
-            CharacterAnimation.Play("stretch");
+            CharacterAnimation.Play("stretch_jump");
         }
 
         // Squish the character on collision with the ground
         if (!_hitTheGround && isOnGround)
         {
             _hitTheGround = true;
-            CharacterAnimation.Play("squish");
+            CharacterAnimation.Play("squish_land");
+        }
+
+        // Squish the character on collision with a wall
+        if (!isOnGround && isOnWall && Mathf.Abs(velocity.X) > 0) {
+            GD.Print("collision");
+            CharacterAnimation.Play("squish_wall");
         }
     }
 

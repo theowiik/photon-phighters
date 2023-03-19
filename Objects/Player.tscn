@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://destovvdkmqnx"]
+[gd_scene load_steps=12 format=3 uid="uid://destovvdkmqnx"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/darkness-player.svg" id="2_ykldl"]
@@ -11,27 +11,11 @@ radius = 67.0075
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
 size = Vector2(119, 122.5)
 
-[sub_resource type="Animation" id="Animation_qj5pb"]
-resource_name = "stretch"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.3),
-"transitions": PackedFloat32Array(1, 3.36358, 1),
-"update": 0,
-"values": [Vector2(0.131, 0.13), Vector2(0.1, 0.175), Vector2(0.131, 0.13)]
-}
-
 [sub_resource type="Animation" id="Animation_xkv87"]
 length = 0.001
 
 [sub_resource type="Animation" id="Animation_vdp7y"]
-resource_name = "squish"
+resource_name = "squish_land"
 length = 0.3
 tracks/0/type = "value"
 tracks/0/imported = false
@@ -46,11 +30,44 @@ tracks/0/keys = {
 "values": [Vector2(0.131, 0.131), Vector2(0.16, 0.12), Vector2(0.131, 0.131)]
 }
 
+[sub_resource type="Animation" id="Animation_qj5pb"]
+resource_name = "stretch_jump"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.3),
+"transitions": PackedFloat32Array(1, 3.36358, 1),
+"update": 0,
+"values": [Vector2(0.131, 0.13), Vector2(0.1, 0.175), Vector2(0.131, 0.13)]
+}
+
+[sub_resource type="Animation" id="Animation_7ly8p"]
+resource_name = "squish_wall"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.131, 0.131), Vector2(0.1, 0.15), Vector2(0.131, 0.131)]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1me7g"]
 _data = {
 "RESET": SubResource("Animation_xkv87"),
-"squish": SubResource("Animation_vdp7y"),
-"stretch": SubResource("Animation_qj5pb")
+"squish_land": SubResource("Animation_vdp7y"),
+"squish_wall": SubResource("Animation_7ly8p"),
+"stretch_jump": SubResource("Animation_qj5pb")
 }
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
@@ -61,7 +78,7 @@ shape = SubResource("CircleShape2D_k4h85")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0.5, -9.83477e-06)
-scale = Vector2(0.131836, 0.130859)
+scale = Vector2(0.131, 0.131)
 texture = ExtResource("2_ykldl")
 
 [node name="Marker2D" type="Marker2D" parent="."]
