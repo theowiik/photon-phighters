@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ha4rgq7hjth0"
-path="res://.godot/imported/photon-accelerator.png-08b66c95e5064ed9692815b79a81f35d.ctex"
+uid="uid://bj4l7kgnmwkxx"
+path="res://.godot/imported/photon-enlarger.svg-c4aa3d10d43d0ab3976c1f415e554b57.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Power Ups/photon-accelerator.png"
-dest_files=["res://.godot/imported/photon-accelerator.png-08b66c95e5064ed9692815b79a81f35d.ctex"]
+source_file="res://Assets/Power Ups/photon-enlarger.svg"
+dest_files=["res://.godot/imported/photon-enlarger.svg-c4aa3d10d43d0ab3976c1f415e554b57.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

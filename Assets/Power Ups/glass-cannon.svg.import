@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://ddfmo2wgev88s"
-path="res://.godot/imported/glass-cannon.png-15bb99222e3309930ce171fca689485a.ctex"
+uid="uid://rvowvcsrq4rv"
+path="res://.godot/imported/glass-cannon.svg-bb4dd293639aed455719fc0c8332e915.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Power Ups/glass-cannon.png"
-dest_files=["res://.godot/imported/glass-cannon.png-15bb99222e3309930ce171fca689485a.ctex"]
+source_file="res://Assets/Power Ups/glass-cannon.svg"
+dest_files=["res://.godot/imported/glass-cannon.svg-bb4dd293639aed455719fc0c8332e915.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false
