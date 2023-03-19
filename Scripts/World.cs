@@ -8,10 +8,10 @@ public partial class World : Node2D
     private Overlay _overlay;
     private Timer _roundTimer;
     private FollowingCamera _camera;
-    private const int RoundTime = 8;
+    private const int RoundTime = 30;
     private IEnumerable<Player> _players;
     private Score _score;
-    private const int ScoreToWin = 3;
+    private const int ScoreToWin = 4;
     private AudioStreamPlayer _lightWin;
     private AudioStreamPlayer _darkWin;
     private Node2D _lightSpawn;
@@ -64,7 +64,7 @@ public partial class World : Node2D
 
         var liveTimer = new Timer();
         liveTimer.OneShot = true;
-        liveTimer.WaitTime = 4;
+        liveTimer.WaitTime = 2;
         liveTimer.Timeout += () => player.Freeze = false;
         AddChild(liveTimer);
         liveTimer.Start();
@@ -133,7 +133,16 @@ public partial class World : Node2D
         if (Math.Sqrt(_score.Dark * _score.Dark) + Math.Sqrt(_score.Light * _score.Light) >= ScoreToWin)
         {
             GD.Print("Game over");
-            GetTree().ChangeSceneToFile("res://Scenes/EndScreen.tscn");
+
+            if (_score.Light > _score.Dark)
+            {
+                GetTree().ChangeSceneToFile("res://Scenes/EndScreenLight.tscn");
+            }
+            else
+            {
+                GetTree().ChangeSceneToFile("res://Scenes/EndScreenDarkness.tscn");
+            }
+
         }
 
         _overlay.StartPowerUpSelection();
