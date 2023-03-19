@@ -9,22 +9,22 @@ public partial class PlayerMovement : Node
 
     // General movement
     public float Speed { get; set; } = 500.0f;
-    private const float FrictionAccelerate = 55.0f;
-    private const float FrictionDecelerate = 30.0f;
+    public float FrictionAccelerate { get; set; } = 55.0f;
+    public float FrictionDecelerate { get; set; } = 30.0f;
 
     // Jumping
-    private const float JumpHeight = 100;
+    public float JumpHeight { get; set; } = 100;
     private const float JumpTimeToPeak = 0.4f;
     private const float JumpTimeToDescent = 0.35f;
-    private const float JumpVelocity = ((2.0f * JumpHeight) / JumpTimeToPeak) * -1.0f;
-    private const float JumpGravity = ((-2.0f * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak)) * -1.0f;
-    private const float FallGravity = ((-2.0f * JumpHeight) / (JumpTimeToDescent * JumpTimeToDescent)) * -1.0f;
+    private float JumpVelocity;
+    private float JumpGravity;
+    private float FallGravity;
 
     // Wall sliding
     private bool _isOnWall = false;
     private int _wallDirection = 0;
     private float _timeToWallUnstick = WallUnstickTime;
-    private const float WallJumpSpeed = JumpVelocity;
+    private float WallJumpSpeed;
     private const float WallSlideSpeedMax = 150.0f;
     private const float WallStickTime = 0.25f;
     private const float WallUnstickTime = 0.15f;
@@ -32,6 +32,11 @@ public partial class PlayerMovement : Node
     // Multiple jumping
     public int NrPossibleJumps { get; set; } = 1;
     private int _nrCurrentJumps = 0;
+
+    public override void _Ready()
+    {
+        UpdateMovementVars();
+    }
 
     public override void _PhysicsProcess(double delta)
     {
@@ -70,6 +75,15 @@ public partial class PlayerMovement : Node
 
         CharacterBody.Velocity = nextVelocity;
         CharacterBody.MoveAndSlide();
+    }
+
+    // Some movement variables are based on other variables, and need to be updated
+    public void UpdateMovementVars()
+    {
+        this.JumpVelocity = ((2.0f * JumpHeight) / JumpTimeToPeak) * -1.0f;
+        this.JumpGravity = ((-2.0f * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak)) * -1.0f;
+        this.FallGravity = ((-2.0f * JumpHeight) / (JumpTimeToDescent * JumpTimeToDescent)) * -1.0f;
+        this.WallJumpSpeed = JumpVelocity;
     }
 
     public Vector2 HandleWallJump(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isOnGround)

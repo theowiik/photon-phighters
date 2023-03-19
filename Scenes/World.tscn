@@ -128,6 +128,7 @@ wait_time = 0.1
 autostart = true
 
 [node name="RoundTimer" type="Timer" parent="."]
+wait_time = 10.0
 one_shot = true
 
 [node name="FakePlayer" parent="." instance=ExtResource("7_wmwm0")]
