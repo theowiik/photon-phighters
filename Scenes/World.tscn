@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://destovvdkmqnx" path="res://Objects/Player.tscn" id="2_4m2gk"]
 [ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_ut05v"]
 [ext_resource type="Texture2D" uid="uid://yaherysqfje5" path="res://Assets/slate.png" id="3_8238p"]
-[ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/Overlay.tscn" id="5_73lpy"]
+[ext_resource type="PackedScene" path="res://Objects/Overlay.tscn" id="5_73lpy"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="8_xdl4t"]
 [ext_resource type="Texture2D" uid="uid://b746vcsacknmv" path="res://Assets/light-player.svg" id="9_5gk2c"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="9_xwee1"]

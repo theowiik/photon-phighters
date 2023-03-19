@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://cbhbx3slsg2hc"]
+
+[ext_resource type="Script" path="res://Scripts/EndScreen.cs" id="1_juval"]
+[ext_resource type="Texture2D" uid="uid://drvdhg48d02qt" path="res://Assets/light-wins.png" id="2_m7o5g"]
+
+[node name="EndScreenLight" type="Node2D"]
+script = ExtResource("1_juval")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+
+[node name="Darkness-wins" type="Sprite2D" parent="."]
+position = Vector2(645.667, 363.5)
+scale = Vector2(0.669444, 0.669444)
+texture = ExtResource("2_m7o5g")
