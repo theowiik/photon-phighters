@@ -23,7 +23,7 @@ public partial class Player : CharacterBody2D
     }
 
     // Health
-    public int MaxHealth { get; set; } = 100;
+    public int MaxHealth { get; set; } = 50;
     private int _health;
 
     // Aim
