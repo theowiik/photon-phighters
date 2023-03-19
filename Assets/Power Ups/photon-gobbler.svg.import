@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bduvwqtb4rbiq"
-path="res://.godot/imported/grav-blaster.png-5bafdb51c2afaafa605a19ee091ef5c7.ctex"
+uid="uid://da6i4i4y50awl"
+path="res://.godot/imported/photon-gobbler.svg-f205084739164aa6dd2a463da45df144.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Power Ups/grav-blaster.png"
-dest_files=["res://.godot/imported/grav-blaster.png-5bafdb51c2afaafa605a19ee091ef5c7.ctex"]
+source_file="res://Assets/Power Ups/photon-gobbler.svg"
+dest_files=["res://.godot/imported/photon-gobbler.svg-f205084739164aa6dd2a463da45df144.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

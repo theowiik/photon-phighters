@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://3akjasbpqf3b"
-path="res://.godot/imported/photon-multiplier.png-b115b6e23769b532a5af7fd7d089e729.ctex"
+uid="uid://bov4ontgm4m43"
+path="res://.godot/imported/grav-blaster.svg-563cab7059415e153f11f375e427e334.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Power Ups/photon-multiplier.png"
-dest_files=["res://.godot/imported/photon-multiplier.png-b115b6e23769b532a5af7fd7d089e729.ctex"]
+source_file="res://Assets/Power Ups/grav-blaster.svg"
+dest_files=["res://.godot/imported/grav-blaster.svg-563cab7059415e153f11f375e427e334.ctex"]
 
 [params]
 
@@ -32,3 +32,6 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
+svg/scale=1.0
+editor/scale_with_editor_scale=false
+editor/convert_colors_with_editor_theme=false

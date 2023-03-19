@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d3702r8jsief"]
+[gd_scene load_steps=16 format=3 uid="uid://d3702r8jsief"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_f0l43"]
 [ext_resource type="Texture2D" uid="uid://cvlu7ya34qp7l" path="res://Assets/rounds_map.png" id="1_qy8fx"]
@@ -13,12 +13,21 @@
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="11_js3pc"]
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="12_evv5a"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ncqr5"]
+size = Vector2(5637, 862.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qg742"]
+size = Vector2(1000, 3249.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_42qnf"]
+size = Vector2(911, 3306)
+
 [node name="World" type="Node2D"]
 script = ExtResource("1_f0l43")
 
 [node name="Light-gray" type="Sprite2D" parent="."]
-position = Vector2(1266, 59.4188)
-scale = Vector2(7.60185, 4.18811)
+position = Vector2(758.5, -268.5)
+scale = Vector2(10.9694, 6.87315)
 texture = ExtResource("2_ut05v")
 
 [node name="Slate" type="Sprite2D" parent="."]
@@ -106,10 +115,6 @@ scale = Vector2(1.3, 0.4)
 position = Vector2(534, 360)
 scale = Vector2(2.5, 0.3)
 
-[node name="Floor23" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(2938, 595)
-scale = Vector2(25, 0.3)
-
 [node name="Floor20" parent="Map" instance=ExtResource("1_tncw2")]
 position = Vector2(534, 419)
 scale = Vector2(0.35, 0.6)
@@ -166,5 +171,19 @@ stream = ExtResource("12_evv5a")
 
 [node name="LightWin" type="AudioStreamPlayer" parent="Sfx"]
 stream = ExtResource("11_js3pc")
+
+[node name="OutOfBounds" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OutOfBounds"]
+position = Vector2(444.5, 1567)
+shape = SubResource("RectangleShape2D_ncqr5")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OutOfBounds"]
+position = Vector2(-1852, -500)
+shape = SubResource("RectangleShape2D_qg742")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OutOfBounds"]
+position = Vector2(2805, -520)
+shape = SubResource("RectangleShape2D_42qnf")
 
 [editable path="Player1"]
