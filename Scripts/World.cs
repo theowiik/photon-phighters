@@ -42,6 +42,8 @@ public partial class World : Node2D
 
     private void StartRound()
     {
+        ResetLights();
+
         foreach (var player in _players)
             player.Freeze = false;
 
@@ -82,6 +84,19 @@ public partial class World : Node2D
         }
 
         StartRound();
+    }
+
+    private void ResetLights()
+    {
+        var lights = GetTree().GetNodesInGroup("lights");
+
+        foreach (var light in lights)
+        {
+            if (light is not Light lightNode)
+                throw new Exception("Light node is not a Light!!");
+
+            lightNode.SetLight(Light.LightMode.None);
+        }
     }
 
     private void OnShoot(Node2D bullet)

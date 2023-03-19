@@ -69,7 +69,8 @@ public partial class Player : CharacterBody2D
         if (_health <= 0)
         {
             // Dead
-            QueueFree();
+            Visible = false;
+            SetProcess(false);
         }
     }
 

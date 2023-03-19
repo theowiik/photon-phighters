@@ -11,35 +11,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ctivd")
-
-[node name="ScoreLabel" type="RichTextLabel" parent="."]
-layout_mode = 0
-offset_left = 10.0
-offset_top = 3.0
-offset_right = 458.0
-offset_bottom = 71.0
-text = "score"
+metadata/_edit_vertical_guides_ = [640.0, 1280.0]
 
 [node name="RoundTimerLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 9.0
-offset_top = 81.0
-offset_right = 440.0
-offset_bottom = 139.0
+offset_left = 426.0
+offset_top = 50.0
+offset_right = 857.0
+offset_bottom = 108.0
 text = "round timer"
+horizontal_alignment = 1
 
 [node name="TotalScoreLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 3.0
-offset_top = 160.0
-offset_right = 322.0
-offset_bottom = 287.0
+offset_left = 475.0
+offset_top = 4.0
+offset_right = 802.0
+offset_bottom = 43.0
 text = "total score"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PowerUpDeck" type="HBoxContainer" parent="."]
 layout_mode = 0
-offset_right = 276.0
-offset_bottom = 136.0
+offset_right = 1277.0
+offset_bottom = 719.0
+alignment = 1
+
+[node name="PowerUpButton3" parent="PowerUpDeck" instance=ExtResource("2_12srk")]
+layout_mode = 2
 
 [node name="PowerUpButton" parent="PowerUpDeck" instance=ExtResource("2_12srk")]
 layout_mode = 2
@@ -48,11 +48,21 @@ layout_mode = 2
 layout_mode = 2
 
 [node name="Label" type="Label" parent="."]
+visible = false
 layout_mode = 0
-offset_left = 402.0
-offset_top = 239.0
-offset_right = 729.0
-offset_bottom = 381.0
+offset_left = 473.0
+offset_top = 286.0
+offset_right = 800.0
+offset_bottom = 428.0
 text = "ROUND START"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 412.0
+offset_top = 87.0
+offset_right = 867.0
+offset_bottom = 166.0
+text = "score"
+horizontal_alignment = 1

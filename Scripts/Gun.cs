@@ -9,7 +9,7 @@ public partial class Gun : Node2D
     private double BulletSpeed { get; set; } = 750.0f;
     private double FireRate { get; set; } = 5f;
     private float BulletSizeFactor { get; set; } = 1.0f;
-    private int BulletCount { get; set; } = 10;
+    private int BulletCount { get; set; } = 3;
     private float BulletSpread { get; set; } = 0.2f;
     private PackedScene _bulletScene;
     private Timer _shootTimer;
@@ -80,8 +80,8 @@ public partial class Gun : Node2D
     private float GetLightPitch()
     {
         if (LightMode == Light.LightMode.Light)
-            return (float)GD.RandRange(1.0f, 1.3f);
+            return (float)GD.RandRange(1.5f, 1.8f);
         else
-            return (float)GD.RandRange(0.7f, 1.0f);
+            return (float)GD.RandRange(0.7f, 0.9f);
     }
 }
