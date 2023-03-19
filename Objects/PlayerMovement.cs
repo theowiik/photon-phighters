@@ -4,6 +4,8 @@ using Godot;
 public partial class PlayerMovement : Node
 {
     public CharacterBody2D CharacterBody { get; set; }
+    public AnimationPlayer CharacterAnimation { get; set; }
+    private Vector2 OriginalSpriteScale = new Vector2(0.131f, 0.131f);
     public int PlayerNumber { get; set; }
     public bool Freeze { get; set; }
     private AudioStreamPlayer2D _jumpPlayer;
@@ -12,6 +14,7 @@ public partial class PlayerMovement : Node
     public float Speed { get; set; } = 500.0f;
     public float FrictionAccelerate { get; set; } = 55.0f;
     public float FrictionDecelerate { get; set; } = 30.0f;
+    private bool _hitTheGround = false;
 
     // Jumping
     public float JumpHeight { get; set; } = 100;
@@ -42,7 +45,7 @@ public partial class PlayerMovement : Node
 
     public override void _PhysicsProcess(double delta)
     {
-        if (CharacterBody == null)
+        if (CharacterBody == null || CharacterAnimation == null)
             return;
 
         if (Freeze)
@@ -53,42 +56,97 @@ public partial class PlayerMovement : Node
 
     private void Movement(double delta)
     {
+        var oldVelocity = CharacterBody.Velocity;
+        var nextVelocity = oldVelocity;
+
         bool isOnGround = CharacterBody.IsOnFloor();
-
-        var nextVelocity = CharacterBody.Velocity;
-
-        if (!isOnGround)
-            nextVelocity.Y += GetGravity() * (float)delta;
+        bool isOnWall = CharacterBody.IsOnWall();
+        bool isRunning = Mathf.Abs(oldVelocity.X) > 0;
 
         var inputDir = Input.GetVector($"p{PlayerNumber}_left", $"p{PlayerNumber}_right", $"p{PlayerNumber}_up", $"p{PlayerNumber}_down");
 
-        if (inputDir != Vector2.Zero)
-        {
-            nextVelocity.X = Mathf.MoveToward(nextVelocity.X, Speed * inputDir.X, FrictionAccelerate);
-        }
-        else
-        {
-            nextVelocity.X = Mathf.MoveToward(nextVelocity.X, 0, FrictionDecelerate);
-        }
+        // Apply gravity
+        if (!isOnGround)
+            nextVelocity.Y += GetGravity() * (float)delta;
+
+        // Movement modifiers
+        nextVelocity = HandleMoving(delta, inputDir, nextVelocity);
 
         nextVelocity = HandleWallJump(delta, inputDir, nextVelocity, isOnGround);
 
         nextVelocity = HandleMultipleJumps(delta, inputDir, nextVelocity, isOnGround);
 
+        // Animations
+        HandleJumpStretchSquishAnimation(isOnGround, isOnWall, isRunning);
+
+        HandleRunningAnimation(isOnGround, isRunning, inputDir);
+
         CharacterBody.Velocity = nextVelocity;
         CharacterBody.MoveAndSlide();
+    }
+
+    private void HandleJumpStretchSquishAnimation(bool isOnGround, bool isOnWall, bool isRunning)
+    {
+        // Stretch the character while in the air
+        if (_hitTheGround && !isOnGround)
+        {
+            _hitTheGround = false;
+            CharacterAnimation.Play("stretch_jump");
+        }
+
+        // Squish the character on collision with the ground
+        if (!_hitTheGround && isOnGround)
+        {
+            _hitTheGround = true;
+            CharacterAnimation.Play("squish_land");
+        }
+
+        // Squish the character on collision with a wall
+        if (!isOnGround && isOnWall && isRunning)
+        {
+            CharacterAnimation.Play("squish_wall");
+        }
+    }
+
+    private void HandleRunningAnimation(bool isOnGround, bool isRunning, Vector2 inputDir)
+    {
+        if (isOnGround && isRunning)
+        {
+            if (inputDir.X > 0)
+            {
+                CharacterAnimation.Play("running_right");
+            }
+            else
+            {
+                CharacterAnimation.Play("running_left");
+            }
+        }
     }
 
     // Some movement variables are based on other variables, and need to be updated
     public void UpdateMovementVars()
     {
-        this.JumpVelocity = ((2.0f * JumpHeight) / JumpTimeToPeak) * -1.0f;
-        this.JumpGravity = ((-2.0f * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak)) * -1.0f;
-        this.FallGravity = ((-2.0f * JumpHeight) / (JumpTimeToDescent * JumpTimeToDescent)) * -1.0f;
-        this.WallJumpSpeed = JumpVelocity;
+        JumpVelocity = ((2.0f * JumpHeight) / JumpTimeToPeak) * -1.0f;
+        JumpGravity = ((-2.0f * JumpHeight) / (JumpTimeToPeak * JumpTimeToPeak)) * -1.0f;
+        FallGravity = ((-2.0f * JumpHeight) / (JumpTimeToDescent * JumpTimeToDescent)) * -1.0f;
+        WallJumpSpeed = JumpVelocity;
     }
 
-    public Vector2 HandleWallJump(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isOnGround)
+    private Vector2 HandleMoving(double delta, Vector2 inputDir, Vector2 velocity)
+    {
+        if (inputDir != Vector2.Zero)
+        {
+            velocity.X = Mathf.MoveToward(velocity.X, Speed * inputDir.X, FrictionAccelerate);
+        }
+        else
+        {
+            velocity.X = Mathf.MoveToward(velocity.X, 0, FrictionDecelerate);
+        }
+
+        return velocity;
+    }
+
+    private Vector2 HandleWallJump(double delta, Vector2 inputDir, Vector2 velocity, bool isOnGround)
     {
         // Check if the player is on a wall
         bool isOnWall = false;
@@ -104,17 +162,17 @@ public partial class PlayerMovement : Node
 
         // Handle wall sliding
         bool isWallSliding = false;
-        if (isOnWall && !_isOnWall && nextVelocity.Y > 0.0f)
+        if (isOnWall && !_isOnWall && velocity.Y > 0.0f)
         {
             isWallSliding = true;
-            if (nextVelocity.Y > WallSlideSpeedMax)
+            if (velocity.Y > WallSlideSpeedMax)
             {
-                nextVelocity.Y = WallSlideSpeedMax;
+                velocity.Y = WallSlideSpeedMax;
             }
         }
 
         // Handle wall sticking
-        if (isOnWall && !_isOnWall && nextVelocity.Y <= 0.0f)
+        if (isOnWall && !_isOnWall && velocity.Y <= 0.0f)
         {
             _isOnWall = true;
             _wallDirection = wallDirection;
@@ -128,17 +186,17 @@ public partial class PlayerMovement : Node
 
             if (isOnGround)
             {
-                nextVelocity.Y = JumpVelocity;
+                velocity.Y = JumpVelocity;
             }
             else if (isWallSliding)
             {
-                nextVelocity.Y = WallJumpSpeed;
-                nextVelocity.X = _wallDirection * WallJumpSpeed;
+                velocity.Y = WallJumpSpeed;
+                velocity.X = _wallDirection * WallJumpSpeed;
             }
             else if (_isOnWall && _timeToWallUnstick > 0.0f && inputDir.X != _wallDirection)
             {
-                nextVelocity.Y = JumpVelocity;
-                nextVelocity.X = _wallDirection * WallJumpSpeed;
+                velocity.Y = JumpVelocity;
+                velocity.X = _wallDirection * WallJumpSpeed;
             }
         }
 
@@ -146,7 +204,7 @@ public partial class PlayerMovement : Node
         // Handle wall sticking time
         if (_isOnWall && _timeToWallUnstick > 0.0f)
         {
-            nextVelocity.X = 0.0f;
+            velocity.X = 0.0f;
             _timeToWallUnstick -= (float)delta;
             if (inputDir.X == _wallDirection * -1)
             {
@@ -165,7 +223,7 @@ public partial class PlayerMovement : Node
             _wallDirection = 0;
         }
 
-        return nextVelocity;
+        return velocity;
     }
 
     private Vector2 HandleMultipleJumps(double delta, Vector2 inputDir, Vector2 nextVelocity, bool isonGround)
@@ -187,5 +245,10 @@ public partial class PlayerMovement : Node
     private float GetGravity()
     {
         return CharacterBody.Velocity.Y < 0.0 ? JumpGravity : FallGravity;
+    }
+
+    private float RangeLerp(float value, float istart, float istop, float ostart, float ostop)
+    {
+        return ostart + (ostop - ostart) * ((value - istart) / (istop - istart));
     }
 }

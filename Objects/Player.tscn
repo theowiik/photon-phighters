@@ -1,8 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ep2nyccidheo"]
+[gd_scene load_steps=15 format=3 uid="uid://destovvdkmqnx"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/darkness-player.svg" id="2_ykldl"]
-[ext_resource type="PackedScene" uid="uid://dfq2efmx3yq0c" path="res://Objects/Gun.tscn" id="3_g1rr3"]
+[ext_resource type="PackedScene" uid="uid://cxoocvph51e4o" path="res://Objects/Gun.tscn" id="3_g1rr3"]
 [ext_resource type="Script" path="res://Objects/PlayerMovement.cs" id="4_8tcsk"]
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Sfx/jump-sfx.wav" id="5_iig84"]
 
@@ -12,6 +12,123 @@ radius = 67.0075
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
 size = Vector2(119, 122.5)
 
+[sub_resource type="Animation" id="Animation_xkv87"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_ignui"]
+resource_name = "running_left"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.174533]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
+}
+
+[sub_resource type="Animation" id="Animation_nk06g"]
+resource_name = "running_right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.174533]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
+}
+
+[sub_resource type="Animation" id="Animation_vdp7y"]
+resource_name = "squish_land"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.3),
+"transitions": PackedFloat32Array(1, 0.34151, 1),
+"update": 0,
+"values": [Vector2(0.131, 0.131), Vector2(0.16, 0.12), Vector2(0.131, 0.131)]
+}
+
+[sub_resource type="Animation" id="Animation_7ly8p"]
+resource_name = "squish_wall"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.131, 0.131), Vector2(0.1, 0.15), Vector2(0.131, 0.131)]
+}
+
+[sub_resource type="Animation" id="Animation_qj5pb"]
+resource_name = "stretch_jump"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.125, 0.3),
+"transitions": PackedFloat32Array(1, 3.36358, 1),
+"update": 0,
+"values": [Vector2(0.131, 0.13), Vector2(0.1, 0.175), Vector2(0.131, 0.13)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_1me7g"]
+_data = {
+"RESET": SubResource("Animation_xkv87"),
+"running_left": SubResource("Animation_ignui"),
+"running_right": SubResource("Animation_nk06g"),
+"squish_land": SubResource("Animation_vdp7y"),
+"squish_wall": SubResource("Animation_7ly8p"),
+"stretch_jump": SubResource("Animation_qj5pb")
+}
+
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 script = ExtResource("1_be4dv")
 
@@ -20,7 +137,7 @@ shape = SubResource("CircleShape2D_k4h85")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0.5, -9.83477e-06)
-scale = Vector2(0.131836, 0.130859)
+scale = Vector2(0.131, 0.131)
 texture = ExtResource("2_ykldl")
 
 [node name="Marker2D" type="Marker2D" parent="."]
@@ -43,3 +160,9 @@ stream = ExtResource("5_iig84")
 volume_db = 14.497
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="PlayerMovement"]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_1me7g")
+}
