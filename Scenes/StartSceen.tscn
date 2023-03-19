@@ -1,15 +1,16 @@
-[gd_scene load_steps=2 format=3 uid="uid://bdu8oidvtatj2"]
+[gd_scene load_steps=3 format=3 uid="uid://bdu8oidvtatj2"]
 
 [ext_resource type="Script" path="res://Scripts/StartSceen.cs" id="1_uo5hh"]
+[ext_resource type="Texture2D" uid="uid://c5y37w7q5y7cu" path="res://Assets/photon_phighter.png" id="2_xv66l"]
 
 [node name="StartScreen" type="Node2D"]
 script = ExtResource("1_uo5hh")
 
-[node name="Label" type="Label" parent="."]
-offset_right = 157.0
-offset_bottom = 71.0
-text = "IMAGE HERE"
-
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 6.0
 autostart = true
+
+[node name="PhotonPhighter" type="Sprite2D" parent="."]
+position = Vector2(640, 363)
+scale = Vector2(0.68125, 0.698148)
+texture = ExtResource("2_xv66l")

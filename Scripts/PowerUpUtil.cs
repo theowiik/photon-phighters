@@ -9,15 +9,22 @@ public static class PowerUpManager
     {
         _powerUps = new List<IPowerUpApplier>() {
             new PhotonBoostPowerup(),
-            new HealthPowerup()
+            new HealthPowerup(),
+            new BunnyBoostPowerup(),
+            new FrictionlessPowerup(),
+            new PhotonMultiplier(),
+            new PhotonEnlarger(),
+            new PhotonAccelerator(),
+            new GlassCannon(),
+            new GravitationalNeuronBlaster(),
+            new PhotonMuncher(),
+            new AirWalker(),
+
         };
     }
 
     public static IPowerUpApplier GetRandomPowerup()
     {
-        // Test
-        return new GravitationalNeuronBlaster();
-
         var random = new Random();
         var randomIndex = random.Next(0, _powerUps.Count);
         return _powerUps[randomIndex];
