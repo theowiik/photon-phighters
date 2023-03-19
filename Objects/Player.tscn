@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://dwsfctxnq3r2a" path="res://Assets/placeholder-player.png" id="2_lstrk"]
-[ext_resource type="PackedScene" path="res://Objects/Gun.tscn" id="3_g1rr3"]
+[ext_resource type="PackedScene" uid="uid://cxoocvph51e4o" path="res://Objects/Gun.tscn" id="3_g1rr3"]
 [ext_resource type="Script" path="res://Objects/PlayerMovement.cs" id="4_8tcsk"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
