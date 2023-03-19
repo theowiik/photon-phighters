@@ -26,6 +26,9 @@ public partial class Player : CharacterBody2D
     public Gun Gun { get; private set; }
     private bool _aimWithMouse = true;
 
+    // Other
+    private CpuParticles2D explosionParticleEmitter;
+
     public override void _Ready()
     {
         _health = MaxHealth;
@@ -41,6 +44,8 @@ public partial class Player : CharacterBody2D
 
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
         bulletDetectionArea.AreaEntered += OnBulletEntered;
+
+        explosionParticleEmitter = GetNode<CpuParticles2D>("Sprite2D/ExplosionParticle");
     }
 
     public override void _PhysicsProcess(double delta)
@@ -69,10 +74,15 @@ public partial class Player : CharacterBody2D
 
         if (_health <= 0)
         {
-            // Dead
-            Visible = false;
-            SetProcess(false);
+            HandleDeath();
         }
+    }
+
+    public void HandleDeath()
+    {
+        explosionParticleEmitter.Emitting = true;
+        //Visible = false;
+        //SetProcess(false);
     }
 
     public void ResetHealth()

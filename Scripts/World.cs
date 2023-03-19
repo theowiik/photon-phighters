@@ -8,7 +8,7 @@ public partial class World : Node2D
     private Overlay _overlay;
     private Timer _roundTimer;
     private FollowingCamera _camera;
-    private const int RoundTime = 2;
+    private const int RoundTime = 60;
     private IEnumerable<Player> _players;
     private Score _score;
     private const int ScoreToWin = 10;
