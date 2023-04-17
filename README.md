@@ -1,5 +1,11 @@
 # Photon Phight 🥊 🔦
 
+- [Photon Phight 🥊 🔦](#photon-phight--)
+  - [About](#about)
+  - [Gameplay](#gameplay)
+
+## About
+
 A game by [theowiik](google.com), [erikwessman](https://github.com/erikwessman), and [elias-carlson](https://github.com/elias-carlson) for "March Game Jam 23'" https://itch.io/jam/march-game-jam-23.
 
 The final state of the game jam can be found in the [game-jam-final](https://github.com/theowiik/project-epicfootsies/tree/game-jam-final) branch.
