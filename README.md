@@ -30,3 +30,4 @@ After each round the losing team gets to choose a power-up which will help them 
   - [ ] Scale UI
 - [ ] Gameplay
   - [ ] Improve light visibility
+  - [ ] Particles on jump
