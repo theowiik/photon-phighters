@@ -62,6 +62,7 @@ _data = {
 script = ExtResource("1_amhmd")
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
+visible = false
 color = Color(1, 1, 1, 0.992157)
 energy = 0.0
 shadow_enabled = true

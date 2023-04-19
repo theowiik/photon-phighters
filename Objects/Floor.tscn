@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://bn0wr2va7peql"]
 
 [ext_resource type="Script" path="res://Scripts/LightFloor.cs" id="1_0tmb8"]
 [ext_resource type="Texture2D" uid="uid://y4jqk2yry65x" path="res://Assets/Platforms/floor2.svg" id="2_j16co"]

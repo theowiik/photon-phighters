@@ -1,23 +1,17 @@
+using System;
 using Godot;
+using static World;
 
 public partial class Overlay : Control
 {
     private PackedScene _powerUpScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
     private HBoxContainer _powerUpDeck;
-    private Label _scoreLabel;
     private Label _timerLabel;
     private Label _totalScoreLabel;
+    private TextureProgressBar _roundScoreBar;
 
     [Signal]
     public delegate void PowerUpSelectedEventHandler();
-
-    public string Score
-    {
-        set
-        {
-            _scoreLabel.Text = value;
-        }
-    }
 
     public string Time
     {
@@ -35,13 +29,23 @@ public partial class Overlay : Control
         }
     }
 
+    public Results RoundScore
+    {
+        set
+        {
+            var percentageDarkness = (float)value.Dark / (value.Light + value.Dark);
+            _roundScoreBar.Value = percentageDarkness;
+        }
+    }
+
     public override void _Ready()
     {
-        _scoreLabel = GetNode<Label>("ScoreLabel");
-        _timerLabel = GetNode<Label>("RoundTimerLabel");
-        _totalScoreLabel = GetNode<Label>("TotalScoreLabel");
-        _powerUpDeck = GetNode<HBoxContainer>("PowerUpDeck");
-        ClearPowerUpDeck();
+        const string rootPath = "VBoxContainer/";
+        _timerLabel = GetNode<Label>(rootPath + "RoundTimerLabel");
+        _totalScoreLabel = GetNode<Label>(rootPath + "TotalScoreLabel");
+        _roundScoreBar = GetNode<TextureProgressBar>(rootPath + "RoundScoreBar");
+        // _powerUpDeck = GetNode<HBoxContainer>("PowerUpDeck");
+        // ClearPowerUpDeck();
     }
 
     private void ClearPowerUpDeck()
@@ -57,7 +61,6 @@ public partial class Overlay : Control
 
     public void StartPowerUpSelection()
     {
-        GD.Print("Start powerup selection");
         ClearPowerUpDeck();
         FillPowerUpDeck();
     }

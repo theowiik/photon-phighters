@@ -44,7 +44,8 @@ public partial class Light : Area2D
 
     public override void _Draw()
     {
-        var debugDraw = false;
+        const bool debugDraw = true;
+
         if (!debugDraw)
             return;
 
