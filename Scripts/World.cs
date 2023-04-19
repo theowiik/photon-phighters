@@ -104,12 +104,12 @@ public partial class World : Node2D
 
         var isTie = false;
         var results = GetResults();
-        if (results.On == results.Off)
+        if (results.Light == results.Dark)
         {
             isTie = true;
             _score.Ties++;
         }
-        else if (results.On > results.Off)
+        else if (results.Light > results.Dark)
         {
             _score.Light++;
             GameState.Player1Won = true;
@@ -174,10 +174,10 @@ public partial class World : Node2D
         AddChild(bullet);
     }
 
-    private struct Results
+    public struct Results
     {
-        public int On;
-        public int Off;
+        public int Light;
+        public int Dark;
         public int Neutral;
     }
 
@@ -193,17 +193,12 @@ public partial class World : Node2D
     {
         var results = GetResults();
 
-        if (results.On == 0 && results.Off == 0)
+        if (results.Light == 0 && results.Dark == 0)
         {
-            _overlay.Score = "Go!";
             return;
         }
 
-        var percentageOn = (float)results.On / (results.On + results.Off);
-        var roundedOn = Math.Round(percentageOn * 100, 2);
-        var percentageOff = (float)results.Off / (results.On + results.Off);
-        var roundedOff = Math.Round(percentageOff * 100, 2);
-        _overlay.Score = $"Lightness: {roundedOn}%, Darkness: {roundedOff}%";
+        _overlay.RoundScore = results;
     }
 
     private void UpdateRoundTimer()
@@ -224,10 +219,10 @@ public partial class World : Node2D
             switch (lightNode.LightState)
             {
                 case Light.LightMode.Light:
-                    results.On++;
+                    results.Light++;
                     break;
                 case Light.LightMode.Dark:
-                    results.Off++;
+                    results.Dark++;
                     break;
                 case Light.LightMode.None:
                     results.Neutral++;
