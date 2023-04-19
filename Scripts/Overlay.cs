@@ -37,11 +37,12 @@ public partial class Overlay : Control
 
     public override void _Ready()
     {
-        _scoreLabel = GetNode<Label>("ScoreLabel");
-        _timerLabel = GetNode<Label>("RoundTimerLabel");
-        _totalScoreLabel = GetNode<Label>("TotalScoreLabel");
-        _powerUpDeck = GetNode<HBoxContainer>("PowerUpDeck");
-        ClearPowerUpDeck();
+        const string rootPath = "VBoxContainer/";
+        _scoreLabel = GetNode<Label>(rootPath + "ScoreLabel");
+        _timerLabel = GetNode<Label>(rootPath + "RoundTimerLabel");
+        _totalScoreLabel = GetNode<Label>(rootPath + "TotalScoreLabel");
+        // _powerUpDeck = GetNode<HBoxContainer>("PowerUpDeck");
+        // ClearPowerUpDeck();
     }
 
     private void ClearPowerUpDeck()

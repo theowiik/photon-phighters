@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://h4voojgaexsb"]
+[gd_scene load_steps=3 format=3 uid="uid://h4voojgaexsb"]
 
 [ext_resource type="Script" path="res://Scripts/MenuControllers/StartSceen.cs" id="1_d4apo"]
+[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="2_354ko"]
 
 [node name="StartScreen" type="Node2D"]
 script = ExtResource("1_d4apo")
@@ -22,6 +23,7 @@ grow_vertical = 2
 
 [node name="TitleLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_354ko")
 text = "Photon Phight"
 horizontal_alignment = 1
 
