@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://Scripts/EndScreen.cs" id="1_vcjps"]
+[ext_resource type="Script" path="res://Scripts/MenuControllers/EndScreen.cs" id="1_vcjps"]
 [ext_resource type="Texture2D" uid="uid://bgmot52xbfo3v" path="res://Assets/Screens/darkness-wins.png" id="2_laqeo"]
 
 [node name="EndScreenDarkness" type="Node2D"]
