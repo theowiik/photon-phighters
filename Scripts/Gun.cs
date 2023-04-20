@@ -1,10 +1,13 @@
 using Godot;
-using System;
 
 public partial class Gun : Node2D
 {
     [GetNode("ShootPlayer")]
     private AudioStreamPlayer2D _shootPlayer;
+
+    [GetNode("Timer")]
+    private Timer _shootTimer;
+
     public Light.LightMode LightMode { get; set; }
     public string ShootActionName { get; set; }
     public double BulletSpeed { get; set; } = 750.0f;
@@ -15,16 +18,13 @@ public partial class Gun : Node2D
     public float BulletGravity { get; set; } = 1.0f;
     public int BulletDamage { get; set; } = 10;
     private PackedScene _bulletScene;
-    private Timer _shootTimer;
     private bool _loading = true;
     public bool Freeze { get; set; }
 
     public override void _Ready()
     {
         NodeAutoWire.AutoWire(this);
-        // _shootPlayer = GetNode<AudioStreamPlayer2D>("ShootPlayer");
         _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
-        _shootTimer = GetNode<Timer>("Timer");
         _shootTimer.Timeout += () => _loading = !_loading;
         LightMode = Light.LightMode.Light;
         _shootTimer.WaitTime = 1 / FireRate;
