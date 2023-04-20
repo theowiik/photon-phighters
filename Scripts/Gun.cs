@@ -3,6 +3,7 @@ using System;
 
 public partial class Gun : Node2D
 {
+    [GetNode("ShootPlayer")]
     private AudioStreamPlayer2D _shootPlayer;
     public Light.LightMode LightMode { get; set; }
     public string ShootActionName { get; set; }
@@ -20,7 +21,8 @@ public partial class Gun : Node2D
 
     public override void _Ready()
     {
-        _shootPlayer = GetNode<AudioStreamPlayer2D>("ShootPlayer");
+        NodeAutoWire.AutoWire(this);
+        // _shootPlayer = GetNode<AudioStreamPlayer2D>("ShootPlayer");
         _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
         _shootTimer = GetNode<Timer>("Timer");
         _shootTimer.Timeout += () => _loading = !_loading;
