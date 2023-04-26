@@ -41,6 +41,7 @@ public partial class PlayerMovement : Node
 
     public override void _Ready()
     {
+        NodeAutoWire.AutoWire(this);
         UpdateMovementVars();
     }
 
