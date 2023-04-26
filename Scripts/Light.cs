@@ -2,16 +2,19 @@ using Godot;
 
 public partial class Light : Area2D
 {
+    [GetNode("PointLight2D")]
     private PointLight2D _pointLight;
+
+    [GetNode("AnimationPlayer")]
     private AnimationPlayer _animationPlayer;
+
     public LightMode LightState { get; private set; }
 
     public override void _Ready()
     {
-        _pointLight = GetNode<PointLight2D>("PointLight2D");
+        NodeAutoWire.AutoWire(this);
         _pointLight.Enabled = false;
         LightState = LightMode.None;
-        _animationPlayer = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
     public void SetLight(LightMode lightMode)

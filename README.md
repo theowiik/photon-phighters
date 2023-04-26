@@ -1,6 +1,6 @@
-# Photon Phight 🥊 🔦
+# Photon Phighters 🥊 🔦
 
-- [Photon Phight 🥊 🔦](#photon-phight--)
+- [Photon Phighters 🥊 🔦](#photon-phight--)
   - [About](#about)
   - [Gameplay](#gameplay)
   - [TODO](#todo)
@@ -13,7 +13,7 @@ The final state of the game jam can be found in the [game-jam-final](https://git
 
 ## Gameplay
 
-In Photon Phight, two teams battle to color the map with light or darkness by firing their flashlight.
+In Photon Phighters, two teams battle to color the map with light or darkness by firing their flashlight.
 
 Players can also attack their enemy to stop them from coloring the map. The team who has covered the largest area of the map after each round wins
 

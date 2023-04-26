@@ -5,33 +5,42 @@ using System.Linq;
 
 public partial class World : Node2D
 {
+    [GetNode("P1Spawn")]
+    private Node2D _lightSpawn;
+
+    [GetNode("P2Spawn")]
+    private Node2D _darkSpawn;
+
+    [GetNode("CanvasLayer/Overlay")]
     private Overlay _overlay;
+
+    [GetNode("RoundTimer")]
     private Timer _roundTimer;
+
+    [GetNode("FollowingCamera")]
     private FollowingCamera _camera;
+
+    [GetNode("Sfx/LightWin")]
+    private AudioStreamPlayer _lightWin;
+
+    [GetNode("Sfx/DarkWin")]
+    private AudioStreamPlayer _darkWin;
+
     private const int RoundTime = 30;
     private IEnumerable<Player> _players;
     private Score _score;
     private const int ScoreToWin = 4;
-    private AudioStreamPlayer _lightWin;
-    private AudioStreamPlayer _darkWin;
-    private Node2D _lightSpawn;
-    private Node2D _darkSpawn;
 
     public override void _Ready()
     {
-        _lightWin = GetNode<AudioStreamPlayer>("Sfx/LightWin");
-        _darkWin = GetNode<AudioStreamPlayer>("Sfx/DarkWin");
+        NodeAutoWire.AutoWire(this);
         _score = new Score();
-        _roundTimer = GetNode<Timer>("RoundTimer");
-        _overlay = GetNode<Overlay>("CanvasLayer/Overlay");
         _overlay.PowerUpSelected += OnPowerUpSelected;
-        _camera = GetNode<FollowingCamera>("FollowingCamera");
+
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
         uiUpdateTimer.Timeout += UpdateRoundTimer;
         _players = this.GetNodes<Player>().ToList();
-        _lightSpawn = GetNode<Node2D>("P1Spawn");
-        _darkSpawn = GetNode<Node2D>("P2Spawn");
 
         var ob = GetNode<Area2D>("OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
