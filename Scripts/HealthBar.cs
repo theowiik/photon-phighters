@@ -3,11 +3,12 @@ using System;
 
 public partial class HealthBar : Control
 {
+    [GetNode("HealthLabel")]
     private Label _healthLabel;
 
     public override void _Ready()
     {
-        _healthLabel = GetNode<Label>("HealthLabel");
+        NodeAutoWire.AutoWire(this);
     }
 
     public void SetHealth(int health, int maxHealth)

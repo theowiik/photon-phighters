@@ -1,4 +1,3 @@
-using System;
 using Godot;
 using static World;
 
@@ -44,8 +43,6 @@ public partial class Overlay : Control
         _timerLabel = GetNode<Label>(rootPath + "RoundTimerLabel");
         _totalScoreLabel = GetNode<Label>(rootPath + "TotalScoreLabel");
         _roundScoreBar = GetNode<TextureProgressBar>(rootPath + "RoundScoreBar");
-        // _powerUpDeck = GetNode<HBoxContainer>("PowerUpDeck");
-        // ClearPowerUpDeck();
     }
 
     private void ClearPowerUpDeck()

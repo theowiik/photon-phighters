@@ -7,8 +7,25 @@ public partial class Player : CharacterBody2D
 
     [Export]
     public int PlayerNumber { get; set; }
+
+    [GetNode("PlayerMovement")]
     public PlayerMovement PlayerMovementDelegate;
+
+    [GetNode("DeathPlayer")]
     private AudioStreamPlayer2D _deathPlayer;
+
+    [GetNode("Marker2D")]
+    private Marker2D _gunMarker;
+
+    [GetNode("Marker2D/Gun")]
+    public Gun Gun { get; set; }
+
+    [GetNode("Sprite2D/ExplosionParticle")]
+    private CpuParticles2D _explosionParticleEmitter;
+
+    [GetNode("Sprite2D/JumpParticles")]
+    private CpuParticles2D _jumpParticleEmitter;
+
     private bool _freeze;
     public bool Freeze
     {
@@ -22,38 +39,34 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    // Health
     public int MaxHealth { get; set; } = 50;
     private int _health;
-
-    // Aim
-    private Marker2D _gunMarker;
-    public Gun Gun { get; private set; }
     private bool _aimWithMouse = true;
-
-    // Other
-    private CpuParticles2D _explosionParticleEmitter;
-    private CpuParticles2D _jumpParticleEmitter;
 
     public override void _Ready()
     {
+        NodeAutoWire.AutoWire(this);
+
+        // TODO: whyyyyyyyyy
+        Gun = GetNode<Gun>("Marker2D/Gun");
+        if (PlayerMovementDelegate == null)
+        {
+            GetNode<Node>("Marker2D/Gun");
+            GD.PrintErr("Gun is null!!!!!!!11");
+        }
+
         _health = MaxHealth;
-        _gunMarker = GetNode<Marker2D>("Marker2D");
-        Gun = _gunMarker.GetNode<Gun>("Gun");
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
-        PlayerMovementDelegate = GetNode<PlayerMovement>("PlayerMovement");
-        _deathPlayer = GetNode<AudioStreamPlayer2D>("DeathPlayer");
+        // Movement
         PlayerMovementDelegate.PlayerNumber = PlayerNumber;
         PlayerMovementDelegate.CharacterBody = this;
         PlayerMovementDelegate.CharacterAnimation = GetNode<AnimationPlayer>("AnimationPlayer");
 
+        // Gun
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
         bulletDetectionArea.AreaEntered += OnBulletEntered;
-
-        _explosionParticleEmitter = GetNode<CpuParticles2D>("Sprite2D/ExplosionParticle");
-        _jumpParticleEmitter = GetNode<CpuParticles2D>("Sprite2D/JumpParticle");
     }
 
     public override void _PhysicsProcess(double delta)

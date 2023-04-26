@@ -8,6 +8,9 @@ public sealed class GetNodeAttribute : Attribute
 {
     private readonly string _path;
 
+    // Whether to exit the application if the node cannot be found
+    private const bool FailHard = true;
+
     public GetNodeAttribute(string nodePath)
     {
         _path = nodePath;
@@ -18,12 +21,24 @@ public sealed class GetNodeAttribute : Attribute
         var childNode = node.GetNodeOrNull(_path);
 
         if (childNode == null)
-            throw new Exception($"Cannot find Node for NodePath '{_path}'");
+        {
+            var err = $"Cannot find Node for NodePath '{_path}'";
+            GD.PrintErr(err);
 
-        if (childNode.GetType() == fieldInfo.FieldType || childNode.GetType().IsSubclassOf(fieldInfo.FieldType))
-            fieldInfo.SetValue(node, childNode);
-        else
-            throw new Exception($"Node is not a valid type. Expected {fieldInfo.FieldType} got {childNode.GetType()}");
+            if (FailHard) node.GetTree().Quit();
+            throw new Exception($"Cannot find Node for NodePath '{_path}'");
+        }
+
+        if (childNode.GetType() != fieldInfo.FieldType && !childNode.GetType().IsSubclassOf(fieldInfo.FieldType))
+        {
+            var err = $"Node is not a valid type. Expected {fieldInfo.FieldType} got {childNode.GetType()}";
+            GD.PrintErr(err);
+
+            if (FailHard) node.GetTree().Quit();
+            throw new Exception(err);
+        }
+
+        fieldInfo.SetValue(node, childNode);
     }
 }
 
@@ -37,7 +52,9 @@ public static class NodeAutoWire
     private static void WireFields(Node node)
     {
         foreach (var field in GetFields(node))
+        {
             field.GetCustomAttribute<GetNodeAttribute>()?.SetNode(field, node);
+        }
     }
 
     private static IEnumerable<FieldInfo> GetFields(Node node)

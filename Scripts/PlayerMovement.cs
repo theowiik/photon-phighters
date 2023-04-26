@@ -8,6 +8,8 @@ public partial class PlayerMovement : Node
     private Vector2 OriginalSpriteScale = new Vector2(0.131f, 0.131f);
     public int PlayerNumber { get; set; }
     public bool Freeze { get; set; }
+
+    [GetNode("JumpPlayer")]
     private AudioStreamPlayer2D _jumpPlayer;
 
     // General movement
@@ -39,7 +41,6 @@ public partial class PlayerMovement : Node
 
     public override void _Ready()
     {
-        _jumpPlayer = GetNode<AudioStreamPlayer2D>("JumpPlayer");
         UpdateMovementVars();
     }
 
