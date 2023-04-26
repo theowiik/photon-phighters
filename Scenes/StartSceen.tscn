@@ -24,7 +24,7 @@ grow_vertical = 2
 [node name="TitleLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("2_354ko")
-text = "Photon Phight"
+text = "Photon Phighters"
 horizontal_alignment = 1
 
 [node name="StartButton" type="Button" parent="CanvasLayer/VBoxContainer"]

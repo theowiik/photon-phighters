@@ -1,6 +1,6 @@
 ﻿Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Photon Phight", "Photon Phight.csproj", "{00C603BF-5EB5-42B0-92E3-C9A2D8C9CA37}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Photon Phighters", "Photon Phighters.csproj", "{00C603BF-5EB5-42B0-92E3-C9A2D8C9CA37}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
