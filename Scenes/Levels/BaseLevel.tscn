@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://8q5374jy4ukb"]
+[gd_scene load_steps=14 format=3 uid="uid://8q5374jy4ukb"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_88vom"]
 [ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_f7esu"]
@@ -6,7 +6,9 @@
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="6_sjnbq"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="7_i0o6w"]
 [ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/UI/Overlay.tscn" id="8_xi1s5"]
+[ext_resource type="PackedScene" uid="uid://b7qkrkt2lacyf" path="res://Objects/Player/LightPlayer.tscn" id="9_1y10x"]
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="9_xoby6"]
+[ext_resource type="PackedScene" uid="uid://ca1utwdulasnh" path="res://Objects/Player/DarkPlayer.tscn" id="10_fd7gw"]
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="10_ucaug"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ncqr5"]
@@ -87,3 +89,11 @@ position = Vector2(376, 291)
 
 [node name="DarkSpawn" type="Marker2D" parent="."]
 position = Vector2(906, 290)
+
+[node name="Players" type="Node" parent="."]
+
+[node name="LightPlayer" parent="Players" instance=ExtResource("9_1y10x")]
+position = Vector2(368, 256)
+
+[node name="DarkPlayer" parent="Players" instance=ExtResource("10_fd7gw")]
+position = Vector2(912, 268)

@@ -5,10 +5,10 @@ using System.Linq;
 
 public partial class World : Node2D
 {
-    [GetNode("P1Spawn")]
+    [GetNode("LightSpawn")]
     private Node2D _lightSpawn;
 
-    [GetNode("P2Spawn")]
+    [GetNode("DarkSpawn")]
     private Node2D _darkSpawn;
 
     [GetNode("CanvasLayer/Overlay")]
@@ -40,11 +40,11 @@ public partial class World : Node2D
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
         uiUpdateTimer.Timeout += UpdateRoundTimer;
-        _players = this.GetNodes<Player>().ToList();
 
         var ob = GetNode<Area2D>("OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
 
+        _players = GetTree().GetNodesInGroup("players").Cast<Player>();
         foreach (var player in _players)
         {
             player.PlayerDied += OnPlayerDied;
@@ -54,12 +54,12 @@ public partial class World : Node2D
             // TODO: dont do this
             if (player.PlayerNumber == 1)
             {
-                GameState.Player1 = player;
+                // GameState.Player1 = player;
             }
 
             if (player.PlayerNumber == 2)
             {
-                GameState.Player2 = player;
+                // GameState.Player2 = player;
             }
         }
 
