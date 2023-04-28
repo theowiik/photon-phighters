@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using Godot;
+
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public sealed class GetNodeAttribute : Attribute
@@ -16,29 +18,33 @@ public sealed class GetNodeAttribute : Attribute
         _path = nodePath;
     }
 
-    public void SetNode(FieldInfo fieldInfo, Node node)
+    public void SetNode(MemberInfo memberInfo, Node node)
     {
         var childNode = node.GetNodeOrNull(_path);
 
         if (childNode == null)
         {
-            var err = $"Cannot find Node for NodePath '{_path}'";
-            GD.PrintErr(err);
-
-            if (FailHard) node.GetTree().Quit();
-            throw new Exception($"Cannot find Node for NodePath '{_path}'");
+            HandleError($"Cannot find Node for NodePath '{_path}'", node);
         }
 
-        if (childNode.GetType() != fieldInfo.FieldType && !childNode.GetType().IsSubclassOf(fieldInfo.FieldType))
+        Type expectedType = memberInfo is FieldInfo fieldInfo ? fieldInfo.FieldType : ((PropertyInfo)memberInfo).PropertyType;
+
+        if (childNode.GetType() != expectedType && !childNode.GetType().IsSubclassOf(expectedType))
         {
-            var err = $"Node is not a valid type. Expected {fieldInfo.FieldType} got {childNode.GetType()}";
-            GD.PrintErr(err);
-
-            if (FailHard) node.GetTree().Quit();
-            throw new Exception(err);
+            HandleError($"Node is not a valid type. Expected {expectedType} got {childNode.GetType()}", node);
         }
 
-        fieldInfo.SetValue(node, childNode);
+        if (memberInfo is FieldInfo)
+            ((FieldInfo)memberInfo).SetValue(node, childNode);
+        else
+            ((PropertyInfo)memberInfo).SetValue(node, childNode);
+    }
+
+    private void HandleError(string err, Node node)
+    {
+        GD.PrintErr(err);
+        if (FailHard) node.GetTree().Quit();
+        throw new Exception(err);
     }
 }
 
@@ -46,25 +52,36 @@ public static class NodeAutoWire
 {
     public static void AutoWire(this Node node)
     {
-        WireFields(node);
+        WireMembers(node, GetFields(node));
+        WireMembers(node, GetProperties(node));
     }
 
-    private static void WireFields(Node node)
+    private static void WireMembers<T>(Node node, IEnumerable<T> members) where T : MemberInfo
     {
-        foreach (var field in GetFields(node))
+        foreach (var member in members)
         {
-            field.GetCustomAttribute<GetNodeAttribute>()?.SetNode(field, node);
+            member.GetCustomAttribute<GetNodeAttribute>()?.SetNode(member, node);
         }
     }
 
     private static IEnumerable<FieldInfo> GetFields(Node node)
     {
-        if (node == null) return new List<FieldInfo>();
+        return GetMembers<FieldInfo>(node);
+    }
 
-        var fields = node.GetType().GetFields(
+    private static IEnumerable<PropertyInfo> GetProperties(Node node)
+    {
+        return GetMembers<PropertyInfo>(node);
+    }
+
+    private static IEnumerable<T> GetMembers<T>(Node node) where T : MemberInfo
+    {
+        if (node == null) return new List<T>();
+
+        var members = node.GetType().GetMembers(
             BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance
-        );
+        ).OfType<T>();
 
-        return new List<FieldInfo>(fields);
+        return new List<T>(members);
     }
 }
