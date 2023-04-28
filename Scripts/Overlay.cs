@@ -73,7 +73,9 @@ public partial class Overlay : Control
             var powerUpButton = _powerUpScene.Instantiate<PowerUpButton>();
             powerUpButton.Pressed += () =>
             {
-                var losingPlayer = GameState.Player1Won ? GameState.Player2 : GameState.Player1;
+                throw new System.Exception("fix game state");
+
+                Player losingPlayer = null;
                 powerUpButton.ApplyPowerUp(losingPlayer);
                 GD.Print("Powerup applied");
                 ClearPowerUpDeck();

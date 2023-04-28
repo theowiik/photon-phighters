@@ -121,13 +121,13 @@ public partial class World : Node2D
         else if (results.Light > results.Dark)
         {
             _score.Light++;
-            GameState.Player1Won = true;
+            // GameState.Player1Won = true;
             _lightWin.Play();
         }
         else
         {
             _score.Dark++;
-            GameState.Player1Won = false;
+            // GameState.Player1Won = false;
             _darkWin.Play();
         }
 

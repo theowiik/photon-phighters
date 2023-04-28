@@ -14,6 +14,12 @@ public partial class Player : CharacterBody2D
     [GetNode("DeathPlayer")]
     private AudioStreamPlayer2D _deathPlayer;
 
+    [GetNode("HurtPlayer")]
+    private AudioStreamPlayer2D _hurtPlayer;
+
+    [GetNode("FallDeathPlayer")]
+    private AudioStreamPlayer2D _fallDeathPlayer;
+
     [GetNode("Marker2D")]
     private Marker2D _gunMarker;
 
@@ -46,6 +52,8 @@ public partial class Player : CharacterBody2D
     public override void _Ready()
     {
         NodeAutoWire.AutoWire(this);
+
+        PlayerMovementDelegate = GetNode<PlayerMovement>("PlayerMovement");
 
         _health = MaxHealth;
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
@@ -85,7 +93,7 @@ public partial class Player : CharacterBody2D
 
         _health -= damage;
         _explosionParticleEmitter.Emitting = true;
-        _deathPlayer.Play();
+        _hurtPlayer.Play();
 
         if (_health <= 0)
         {
