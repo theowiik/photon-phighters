@@ -47,14 +47,6 @@ public partial class Player : CharacterBody2D
     {
         NodeAutoWire.AutoWire(this);
 
-        // TODO: whyyyyyyyyy
-        Gun = GetNode<Gun>("Marker2D/Gun");
-        if (PlayerMovementDelegate == null)
-        {
-            GetNode<Node>("Marker2D/Gun");
-            GD.PrintErr("Gun is null!!!!!!!11");
-        }
-
         _health = MaxHealth;
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
