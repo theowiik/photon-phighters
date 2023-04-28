@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bv45fnxrpq7s8"]
+[gd_scene load_steps=21 format=3 uid="uid://bv45fnxrpq7s8"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
@@ -9,6 +9,7 @@
 [ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="7_etlwl"]
 [ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Sfx/damage2.wav" id="8_k35ro"]
 [ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Sfx/fall-death.wav" id="9_jshgc"]
+[ext_resource type="Script" path="res://Scripts/Movement.cs" id="10_8fhwh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
 radius = 67.0075
@@ -214,3 +215,6 @@ stream = ExtResource("8_k35ro")
 
 [node name="FallDeathPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("9_jshgc")
+
+[node name="Movement" type="Node" parent="."]
+script = ExtResource("10_8fhwh")

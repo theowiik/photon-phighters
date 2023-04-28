@@ -47,6 +47,8 @@ public partial class PlayerMovement : Node
 
     public override void _PhysicsProcess(double delta)
     {
+        return;
+
         if (CharacterBody == null || CharacterAnimation == null)
             return;
 

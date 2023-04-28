@@ -11,6 +11,9 @@ public partial class Player : CharacterBody2D
     [GetNode("PlayerMovement")]
     public PlayerMovement PlayerMovementDelegate;
 
+    [GetNode("Movement")]
+    public Movement MovementDelegate;
+
     [GetNode("DeathPlayer")]
     private AudioStreamPlayer2D _deathPlayer;
 
@@ -63,6 +66,8 @@ public partial class Player : CharacterBody2D
         PlayerMovementDelegate.PlayerNumber = PlayerNumber;
         PlayerMovementDelegate.CharacterBody = this;
         PlayerMovementDelegate.CharacterAnimation = GetNode<AnimationPlayer>("AnimationPlayer");
+
+        MovementDelegate.CharacterBody = this;
 
         // Gun
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
