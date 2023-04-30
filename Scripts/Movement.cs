@@ -2,6 +2,9 @@ using Godot;
 
 public partial class Movement : Node
 {
+    [Signal]
+    public delegate void PlayerJumpedEventHandler();
+
     public CharacterBody2D CharacterBody { get; set; }
     private const float Gravity = 800;
     private float _speed = 500;

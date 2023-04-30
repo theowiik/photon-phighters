@@ -40,7 +40,7 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.PlayerMovementDelegate.Speed += 100;
+            // player.PlayerMovementDelegate.Speed += 100;
         }
 
         public string Name => "Photon Boost";
@@ -60,8 +60,8 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.PlayerMovementDelegate.JumpHeight += 100;
-            player.PlayerMovementDelegate.UpdateMovementVars();
+            // player.PlayerMovementDelegate.JumpHeight += 100;
+            // player.PlayerMovementDelegate.UpdateMovementVars();
         }
 
         public string Name => "Bunny Boost";
@@ -71,9 +71,9 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            var playerSpeed = player.PlayerMovementDelegate.Speed;
-            player.PlayerMovementDelegate.FrictionAccelerate = playerSpeed;
-            player.PlayerMovementDelegate.FrictionDecelerate = playerSpeed;
+            // var playerSpeed = player.PlayerMovementDelegate.Speed;
+            // player.PlayerMovementDelegate.FrictionAccelerate = playerSpeed;
+            // player.PlayerMovementDelegate.FrictionDecelerate = playerSpeed;
         }
 
         public string Name => "Frictionless movement";
@@ -83,9 +83,9 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.PlayerMovementDelegate.JumpHeight += 25;
-            player.PlayerMovementDelegate.NrPossibleJumps += 1;
-            player.PlayerMovementDelegate.UpdateMovementVars();
+            // player.PlayerMovementDelegate.JumpHeight += 25;
+            // player.PlayerMovementDelegate.NrPossibleJumps += 1;
+            // player.PlayerMovementDelegate.UpdateMovementVars();
         }
 
         public string Name => "Air Walker";
@@ -96,7 +96,7 @@ public static class PowerUpManager
         public void Apply(Player player)
         {
             player.MaxHealth += 50;
-            player.PlayerMovementDelegate.Speed -= -50.0f;
+            // player.PlayerMovementDelegate.Speed -= -50.0f;
         }
 
         public string Name => "Photon Muncher";
