@@ -4,7 +4,6 @@ public partial class Movement : Node
 {
     public CharacterBody2D CharacterBody { get; set; }
     private const float Gravity = 800;
-
     private float _speed = 500;
     private float _jumpForce = 600;
     private float _glideGravityScale = 0.5f;
@@ -16,12 +15,10 @@ public partial class Movement : Node
 
     public override void _Ready()
     {
-        GD.Print("Ready");
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        GD.Print("Physics process");
         var inputDirection = new Vector2(Input.GetActionStrength("p1_right") - Input.GetActionStrength("p1_left"), 0);
 
         // Walking
