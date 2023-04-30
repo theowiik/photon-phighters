@@ -7,12 +7,11 @@ public partial class Movement : Node
 
     private float _speed = 500;
     private float _jumpForce = 600;
-    private float _doubleJumpForce = 250;
-    private float _wallJumpForce = 250;
     private float _glideGravityScale = 0.5f;
     private bool _onWall = false;
     private bool _onFloor = false;
-    private bool _hasDoubleJumped = false;
+    private int _jumpCount = 0;
+    private int _maxJumps = 3;
     private Vector2 _velocity = new Vector2();
 
     public override void _Ready()
@@ -32,7 +31,7 @@ public partial class Movement : Node
         _onFloor = CharacterBody.IsOnFloor();
         if (_onFloor)
         {
-            _hasDoubleJumped = false;
+            _jumpCount = 0;
             _velocity.Y = 0;
         }
 
@@ -41,19 +40,15 @@ public partial class Movement : Node
 
         if (Input.IsActionJustPressed("p1_jump"))
         {
-            if (_onFloor)
+            if (_onFloor || _jumpCount < _maxJumps)
             {
                 _velocity.Y = -_jumpForce;
-            }
-            else if (!_hasDoubleJumped)
-            {
-                _velocity.Y = -_doubleJumpForce;
-                _hasDoubleJumped = true;
+                _jumpCount++;
             }
             else if (_onWall)
             {
-                _velocity.Y = -_wallJumpForce;
-                _velocity.X = -Mathf.Sign(_velocity.X) * _wallJumpForce * 0.75f;
+                _velocity.Y = -_jumpForce;
+                _velocity.X = -Mathf.Sign(_velocity.X) * _jumpForce * 0.75f;
             }
         }
 
