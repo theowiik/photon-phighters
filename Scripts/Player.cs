@@ -8,19 +8,16 @@ public partial class Player : CharacterBody2D
     [Export]
     public int PlayerNumber { get; set; }
 
-    [GetNode("PlayerMovement")]
-    public PlayerMovement PlayerMovementDelegate;
-
     [GetNode("Movement")]
     public Movement MovementDelegate;
 
-    [GetNode("DeathPlayer")]
+    [GetNode("Sfx/DeathPlayer")]
     private AudioStreamPlayer2D _deathPlayer;
 
-    [GetNode("HurtPlayer")]
+    [GetNode("Sfx/HurtPlayer")]
     private AudioStreamPlayer2D _hurtPlayer;
 
-    [GetNode("FallDeathPlayer")]
+    [GetNode("Sfx/FallDeathPlayer")]
     private AudioStreamPlayer2D _fallDeathPlayer;
 
     [GetNode("Marker2D")]
@@ -29,10 +26,10 @@ public partial class Player : CharacterBody2D
     [GetNode("Marker2D/Gun")]
     public Gun Gun { get; set; }
 
-    [GetNode("Sprite2D/ExplosionParticle")]
+    [GetNode("Particles/ExplosionParticle")]
     private CpuParticles2D _explosionParticleEmitter;
 
-    [GetNode("Sprite2D/JumpParticles")]
+    [GetNode("Particles/JumpParticles")]
     private CpuParticles2D _jumpParticleEmitter;
 
     private bool _freeze;
@@ -43,7 +40,6 @@ public partial class Player : CharacterBody2D
         {
             _freeze = value;
             Gun.Freeze = _freeze;
-            PlayerMovementDelegate.Freeze = _freeze;
             _health = MaxHealth;
         }
     }
@@ -56,16 +52,9 @@ public partial class Player : CharacterBody2D
     {
         NodeAutoWire.AutoWire(this);
 
-        PlayerMovementDelegate = GetNode<PlayerMovement>("PlayerMovement");
-
         _health = MaxHealth;
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
-
-        // Movement
-        PlayerMovementDelegate.PlayerNumber = PlayerNumber;
-        PlayerMovementDelegate.CharacterBody = this;
-        PlayerMovementDelegate.CharacterAnimation = GetNode<AnimationPlayer>("AnimationPlayer");
 
         MovementDelegate.CharacterBody = this;
 

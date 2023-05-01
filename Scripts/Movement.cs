@@ -2,19 +2,19 @@ using Godot;
 
 public partial class Movement : Node
 {
+    [Signal]
+    public delegate void PlayerJumpedEventHandler();
+
     public CharacterBody2D CharacterBody { get; set; }
-
-    private float _speed = 400;
+    private const float Gravity = 800;
+    private float _speed = 500;
     private float _jumpForce = 600;
-    private float _doubleJumpForce = 250;
-    private float _wallJumpForce = 250;
     private float _glideGravityScale = 0.5f;
-    private float _gravity = 980f;
-
-    private Vector2 _velocity = new();
-    private bool _onWall;
-    private bool _onFloor;
-    private bool _hasDoubleJumped;
+    private bool _onWall = false;
+    private bool _onFloor = false;
+    private int _jumpCount = 0;
+    private int _maxJumps = 3;
+    private Vector2 _velocity = new Vector2();
 
     public override void _Ready()
     {
@@ -31,25 +31,24 @@ public partial class Movement : Node
         _onFloor = CharacterBody.IsOnFloor();
         if (_onFloor)
         {
-            _hasDoubleJumped = false;
+            _jumpCount = 0;
             _velocity.Y = 0;
         }
 
+        // Gravity
+        _velocity.Y += Gravity * (float)delta;
+
         if (Input.IsActionJustPressed("p1_jump"))
         {
-            if (_onFloor)
+            if (_onFloor || _jumpCount < _maxJumps)
             {
                 _velocity.Y = -_jumpForce;
-            }
-            else if (!_hasDoubleJumped)
-            {
-                _velocity.Y = -_doubleJumpForce;
-                _hasDoubleJumped = true;
+                _jumpCount++;
             }
             else if (_onWall)
             {
-                _velocity.Y = -_wallJumpForce;
-                _velocity.X = -Mathf.Sign(_velocity.X) * _wallJumpForce * 0.75f;
+                _velocity.Y = -_jumpForce;
+                _velocity.X = -Mathf.Sign(_velocity.X) * _jumpForce * 0.75f;
             }
         }
 
@@ -57,15 +56,16 @@ public partial class Movement : Node
         _onWall = CharacterBody.IsOnWall() && !_onFloor && inputDirection.X != 0;
         if (_onWall)
         {
-            _velocity.Y += _gravity * _glideGravityScale * (float)delta;
+            _velocity.Y += Gravity * _glideGravityScale * (float)delta;
         }
         else
         {
-            _velocity.Y += _gravity * (float)delta;
+            _velocity.Y += Gravity * (float)delta;
         }
 
         // Apply movement
         CharacterBody.Velocity = _velocity;
         CharacterBody.MoveAndSlide();
     }
+
 }
