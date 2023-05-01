@@ -57,6 +57,7 @@ public partial class Player : CharacterBody2D
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
         MovementDelegate.CharacterBody = this;
+        MovementDelegate.MovementJumped += () => _jumpParticleEmitter.Emitting = true;
 
         // Gun
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");

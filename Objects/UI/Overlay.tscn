@@ -1,6 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bqtyoapoavark"]
+[gd_scene load_steps=5 format=3 uid="uid://nlos0lgshron"]
 
-[ext_resource type="Script" path="res://Scripts/Overlay.cs" id="1_ctivd"]
+[ext_resource type="Script" path="res://Scripts/OverlayControllers/Overlay.cs" id="1_kdjc8"]
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="2_l63ws"]
 [ext_resource type="Texture2D" uid="uid://caav87qdl0kga" path="res://Assets/UI/HealthBarBackground.png" id="3_n5lup"]
 [ext_resource type="Texture2D" uid="uid://cgdhh38t6cq0u" path="res://Assets/UI/HealthBarForeground.png" id="4_degc6"]
@@ -12,10 +12,10 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_ctivd")
+script = ExtResource("1_kdjc8")
 metadata/_edit_vertical_guides_ = [640.0, 1280.0]
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBox" type="VBoxContainer" parent="."]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -26,29 +26,38 @@ offset_bottom = 86.0
 grow_horizontal = 2
 alignment = 1
 
-[node name="RoundTimerLabel" type="Label" parent="VBoxContainer"]
+[node name="RoundTimerLabel" type="Label" parent="VBox"]
 layout_mode = 2
 theme = ExtResource("2_l63ws")
 text = "round timer"
 horizontal_alignment = 1
 
-[node name="TotalScoreLabel" type="Label" parent="VBoxContainer"]
+[node name="TotalScoreLabel" type="Label" parent="VBox"]
 layout_mode = 2
 theme = ExtResource("2_l63ws")
 text = "total score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ScoreLabel" type="Label" parent="VBoxContainer"]
+[node name="ScoreLabel" type="Label" parent="VBox"]
 layout_mode = 2
 theme = ExtResource("2_l63ws")
 text = "score"
 horizontal_alignment = 1
 
-[node name="RoundScoreBar" type="TextureProgressBar" parent="VBoxContainer"]
+[node name="RoundScoreBar" type="TextureProgressBar" parent="VBox"]
 layout_mode = 2
 max_value = 1.0
 step = 0.01
 value = 0.5
 texture_under = ExtResource("3_n5lup")
 texture_progress = ExtResource("4_degc6")
+
+[node name="PowerUp" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_right = 336.0
+offset_bottom = 200.0
+
+[node name="Label" type="Label" parent="PowerUp"]
+layout_mode = 2
+text = "hello world"
