@@ -6,7 +6,7 @@ public partial class PowerUpPicker : Control
 
     public override void _Ready()
     {
-        var nPowerUps = 5;
+        var nPowerUps = 20;
 
         for (var i = 0; i < nPowerUps; i++)
         {
