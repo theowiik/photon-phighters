@@ -169,7 +169,7 @@ libraries = {
 [node name="Movement" type="Node" parent="."]
 script = ExtResource("10_8fhwh")
 
-[node name="Sfx" type="Node" parent="."]
+[node name="Sfx" type="Node2D" parent="."]
 
 [node name="DeathPlayer" type="AudioStreamPlayer2D" parent="Sfx"]
 stream = ExtResource("6_km5ul")
@@ -184,11 +184,10 @@ stream = ExtResource("9_jshgc")
 stream = ExtResource("5_iig84")
 volume_db = 14.497
 
-[node name="Particles" type="Node" parent="."]
+[node name="Particles" type="Node2D" parent="."]
 
 [node name="JumpParticles" type="CPUParticles2D" parent="Particles"]
 position = Vector2(0.5, -9.83477e-06)
-scale = Vector2(1, 1)
 emitting = false
 lifetime = 0.6
 one_shot = true
