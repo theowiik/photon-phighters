@@ -1,4 +1,5 @@
 using Godot;
+using static Player;
 
 public partial class PowerUpPicker : Control
 {
@@ -8,6 +9,32 @@ public partial class PowerUpPicker : Control
 
     [GetNode("GridContainer")]
     private GridContainer _gridContainer;
+
+    [GetNode("BackgroundRect")]
+    private ColorRect _backgroundRect;
+
+    [GetNode("Label")]
+    private Label _label;
+
+    public TeamEnum WinningSide
+    {
+        set
+        {
+            switch (value)
+            {
+                case TeamEnum.Light:
+                    _backgroundRect.Color = new Color(1, 1, 1, 0.5f);
+                    _label.Modulate = Colors.Black;
+                    _label.Text = "Light team won! Darkness, pick a helping hand";
+                    break;
+                case TeamEnum.Dark:
+                    _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
+                    _label.Modulate = Colors.White;
+                    _label.Text = "Dark team won! Lightness, pick a helping hand";
+                    break;
+            }
+        }
+    }
 
     private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
     private const int AmountPowerUps = 4;

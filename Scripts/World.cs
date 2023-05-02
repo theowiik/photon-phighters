@@ -155,6 +155,7 @@ public partial class World : Node2D
 
     private void StartPowerUpSelection()
     {
+        _powerUpPicker.WinningSide = _lastPlayerToScore.Team;
         _powerUpPicker.Visible = true;
         _powerUpPicker.GrabFocus();
         _powerUpPicker.Reset();

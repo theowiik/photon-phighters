@@ -148,4 +148,12 @@ public partial class Player : CharacterBody2D
             _gunMarker.Rotation = direction.Angle();
         }
     }
+
+    public enum TeamEnum
+    {
+        Light,
+        Dark
+    }
+
+    public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
 }
