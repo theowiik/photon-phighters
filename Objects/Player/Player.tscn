@@ -217,3 +217,10 @@ initial_velocity_max = 1000.0
 scale_amount_min = 5.0
 scale_amount_max = 20.0
 scale_amount_curve = SubResource("Curve_u6tmb")
+
+[node name="HealthLabel" type="Label" parent="."]
+offset_left = -24.0
+offset_top = -124.0
+offset_right = 25.0
+offset_bottom = -98.0
+text = "player"

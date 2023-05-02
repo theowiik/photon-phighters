@@ -29,17 +29,20 @@ public partial class World : Node2D
     [GetNode("Sfx/DarkWin")]
     private AudioStreamPlayer _darkWin;
 
+    private Score _score;
     private const int RoundTime = 1;
     private const int ScoreToWin = 4;
     private IEnumerable<Player> _players;
-    private Score _score;
+    private Player _lightPlayer;
+    private Player _darkPlayer;
+    private Player _lastPlayerToScore;
 
     public override void _Ready()
     {
         NodeAutoWire.AutoWire(this);
         _score = new Score();
         _powerUpPicker.Visible = false;
-        _powerUpPicker.PowerUpPicked += OnPowerUpSelected;
+        _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
 
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
@@ -54,18 +57,13 @@ public partial class World : Node2D
             player.PlayerDied += OnPlayerDied;
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
-
-            // TODO: dont do this
-            if (player.PlayerNumber == 1)
-            {
-                // GameState.Player1 = player;
-            }
-
-            if (player.PlayerNumber == 2)
-            {
-                // GameState.Player2 = player;
-            }
         }
+
+        _lightPlayer = _players.First(p => p.PlayerNumber == 1);
+        _darkPlayer = _players.First(p => p.PlayerNumber == 2);
+
+        if (_lightPlayer == null || _darkPlayer == null)
+            throw new Exception("Could not find players");
 
         StartRound();
     }
@@ -100,8 +98,8 @@ public partial class World : Node2D
         foreach (var player in _players)
             player.Freeze = false;
 
-        _roundTimer.Start(RoundTime);
         _roundTimer.Timeout += OnRoundFinished;
+        _roundTimer.Start(RoundTime);
     }
 
     private void OnRoundFinished()
@@ -127,11 +125,13 @@ public partial class World : Node2D
         else if (results.Light > results.Dark)
         {
             _score.Light++;
+            _lastPlayerToScore = _lightPlayer;
             _lightWin.Play();
         }
         else
         {
             _score.Dark++;
+            _lastPlayerToScore = _darkPlayer;
             _darkWin.Play();
         }
 
@@ -160,10 +160,10 @@ public partial class World : Node2D
         _powerUpPicker.Reset();
     }
 
-    private void OnPowerUpSelected()
+    private void OnPowerUpSelected(PowerUpManager.IPowerUpApplier powerUp)
     {
-        GD.Print("waawawa");
         _powerUpPicker.Visible = false;
+        powerUp.Apply(_lastPlayerToScore);
         StartRound();
     }
 

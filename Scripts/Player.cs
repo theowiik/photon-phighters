@@ -32,6 +32,9 @@ public partial class Player : CharacterBody2D
     [GetNode("Particles/JumpParticles")]
     private CpuParticles2D _jumpParticleEmitter;
 
+    [GetNode("HealthLabel")]
+    private Label _healthLabel;
+
     private bool _freeze;
     public bool Freeze
     {
@@ -40,7 +43,7 @@ public partial class Player : CharacterBody2D
         {
             _freeze = value;
             Gun.Freeze = _freeze;
-            _health = MaxHealth;
+            Health = MaxHealth;
 
             if (_freeze)
             {
@@ -53,15 +56,25 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    public int MaxHealth { get; set; } = 50;
     private int _health;
+    public int Health
+    {
+        get => _health;
+        set
+        {
+            _health = value;
+            _healthLabel.Text = $"{_health}/{MaxHealth}";
+        }
+    }
+    public int MaxHealth { get; set; } = 50;
+
     private bool _aimWithMouse = true;
 
     public override void _Ready()
     {
         NodeAutoWire.AutoWire(this);
 
-        _health = MaxHealth;
+        Health = MaxHealth;
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
@@ -95,11 +108,11 @@ public partial class Player : CharacterBody2D
         if (Freeze)
             return;
 
-        _health -= damage;
+        Health -= damage;
         _explosionParticleEmitter.Emitting = true;
         _hurtPlayer.Play();
 
-        if (_health <= 0)
+        if (Health <= 0)
         {
             HandleDeath();
         }
@@ -113,7 +126,7 @@ public partial class Player : CharacterBody2D
 
     public void ResetHealth()
     {
-        _health = MaxHealth;
+        Health = MaxHealth;
     }
 
     private void Aim()

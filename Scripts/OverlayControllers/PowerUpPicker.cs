@@ -2,8 +2,9 @@ using Godot;
 
 public partial class PowerUpPicker : Control
 {
-    [Signal]
-    public delegate void PowerUpPickedEventHandler();
+    // Non Godot signal since Godot doesnt support custom types
+    public delegate void PowerUpPicked(PowerUpManager.IPowerUpApplier powerUpApplier);
+    public event PowerUpPicked PowerUpPickedListeners;
 
     [GetNode("GridContainer")]
     private GridContainer _gridContainer;
@@ -34,7 +35,7 @@ public partial class PowerUpPicker : Control
             powerUpButton.Pressed += () =>
             {
                 GD.Print("Powerup button pressed");
-                EmitSignal(nameof(PowerUpPickedEventHandler));
+                PowerUpPickedListeners?.Invoke(powerUp);
             };
 
             _gridContainer.AddChild(powerUpButton);
@@ -45,7 +46,7 @@ public partial class PowerUpPicker : Control
     {
         foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
         {
-            // powerUpButton.QueueFree();
+            powerUpButton.QueueFree();
         }
     }
 }
