@@ -26,7 +26,7 @@ public partial class World : Node2D
     [GetNode("Sfx/DarkWin")]
     private AudioStreamPlayer _darkWin;
 
-    private const int RoundTime = 30;
+    private const int RoundTime = 1;
     private IEnumerable<Player> _players;
     private Score _score;
     private const int ScoreToWin = 4;
@@ -111,35 +111,26 @@ public partial class World : Node2D
             bullet.QueueFree();
         }
 
-        var isTie = false;
         var results = GetResults();
         if (results.Light == results.Dark)
         {
-            isTie = true;
             _score.Ties++;
+            StartRound();
+            return;
         }
         else if (results.Light > results.Dark)
         {
             _score.Light++;
-            // GameState.Player1Won = true;
             _lightWin.Play();
         }
         else
         {
             _score.Dark++;
-            // GameState.Player1Won = false;
             _darkWin.Play();
         }
 
-        if (isTie)
-        {
-            StartRound();
-            return;
-        }
-
         _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
-        // TODO: Make this even harder to read
-        if (Math.Sqrt(_score.Dark * _score.Dark) + Math.Sqrt(_score.Light * _score.Light) >= ScoreToWin)
+        if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
         {
             GD.Print("Game over");
 
@@ -155,9 +146,6 @@ public partial class World : Node2D
         }
 
         _overlay.StartPowerUpSelection();
-
-        // Wait for PowerUpSelected signal
-        // StartRound();
     }
 
     private void OnPowerUpSelected()

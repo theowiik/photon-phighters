@@ -41,6 +41,15 @@ public partial class Player : CharacterBody2D
             _freeze = value;
             Gun.Freeze = _freeze;
             _health = MaxHealth;
+
+            if (_freeze)
+            {
+                ProcessMode = ProcessModeEnum.Disabled;
+            }
+            else
+            {
+                ProcessMode = ProcessModeEnum.Inherit;
+            }
         }
     }
 

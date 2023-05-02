@@ -14,6 +14,9 @@ public partial class Overlay : Control
     [GetNode("VBox/RoundScoreBar")]
     private TextureProgressBar _roundScoreBar;
 
+    [GetNode("VBox/Logs")]
+    private RichTextLabel _logs;
+
     [Signal]
     public delegate void PowerUpSelectedEventHandler();
 
@@ -43,11 +46,19 @@ public partial class Overlay : Control
 
     public override void _Ready()
     {
+        this.AutoWire();
+        Log("Ready");
     }
 
     public void StartPowerUpSelection()
     {
         var instance = _powerUpPicker.Instantiate<PowerUpPicker>();
         AddChild(instance);
+        Log("PowerUpPicker instantiated");
+    }
+
+    private void Log(string msg)
+    {
+        _logs.Text += msg + "\n";
     }
 }
