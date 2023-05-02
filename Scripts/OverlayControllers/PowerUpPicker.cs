@@ -2,38 +2,39 @@ using Godot;
 
 public partial class PowerUpPicker : Control
 {
+    [GetNode("GridContainer")]
+    private GridContainer _gridContainer;
+
     private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
-    private const int AmountPowerUps = 5;
+    private const int AmountPowerUps = 4;
 
     public override void _Ready()
     {
-        FillPowerUpDeck();
+        this.AutoWire();
+        Clear();
+        Populate();
     }
 
-    private void FillPowerUpDeck()
+    private void Populate()
     {
-        for (int i = 0; i < AmountPowerUps; i++)
+        var powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
+
+        foreach (var powerUp in powerUps)
         {
             var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
+            powerUpButton.Text = powerUp.Name;
             powerUpButton.Pressed += () =>
             {
                 GD.Print("Powerup button pressed");
-
-                // throw new System.Exception("fix game state");
-                // Player losingPlayer = null;
-                // powerUpButton.ApplyPowerUp(losingPlayer);
-                // GD.Print("Powerup applied");
-                // ClearPowerUpDeck();
-                // EmitSignal(SignalName.PowerUpSelected);
             };
 
-            AddChild(powerUpButton);
+            _gridContainer.AddChild(powerUpButton);
         }
     }
 
-    private void ClearPowerUpDeck()
+    private void Clear()
     {
-        foreach (var powerUpButton in this.GetNodes<Button>())
+        foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
         {
             powerUpButton.QueueFree();
         }

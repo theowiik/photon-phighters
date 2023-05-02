@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 
 public static class PowerUpManager
@@ -19,7 +20,6 @@ public static class PowerUpManager
             new GravitationalNeuronBlaster(),
             new PhotonMuncher(),
             new AirWalker(),
-
         };
     }
 
@@ -28,6 +28,43 @@ public static class PowerUpManager
         var random = new Random();
         var randomIndex = random.Next(0, _powerUps.Count);
         return _powerUps[randomIndex];
+    }
+
+    /// <summary>
+    /// Returns a specified number (n) of unique power-ups from a list of available power-ups (_powerUps).
+    /// If n is greater than the total number of unique power-ups, duplicates will be added.
+    /// </summary>
+    /// <param name="n">The number of power-ups to be returned. Must be greater than or equal to 0.</param>
+    /// <returns>An IEnumerable of IPowerUpApplier objects containing the requested number of power-ups.</returns>
+    /// <exception cref="ArgumentException">Thrown when n is less than 0 or when n is greater than the total number of unique power-ups.</exception>
+    public static IEnumerable<IPowerUpApplier> GetUniquePowerUps(int n)
+    {
+        if (n < 0)
+        {
+            throw new ArgumentException("n must be greater than or equal to 0");
+        }
+
+        var random = new Random();
+        var powerUps = new List<IPowerUpApplier>();
+        while (powerUps.Count < n)
+        {
+            var randomIndex = random.Next(0, _powerUps.Count);
+            var powerUp = _powerUps[randomIndex];
+
+            // Add unique powerup
+            if (!powerUps.Contains(powerUp))
+            {
+                powerUps.Add(powerUp);
+            }
+
+            // All unique powerups added, add duplicates
+            if (powerUps.Count >= _powerUps.Count)
+            {
+                powerUps.Add(powerUp);
+            }
+        }
+
+        return powerUps.Shuffle();
     }
 
     public interface IPowerUpApplier

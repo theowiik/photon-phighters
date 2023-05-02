@@ -47,7 +47,6 @@ public partial class Overlay : Control
     public override void _Ready()
     {
         this.AutoWire();
-        Log("Ready");
     }
 
     public void StartPowerUpSelection()

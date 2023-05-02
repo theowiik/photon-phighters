@@ -27,9 +27,9 @@ public partial class World : Node2D
     private AudioStreamPlayer _darkWin;
 
     private const int RoundTime = 1;
+    private const int ScoreToWin = 4;
     private IEnumerable<Player> _players;
     private Score _score;
-    private const int ScoreToWin = 4;
 
     public override void _Ready()
     {
@@ -71,9 +71,11 @@ public partial class World : Node2D
         player.GlobalPosition = player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
         player.Freeze = true;
 
-        var liveTimer = new Timer();
-        liveTimer.OneShot = true;
-        liveTimer.WaitTime = 2;
+        var liveTimer = new Timer
+        {
+            OneShot = true,
+            WaitTime = 2
+        };
         liveTimer.Timeout += () => player.Freeze = false;
         AddChild(liveTimer);
         liveTimer.Start();
