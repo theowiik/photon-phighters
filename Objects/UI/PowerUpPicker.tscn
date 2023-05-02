@@ -7,6 +7,8 @@ layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 1.0
+offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_2nnk8")
@@ -15,7 +17,7 @@ script = ExtResource("1_2nnk8")
 layout_mode = 0
 offset_right = 558.0
 offset_bottom = 136.0
-text = "hello"
+text = "power up picking scene"
 
 [node name="GridContainer" type="GridContainer" parent="."]
 layout_mode = 1

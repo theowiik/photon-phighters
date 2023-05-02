@@ -3,7 +3,7 @@ using static World;
 
 public partial class Overlay : Control
 {
-    private PackedScene _powerUpScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
+    private PackedScene _powerUpPicker = GD.Load<PackedScene>("res://Objects/UI/PowerUpPicker.tscn");
 
     [GetNode("VBox/RoundTimerLabel")]
     private Label _timerLabel;
@@ -37,8 +37,7 @@ public partial class Overlay : Control
     {
         set
         {
-            var percentageDarkness = (float)value.Dark / (value.Light + value.Dark);
-            _roundScoreBar.Value = percentageDarkness;
+            _roundScoreBar.Value = (float)value.Dark / (value.Light + value.Dark);
         }
     }
 
@@ -46,44 +45,9 @@ public partial class Overlay : Control
     {
     }
 
-    private void ClearPowerUpDeck()
-    {
-
-        // foreach (var powerUpButton in _powerUpDeck.GetNodes<Button>())
-        // {
-        //     powerUpButton.QueueFree();
-        // }
-
-        // _powerUpDeck.Visible = false;
-    }
-
     public void StartPowerUpSelection()
     {
-        ClearPowerUpDeck();
-        FillPowerUpDeck();
-    }
-
-    private void FillPowerUpDeck()
-    {
-        // _powerUpDeck.Visible = true;
-        // var powerUpCount = 3;
-
-        // for (int i = 0; i < powerUpCount; i++)
-        // {
-        //     GD.Print("Adding powerup button");
-        //     var powerUpButton = _powerUpScene.Instantiate<PowerUpButton>();
-        //     powerUpButton.Pressed += () =>
-        //     {
-        //         throw new System.Exception("fix game state");
-
-        //         Player losingPlayer = null;
-        //         powerUpButton.ApplyPowerUp(losingPlayer);
-        //         GD.Print("Powerup applied");
-        //         ClearPowerUpDeck();
-        //         EmitSignal(SignalName.PowerUpSelected);
-        //     };
-
-        //     _powerUpDeck.AddChild(powerUpButton);
-        // }
+        var instance = _powerUpPicker.Instantiate<PowerUpPicker>();
+        AddChild(instance);
     }
 }

@@ -54,14 +54,5 @@ value = 0.5
 texture_under = ExtResource("3_n5lup")
 texture_progress = ExtResource("4_degc6")
 
-[node name="PowerUp" type="VBoxContainer" parent="."]
-layout_mode = 0
-offset_right = 336.0
-offset_bottom = 200.0
-
-[node name="Label" type="Label" parent="PowerUp"]
-layout_mode = 2
-text = "hello world"
-
 [node name="PowerUpPicker" parent="." instance=ExtResource("5_iwnc0")]
 layout_mode = 1
