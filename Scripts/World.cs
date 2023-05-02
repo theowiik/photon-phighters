@@ -14,6 +14,9 @@ public partial class World : Node2D
     [GetNode("CanvasLayer/Overlay")]
     private Overlay _overlay;
 
+    [GetNode("CanvasLayer/PowerUpPicker")]
+    private PowerUpPicker _powerUpPicker;
+
     [GetNode("RoundTimer")]
     private Timer _roundTimer;
 
@@ -35,7 +38,8 @@ public partial class World : Node2D
     {
         NodeAutoWire.AutoWire(this);
         _score = new Score();
-        _overlay.PowerUpSelected += OnPowerUpSelected;
+        _powerUpPicker.Visible = false;
+        _powerUpPicker.PowerUpPicked += OnPowerUpSelected;
 
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
@@ -144,14 +148,22 @@ public partial class World : Node2D
             {
                 GetTree().ChangeSceneToFile("res://Scenes/EndScreenDarkness.tscn");
             }
-
         }
 
-        _overlay.StartPowerUpSelection();
+        StartPowerUpSelection();
+    }
+
+    private void StartPowerUpSelection()
+    {
+        _powerUpPicker.Visible = true;
+        _powerUpPicker.GrabFocus();
+        _powerUpPicker.Reset();
     }
 
     private void OnPowerUpSelected()
     {
+        GD.Print("waawawa");
+        _powerUpPicker.Visible = false;
         StartRound();
     }
 

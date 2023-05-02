@@ -2,6 +2,9 @@ using Godot;
 
 public partial class PowerUpPicker : Control
 {
+    [Signal]
+    public delegate void PowerUpPickedEventHandler();
+
     [GetNode("GridContainer")]
     private GridContainer _gridContainer;
 
@@ -11,6 +14,11 @@ public partial class PowerUpPicker : Control
     public override void _Ready()
     {
         this.AutoWire();
+        Reset();
+    }
+
+    public void Reset()
+    {
         Clear();
         Populate();
     }
@@ -26,6 +34,7 @@ public partial class PowerUpPicker : Control
             powerUpButton.Pressed += () =>
             {
                 GD.Print("Powerup button pressed");
+                EmitSignal(nameof(PowerUpPickedEventHandler));
             };
 
             _gridContainer.AddChild(powerUpButton);
@@ -36,7 +45,7 @@ public partial class PowerUpPicker : Control
     {
         foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
         {
-            powerUpButton.QueueFree();
+            // powerUpButton.QueueFree();
         }
     }
 }

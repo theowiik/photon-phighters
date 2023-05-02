@@ -5,5 +5,6 @@ public partial class PowerUpButton : Button
 {
     public override void _Ready()
     {
+        GrabFocus();
     }
 }

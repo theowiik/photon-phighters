@@ -1,11 +1,12 @@
-[gd_scene load_steps=14 format=3 uid="uid://8q5374jy4ukb"]
+[gd_scene load_steps=15 format=3 uid="uid://8q5374jy4ukb"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_88vom"]
 [ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_f7esu"]
 [ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="5_egv3j"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="6_sjnbq"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="7_i0o6w"]
-[ext_resource type="PackedScene" uid="uid://bqtyoapoavark" path="res://Objects/UI/Overlay.tscn" id="8_xi1s5"]
+[ext_resource type="PackedScene" uid="uid://21mvhckupcnw" path="res://Objects/UI/PowerUpPicker.tscn" id="7_m0wyp"]
+[ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://Objects/UI/Overlay.tscn" id="8_xi1s5"]
 [ext_resource type="PackedScene" uid="uid://b7qkrkt2lacyf" path="res://Objects/Player/LightPlayer.tscn" id="9_1y10x"]
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="9_xoby6"]
 [ext_resource type="PackedScene" uid="uid://ca1utwdulasnh" path="res://Objects/Player/DarkPlayer.tscn" id="10_fd7gw"]
@@ -56,11 +57,8 @@ volume_db = -30.167
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Overlay" parent="CanvasLayer" instance=ExtResource("8_xi1s5")]
-anchors_preset = 5
-anchor_left = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.0
-grow_vertical = 1
+
+[node name="PowerUpPicker" parent="CanvasLayer" instance=ExtResource("7_m0wyp")]
 
 [node name="Sfx" type="Node" parent="."]
 
