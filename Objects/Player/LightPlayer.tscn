@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7qkrkt2lacyf"]
+
+[ext_resource type="PackedScene" uid="uid://cf6p1cqopmcy7" path="res://Objects/Player/Player.tscn" id="1_gahsl"]
+[ext_resource type="Texture2D" uid="uid://b746vcsacknmv" path="res://Assets/Player/light-player.svg" id="2_ekwba"]
+
+[node name="LightPlayer" instance=ExtResource("1_gahsl")]
+PlayerNumber = 1
+
+[node name="Sprite2D" parent="." index="2"]
+texture = ExtResource("2_ekwba")

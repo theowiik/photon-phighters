@@ -1,18 +1,24 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
+using PhotonPhighters.Scripts.Utils;
+
+namespace PhotonPhighters.Scripts;
 
 public partial class World : Node2D
 {
-    [GetNode("P1Spawn")]
+    [GetNode("LightSpawn")]
     private Node2D _lightSpawn;
 
-    [GetNode("P2Spawn")]
+    [GetNode("DarkSpawn")]
     private Node2D _darkSpawn;
 
     [GetNode("CanvasLayer/Overlay")]
-    private Overlay _overlay;
+    private OverlayControllers.Overlay _overlay;
+
+    [GetNode("CanvasLayer/PowerUpPicker")]
+    private OverlayControllers.PowerUpPicker _powerUpPicker;
 
     [GetNode("RoundTimer")]
     private Timer _roundTimer;
@@ -26,42 +32,41 @@ public partial class World : Node2D
     [GetNode("Sfx/DarkWin")]
     private AudioStreamPlayer _darkWin;
 
-    private const int RoundTime = 30;
-    private IEnumerable<Player> _players;
     private Score _score;
+    private const int RoundTime = 1;
     private const int ScoreToWin = 4;
+    private IEnumerable<Player> _players;
+    private Player _lightPlayer;
+    private Player _darkPlayer;
+    private Player _lastPlayerToScore;
 
     public override void _Ready()
     {
         NodeAutoWire.AutoWire(this);
         _score = new Score();
-        _overlay.PowerUpSelected += OnPowerUpSelected;
+        _powerUpPicker.Visible = false;
+        _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
 
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
         uiUpdateTimer.Timeout += UpdateRoundTimer;
-        _players = this.GetNodes<Player>().ToList();
 
         var ob = GetNode<Area2D>("OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
 
+        _players = GetTree().GetNodesInGroup("players").Cast<Player>();
         foreach (var player in _players)
         {
             player.PlayerDied += OnPlayerDied;
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
-
-            // TODO: dont do this
-            if (player.PlayerNumber == 1)
-            {
-                GameState.Player1 = player;
-            }
-
-            if (player.PlayerNumber == 2)
-            {
-                GameState.Player2 = player;
-            }
         }
+
+        _lightPlayer = _players.First(p => p.PlayerNumber == 1);
+        _darkPlayer = _players.First(p => p.PlayerNumber == 2);
+
+        if (_lightPlayer == null || _darkPlayer == null)
+            throw new Exception("Could not find players");
 
         StartRound();
     }
@@ -71,9 +76,11 @@ public partial class World : Node2D
         player.GlobalPosition = player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
         player.Freeze = true;
 
-        var liveTimer = new Timer();
-        liveTimer.OneShot = true;
-        liveTimer.WaitTime = 2;
+        var liveTimer = new Timer
+        {
+            OneShot = true,
+            WaitTime = 2
+        };
         liveTimer.Timeout += () => player.Freeze = false;
         AddChild(liveTimer);
         liveTimer.Start();
@@ -94,8 +101,8 @@ public partial class World : Node2D
         foreach (var player in _players)
             player.Freeze = false;
 
-        _roundTimer.Start(RoundTime);
         _roundTimer.Timeout += OnRoundFinished;
+        _roundTimer.Start(RoundTime);
     }
 
     private void OnRoundFinished()
@@ -111,35 +118,28 @@ public partial class World : Node2D
             bullet.QueueFree();
         }
 
-        var isTie = false;
         var results = GetResults();
         if (results.Light == results.Dark)
         {
-            isTie = true;
             _score.Ties++;
+            StartRound();
+            return;
         }
         else if (results.Light > results.Dark)
         {
             _score.Light++;
-            GameState.Player1Won = true;
+            _lastPlayerToScore = _lightPlayer;
             _lightWin.Play();
         }
         else
         {
             _score.Dark++;
-            GameState.Player1Won = false;
+            _lastPlayerToScore = _darkPlayer;
             _darkWin.Play();
         }
 
-        if (isTie)
-        {
-            StartRound();
-            return;
-        }
-
         _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
-        // TODO: Make this even harder to read
-        if (Math.Sqrt(_score.Dark * _score.Dark) + Math.Sqrt(_score.Light * _score.Light) >= ScoreToWin)
+        if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
         {
             GD.Print("Game over");
 
@@ -151,17 +151,24 @@ public partial class World : Node2D
             {
                 GetTree().ChangeSceneToFile("res://Scenes/EndScreenDarkness.tscn");
             }
-
         }
 
-        _overlay.StartPowerUpSelection();
-
-        // Wait for PowerUpSelected signal
-        // StartRound();
+        StartPowerUpSelection();
     }
 
-    private void OnPowerUpSelected()
+    private void StartPowerUpSelection()
     {
+        _powerUpPicker.WinningSide = _lastPlayerToScore.Team;
+        _powerUpPicker.Visible = true;
+        _powerUpPicker.GrabFocus();
+        _powerUpPicker.Reset();
+    }
+
+    private void OnPowerUpSelected(PowerUpManager.IPowerUpApplier powerUp)
+    {
+        _powerUpPicker.Visible = false;
+        var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
+        powerUp.Apply(loser);
         StartRound();
     }
 

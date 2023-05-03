@@ -1,5 +1,7 @@
 using Godot;
-using System;
+using PhotonPhighters.Scripts.Utils;
+
+namespace PhotonPhighters.Scripts;
 
 public partial class HealthBar : Control
 {

@@ -1,6 +1,8 @@
-using System.Linq;
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
+
+namespace PhotonPhighters.Scripts;
 
 public partial class LightFloor : StaticBody2D
 {

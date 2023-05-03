@@ -1,5 +1,7 @@
-using Godot;
 using System.Collections.Generic;
+using Godot;
+
+namespace PhotonPhighters.Scripts;
 
 public partial class FollowingCamera : Camera2D
 {

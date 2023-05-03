@@ -1,4 +1,7 @@
 using Godot;
+using PhotonPhighters.Scripts.Utils;
+
+namespace PhotonPhighters.Scripts;
 
 public partial class Player : CharacterBody2D
 {
@@ -8,11 +11,8 @@ public partial class Player : CharacterBody2D
     [Export]
     public int PlayerNumber { get; set; }
 
-    [GetNode("PlayerMovement")]
-    public PlayerMovement PlayerMovementDelegate;
-
-    [GetNode("DeathPlayer")]
-    private AudioStreamPlayer2D _deathPlayer;
+    [GetNode("Movement")]
+    public PlayerMovementDelegate PlayerMovementDelegateDelegate;
 
     [GetNode("Marker2D")]
     private Marker2D _gunMarker;
@@ -20,11 +20,11 @@ public partial class Player : CharacterBody2D
     [GetNode("Marker2D/Gun")]
     public Gun Gun { get; set; }
 
-    [GetNode("Sprite2D/ExplosionParticle")]
-    private CpuParticles2D _explosionParticleEmitter;
+    [GetNode("HealthLabel")]
+    private Label _healthLabel;
 
-    [GetNode("Sprite2D/JumpParticles")]
-    private CpuParticles2D _jumpParticleEmitter;
+    [GetNode("PlayerEffectsDelegate")]
+    private PlayerEffectsDelegate _playerEffectsDelegate;
 
     private bool _freeze;
     public bool Freeze
@@ -34,27 +34,43 @@ public partial class Player : CharacterBody2D
         {
             _freeze = value;
             Gun.Freeze = _freeze;
-            PlayerMovementDelegate.Freeze = _freeze;
-            _health = MaxHealth;
+            Health = MaxHealth;
+
+            if (_freeze)
+            {
+                ProcessMode = ProcessModeEnum.Disabled;
+            }
+            else
+            {
+                ProcessMode = ProcessModeEnum.Inherit;
+            }
         }
     }
 
-    public int MaxHealth { get; set; } = 50;
     private int _health;
+    public int Health
+    {
+        get => _health;
+        set
+        {
+            _health = value;
+            _healthLabel.Text = $"{_health}/{MaxHealth}";
+        }
+    }
+    public int MaxHealth { get; set; } = 50;
+
     private bool _aimWithMouse = true;
 
     public override void _Ready()
     {
-        NodeAutoWire.AutoWire(this);
+        this.AutoWire();
 
-        _health = MaxHealth;
+        Health = MaxHealth;
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
-        // Movement
-        PlayerMovementDelegate.PlayerNumber = PlayerNumber;
-        PlayerMovementDelegate.CharacterBody = this;
-        PlayerMovementDelegate.CharacterAnimation = GetNode<AnimationPlayer>("AnimationPlayer");
+        PlayerMovementDelegateDelegate.CharacterBody = this;
+        PlayerMovementDelegateDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
 
         // Gun
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
@@ -83,11 +99,11 @@ public partial class Player : CharacterBody2D
         if (Freeze)
             return;
 
-        _health -= damage;
-        _explosionParticleEmitter.Emitting = true;
-        _deathPlayer.Play();
+        Health -= damage;
+        _playerEffectsDelegate.PlayExplosionParticles();
+        _playerEffectsDelegate.PlayHurtSound();
 
-        if (_health <= 0)
+        if (Health <= 0)
         {
             HandleDeath();
         }
@@ -95,13 +111,13 @@ public partial class Player : CharacterBody2D
 
     public void HandleDeath()
     {
-        _explosionParticleEmitter.Emitting = true;
+        _playerEffectsDelegate.PlayExplosionParticles();
         EmitSignal(SignalName.PlayerDied, this);
     }
 
     public void ResetHealth()
     {
-        _health = MaxHealth;
+        Health = MaxHealth;
     }
 
     private void Aim()
@@ -123,4 +139,12 @@ public partial class Player : CharacterBody2D
             _gunMarker.Rotation = direction.Angle();
         }
     }
+
+    public enum TeamEnum
+    {
+        Light,
+        Dark
+    }
+
+    public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
 }

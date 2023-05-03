@@ -1,8 +1,9 @@
 using Godot;
 
+namespace PhotonPhighters.Scripts;
+
 public partial class Bullet : Area2D
 {
-    // PROPERTIES
     public double Speed { get; set; }
     public float GravityFactor { get; set; } = 1.0f;
     public int Damage { get; set; } = 10;
@@ -19,7 +20,8 @@ public partial class Bullet : Area2D
         AreaEntered += OnAreaEntered;
 
         var sprite = GetNode<Sprite2D>("Sprite2D");
-        if (LightMode == Light.LightMode.Dark) {
+        if (LightMode == Light.LightMode.Dark)
+        {
             sprite.Modulate = new Color(0, 0, 0, 1);
         }
     }

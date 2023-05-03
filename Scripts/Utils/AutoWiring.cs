@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Godot;
 
+namespace PhotonPhighters.Scripts.Utils;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public sealed class GetNodeAttribute : Attribute
