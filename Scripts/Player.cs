@@ -100,7 +100,7 @@ public partial class Player : CharacterBody2D
             return;
 
         Health -= damage;
-        _playerEffectsDelegate.PlayExplosionParticles();
+        _playerEffectsDelegate.EmitExplosionParticles();
         _playerEffectsDelegate.PlayHurtSound();
 
         if (Health <= 0)
@@ -111,7 +111,7 @@ public partial class Player : CharacterBody2D
 
     public void HandleDeath()
     {
-        _playerEffectsDelegate.PlayExplosionParticles();
+        _playerEffectsDelegate.EmitExplosionParticles();
         EmitSignal(SignalName.PlayerDied, this);
     }
 

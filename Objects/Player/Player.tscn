@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cf6p1cqopmcy7"]
+[gd_scene load_steps=20 format=3 uid="uid://cf6p1cqopmcy7"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
@@ -6,7 +6,6 @@
 [ext_resource type="Script" path="res://Scripts/PlayerEffectsDelegate.cs" id="5_gj8sb"]
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Sfx/jump-sfx.wav" id="5_iig84"]
 [ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Sfx/death.wav" id="6_km5ul"]
-[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="7_etlwl"]
 [ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Sfx/damage2.wav" id="8_k35ro"]
 [ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Sfx/fall-death.wav" id="9_jshgc"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovementDelegate.cs" id="10_ueqen"]
@@ -14,12 +13,6 @@
 [sub_resource type="Curve" id="Curve_u6tmb"]
 _data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.418182), 0.0, 0.0, 0, 0]
 point_count = 2
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
-radius = 67.0075
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
-size = Vector2(119, 122.5)
 
 [sub_resource type="Animation" id="Animation_xkv87"]
 length = 0.001
@@ -138,6 +131,12 @@ _data = {
 "stretch_jump": SubResource("Animation_qj5pb")
 }
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
+radius = 67.0075
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
+size = Vector2(119, 122.5)
+
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 script = ExtResource("1_be4dv")
 
@@ -145,21 +144,6 @@ script = ExtResource("1_be4dv")
 script = ExtResource("5_gj8sb")
 
 [node name="Particles" type="Node2D" parent="PlayerEffectsDelegate"]
-
-[node name="JumpParticles" type="CPUParticles2D" parent="PlayerEffectsDelegate/Particles"]
-position = Vector2(0.5, -9.83477e-06)
-emitting = false
-amount = 5
-lifetime = 0.2
-one_shot = true
-explosiveness = 0.94
-texture = ExtResource("7_etlwl")
-spread = 180.0
-gravity = Vector2(0, 1200)
-initial_velocity_min = 517.72
-initial_velocity_max = 517.72
-scale_amount_min = 0.1
-scale_amount_max = 0.2
 
 [node name="ExplosionParticle" type="CPUParticles2D" parent="PlayerEffectsDelegate/Particles"]
 position = Vector2(0.5, 60)
@@ -194,6 +178,12 @@ stream = ExtResource("9_jshgc")
 stream = ExtResource("5_iig84")
 volume_db = 14.497
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerEffectsDelegate"]
+root_node = NodePath("../../Sprite2D")
+libraries = {
+"": SubResource("AnimationLibrary_1me7g")
+}
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_k4h85")
 
@@ -213,12 +203,6 @@ scale = Vector2(0.5, 0.5)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletDetectionArea"]
 position = Vector2(-0.5, -0.25)
 shape = SubResource("RectangleShape2D_d4oxs")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Sprite2D")
-libraries = {
-"": SubResource("AnimationLibrary_1me7g")
-}
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource("10_ueqen")

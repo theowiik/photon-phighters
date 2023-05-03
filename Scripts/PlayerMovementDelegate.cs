@@ -70,13 +70,16 @@ public partial class PlayerMovementDelegate : Node
 
     private void JumpEffectsHandler()
     {
-        PlayerEffectsDelegate.PlayJumpParticles();
+        PlayerEffectsDelegate.EmitJumpParticles();
         PlayerEffectsDelegate.PlayJumpSound();
-        GD.Print("animate jump here?");
+        PlayerEffectsDelegate.AnimationPlayJump();
+
+
     }
 
     private void LandEffectsHandler()
     {
         GD.Print("doing land effects");
+        PlayerEffectsDelegate.AnimationPlayLand();
     }
 }
