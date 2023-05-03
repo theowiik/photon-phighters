@@ -12,7 +12,7 @@ public partial class Movement : Node
     private float _glideGravityScale = 0.5f;
     private int _jumpCount;
     private int _maxJumps = 3;
-    private Vector2 _velocity = new();
+    private Vector2 _velocity;
 
     public override void _Ready()
     {
