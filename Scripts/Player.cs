@@ -12,16 +12,7 @@ public partial class Player : CharacterBody2D
     public int PlayerNumber { get; set; }
 
     [GetNode("Movement")]
-    public Movement MovementDelegate;
-
-    [GetNode("Sfx/DeathPlayer")]
-    private AudioStreamPlayer2D _deathPlayer;
-
-    [GetNode("Sfx/HurtPlayer")]
-    private AudioStreamPlayer2D _hurtPlayer;
-
-    [GetNode("Sfx/FallDeathPlayer")]
-    private AudioStreamPlayer2D _fallDeathPlayer;
+    public PlayerMovementDelegate PlayerMovementDelegateDelegate;
 
     [GetNode("Marker2D")]
     private Marker2D _gunMarker;
@@ -29,14 +20,11 @@ public partial class Player : CharacterBody2D
     [GetNode("Marker2D/Gun")]
     public Gun Gun { get; set; }
 
-    [GetNode("Particles/ExplosionParticle")]
-    private CpuParticles2D _explosionParticleEmitter;
-
-    [GetNode("Particles/JumpParticles")]
-    private CpuParticles2D _jumpParticleEmitter;
-
     [GetNode("HealthLabel")]
     private Label _healthLabel;
+
+    [GetNode("PlayerEffectsDelegate")]
+    private PlayerEffectsDelegate _playerEffectsDelegate;
 
     private bool _freeze;
     public bool Freeze
@@ -75,14 +63,14 @@ public partial class Player : CharacterBody2D
 
     public override void _Ready()
     {
-        NodeAutoWire.AutoWire(this);
+        this.AutoWire();
 
         Health = MaxHealth;
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
-        MovementDelegate.CharacterBody = this;
-        MovementDelegate.MovementJumped += () => _jumpParticleEmitter.Emitting = true;
+        PlayerMovementDelegateDelegate.CharacterBody = this;
+        PlayerMovementDelegateDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
 
         // Gun
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
@@ -112,8 +100,8 @@ public partial class Player : CharacterBody2D
             return;
 
         Health -= damage;
-        _explosionParticleEmitter.Emitting = true;
-        _hurtPlayer.Play();
+        _playerEffectsDelegate.PlayExplosionParticles();
+        _playerEffectsDelegate.PlayHurtSound();
 
         if (Health <= 0)
         {
@@ -123,7 +111,7 @@ public partial class Player : CharacterBody2D
 
     public void HandleDeath()
     {
-        _explosionParticleEmitter.Emitting = true;
+        _playerEffectsDelegate.PlayExplosionParticles();
         EmitSignal(SignalName.PlayerDied, this);
     }
 

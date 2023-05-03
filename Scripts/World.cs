@@ -167,7 +167,8 @@ public partial class World : Node2D
     private void OnPowerUpSelected(PowerUpManager.IPowerUpApplier powerUp)
     {
         _powerUpPicker.Visible = false;
-        powerUp.Apply(_lastPlayerToScore);
+        var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
+        powerUp.Apply(loser);
         StartRound();
     }
 

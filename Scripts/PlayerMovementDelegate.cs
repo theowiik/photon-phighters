@@ -2,12 +2,10 @@ using Godot;
 
 namespace PhotonPhighters.Scripts;
 
-public partial class Movement : Node
+public partial class PlayerMovementDelegate : Node
 {
-    [Signal]
-    public delegate void MovementJumpedEventHandler();
-
     public CharacterBody2D CharacterBody { get; set; }
+    public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
     private const float Gravity = 800;
     private float _speed = 500;
     private float _jumpForce = 600;
@@ -72,7 +70,9 @@ public partial class Movement : Node
 
     private void JumpEffectsHandler()
     {
-        GD.Print("doing jump effects");
+        PlayerEffectsDelegate.PlayJumpParticles();
+        PlayerEffectsDelegate.PlayJumpSound();
+        GD.Print("animate jump here?");
     }
 
     private void LandEffectsHandler()
