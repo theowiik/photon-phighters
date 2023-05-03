@@ -1,5 +1,8 @@
 using Godot;
-using static Player;
+using PhotonPhighters.Scripts.Utils;
+using static PhotonPhighters.Scripts.Player;
+
+namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpPicker : Control
 {

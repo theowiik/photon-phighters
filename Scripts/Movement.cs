@@ -1,5 +1,7 @@
 using Godot;
 
+namespace PhotonPhighters.Scripts;
+
 public partial class Movement : Node
 {
     [Signal]

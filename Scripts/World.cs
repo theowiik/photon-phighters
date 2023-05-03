@@ -1,7 +1,10 @@
-using Godot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
+using PhotonPhighters.Scripts.Utils;
+
+namespace PhotonPhighters.Scripts;
 
 public partial class World : Node2D
 {
@@ -12,10 +15,10 @@ public partial class World : Node2D
     private Node2D _darkSpawn;
 
     [GetNode("CanvasLayer/Overlay")]
-    private Overlay _overlay;
+    private OverlayControllers.Overlay _overlay;
 
     [GetNode("CanvasLayer/PowerUpPicker")]
-    private PowerUpPicker _powerUpPicker;
+    private OverlayControllers.PowerUpPicker _powerUpPicker;
 
     [GetNode("RoundTimer")]
     private Timer _roundTimer;

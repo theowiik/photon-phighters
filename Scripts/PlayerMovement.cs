@@ -1,6 +1,9 @@
 using Godot;
+using PhotonPhighters.Scripts.Utils;
 
 // Delegate class for the player movement
+namespace PhotonPhighters.Scripts;
+
 public partial class PlayerMovement : Node
 {
     public CharacterBody2D CharacterBody { get; set; }

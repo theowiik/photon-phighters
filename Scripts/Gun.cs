@@ -1,4 +1,7 @@
 using Godot;
+using PhotonPhighters.Scripts.Utils;
+
+namespace PhotonPhighters.Scripts;
 
 public partial class Gun : Node2D
 {
