@@ -33,7 +33,7 @@ public partial class World : Node2D
     private AudioStreamPlayer _darkWin;
 
     private Score _score;
-    private const int RoundTime = 1;
+    private const int RoundTime = 100;
     private const int ScoreToWin = 4;
     private IEnumerable<Player> _players;
     private Player _lightPlayer;
@@ -50,6 +50,7 @@ public partial class World : Node2D
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
         uiUpdateTimer.Timeout += UpdateRoundTimer;
+        _roundTimer.Timeout += OnRoundFinished;
 
         var ob = GetNode<Area2D>("OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
@@ -101,7 +102,6 @@ public partial class World : Node2D
         foreach (var player in _players)
             player.Freeze = false;
 
-        _roundTimer.Timeout += OnRoundFinished;
         _roundTimer.Start(RoundTime);
     }
 

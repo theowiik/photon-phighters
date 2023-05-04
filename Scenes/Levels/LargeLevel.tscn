@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://o58dvql3042a"]
+
+[ext_resource type="PackedScene" uid="uid://8q5374jy4ukb" path="res://Scenes/Levels/BaseLevel.tscn" id="1_cy83e"]
+[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_f3xip"]
+
+[node name="LargeLevel" instance=ExtResource("1_cy83e")]
+
+[node name="Floor17" parent="Map" index="2" instance=ExtResource("2_f3xip")]
+position = Vector2(635, -8)
+scale = Vector2(2.05195, -1.4674)
+
+[node name="Floor18" parent="Map" index="3" instance=ExtResource("2_f3xip")]
+position = Vector2(-83, 95)
+scale = Vector2(2.05195, -1.4674)
+
+[node name="Floor19" parent="Map" index="4" instance=ExtResource("2_f3xip")]
+position = Vector2(1392, 84)
+scale = Vector2(2.05195, -1.4674)
+
+[node name="CollisionShape2D" parent="OutOfBounds" index="0"]
+position = Vector2(475, 2166)

@@ -21,7 +21,7 @@ size = Vector2(1000, 3249.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_42qnf"]
 size = Vector2(911, 3306)
 
-[node name="World" type="Node2D"]
+[node name="BaseLevel" type="Node2D"]
 script = ExtResource("1_88vom")
 
 [node name="Light-gray" type="Sprite2D" parent="."]
@@ -59,6 +59,7 @@ volume_db = -30.167
 [node name="Overlay" parent="CanvasLayer" instance=ExtResource("8_xi1s5")]
 
 [node name="PowerUpPicker" parent="CanvasLayer" instance=ExtResource("7_m0wyp")]
+visible = false
 
 [node name="Sfx" type="Node" parent="."]
 
