@@ -27,7 +27,7 @@ public partial class PlayerEffectsDelegate : Node2D
     
     private const string JumpAnimation = "stretch_jump";
     private const string LandAnimation = "squish_land";
-    private const string RunLeftAnimation = "runing_left";
+    private const string RunLeftAnimation = "running_left";
     private const string RunRightAnimation = "running_right";
     private const string Wall = "squish_wall";
 
@@ -92,7 +92,7 @@ public partial class PlayerEffectsDelegate : Node2D
     {
         _animationPlayer.Play(RunLeftAnimation);
     }
-    
+
     public void AnimationPlayRunRight()
     {
         _animationPlayer.Play(RunRightAnimation);

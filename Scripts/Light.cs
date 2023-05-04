@@ -15,7 +15,7 @@ public partial class Light : Area2D
 
     public override void _Ready()
     {
-        NodeAutoWire.AutoWire(this);
+        this.AutoWire();
         _pointLight.Enabled = false;
         LightState = LightMode.None;
     }
