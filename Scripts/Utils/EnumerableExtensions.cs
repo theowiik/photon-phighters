@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PhotonPhighters.Scripts;
+namespace PhotonPhighters.Scripts.Utils;
 
-public static class EnumerableUtils
+public static class EnumerableExtensions
 {
     public static IEnumerable<T> Shuffle<T>(this IEnumerable<T> source)
     {
