@@ -26,6 +26,9 @@ public partial class Player : CharacterBody2D
     [GetNode("PlayerEffectsDelegate")]
     private PlayerEffectsDelegate _playerEffectsDelegate;
 
+    [GetNode("Sprite2D")]
+    private Sprite2D _sprite2D;
+
     private bool _freeze;
     public bool Freeze
     {
@@ -39,10 +42,12 @@ public partial class Player : CharacterBody2D
             if (_freeze)
             {
                 ProcessMode = ProcessModeEnum.Disabled;
+                _sprite2D.Modulate = _seeTroughColor;
             }
             else
             {
                 ProcessMode = ProcessModeEnum.Inherit;
+                _sprite2D.Modulate = _nonSeeTroughColor;
             }
         }
     }
@@ -60,6 +65,8 @@ public partial class Player : CharacterBody2D
     public int MaxHealth { get; set; } = 50;
 
     private bool _aimWithMouse = true;
+    private readonly Color _seeTroughColor = new Color(1, 1, 1, 0.3f);
+    private readonly Color _nonSeeTroughColor = new Color(1, 1, 1);
 
     public override void _Ready()
     {

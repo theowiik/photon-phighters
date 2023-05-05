@@ -12,6 +12,8 @@ public partial class Light : Area2D
     private AnimationPlayer _animationPlayer;
 
     public LightMode LightState { get; private set; }
+    private readonly Color _lightColorModulate = new Color(1, 1, 1, 0.5f);
+    private readonly Color _darkColorModulate = new Color(0, 0, 0, 0.5f);
 
     public override void _Ready()
     {
@@ -32,11 +34,10 @@ public partial class Light : Area2D
             return;
         }
 
-        _animationPlayer.Play("pulsate");
-
+        // _animationPlayer.Play("pulsate");
+        LightState = lightMode;
         _lightSprite.Visible = true;
-        LightState = lightMode == LightMode.Light ? LightMode.Light : LightMode.Dark;
-        // _pointLight.BlendMode = lightMode == LightMode.Light ? Light2D.BlendModeEnum.Add : Light2D.BlendModeEnum.Sub;
+        _lightSprite.Modulate = LightState == LightMode.Light ? _lightColorModulate : _darkColorModulate;
 
         QueueRedraw(); // TODO: Dev remove
     }
