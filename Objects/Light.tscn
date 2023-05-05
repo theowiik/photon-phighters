@@ -1,55 +1,22 @@
 [gd_scene load_steps=9 format=3 uid="uid://cw8obmyablcs0"]
 
 [ext_resource type="Script" path="res://Scripts/Light.cs" id="1_amhmd"]
-[ext_resource type="Texture2D" uid="uid://dnwydht5hmjxm" path="res://Assets/light.webp" id="1_ohd2u"]
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="2_8yxqa"]
+[ext_resource type="Texture2D" uid="uid://b36q84ls5l1ck" path="res://Assets/light2.png" id="4_j5e1f"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_gngvy"]
 
 [sub_resource type="Animation" id="Animation_uj4ne"]
 length = 0.001
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PointLight2D:energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0)
-}
 
 [sub_resource type="Animation" id="Animation_gkeya"]
 resource_name = "fade_in"
 loop_mode = 1
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PointLight2D:energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0),
-"points": PackedFloat32Array(0, -0.25, 0, 0.25, 0, 1, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 1)
-}
 
 [sub_resource type="Animation" id="Animation_clske"]
 resource_name = "pulsate"
 length = 4.0
 loop_mode = 1
-tracks/0/type = "bezier"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("PointLight2D:energy")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"handle_modes": PackedInt32Array(0, 0, 0),
-"points": PackedFloat32Array(0.3, -0.25, 0, 0.25, 0, 0.6, -0.25, 0, 0.25, 0, 0.3, -0.25, 0, 0.25, 0),
-"times": PackedFloat32Array(0, 2, 4)
-}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_hm70h"]
 _data = {
@@ -60,13 +27,6 @@ _data = {
 
 [node name="Light" type="Area2D" groups=["lights"]]
 script = ExtResource("1_amhmd")
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
-visible = false
-color = Color(1, 1, 1, 0.992157)
-energy = 0.0
-shadow_enabled = true
-texture = ExtResource("1_ohd2u")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_gngvy")
@@ -80,3 +40,8 @@ texture = ExtResource("2_8yxqa")
 libraries = {
 "": SubResource("AnimationLibrary_hm70h")
 }
+
+[node name="LightSprite" type="Sprite2D" parent="."]
+modulate = Color(1.5, 1.5, 1.5, 1)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("4_j5e1f")

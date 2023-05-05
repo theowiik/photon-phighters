@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://8q5374jy4ukb"]
+[gd_scene load_steps=17 format=3 uid="uid://8q5374jy4ukb"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_88vom"]
 [ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_f7esu"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="9_xoby6"]
 [ext_resource type="PackedScene" uid="uid://ca1utwdulasnh" path="res://Objects/Player/DarkPlayer.tscn" id="10_fd7gw"]
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="10_ucaug"]
+[ext_resource type="PackedScene" uid="uid://cw8obmyablcs0" path="res://Objects/Light.tscn" id="12_p7mll"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ncqr5"]
 size = Vector2(5637, 862.5)
@@ -20,6 +21,14 @@ size = Vector2(1000, 3249.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_42qnf"]
 size = Vector2(911, 3306)
+
+[sub_resource type="Environment" id="Environment_1kha7"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 8.0
+glow_strength = 2.0
+glow_hdr_threshold = 1.5
+glow_hdr_scale = 2.12
 
 [node name="BaseLevel" type="Node2D"]
 script = ExtResource("1_88vom")
@@ -96,3 +105,12 @@ position = Vector2(368, 256)
 
 [node name="DarkPlayer" parent="Players" instance=ExtResource("10_fd7gw")]
 position = Vector2(912, 268)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1kha7")
+
+[node name="LightLight" parent="." instance=ExtResource("12_p7mll")]
+position = Vector2(760, 564)
+
+[node name="DarkLight" parent="." instance=ExtResource("12_p7mll")]
+position = Vector2(522, 570)

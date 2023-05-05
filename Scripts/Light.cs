@@ -5,8 +5,8 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Light : Area2D
 {
-    [GetNode("PointLight2D")]
-    private PointLight2D _pointLight;
+    [GetNode("LightSprite")]
+    private Sprite2D _lightSprite;
 
     [GetNode("AnimationPlayer")]
     private AnimationPlayer _animationPlayer;
@@ -16,7 +16,7 @@ public partial class Light : Area2D
     public override void _Ready()
     {
         this.AutoWire();
-        _pointLight.Enabled = false;
+        _lightSprite.Visible = false;
         LightState = LightMode.None;
     }
 
@@ -27,16 +27,16 @@ public partial class Light : Area2D
 
         if (lightMode == LightMode.None)
         {
-            _pointLight.Enabled = false;
+            _lightSprite.Visible = false;
             LightState = LightMode.None;
             return;
         }
 
         _animationPlayer.Play("pulsate");
 
-        _pointLight.Enabled = true;
+        _lightSprite.Visible = true;
         LightState = lightMode == LightMode.Light ? LightMode.Light : LightMode.Dark;
-        _pointLight.BlendMode = lightMode == LightMode.Light ? Light2D.BlendModeEnum.Add : Light2D.BlendModeEnum.Sub;
+        // _pointLight.BlendMode = lightMode == LightMode.Light ? Light2D.BlendModeEnum.Add : Light2D.BlendModeEnum.Sub;
 
         QueueRedraw(); // TODO: Dev remove
     }
@@ -50,7 +50,7 @@ public partial class Light : Area2D
 
     public override void _Draw()
     {
-        const bool debugDraw = true;
+        const bool debugDraw = false;
 
         if (!debugDraw)
             return;
