@@ -61,6 +61,7 @@ public partial class World : Node2D
             player.PlayerDied += OnPlayerDied;
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
+            player.PlayerEffectAddedListeners += OnPlayerEffectAdded;
         }
 
         _lightPlayer = _players.First(p => p.PlayerNumber == 1);
@@ -70,6 +71,12 @@ public partial class World : Node2D
             throw new Exception("Could not find players");
 
         StartRound();
+    }
+
+    private void OnPlayerEffectAdded(Node2D effect, Player who)
+    {
+        AddChild(effect);
+        effect.GlobalPosition = who.GlobalPosition;
     }
 
     private void OnPlayerDied(Player player)

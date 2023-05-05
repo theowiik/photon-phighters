@@ -5,13 +5,11 @@ namespace PhotonPhighters.Scripts;
 
 public partial class PlayerEffectsDelegate : Node2D
 {
-    private PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>("res://Objects/Player/JumpParticles.tscn");
+    private PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>("res://Objects/Player/Particles/JumpParticles.tscn");
+    private PackedScene _deathParticlesScene = ResourceLoader.Load<PackedScene>("res://Objects/Player/Particles/DeathParticles.tscn");
 
     [GetNode("AnimationPlayer")]
     private AnimationPlayer _animationPlayer;
-    
-    [GetNode("Particles/ExplosionParticle")]
-    private CpuParticles2D _explosionParticleEmitter;
 
     [GetNode("Sfx/DeathPlayer")]
     private AudioStreamPlayer2D _deathPlayer;
@@ -35,23 +33,37 @@ public partial class PlayerEffectsDelegate : Node2D
     {
         this.AutoWire();
     }
-    
-    public void EmitExplosionParticles()
+
+    public delegate void PlayerEffectPerformed(Node2D effect);
+    public PlayerEffectPerformed PlayerEffectAddedListeners;
+
+    public void EmitDeathParticles()
     {
-        GD.Print("Playing explosion particles");
-        _explosionParticleEmitter.Emitting = true;
+        var instance = GenerateParticles(_deathParticlesScene);
+        PlayerEffectAddedListeners?.Invoke(instance);
     }
-    
+
     public void EmitJumpParticles()
     {
-        GD.Print("Playing jump particles");
-        var instance = _jumpParticlesScene.Instantiate<CpuParticles2D>();
+        var instance = GenerateParticles(_jumpParticlesScene);
+        PlayerEffectAddedListeners?.Invoke(instance);
+    }
+
+    public void EmitHurtParticles()
+    {
+        GD.Print("hurt!");
+    }
+    
+    private static Node2D GenerateParticles(PackedScene particlesScene)
+    {
+        var instance = particlesScene.Instantiate<CpuParticles2D>();
         var timer = TimerFactory.OneShotStartedTimer(instance.Lifetime);
 
         instance.Emitting = true;
         timer.Timeout += () => instance.QueueFree();
         instance.AddChild(timer);
-        AddChild(instance);
+
+        return instance;
     }
     
     public void PlayDeathSound()
