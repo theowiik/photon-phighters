@@ -176,7 +176,7 @@ texture = ExtResource("2_ykldl")
 [node name="Marker2D" type="Marker2D" parent="."]
 
 [node name="Gun" parent="Marker2D" instance=ExtResource("3_g1rr3")]
-position = Vector2(155, 0)
+position = Vector2(97, 1)
 scale = Vector2(0.5, 0.5)
 
 [node name="BulletDetectionArea" type="Area2D" parent="."]

@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using PhotonPhighters.Scripts.MenuControllers;
+using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -15,10 +17,13 @@ public partial class World : Node2D
     private Node2D _darkSpawn;
 
     [GetNode("CanvasLayer/Overlay")]
-    private OverlayControllers.Overlay _overlay;
+    private Overlay _overlay;
+
+    [GetNode("CanvasLayer/PauseOverlay")]
+    private PauseOverlay _pauseOverlay;
 
     [GetNode("CanvasLayer/PowerUpPicker")]
-    private OverlayControllers.PowerUpPicker _powerUpPicker;
+    private PowerUpPicker _powerUpPicker;
 
     [GetNode("RoundTimer")]
     private Timer _roundTimer;
@@ -46,6 +51,7 @@ public partial class World : Node2D
         _score = new Score();
         _powerUpPicker.Visible = false;
         _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
+        _pauseOverlay.ResumeGame += TogglePause;
 
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
@@ -208,8 +214,21 @@ public partial class World : Node2D
     {
         if (@event.IsActionPressed("ui_cancel"))
         {
-            GetTree().Quit();
         }
+    }
+
+    private void TogglePause()
+    {
+        var isPaused = !_pauseOverlay.Visible;
+        _pauseOverlay.Visible = isPaused;
+
+        if (isPaused)
+            _pauseOverlay.GrabFocus();
+        else
+            _pauseOverlay.ReleaseFocus();
+
+        // Stop everything else
+        GetTree().Paused = isPaused;
     }
 
     private void UpdateScore()

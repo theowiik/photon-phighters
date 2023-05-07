@@ -35,7 +35,7 @@ public partial class PlayerEffectsDelegate : Node2D
     private const string RunLeftAnimation = "running_left";
     private const string RunRightAnimation = "running_right";
     private const string Wall = "squish_wall";
-    private readonly Color _hurtColor = new(0.5f, 0, 0);
+    private readonly Color _hurtColor = new(0.8f, 0, 0);
 
     public override void _Ready()
     {
@@ -90,7 +90,7 @@ public partial class PlayerEffectsDelegate : Node2D
     {
         _hurtPlayer.Play();
     }
-    
+
     public void PlayFallDeathSound()
     {
         _fallDeathPlayer.Play();

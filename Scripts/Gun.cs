@@ -5,6 +5,8 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Gun : Node2D
 {
+    private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
+
     [GetNode("ShootPlayer")]
     private AudioStreamPlayer2D _shootPlayer;
 
@@ -20,14 +22,12 @@ public partial class Gun : Node2D
     public float BulletSpread { get; set; } = 0.2f;
     public float BulletGravity { get; set; } = 1.0f;
     public int BulletDamage { get; set; } = 10;
-    private PackedScene _bulletScene;
     private bool _loading = true;
     public bool Freeze { get; set; }
 
     public override void _Ready()
     {
-        NodeAutoWire.AutoWire(this);
-        _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
+        this.AutoWire();
         _shootTimer.Timeout += () => _loading = !_loading;
         LightMode = Light.LightMode.Light;
         _shootTimer.WaitTime = 1 / FireRate;
