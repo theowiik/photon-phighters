@@ -15,6 +15,9 @@ public partial class PlayerMovementDelegate : Node
     public CharacterBody2D CharacterBody { get; set; }
     public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
     private Vector2 _knockback;
+    private float _acceleration = 8f;
+    private float _deceleration = 12f;
+    private float _knockbackDecayRate = 0.9f;
 
     public override void _Ready()
     {
@@ -25,7 +28,9 @@ public partial class PlayerMovementDelegate : Node
         var inputDirection = new Vector2(Input.GetActionStrength("p1_right") - Input.GetActionStrength("p1_left"), 0);
 
         // Walking
-        _velocity.X = inputDirection.X * Speed;
+        var targetSpeed = inputDirection.X * Speed;
+        var acceleration = inputDirection.X != 0 ? _acceleration : _deceleration;
+        _velocity.X = Mathf.Lerp(_velocity.X, targetSpeed, acceleration * (float)delta);
 
         // Jumping
         var onFloor = CharacterBody.IsOnFloor();
@@ -67,7 +72,7 @@ public partial class PlayerMovementDelegate : Node
 
         // Knockback
         _velocity += _knockback;
-        _knockback = Vector2.Zero;
+        _knockback *= _knockbackDecayRate;
 
         // Apply movement
         CharacterBody.Velocity = _velocity;
