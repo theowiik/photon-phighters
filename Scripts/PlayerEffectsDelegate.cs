@@ -1,7 +1,6 @@
+namespace PhotonPhighters.Scripts;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
-
-namespace PhotonPhighters.Scripts;
 
 public partial class PlayerEffectsDelegate : Node2D
 {
@@ -23,7 +22,7 @@ public partial class PlayerEffectsDelegate : Node2D
 
     [GetNode("Sfx/FallDeathPlayer")]
     private AudioStreamPlayer2D _fallDeathPlayer;
-    
+
     [GetNode("Sfx/JumpPlayer")]
     private AudioStreamPlayer2D _jumpPlayer;
 
@@ -43,10 +42,7 @@ public partial class PlayerEffectsDelegate : Node2D
         _hurtTimer.Timeout += HurtTimerOnTimeout;
     }
 
-    private void HurtTimerOnTimeout()
-    {
-        PlayerSprite.Modulate = Colors.White;
-    }
+    private void HurtTimerOnTimeout() => PlayerSprite.Modulate = Colors.White;
 
     public delegate void PlayerEffectPerformed(Node2D effect);
     public PlayerEffectPerformed PlayerEffectAddedListeners;
@@ -68,7 +64,7 @@ public partial class PlayerEffectsDelegate : Node2D
         var instance = GenerateParticles(_hurtParticlesScene);
         PlayerEffectAddedListeners?.Invoke(instance);
     }
-    
+
     private static Node2D GenerateParticles(PackedScene particlesScene)
     {
         var instance = particlesScene.Instantiate<CpuParticles2D>();
@@ -80,51 +76,24 @@ public partial class PlayerEffectsDelegate : Node2D
 
         return instance;
     }
-    
-    public void PlayDeathSound()
-    {
-        _deathPlayer.Play();
-    }
-    
-    public void PlayHurtSound()
-    {
-        _hurtPlayer.Play();
-    }
 
-    public void PlayFallDeathSound()
-    {
-        _fallDeathPlayer.Play();
-    }
+    public void PlayDeathSound() => _deathPlayer.Play();
 
-    public void PlayJumpSound()
-    {
-        _jumpPlayer.Play();
-    }
+    public void PlayHurtSound() => _hurtPlayer.Play();
 
-    public void AnimationPlayJump()
-    {
-        _animationPlayer.Play(JumpAnimation);
-    }
-    
-    public void AnimationPlayLand()
-    {
-        _animationPlayer.Play(LandAnimation);
-    }
-    
-    public void AnimationPlayRunLeft()
-    {
-        _animationPlayer.Play(RunLeftAnimation);
-    }
+    public void PlayFallDeathSound() => _fallDeathPlayer.Play();
 
-    public void AnimationPlayRunRight()
-    {
-        _animationPlayer.Play(RunRightAnimation);
-    }
-    
-    public void AnimationPlayWall()
-    {
-        _animationPlayer.Play(Wall);
-    }
+    public void PlayJumpSound() => _jumpPlayer.Play();
+
+    public void AnimationPlayJump() => _animationPlayer.Play(JumpAnimation);
+
+    public void AnimationPlayLand() => _animationPlayer.Play(LandAnimation);
+
+    public void AnimationPlayRunLeft() => _animationPlayer.Play(RunLeftAnimation);
+
+    public void AnimationPlayRunRight() => _animationPlayer.Play(RunRightAnimation);
+
+    public void AnimationPlayWall() => _animationPlayer.Play(Wall);
 
     public void AnimationPlayHurt()
     {

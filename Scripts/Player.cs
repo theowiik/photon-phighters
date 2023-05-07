@@ -1,7 +1,6 @@
+namespace PhotonPhighters.Scripts;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
-
-namespace PhotonPhighters.Scripts;
 
 public partial class Player : CharacterBody2D
 {
@@ -92,7 +91,9 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         if (Freeze)
+        {
             return;
+        }
 
         Aim();
     }
@@ -109,7 +110,9 @@ public partial class Player : CharacterBody2D
     public void TakeDamage(int damage)
     {
         if (Freeze)
+        {
             return;
+        }
 
         Health -= damage;
         _playerEffectsDelegate.EmitHurtParticles();
@@ -128,10 +131,7 @@ public partial class Player : CharacterBody2D
         EmitSignal(SignalName.PlayerDied, this);
     }
 
-    public void ResetHealth()
-    {
-        Health = MaxHealth;
-    }
+    public void ResetHealth() => Health = MaxHealth;
 
     private void Aim()
     {

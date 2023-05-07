@@ -1,6 +1,5 @@
-using Godot;
-
 namespace PhotonPhighters.Scripts;
+using Godot;
 
 public partial class Bullet : Area2D
 {
@@ -32,10 +31,7 @@ public partial class Bullet : Area2D
         Translate(_velocity * (float)delta);
     }
 
-    private void OnTimerTimeout()
-    {
-        QueueFree();
-    }
+    private void OnTimerTimeout() => QueueFree();
 
     private void OnAreaEntered(Area2D area)
     {

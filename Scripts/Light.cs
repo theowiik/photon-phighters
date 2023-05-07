@@ -1,7 +1,6 @@
+namespace PhotonPhighters.Scripts;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
-
-namespace PhotonPhighters.Scripts;
 
 public partial class Light : Area2D
 {
@@ -12,8 +11,8 @@ public partial class Light : Area2D
     private AnimationPlayer _animationPlayer;
 
     public LightMode LightState { get; private set; }
-    private readonly Color _lightColorModulate = new Color(1, 1, 1, 0.5f);
-    private readonly Color _darkColorModulate = new Color(0, 0, 0, 0.5f);
+    private readonly Color _lightColorModulate = new(1, 1, 1, 0.5f);
+    private readonly Color _darkColorModulate = new(0, 0, 0, 0.5f);
 
     public override void _Ready()
     {
@@ -25,7 +24,9 @@ public partial class Light : Area2D
     public void SetLight(LightMode lightMode)
     {
         if (LightState == lightMode)
+        {
             return;
+        }
 
         if (lightMode == LightMode.None)
         {
@@ -54,7 +55,9 @@ public partial class Light : Area2D
         const bool debugDraw = false;
 
         if (!debugDraw)
+        {
             return;
+        }
 
         var color = Colors.Transparent;
 
@@ -65,6 +68,10 @@ public partial class Light : Area2D
                 break;
             case LightMode.Dark:
                 color = Colors.Black;
+                break;
+            case LightMode.None:
+                break;
+            default:
                 break;
         }
 

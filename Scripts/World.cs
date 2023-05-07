@@ -1,12 +1,11 @@
+namespace PhotonPhighters.Scripts;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
-using PauseOverlay = PhotonPhighters.Scripts.OverlayControllers.PauseOverlay;
-
-namespace PhotonPhighters.Scripts;
+using PauseOverlay = OverlayControllers.PauseOverlay;
 
 public partial class World : Node2D
 {
@@ -74,7 +73,9 @@ public partial class World : Node2D
         _darkPlayer = _players.First(p => p.PlayerNumber == 2);
 
         if (_lightPlayer == null || _darkPlayer == null)
+        {
             throw new Exception("Could not find players");
+        }
 
         StartRound();
     }
@@ -113,7 +114,9 @@ public partial class World : Node2D
         ResetLights();
 
         foreach (var player in _players)
+        {
             player.Freeze = false;
+        }
 
         _roundTimer.Start(RoundTime);
     }
@@ -123,7 +126,9 @@ public partial class World : Node2D
         GD.Print("Round ended");
 
         foreach (var player in _players)
+        {
             player.Freeze = true;
+        }
 
         // Remove all bullets
         foreach (var bullet in GetTree().GetNodesInGroup("bullets"))
@@ -192,16 +197,15 @@ public partial class World : Node2D
         foreach (var light in lights)
         {
             if (light is not Light lightNode)
+            {
                 throw new Exception("Light node is not a Light!!");
+            }
 
             lightNode.SetLight(Light.LightMode.None);
         }
     }
 
-    private void OnShoot(Node2D bullet)
-    {
-        AddChild(bullet);
-    }
+    private void OnShoot(Node2D bullet) => AddChild(bullet);
 
     public struct Results
     {
@@ -223,9 +227,13 @@ public partial class World : Node2D
         _pauseOverlay.Visible = isPaused;
 
         if (isPaused)
+        {
             _pauseOverlay.GrabFocus();
+        }
         else
+        {
             _pauseOverlay.ReleaseFocus();
+        }
 
         // Stop everything else
         GetTree().Paused = isPaused;
@@ -243,10 +251,7 @@ public partial class World : Node2D
         _overlay.RoundScore = results;
     }
 
-    private void UpdateRoundTimer()
-    {
-        _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
-    }
+    private void UpdateRoundTimer() => _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
 
     private Results GetResults()
     {
@@ -256,7 +261,9 @@ public partial class World : Node2D
         foreach (var light in lights)
         {
             if (light is not Light lightNode)
+            {
                 throw new Exception("Light node is not a Light!!");
+            }
 
             switch (lightNode.LightState)
             {
@@ -268,6 +275,8 @@ public partial class World : Node2D
                     break;
                 case Light.LightMode.None:
                     results.Neutral++;
+                    break;
+                default:
                     break;
             }
         }

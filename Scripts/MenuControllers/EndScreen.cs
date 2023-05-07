@@ -1,6 +1,5 @@
-using Godot;
-
 namespace PhotonPhighters.Scripts.MenuControllers;
+using Godot;
 
 public partial class EndScreen : Node2D
 {

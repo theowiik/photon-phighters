@@ -1,6 +1,5 @@
-using Godot;
-
 namespace PhotonPhighters.Scripts.Utils;
+using Godot;
 
 public static class TimerFactory
 {

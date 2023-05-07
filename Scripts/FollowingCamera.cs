@@ -1,7 +1,6 @@
+namespace PhotonPhighters.Scripts;
 using System.Collections.Generic;
 using Godot;
-
-namespace PhotonPhighters.Scripts;
 
 public partial class FollowingCamera : Camera2D
 {
@@ -10,10 +9,14 @@ public partial class FollowingCamera : Camera2D
     public void AddTarget(Node2D target)
     {
         if (_targets.Contains(target))
+        {
             return;
+        }
 
         if (target == null)
+        {
             return;
+        }
 
         _targets.Add(target);
     }
@@ -21,11 +24,15 @@ public partial class FollowingCamera : Camera2D
     public override void _PhysicsProcess(double delta)
     {
         if (_targets.Count == 0)
+        {
             return;
+        }
 
         var targetPosition = Vector2.Zero;
         foreach (var target in _targets)
+        {
             targetPosition += target.Position;
+        }
 
         targetPosition /= _targets.Count;
 

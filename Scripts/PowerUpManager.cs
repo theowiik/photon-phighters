@@ -1,16 +1,13 @@
+namespace PhotonPhighters.Scripts;
 using System;
 using System.Collections.Generic;
 using PhotonPhighters.Scripts.Utils;
-
-namespace PhotonPhighters.Scripts;
 
 public static class PowerUpManager
 {
     private static readonly IList<IPowerUpApplier> _powerUps;
 
-    static PowerUpManager()
-    {
-        _powerUps = new List<IPowerUpApplier>() {
+    static PowerUpManager() => _powerUps = new List<IPowerUpApplier>() {
             new PhotonBoostPowerup(),
             new HealthPowerup(),
             new BunnyBoostPowerup(),
@@ -23,7 +20,6 @@ public static class PowerUpManager
             new PhotonMuncher(),
             new AirWalker(),
         };
-    }
 
     public static IPowerUpApplier GetRandomPowerup()
     {
@@ -87,10 +83,7 @@ public static class PowerUpManager
 
     public class HealthPowerup : IPowerUpApplier
     {
-        public void Apply(Player player)
-        {
-            player.MaxHealth += 50;
-        }
+        public void Apply(Player player) => player.MaxHealth += 50;
 
         public string Name => "Health Boost";
     }
@@ -132,41 +125,28 @@ public static class PowerUpManager
 
     public class PhotonMuncher : IPowerUpApplier
     {
-        public void Apply(Player player)
-        {
-            player.MaxHealth += 50;
-            // player.PlayerMovementDelegate.Speed -= -50.0f;
-        }
+        public void Apply(Player player) => player.MaxHealth += 50;// player.PlayerMovementDelegate.Speed -= -50.0f;
 
         public string Name => "Photon Muncher";
     }
 
     public class GravitationalNeuronBlaster : IPowerUpApplier
     {
-        public void Apply(Player player)
-        {
-            player.Gun.BulletGravity = 0.0f;
-        }
+        public void Apply(Player player) => player.Gun.BulletGravity = 0.0f;
 
         public string Name => "Gravitational Neuron Blaster";
     }
 
     public class PhotonAccelerator : IPowerUpApplier
     {
-        public void Apply(Player player)
-        {
-            player.Gun.BulletSpeed += 250.0f;
-        }
+        public void Apply(Player player) => player.Gun.BulletSpeed += 250.0f;
 
         public string Name => "Photon Accelerator";
     }
 
     public class PhotonMultiplier : IPowerUpApplier
     {
-        public void Apply(Player player)
-        {
-            player.Gun.BulletCount += 2;
-        }
+        public void Apply(Player player) => player.Gun.BulletCount += 2;
 
         public string Name => "Photon Multiplier";
     }

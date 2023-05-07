@@ -1,6 +1,5 @@
-using Godot;
-
 namespace PhotonPhighters.Scripts;
+using Godot;
 
 public partial class PlayerMovementDelegate : Node
 {
@@ -32,9 +31,11 @@ public partial class PlayerMovementDelegate : Node
         {
             _jumpCount = 0;
             _velocity.Y = 0;
-            
+
             if (!_onFloorLastCall)
+            {
                 PlayerEffectsDelegate.AnimationPlayLand();
+            }
         }
         _onFloorLastCall = onFloor;
 
@@ -77,13 +78,24 @@ public partial class PlayerMovementDelegate : Node
 
     private void WalkAnimationHandler()
     {
-        if (!_onFloorLastCall) return;
-        if (CharacterBody.Velocity.X == 0) return;
+        if (!_onFloorLastCall)
+        {
+            return;
+        }
+
+        if (CharacterBody.Velocity.X == 0)
+        {
+            return;
+        }
 
         if (CharacterBody.Velocity.X > 0)
+        {
             PlayerEffectsDelegate.AnimationPlayRunRight();
+        }
         else
+        {
             PlayerEffectsDelegate.AnimationPlayRunLeft();
+        }
     }
 
     private void JumpEffectsHandler()
@@ -93,8 +105,5 @@ public partial class PlayerMovementDelegate : Node
         PlayerEffectsDelegate.AnimationPlayJump();
     }
 
-    private void LandEffectsHandler()
-    {
-        PlayerEffectsDelegate.AnimationPlayLand();
-    }
+    private void LandEffectsHandler() => PlayerEffectsDelegate.AnimationPlayLand();
 }

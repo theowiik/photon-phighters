@@ -1,8 +1,7 @@
+namespace PhotonPhighters.Scripts.OverlayControllers;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
-
-namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpPicker : Control
 {
@@ -34,6 +33,8 @@ public partial class PowerUpPicker : Control
                     _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
                     _label.Modulate = Colors.White;
                     _label.Text = "Dark team won! Lightness, pick a helping hand";
+                    break;
+                default:
                     break;
             }
         }
