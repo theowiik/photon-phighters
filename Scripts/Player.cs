@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -115,8 +116,15 @@ public partial class Player : CharacterBody2D
         if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
         {
             TakeDamage(bullet.Damage);
+            ApplyBulletKnockback(bullet);
             bullet.QueueFree();
         }
+    }
+
+    private void ApplyBulletKnockback(Bullet bullet)
+    {
+        var pushDirection = bullet.GlobalPosition.DirectionTo(GlobalPosition);
+        PlayerMovementDelegate.AddKnockback(pushDirection * bullet.Speed);
     }
 
     public void TakeDamage(int damage)

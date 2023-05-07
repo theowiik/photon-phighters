@@ -14,6 +14,7 @@ public partial class PlayerMovementDelegate : Node
     public float Speed { get; set; } = 500;
     public CharacterBody2D CharacterBody { get; set; }
     public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
+    private Vector2 _knockback;
 
     public override void _Ready()
     {
@@ -64,11 +65,20 @@ public partial class PlayerMovementDelegate : Node
             }
         }
 
+        // Knockback
+        _velocity += _knockback;
+        _knockback = Vector2.Zero;
+
         // Apply movement
         CharacterBody.Velocity = _velocity;
         CharacterBody.MoveAndSlide();
 
         WalkAnimationHandler();
+    }
+
+    public void AddKnockback(Vector2 knockback)
+    {
+        _knockback += knockback;
     }
 
     private void WalkAnimationHandler()
