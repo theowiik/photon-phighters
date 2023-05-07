@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a12tr"]
 size = Vector2(128, 128)
 
-[node name="Floor" type="StaticBody2D"]
+[node name="Floor" type="StaticBody2D" groups=["floors"]]
 script = ExtResource("1_0tmb8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

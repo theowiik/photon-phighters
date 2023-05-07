@@ -9,8 +9,8 @@ namespace PhotonPhighters.Scripts;
 
 public partial class World : Node2D
 {
-    private const int RoundTime = 100;
-    private const int ScoreToWin = 4;
+    private const int RoundTime = 20;
+    private const int ScoreToWin = 10;
 
     [GetNode("FollowingCamera")]
     private FollowingCamera _camera;
@@ -171,8 +171,18 @@ public partial class World : Node2D
     private void OnPowerUpSelected(PowerUpManager.IPowerUp powerUp)
     {
         _powerUpPicker.Visible = false;
-        var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
-        powerUp.Apply(loser);
+
+        if (PowerUpPicker.DevMode)
+        {
+            powerUp.Apply(_lightPlayer);
+            powerUp.Apply(_darkPlayer);
+        }
+        else
+        {
+            var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
+            powerUp.Apply(loser);
+        }
+
         StartRound();
     }
 
@@ -195,9 +205,7 @@ public partial class World : Node2D
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_cancel"))
-        {
-        }
+        if (@event.IsActionPressed("ui_down")) _roundTimer.Start(0.05);
     }
 
     private void TogglePause()
@@ -207,8 +215,8 @@ public partial class World : Node2D
 
         if (isPaused)
             _pauseOverlay.GrabFocus();
-        else
-            _pauseOverlay.ReleaseFocus();
+        // else
+        //     _pauseOverlay.ReleaseFocus();
 
         // Stop everything else
         GetTree().Paused = isPaused;

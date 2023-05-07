@@ -1,4 +1,6 @@
-﻿using Godot;
+﻿using System;
+using System.Collections.Generic;
+using Godot;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
 
@@ -10,6 +12,7 @@ public partial class PowerUpPicker : Control
     public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
     private const int AmountPowerUps = 4;
+    public const bool DevMode = true;
 
     [GetNode("BackgroundRect")]
     private ColorRect _backgroundRect;
@@ -38,6 +41,8 @@ public partial class PowerUpPicker : Control
                     _label.Modulate = Colors.White;
                     _label.Text = "Dark team won! Lightness, pick a helping hand";
                     break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
         }
     }
@@ -58,17 +63,18 @@ public partial class PowerUpPicker : Control
 
     private void Populate()
     {
-        var powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
+        IEnumerable<PowerUpManager.IPowerUp> powerUps;
+
+        if (DevMode)
+            powerUps = PowerUpManager.GetAllPowerUps();
+        else
+            powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
 
         foreach (var powerUp in powerUps)
         {
             var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
             powerUpButton.Text = powerUp.Name;
-            powerUpButton.Pressed += () =>
-            {
-                GD.Print("Powerup button pressed");
-                PowerUpPickedListeners?.Invoke(powerUp);
-            };
+            powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
 
             _gridContainer.AddChild(powerUpButton);
         }

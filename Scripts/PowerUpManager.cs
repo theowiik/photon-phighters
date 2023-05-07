@@ -21,7 +21,8 @@ public static class PowerUpManager
             new GlassCannon(),
             new Gravitronizer(),
             new PhotonMuncher(),
-            new AirWalker()
+            new AirWalker(),
+            new GeneratorEngine()
         };
     }
 
@@ -61,6 +62,11 @@ public static class PowerUpManager
         }
 
         return powerUps.Shuffle();
+    }
+
+    public static IEnumerable<IPowerUp> GetAllPowerUps()
+    {
+        return SPowerUps;
     }
 
     public interface IPowerUp
@@ -172,5 +178,15 @@ public static class PowerUpManager
         }
 
         public string Name => "Glass Cannon";
+    }
+
+    private class GeneratorEngine : IPowerUp
+    {
+        public string Name => "Generator Engine";
+
+        public void Apply(Player player)
+        {
+            player.Gun.FireRate -= 0.1f;
+        }
     }
 }

@@ -9,7 +9,11 @@ public partial class Gun : Node2D
     public delegate void ShootDelegateEventHandler(Node2D bullet);
 
     private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
-    private bool _loading = true;
+    private readonly Color _loadedModulationColor = new(1, 1, 1);
+    private readonly Color _reloadModulationColor = new(1, 1, 1, 0.1f);
+
+    private float _fireRate = 2f;
+    private bool _loading;
 
     [GetNode("ShootPlayer")]
     private AudioStreamPlayer2D _shootPlayer;
@@ -17,30 +21,51 @@ public partial class Gun : Node2D
     [GetNode("Timer")]
     private Timer _shootTimer;
 
+    /// <summary>
+    ///     The rate of fire in bullets per second.
+    /// </summary>
+    public float FireRate
+    {
+        get => _fireRate;
+        set
+        {
+            _fireRate = value;
+            _shootTimer.WaitTime = 1 / _fireRate;
+        }
+    }
+
     public Light.LightMode LightMode { get; set; }
     public string ShootActionName { get; set; }
-    public double BulletSpeed { get; set; } = 750.0f;
-    public double FireRate { get; set; } = 5f;
+    public float BulletSpeed { get; set; } = 1500f;
     public float BulletSizeFactor { get; set; } = 1.0f;
-    public int BulletCount { get; set; } = 2;
-    public float BulletSpread { get; set; } = 0.2f;
+    public int BulletCount { get; set; } = 1;
+    private float BulletSpread { get; set; } = 0.1f;
     public float BulletGravity { get; set; } = 1.0f;
     public int BulletDamage { get; set; } = 10;
     public bool Freeze { get; set; }
 
+    private bool Loading
+    {
+        get => _loading;
+        set
+        {
+            _loading = value;
+            Modulate = _loading ? _reloadModulationColor : _loadedModulationColor;
+        }
+    }
+
     public override void _Ready()
     {
         this.AutoWire();
-        _shootTimer.Timeout += () => _loading = !_loading;
+        _shootTimer.Timeout += () => Loading = !Loading;
         LightMode = Light.LightMode.Light;
-        _shootTimer.WaitTime = 1 / FireRate;
     }
 
     public override void _PhysicsProcess(double delta)
     {
         if (Freeze) return;
 
-        if (Input.IsActionPressed(ShootActionName) && _loading) Shoot();
+        if (Input.IsActionPressed(ShootActionName) && !Loading) Shoot();
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -57,11 +82,11 @@ public partial class Gun : Node2D
         for (var i = 0; i < BulletCount; i++)
         {
             var bullet = _bulletScene.Instantiate<Bullet>();
-            var shotSpread = BulletCount == 1 ? 0 : (float)GD.RandRange(-BulletSpread, BulletSpread);
+            var shotSpread = (float)GD.RandRange(-BulletSpread, BulletSpread);
 
             bullet.GlobalPosition = GlobalPosition;
             bullet.Rotation = GetParent<Marker2D>().Rotation + shotSpread;
-            bullet.Speed = GetRandomBetweenRange((float)BulletSpeed * 0.9f, (float)BulletSpeed * 1.1f);
+            bullet.Speed = (float)GD.RandRange(BulletSpeed * 0.9f, BulletSpeed * 1.1f);
             bullet.Scale *= BulletSizeFactor;
             bullet.GravityFactor = BulletGravity;
             bullet.Damage = BulletDamage;
@@ -70,7 +95,7 @@ public partial class Gun : Node2D
             EmitSignal(SignalName.ShootDelegate, bullet);
         }
 
-        _loading = false;
+        Loading = true;
         _shootTimer.Start();
     }
 
