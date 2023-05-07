@@ -7,7 +7,7 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 public partial class PowerUpPicker : Control
 {
     // Non Godot signal since Godot doesnt support custom types
-    public delegate void PowerUpPicked(PowerUpManager.IPowerUpApplier powerUpApplier);
+    public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
     private const int AmountPowerUps = 4;
 

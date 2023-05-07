@@ -6,27 +6,26 @@ namespace PhotonPhighters.Scripts;
 
 public static class PowerUpManager
 {
-    private static readonly IList<IPowerUpApplier> SPowerUps;
+    private static readonly IList<IPowerUp> SPowerUps;
 
     static PowerUpManager()
     {
-        SPowerUps = new List<IPowerUpApplier>
+        SPowerUps = new List<IPowerUp>
         {
-            new PhotonBoostPowerup(),
-            new HealthPowerup(),
-            new BunnyBoostPowerup(),
-            new FrictionlessPowerup(),
+            new PhotonBoost(),
+            new HealthBoost(),
+            new BunnyBoost(),
             new PhotonMultiplier(),
             new PhotonEnlarger(),
             new PhotonAccelerator(),
             new GlassCannon(),
-            new GravitationalNeuronBlaster(),
+            new Gravitronizer(),
             new PhotonMuncher(),
             new AirWalker()
         };
     }
 
-    public static IPowerUpApplier GetRandomPowerup()
+    public static IPowerUp GetRandomPowerup()
     {
         var random = new Random();
         var randomIndex = random.Next(0, SPowerUps.Count);
@@ -43,12 +42,12 @@ public static class PowerUpManager
     ///     Thrown when n is less than 0 or when n is greater than the total number of unique
     ///     power-ups.
     /// </exception>
-    public static IEnumerable<IPowerUpApplier> GetUniquePowerUps(int n)
+    public static IEnumerable<IPowerUp> GetUniquePowerUps(int n)
     {
         if (n < 0) throw new ArgumentException("n must be greater than or equal to 0");
 
         var random = new Random();
-        var powerUps = new List<IPowerUpApplier>();
+        var powerUps = new List<IPowerUp>();
         while (powerUps.Count < n)
         {
             var randomIndex = random.Next(0, SPowerUps.Count);
@@ -64,23 +63,23 @@ public static class PowerUpManager
         return powerUps.Shuffle();
     }
 
-    public interface IPowerUpApplier
+    public interface IPowerUp
     {
         string Name { get; }
         void Apply(Player player);
     }
 
-    private class PhotonBoostPowerup : IPowerUpApplier
+    private class PhotonBoost : IPowerUp
     {
         public void Apply(Player player)
         {
-            // player.PlayerMovementDelegate.Speed += 100;
+            player.PlayerMovementDelegate.Speed += 100;
         }
 
         public string Name => "Photon Boost";
     }
 
-    private class HealthPowerup : IPowerUpApplier
+    private class HealthBoost : IPowerUp
     {
         public void Apply(Player player)
         {
@@ -90,63 +89,49 @@ public static class PowerUpManager
         public string Name => "Health Boost";
     }
 
-    private class BunnyBoostPowerup : IPowerUpApplier
+    private class BunnyBoost : IPowerUp
     {
         public void Apply(Player player)
         {
-            // player.PlayerMovementDelegate.JumpHeight += 100;
-            // player.PlayerMovementDelegate.UpdateMovementVars();
+            player.PlayerMovementDelegate.JumpForce += 300;
         }
 
         public string Name => "Bunny Boost";
     }
 
-    private class FrictionlessPowerup : IPowerUpApplier
+    private class AirWalker : IPowerUp
     {
         public void Apply(Player player)
         {
-            // var playerSpeed = player.PlayerMovementDelegate.Speed;
-            // player.PlayerMovementDelegate.FrictionAccelerate = playerSpeed;
-            // player.PlayerMovementDelegate.FrictionDecelerate = playerSpeed;
-        }
-
-        public string Name => "Frictionless movement";
-    }
-
-    private class AirWalker : IPowerUpApplier
-    {
-        public void Apply(Player player)
-        {
-            // player.PlayerMovementDelegate.JumpHeight += 25;
-            // player.PlayerMovementDelegate.NrPossibleJumps += 1;
-            // player.PlayerMovementDelegate.UpdateMovementVars();
+            player.PlayerMovementDelegate.JumpForce += 200;
+            player.PlayerMovementDelegate.MaxJumps += 1;
         }
 
         public string Name => "Air Walker";
     }
 
-    private class PhotonMuncher : IPowerUpApplier
+    private class PhotonMuncher : IPowerUp
     {
         public void Apply(Player player)
         {
             player.MaxHealth += 50;
-            // player.PlayerMovementDelegate.Speed -= -50.0f;
+            player.PlayerMovementDelegate.Speed -= -100.0f;
         }
 
         public string Name => "Photon Muncher";
     }
 
-    private class GravitationalNeuronBlaster : IPowerUpApplier
+    private class Gravitronizer : IPowerUp
     {
         public void Apply(Player player)
         {
             player.Gun.BulletGravity = 0.0f;
         }
 
-        public string Name => "Gravitational Neuron Blaster";
+        public string Name => "Gravitronizer";
     }
 
-    private class PhotonAccelerator : IPowerUpApplier
+    private class PhotonAccelerator : IPowerUp
     {
         public void Apply(Player player)
         {
@@ -156,7 +141,7 @@ public static class PowerUpManager
         public string Name => "Photon Accelerator";
     }
 
-    private class PhotonMultiplier : IPowerUpApplier
+    private class PhotonMultiplier : IPowerUp
     {
         public void Apply(Player player)
         {
@@ -166,7 +151,7 @@ public static class PowerUpManager
         public string Name => "Photon Multiplier";
     }
 
-    private class PhotonEnlarger : IPowerUpApplier
+    private class PhotonEnlarger : IPowerUp
     {
         public void Apply(Player player)
         {
@@ -178,7 +163,7 @@ public static class PowerUpManager
         public string Name => "Photon Enlarger";
     }
 
-    private class GlassCannon : IPowerUpApplier
+    private class GlassCannon : IPowerUp
     {
         public void Apply(Player player)
         {

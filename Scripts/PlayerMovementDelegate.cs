@@ -7,11 +7,11 @@ public partial class PlayerMovementDelegate : Node
     private const float Gravity = 800;
     private float _glideGravityScale = 0.5f;
     private int _jumpCount;
-    private float _jumpForce = 600;
-    private int _maxJumps = 3;
     private bool _onFloorLastCall;
-    private float _speed = 500;
     private Vector2 _velocity;
+    public float JumpForce { get; set; } = 600;
+    public int MaxJumps { get; set; } = 3;
+    public float Speed { get; set; } = 500;
     public CharacterBody2D CharacterBody { get; set; }
     public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
 
@@ -24,7 +24,7 @@ public partial class PlayerMovementDelegate : Node
         var inputDirection = new Vector2(Input.GetActionStrength("p1_right") - Input.GetActionStrength("p1_left"), 0);
 
         // Walking
-        _velocity.X = inputDirection.X * _speed;
+        _velocity.X = inputDirection.X * Speed;
 
         // Jumping
         var onFloor = CharacterBody.IsOnFloor();
@@ -39,27 +39,27 @@ public partial class PlayerMovementDelegate : Node
         _onFloorLastCall = onFloor;
 
         // Gravity
-        var _onWall = CharacterBody.IsOnWall() && !onFloor && inputDirection.X != 0;
+        var onWall = CharacterBody.IsOnWall() && !onFloor && inputDirection.X != 0;
         _velocity.Y += Gravity * (float)delta;
 
         // Gliding on walls
-        if (_onWall)
+        if (onWall)
             _velocity.Y += Gravity * _glideGravityScale * (float)delta;
         else
             _velocity.Y += Gravity * (float)delta;
 
         if (Input.IsActionJustPressed("p1_jump"))
         {
-            if (onFloor || _jumpCount < _maxJumps)
+            if (onFloor || _jumpCount < MaxJumps)
             {
-                _velocity.Y = -_jumpForce;
+                _velocity.Y = -JumpForce;
                 _jumpCount++;
                 JumpEffectsHandler();
             }
-            else if (_onWall)
+            else if (onWall)
             {
-                _velocity.Y = -_jumpForce;
-                _velocity.X = -Mathf.Sign(_velocity.X) * _jumpForce * 0.75f;
+                _velocity.Y = -JumpForce;
+                _velocity.X = -Mathf.Sign(_velocity.X) * JumpForce * 0.75f;
                 JumpEffectsHandler();
             }
         }
