@@ -19,10 +19,9 @@ public partial class Player : CharacterBody2D
 
     private readonly Color _nonSeeTroughColor = new(1, 1, 1);
     private readonly Color _seeTroughColor = new(1, 1, 1, 0.3f);
-
     private bool _aimWithMouse = true;
-
     private bool _freeze;
+    public bool IsAlive { get; set; }
 
     [GetNode("Marker2D")]
     private Marker2D _gunMarker;
@@ -90,6 +89,7 @@ public partial class Player : CharacterBody2D
         this.AutoWire();
 
         Health = MaxHealth;
+        IsAlive = true;
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
@@ -124,11 +124,14 @@ public partial class Player : CharacterBody2D
     private void ApplyBulletKnockback(Bullet bullet)
     {
         var pushDirection = bullet.GlobalPosition.DirectionTo(GlobalPosition);
-        PlayerMovementDelegate.AddKnockback(pushDirection * bullet.Speed);
+        var knockback = pushDirection.Normalized() * bullet.Speed;
+        PlayerMovementDelegate.AddKnockback(knockback);
     }
 
     public void TakeDamage(int damage)
     {
+        GD.Print("Player took damage");
+        
         if (Freeze) return;
 
         Health -= damage;
@@ -139,8 +142,11 @@ public partial class Player : CharacterBody2D
         if (Health <= 0) HandleDeath();
     }
 
-    public void HandleDeath()
+    private void HandleDeath()
     {
+        if (!IsAlive) return;
+        IsAlive = false;
+
         _playerEffectsDelegate.EmitDeathParticles();
         EmitSignal(SignalName.PlayerDied, this);
     }

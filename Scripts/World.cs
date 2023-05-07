@@ -97,14 +97,22 @@ public partial class World : Node2D
             OneShot = true,
             WaitTime = 2
         };
-        liveTimer.Timeout += () => player.Freeze = false;
+        liveTimer.Timeout += () =>
+        {
+            player.Freeze = false;
+            player.IsAlive = true;
+        };
         AddChild(liveTimer);
         liveTimer.Start();
     }
 
     private void OnOutOfBounds(Node body)
     {
-        if (body is Player player) player.TakeDamage(99999999);
+        if (body is Player player)
+        {
+            player.TakeDamage(99999999);
+            GD.Print("Player died from out of bounds, does this twice? Why twice? Why? wh y "); 
+        };
     }
 
     private void StartRound()

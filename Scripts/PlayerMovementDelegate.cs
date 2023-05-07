@@ -15,9 +15,9 @@ public partial class PlayerMovementDelegate : Node
     public CharacterBody2D CharacterBody { get; set; }
     public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
     private Vector2 _knockback;
-    private float _acceleration = 8f;
+    private float _acceleration = 12f;
     private float _deceleration = 12f;
-    private float _knockbackDecayRate = 0.9f;
+    private float _knockbackDecayRate = 0.1f;
 
     public override void _Ready()
     {
@@ -72,7 +72,7 @@ public partial class PlayerMovementDelegate : Node
 
         // Knockback
         _velocity += _knockback;
-        _knockback *= _knockbackDecayRate;
+        _knockback *= _knockbackDecayRate * (float)delta;
 
         // Apply movement
         CharacterBody.Velocity = _velocity;
