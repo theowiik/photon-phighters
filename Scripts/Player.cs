@@ -1,7 +1,7 @@
-namespace PhotonPhighters.Scripts;
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
+namespace PhotonPhighters.Scripts;
 public partial class Player : CharacterBody2D
 {
     public delegate void PlayerEffectAdded(Node2D effect, Player who);

@@ -1,8 +1,8 @@
-namespace PhotonPhighters.Scripts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using PhotonPhighters.Scripts.Utils;
 
+namespace PhotonPhighters.Scripts;
 public static class PowerUpManager
 {
     private static readonly IList<IPowerUpApplier> _powerUps;

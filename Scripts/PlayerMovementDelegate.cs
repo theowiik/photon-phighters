@@ -1,6 +1,6 @@
-namespace PhotonPhighters.Scripts;
-using Godot;
+﻿using Godot;
 
+namespace PhotonPhighters.Scripts;
 public partial class PlayerMovementDelegate : Node
 {
     public CharacterBody2D CharacterBody { get; set; }
@@ -37,6 +37,7 @@ public partial class PlayerMovementDelegate : Node
                 PlayerEffectsDelegate.AnimationPlayLand();
             }
         }
+
         _onFloorLastCall = onFloor;
 
         // Gravity

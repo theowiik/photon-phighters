@@ -1,7 +1,7 @@
-namespace PhotonPhighters.Scripts;
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
+namespace PhotonPhighters.Scripts;
 public partial class PlayerEffectsDelegate : Node2D
 {
     public Sprite2D PlayerSprite { get; set; }

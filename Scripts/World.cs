@@ -1,12 +1,12 @@
-namespace PhotonPhighters.Scripts;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
-using PauseOverlay = OverlayControllers.PauseOverlay;
+using PauseOverlay = PhotonPhighters.Scripts.OverlayControllers.PauseOverlay;
 
+namespace PhotonPhighters.Scripts;
 public partial class World : Node2D
 {
     [GetNode("LightSpawn")]
@@ -212,6 +212,14 @@ public partial class World : Node2D
         public int Light;
         public int Dark;
         public int Neutral;
+
+        public override bool Equals(object obj) => throw new NotImplementedException();
+
+        public override int GetHashCode() => throw new NotImplementedException();
+
+        public static bool operator ==(Results left, Results right) => left.Equals(right);
+
+        public static bool operator !=(Results left, Results right) => !(left == right);
     }
 
     public override void _UnhandledInput(InputEvent @event)

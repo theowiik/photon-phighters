@@ -1,7 +1,7 @@
-namespace PhotonPhighters.Scripts;
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
+namespace PhotonPhighters.Scripts;
 public partial class Gun : Node2D
 {
     private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
@@ -49,14 +49,7 @@ public partial class Gun : Node2D
     {
         if (@event.IsActionPressed("ui_right"))
         {
-            if (LightMode == Light.LightMode.Light)
-            {
-                LightMode = Light.LightMode.Dark;
-            }
-            else
-            {
-                LightMode = Light.LightMode.Light;
-            }
+            LightMode = LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
         }
     }
 
@@ -90,15 +83,5 @@ public partial class Gun : Node2D
 
     private static float GetRandomBetweenRange(float min, float max) => (float)GD.RandRange(min, max);
 
-    private float GetLightPitch()
-    {
-        if (LightMode == Light.LightMode.Light)
-        {
-            return (float)GD.RandRange(1.5f, 1.8f);
-        }
-        else
-        {
-            return (float)GD.RandRange(0.7f, 0.9f);
-        }
-    }
+    private float GetLightPitch() => LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
 }

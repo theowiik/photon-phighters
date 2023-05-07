@@ -1,8 +1,8 @@
-namespace PhotonPhighters.Scripts.OverlayControllers;
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.World;
 
+namespace PhotonPhighters.Scripts.OverlayControllers;
 public partial class Overlay : Control
 {
     [GetNode("VBox/RoundTimerLabel")]

@@ -1,8 +1,8 @@
-namespace PhotonPhighters.Scripts.OverlayControllers;
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
 
+namespace PhotonPhighters.Scripts.OverlayControllers;
 public partial class PowerUpPicker : Control
 {
     // Non Godot signal since Godot doesnt support custom types

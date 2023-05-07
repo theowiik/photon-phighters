@@ -1,6 +1,6 @@
-namespace PhotonPhighters.Scripts;
-using Godot;
+﻿using Godot;
 
+namespace PhotonPhighters.Scripts;
 public partial class Bullet : Area2D
 {
     public double Speed { get; set; }

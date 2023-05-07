@@ -1,6 +1,6 @@
-namespace PhotonPhighters.Scripts.MenuControllers;
-using Godot;
+﻿using Godot;
 
+namespace PhotonPhighters.Scripts.MenuControllers;
 public partial class StartSceen : Node2D
 {
     public override void _Ready()

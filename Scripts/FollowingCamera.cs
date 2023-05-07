@@ -1,7 +1,7 @@
-namespace PhotonPhighters.Scripts;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Godot;
 
+namespace PhotonPhighters.Scripts;
 public partial class FollowingCamera : Camera2D
 {
     private readonly IList<Node2D> _targets = new List<Node2D>();

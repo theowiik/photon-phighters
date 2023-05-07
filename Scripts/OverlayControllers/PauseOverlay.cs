@@ -1,7 +1,7 @@
-namespace PhotonPhighters.Scripts.OverlayControllers;
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
+namespace PhotonPhighters.Scripts.OverlayControllers;
 public partial class PauseOverlay : Control
 {
     [Signal]
