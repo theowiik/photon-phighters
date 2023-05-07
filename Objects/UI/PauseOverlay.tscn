@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dbar2l4ttgl8l"]
+[gd_scene load_steps=5 format=3 uid="uid://b7ix1pgcvbwjk"]
 
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="1_l4yn2"]
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PauseOverlay.cs" id="1_omib1"]

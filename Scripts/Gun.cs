@@ -12,7 +12,7 @@ public partial class Gun : Node2D
     private readonly Color _loadedModulationColor = new(1, 1, 1);
     private readonly Color _reloadModulationColor = new(1, 1, 1, 0.1f);
 
-    private float _fireRate = 2f;
+    private float _fireRate;
     private bool _loading;
 
     [GetNode("ShootPlayer")]
@@ -36,12 +36,12 @@ public partial class Gun : Node2D
 
     public Light.LightMode LightMode { get; set; }
     public string ShootActionName { get; set; }
-    public float BulletSpeed { get; set; } = 1500f;
+    public float BulletSpeed { get; set; } = 1000;
     public float BulletSizeFactor { get; set; } = 1.0f;
-    public int BulletCount { get; set; } = 1;
+    public int BulletCount { get; set; } = 3;
     private float BulletSpread { get; set; } = 0.1f;
     public float BulletGravity { get; set; } = 1.0f;
-    public int BulletDamage { get; set; } = 10;
+    public int BulletDamage { get; set; } = 5;
     public bool Freeze { get; set; }
 
     private bool Loading
@@ -57,6 +57,7 @@ public partial class Gun : Node2D
     public override void _Ready()
     {
         this.AutoWire();
+        FireRate = 3f;
         _shootTimer.Timeout += () => Loading = !Loading;
         LightMode = Light.LightMode.Light;
     }

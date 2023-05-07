@@ -112,7 +112,7 @@ public partial class Player : CharacterBody2D
 
     private void OnBulletEntered(Area2D area)
     {
-        if (area is Bullet bullet)
+        if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
         {
             TakeDamage(bullet.Damage);
             bullet.QueueFree();
