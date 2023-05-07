@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using PhotonPhighters.Scripts.MenuControllers;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
+using PauseOverlay = PhotonPhighters.Scripts.OverlayControllers.PauseOverlay;
 
 namespace PhotonPhighters.Scripts;
 

@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://cjd12co7m0as5"]
+[gd_scene load_steps=3 format=3 uid="uid://dbar2l4ttgl8l"]
 
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="1_l4yn2"]
-[ext_resource type="Script" path="res://Scripts/MenuControllers/PauseOverlay.cs" id="1_omib1"]
+[ext_resource type="Script" path="res://Scripts/OverlayControllers/PauseOverlay.cs" id="1_omib1"]
 
 [node name="PauseOverlay" type="Control"]
 process_mode = 3
@@ -13,22 +13,6 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_omib1")
 
-[node name="Label" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -28.5
-offset_top = -13.0
-offset_right = 28.5
-offset_bottom = 13.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1_l4yn2")
-text = "paused"
-
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
@@ -37,3 +21,26 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.231373, 1, 1, 0.0352941)
+
+[node name="VBox" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="Label" type="Label" parent="VBox"]
+layout_mode = 2
+theme = ExtResource("1_l4yn2")
+text = "paused"
+horizontal_alignment = 1
+
+[node name="ResumeButton" type="Button" parent="VBox"]
+layout_mode = 2
+text = "Resume"
+
+[node name="QuitButton" type="Button" parent="VBox"]
+layout_mode = 2
+text = "Quit"
