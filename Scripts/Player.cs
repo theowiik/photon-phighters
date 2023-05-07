@@ -2,25 +2,31 @@
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
+
 public partial class Player : CharacterBody2D
 {
-    public delegate void PlayerEffectAdded(Node2D effect, Player who);
-    public PlayerEffectAdded PlayerEffectAddedListeners;
-
     [Signal]
     public delegate void PlayerDiedEventHandler(Player player);
 
-    [Export]
-    public int PlayerNumber { get; set; }
+    public delegate void PlayerEffectAdded(Node2D effect, Player who);
 
-    [GetNode("Movement")]
-    public PlayerMovementDelegate PlayerMovementDelegate;
+    public enum TeamEnum
+    {
+        Light,
+        Dark
+    }
+
+    private readonly Color _nonSeeTroughColor = new(1, 1, 1);
+    private readonly Color _seeTroughColor = new(1, 1, 1, 0.3f);
+
+    private bool _aimWithMouse = true;
+
+    private bool _freeze;
 
     [GetNode("Marker2D")]
     private Marker2D _gunMarker;
 
-    [GetNode("Marker2D/Gun")]
-    public Gun Gun { get; set; }
+    private int _health;
 
     [GetNode("HealthLabel")]
     private Label _healthLabel;
@@ -31,7 +37,17 @@ public partial class Player : CharacterBody2D
     [GetNode("Sprite2D")]
     private Sprite2D _sprite2D;
 
-    private bool _freeze;
+    public PlayerEffectAdded PlayerEffectAddedListeners;
+
+    [GetNode("Movement")]
+    public PlayerMovementDelegate PlayerMovementDelegate;
+
+    [Export]
+    public int PlayerNumber { get; set; }
+
+    [GetNode("Marker2D/Gun")]
+    public Gun Gun { get; set; }
+
     public bool Freeze
     {
         get => _freeze;
@@ -54,7 +70,6 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    private int _health;
     public int Health
     {
         get => _health;
@@ -64,11 +79,10 @@ public partial class Player : CharacterBody2D
             _healthLabel.Text = $"{_health}/{MaxHealth}";
         }
     }
+
     public int MaxHealth { get; set; } = 50;
 
-    private bool _aimWithMouse = true;
-    private readonly Color _seeTroughColor = new(1, 1, 1, 0.3f);
-    private readonly Color _nonSeeTroughColor = new(1, 1, 1);
+    public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
 
     public override void _Ready()
     {
@@ -81,7 +95,8 @@ public partial class Player : CharacterBody2D
         _playerEffectsDelegate.PlayerSprite = _sprite2D;
         PlayerMovementDelegate.CharacterBody = this;
         PlayerMovementDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
-        PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners += effect => PlayerEffectAddedListeners?.Invoke(effect, this);
+        PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners +=
+            effect => PlayerEffectAddedListeners?.Invoke(effect, this);
 
         // Gun
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
@@ -90,10 +105,7 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Freeze)
-        {
-            return;
-        }
+        if (Freeze) return;
 
         Aim();
     }
@@ -109,20 +121,14 @@ public partial class Player : CharacterBody2D
 
     public void TakeDamage(int damage)
     {
-        if (Freeze)
-        {
-            return;
-        }
+        if (Freeze) return;
 
         Health -= damage;
         _playerEffectsDelegate.EmitHurtParticles();
         _playerEffectsDelegate.PlayHurtSound();
         _playerEffectsDelegate.AnimationPlayHurt();
 
-        if (Health <= 0)
-        {
-            HandleDeath();
-        }
+        if (Health <= 0) HandleDeath();
     }
 
     public void HandleDeath()
@@ -131,12 +137,16 @@ public partial class Player : CharacterBody2D
         EmitSignal(SignalName.PlayerDied, this);
     }
 
-    public void ResetHealth() => Health = MaxHealth;
+    public void ResetHealth()
+    {
+        Health = MaxHealth;
+    }
 
     private void Aim()
     {
         var joystickDeadzone = 0.05f;
-        var joystickVector = new Vector2(Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX), Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY));
+        var joystickVector = new Vector2(Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX),
+            Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY));
 
         // Controller has priority over mouse.
         if (joystickVector.Length() > joystickDeadzone)
@@ -152,12 +162,4 @@ public partial class Player : CharacterBody2D
             _gunMarker.Rotation = direction.Angle();
         }
     }
-
-    public enum TeamEnum
-    {
-        Light,
-        Dark
-    }
-
-    public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
 }

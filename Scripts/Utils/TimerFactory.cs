@@ -1,6 +1,7 @@
 ﻿using Godot;
 
 namespace PhotonPhighters.Scripts.Utils;
+
 public static class TimerFactory
 {
     public static Timer OneShotStartedTimer(double waitTime)

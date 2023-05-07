@@ -1,18 +1,19 @@
 ﻿using Godot;
 
 namespace PhotonPhighters.Scripts;
+
 public partial class PlayerMovementDelegate : Node
 {
-    public CharacterBody2D CharacterBody { get; set; }
-    public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
     private const float Gravity = 800;
-    private float _speed = 500;
-    private float _jumpForce = 600;
     private float _glideGravityScale = 0.5f;
     private int _jumpCount;
+    private float _jumpForce = 600;
     private int _maxJumps = 3;
-    private Vector2 _velocity;
     private bool _onFloorLastCall;
+    private float _speed = 500;
+    private Vector2 _velocity;
+    public CharacterBody2D CharacterBody { get; set; }
+    public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
 
     public override void _Ready()
     {
@@ -32,10 +33,7 @@ public partial class PlayerMovementDelegate : Node
             _jumpCount = 0;
             _velocity.Y = 0;
 
-            if (!_onFloorLastCall)
-            {
-                PlayerEffectsDelegate.AnimationPlayLand();
-            }
+            if (!_onFloorLastCall) PlayerEffectsDelegate.AnimationPlayLand();
         }
 
         _onFloorLastCall = onFloor;
@@ -46,13 +44,9 @@ public partial class PlayerMovementDelegate : Node
 
         // Gliding on walls
         if (_onWall)
-        {
             _velocity.Y += Gravity * _glideGravityScale * (float)delta;
-        }
         else
-        {
             _velocity.Y += Gravity * (float)delta;
-        }
 
         if (Input.IsActionJustPressed("p1_jump"))
         {
@@ -79,24 +73,14 @@ public partial class PlayerMovementDelegate : Node
 
     private void WalkAnimationHandler()
     {
-        if (!_onFloorLastCall)
-        {
-            return;
-        }
+        if (!_onFloorLastCall) return;
 
-        if (CharacterBody.Velocity.X == 0)
-        {
-            return;
-        }
+        if (CharacterBody.Velocity.X == 0) return;
 
         if (CharacterBody.Velocity.X > 0)
-        {
             PlayerEffectsDelegate.AnimationPlayRunRight();
-        }
         else
-        {
             PlayerEffectsDelegate.AnimationPlayRunLeft();
-        }
     }
 
     private void JumpEffectsHandler()
@@ -106,5 +90,8 @@ public partial class PlayerMovementDelegate : Node
         PlayerEffectsDelegate.AnimationPlayJump();
     }
 
-    private void LandEffectsHandler() => PlayerEffectsDelegate.AnimationPlayLand();
+    private void LandEffectsHandler()
+    {
+        PlayerEffectsDelegate.AnimationPlayLand();
+    }
 }

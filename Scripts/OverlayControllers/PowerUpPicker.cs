@@ -3,20 +3,24 @@ using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
+
 public partial class PowerUpPicker : Control
 {
     // Non Godot signal since Godot doesnt support custom types
     public delegate void PowerUpPicked(PowerUpManager.IPowerUpApplier powerUpApplier);
-    public event PowerUpPicked PowerUpPickedListeners;
 
-    [GetNode("GridContainer")]
-    private GridContainer _gridContainer;
+    private const int AmountPowerUps = 4;
 
     [GetNode("BackgroundRect")]
     private ColorRect _backgroundRect;
 
+    [GetNode("GridContainer")]
+    private GridContainer _gridContainer;
+
     [GetNode("Label")]
     private Label _label;
+
+    private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
 
     public TeamEnum WinningSide
     {
@@ -34,14 +38,11 @@ public partial class PowerUpPicker : Control
                     _label.Modulate = Colors.White;
                     _label.Text = "Dark team won! Lightness, pick a helping hand";
                     break;
-                default:
-                    break;
             }
         }
     }
 
-    private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
-    private const int AmountPowerUps = 4;
+    public event PowerUpPicked PowerUpPickedListeners;
 
     public override void _Ready()
     {
@@ -75,9 +76,6 @@ public partial class PowerUpPicker : Control
 
     private void Clear()
     {
-        foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
-        {
-            powerUpButton.QueueFree();
-        }
+        foreach (var powerUpButton in _gridContainer.GetNodes<Button>()) powerUpButton.QueueFree();
     }
 }

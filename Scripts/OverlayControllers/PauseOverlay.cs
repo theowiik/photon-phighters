@@ -8,11 +8,11 @@ public partial class PauseOverlay : Control
     [Signal]
     public delegate void ResumeGameEventHandler();
 
-    [GetNode("Center/VBox/ResumeButton")]
-    private Button _resumeButton;
-
     [GetNode("Center/VBox/QuitButton")]
     private Button _quitButton;
+
+    [GetNode("Center/VBox/ResumeButton")]
+    private Button _resumeButton;
 
     public override void _Ready()
     {
@@ -23,10 +23,7 @@ public partial class PauseOverlay : Control
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_cancel"))
-        {
-            EmitSignal(SignalName.ResumeGame);
-            // TODO: Mark input as handled
-        }
+        if (@event.IsActionPressed("ui_cancel")) EmitSignal(SignalName.ResumeGame);
+        // TODO: Mark input as handled
     }
 }

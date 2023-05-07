@@ -4,16 +4,33 @@ using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
-using PauseOverlay = PhotonPhighters.Scripts.OverlayControllers.PauseOverlay;
 
 namespace PhotonPhighters.Scripts;
+
 public partial class World : Node2D
 {
-    [GetNode("LightSpawn")]
-    private Node2D _lightSpawn;
+    private const int RoundTime = 100;
+    private const int ScoreToWin = 4;
+
+    [GetNode("FollowingCamera")]
+    private FollowingCamera _camera;
+
+    private Player _darkPlayer;
 
     [GetNode("DarkSpawn")]
     private Node2D _darkSpawn;
+
+    [GetNode("Sfx/DarkWin")]
+    private AudioStreamPlayer _darkWin;
+
+    private Player _lastPlayerToScore;
+    private Player _lightPlayer;
+
+    [GetNode("LightSpawn")]
+    private Node2D _lightSpawn;
+
+    [GetNode("Sfx/LightWin")]
+    private AudioStreamPlayer _lightWin;
 
     [GetNode("CanvasLayer/Overlay")]
     private Overlay _overlay;
@@ -21,32 +38,19 @@ public partial class World : Node2D
     [GetNode("CanvasLayer/PauseOverlay")]
     private PauseOverlay _pauseOverlay;
 
+    private IEnumerable<Player> _players;
+
     [GetNode("CanvasLayer/PowerUpPicker")]
     private PowerUpPicker _powerUpPicker;
 
     [GetNode("RoundTimer")]
     private Timer _roundTimer;
 
-    [GetNode("FollowingCamera")]
-    private FollowingCamera _camera;
-
-    [GetNode("Sfx/LightWin")]
-    private AudioStreamPlayer _lightWin;
-
-    [GetNode("Sfx/DarkWin")]
-    private AudioStreamPlayer _darkWin;
-
     private Score _score;
-    private const int RoundTime = 100;
-    private const int ScoreToWin = 4;
-    private IEnumerable<Player> _players;
-    private Player _lightPlayer;
-    private Player _darkPlayer;
-    private Player _lastPlayerToScore;
 
     public override void _Ready()
     {
-        NodeAutoWire.AutoWire(this);
+        this.AutoWire();
         _score = new Score();
         _powerUpPicker.Visible = false;
         _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
@@ -72,10 +76,7 @@ public partial class World : Node2D
         _lightPlayer = _players.First(p => p.PlayerNumber == 1);
         _darkPlayer = _players.First(p => p.PlayerNumber == 2);
 
-        if (_lightPlayer == null || _darkPlayer == null)
-        {
-            throw new Exception("Could not find players");
-        }
+        if (_lightPlayer == null || _darkPlayer == null) throw new Exception("Could not find players");
 
         StartRound();
     }
@@ -103,20 +104,14 @@ public partial class World : Node2D
 
     private void OnOutOfBounds(Node body)
     {
-        if (body is Player player)
-        {
-            player.TakeDamage(99999999);
-        }
+        if (body is Player player) player.TakeDamage(99999999);
     }
 
     private void StartRound()
     {
         ResetLights();
 
-        foreach (var player in _players)
-        {
-            player.Freeze = false;
-        }
+        foreach (var player in _players) player.Freeze = false;
 
         _roundTimer.Start(RoundTime);
     }
@@ -125,16 +120,10 @@ public partial class World : Node2D
     {
         GD.Print("Round ended");
 
-        foreach (var player in _players)
-        {
-            player.Freeze = true;
-        }
+        foreach (var player in _players) player.Freeze = true;
 
         // Remove all bullets
-        foreach (var bullet in GetTree().GetNodesInGroup("bullets"))
-        {
-            bullet.QueueFree();
-        }
+        foreach (var bullet in GetTree().GetNodesInGroup("bullets")) bullet.QueueFree();
 
         var results = GetResults();
         if (results.Light == results.Dark)
@@ -143,7 +132,8 @@ public partial class World : Node2D
             StartRound();
             return;
         }
-        else if (results.Light > results.Dark)
+
+        if (results.Light > results.Dark)
         {
             _score.Light++;
             _lastPlayerToScore = _lightPlayer;
@@ -162,13 +152,9 @@ public partial class World : Node2D
             GD.Print("Game over");
 
             if (_score.Light > _score.Dark)
-            {
                 GetTree().ChangeSceneToFile("res://Scenes/EndScreenLight.tscn");
-            }
             else
-            {
                 GetTree().ChangeSceneToFile("res://Scenes/EndScreenDarkness.tscn");
-            }
         }
 
         StartPowerUpSelection();
@@ -196,30 +182,15 @@ public partial class World : Node2D
 
         foreach (var light in lights)
         {
-            if (light is not Light lightNode)
-            {
-                throw new Exception("Light node is not a Light!!");
-            }
+            if (light is not Light lightNode) throw new Exception("Light node is not a Light!!");
 
             lightNode.SetLight(Light.LightMode.None);
         }
     }
 
-    private void OnShoot(Node2D bullet) => AddChild(bullet);
-
-    public struct Results
+    private void OnShoot(Node2D bullet)
     {
-        public int Light;
-        public int Dark;
-        public int Neutral;
-
-        public override bool Equals(object obj) => throw new NotImplementedException();
-
-        public override int GetHashCode() => throw new NotImplementedException();
-
-        public static bool operator ==(Results left, Results right) => left.Equals(right);
-
-        public static bool operator !=(Results left, Results right) => !(left == right);
+        AddChild(bullet);
     }
 
     public override void _UnhandledInput(InputEvent @event)
@@ -235,13 +206,9 @@ public partial class World : Node2D
         _pauseOverlay.Visible = isPaused;
 
         if (isPaused)
-        {
             _pauseOverlay.GrabFocus();
-        }
         else
-        {
             _pauseOverlay.ReleaseFocus();
-        }
 
         // Stop everything else
         GetTree().Paused = isPaused;
@@ -251,15 +218,15 @@ public partial class World : Node2D
     {
         var results = GetResults();
 
-        if (results.Light == 0 && results.Dark == 0)
-        {
-            return;
-        }
+        if (results.Light == 0 && results.Dark == 0) return;
 
         _overlay.RoundScore = results;
     }
 
-    private void UpdateRoundTimer() => _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
+    private void UpdateRoundTimer()
+    {
+        _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
+    }
 
     private Results GetResults()
     {
@@ -268,10 +235,7 @@ public partial class World : Node2D
 
         foreach (var light in lights)
         {
-            if (light is not Light lightNode)
-            {
-                throw new Exception("Light node is not a Light!!");
-            }
+            if (light is not Light lightNode) throw new Exception("Light node is not a Light!!");
 
             switch (lightNode.LightState)
             {
@@ -284,12 +248,37 @@ public partial class World : Node2D
                 case Light.LightMode.None:
                     results.Neutral++;
                     break;
-                default:
-                    break;
             }
         }
 
         return results;
+    }
+
+    public struct Results
+    {
+        public int Light;
+        public int Dark;
+        public int Neutral;
+
+        public override bool Equals(object obj)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetHashCode()
+        {
+            throw new NotImplementedException();
+        }
+
+        public static bool operator ==(Results left, Results right)
+        {
+            return left.Equals(right);
+        }
+
+        public static bool operator !=(Results left, Results right)
+        {
+            return !(left == right);
+        }
     }
 
     private struct Score

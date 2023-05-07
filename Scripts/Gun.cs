@@ -2,9 +2,14 @@
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
+
 public partial class Gun : Node2D
 {
+    [Signal]
+    public delegate void ShootDelegateEventHandler(Node2D bullet);
+
     private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
+    private bool _loading = true;
 
     [GetNode("ShootPlayer")]
     private AudioStreamPlayer2D _shootPlayer;
@@ -21,7 +26,6 @@ public partial class Gun : Node2D
     public float BulletSpread { get; set; } = 0.2f;
     public float BulletGravity { get; set; } = 1.0f;
     public int BulletDamage { get; set; } = 10;
-    private bool _loading = true;
     public bool Freeze { get; set; }
 
     public override void _Ready()
@@ -34,27 +38,16 @@ public partial class Gun : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Freeze)
-        {
-            return;
-        }
+        if (Freeze) return;
 
-        if (Input.IsActionPressed(ShootActionName) && _loading)
-        {
-            Shoot();
-        }
+        if (Input.IsActionPressed(ShootActionName) && _loading) Shoot();
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_right"))
-        {
             LightMode = LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
-        }
     }
-
-    [Signal]
-    public delegate void ShootDelegateEventHandler(Node2D bullet);
 
     private void Shoot()
     {
@@ -81,7 +74,13 @@ public partial class Gun : Node2D
         _shootTimer.Start();
     }
 
-    private static float GetRandomBetweenRange(float min, float max) => (float)GD.RandRange(min, max);
+    private static float GetRandomBetweenRange(float min, float max)
+    {
+        return (float)GD.RandRange(min, max);
+    }
 
-    private float GetLightPitch() => LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
+    private float GetLightPitch()
+    {
+        return LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
+    }
 }
