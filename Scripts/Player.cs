@@ -1,10 +1,12 @@
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
-
 public partial class Player : CharacterBody2D
 {
+    public delegate void PlayerEffectAdded(Node2D effect, Player who);
+    public PlayerEffectAdded PlayerEffectAddedListeners;
+
     [Signal]
     public delegate void PlayerDiedEventHandler(Player player);
 
@@ -12,7 +14,7 @@ public partial class Player : CharacterBody2D
     public int PlayerNumber { get; set; }
 
     [GetNode("Movement")]
-    public PlayerMovementDelegate PlayerMovementDelegateDelegate;
+    public PlayerMovementDelegate PlayerMovementDelegate;
 
     [GetNode("Marker2D")]
     private Marker2D _gunMarker;
@@ -25,6 +27,9 @@ public partial class Player : CharacterBody2D
 
     [GetNode("PlayerEffectsDelegate")]
     private PlayerEffectsDelegate _playerEffectsDelegate;
+
+    [GetNode("Sprite2D")]
+    private Sprite2D _sprite2D;
 
     private bool _freeze;
     public bool Freeze
@@ -39,10 +44,12 @@ public partial class Player : CharacterBody2D
             if (_freeze)
             {
                 ProcessMode = ProcessModeEnum.Disabled;
+                _sprite2D.Modulate = _seeTroughColor;
             }
             else
             {
                 ProcessMode = ProcessModeEnum.Inherit;
+                _sprite2D.Modulate = _nonSeeTroughColor;
             }
         }
     }
@@ -60,6 +67,8 @@ public partial class Player : CharacterBody2D
     public int MaxHealth { get; set; } = 50;
 
     private bool _aimWithMouse = true;
+    private readonly Color _seeTroughColor = new(1, 1, 1, 0.3f);
+    private readonly Color _nonSeeTroughColor = new(1, 1, 1);
 
     public override void _Ready()
     {
@@ -69,8 +78,10 @@ public partial class Player : CharacterBody2D
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
-        PlayerMovementDelegateDelegate.CharacterBody = this;
-        PlayerMovementDelegateDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
+        _playerEffectsDelegate.PlayerSprite = _sprite2D;
+        PlayerMovementDelegate.CharacterBody = this;
+        PlayerMovementDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
+        PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners += effect => PlayerEffectAddedListeners?.Invoke(effect, this);
 
         // Gun
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
@@ -80,7 +91,9 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         if (Freeze)
+        {
             return;
+        }
 
         Aim();
     }
@@ -97,11 +110,14 @@ public partial class Player : CharacterBody2D
     public void TakeDamage(int damage)
     {
         if (Freeze)
+        {
             return;
+        }
 
         Health -= damage;
-        _playerEffectsDelegate.PlayExplosionParticles();
+        _playerEffectsDelegate.EmitHurtParticles();
         _playerEffectsDelegate.PlayHurtSound();
+        _playerEffectsDelegate.AnimationPlayHurt();
 
         if (Health <= 0)
         {
@@ -111,14 +127,11 @@ public partial class Player : CharacterBody2D
 
     public void HandleDeath()
     {
-        _playerEffectsDelegate.PlayExplosionParticles();
+        _playerEffectsDelegate.EmitDeathParticles();
         EmitSignal(SignalName.PlayerDied, this);
     }
 
-    public void ResetHealth()
-    {
-        Health = MaxHealth;
-    }
+    public void ResetHealth() => Health = MaxHealth;
 
     private void Aim()
     {

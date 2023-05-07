@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://da0volva4r1o6"]
+
+[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="1_7e6ke"]
+[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="2_5qb5m"]
+
+[node name="DeathParticles" type="CPUParticles2D"]
+emitting = false
+amount = 100
+lifetime = 3.0
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("1_7e6ke")
+spread = 180.0
+initial_velocity_min = 200.0
+initial_velocity_max = 501.97
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+angle_min = -720.0
+angle_max = 720.0
+scale_amount_min = 0.05
+scale_amount_max = 0.1
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+texture = ExtResource("2_5qb5m")

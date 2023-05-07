@@ -1,9 +1,8 @@
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
-
 public partial class PowerUpPicker : Control
 {
     // Non Godot signal since Godot doesnt support custom types
@@ -34,6 +33,8 @@ public partial class PowerUpPicker : Control
                     _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
                     _label.Modulate = Colors.White;
                     _label.Text = "Dark team won! Lightness, pick a helping hand";
+                    break;
+                default:
                     break;
             }
         }

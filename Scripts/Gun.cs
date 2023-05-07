@@ -1,10 +1,11 @@
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
-
 public partial class Gun : Node2D
 {
+    private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
+
     [GetNode("ShootPlayer")]
     private AudioStreamPlayer2D _shootPlayer;
 
@@ -20,14 +21,12 @@ public partial class Gun : Node2D
     public float BulletSpread { get; set; } = 0.2f;
     public float BulletGravity { get; set; } = 1.0f;
     public int BulletDamage { get; set; } = 10;
-    private PackedScene _bulletScene;
     private bool _loading = true;
     public bool Freeze { get; set; }
 
     public override void _Ready()
     {
-        NodeAutoWire.AutoWire(this);
-        _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
+        this.AutoWire();
         _shootTimer.Timeout += () => _loading = !_loading;
         LightMode = Light.LightMode.Light;
         _shootTimer.WaitTime = 1 / FireRate;
@@ -36,20 +35,21 @@ public partial class Gun : Node2D
     public override void _PhysicsProcess(double delta)
     {
         if (Freeze)
+        {
             return;
+        }
 
         if (Input.IsActionPressed(ShootActionName) && _loading)
+        {
             Shoot();
+        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_right"))
         {
-            if (LightMode == Light.LightMode.Light)
-                LightMode = Light.LightMode.Dark;
-            else
-                LightMode = Light.LightMode.Light;
+            LightMode = LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
         }
     }
 
@@ -61,7 +61,7 @@ public partial class Gun : Node2D
         _shootPlayer.PitchScale = GetLightPitch();
         _shootPlayer.Play();
 
-        for (int i = 0; i < BulletCount; i++)
+        for (var i = 0; i < BulletCount; i++)
         {
             var bullet = _bulletScene.Instantiate<Bullet>();
             var shotSpread = BulletCount == 1 ? 0 : (float)GD.RandRange(-BulletSpread, BulletSpread);
@@ -81,16 +81,7 @@ public partial class Gun : Node2D
         _shootTimer.Start();
     }
 
-    private float GetRandomBetweenRange(float min, float max)
-    {
-        return (float)GD.RandRange(min, max);
-    }
+    private static float GetRandomBetweenRange(float min, float max) => (float)GD.RandRange(min, max);
 
-    private float GetLightPitch()
-    {
-        if (LightMode == Light.LightMode.Light)
-            return (float)GD.RandRange(1.5f, 1.8f);
-        else
-            return (float)GD.RandRange(0.7f, 0.9f);
-    }
+    private float GetLightPitch() => LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
 }

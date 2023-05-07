@@ -1,11 +1,10 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Godot;
 
 namespace PhotonPhighters.Scripts.Utils;
-
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public sealed class GetNodeAttribute : Attribute
 {
@@ -14,10 +13,7 @@ public sealed class GetNodeAttribute : Attribute
     // Whether to exit the application if the node cannot be found
     private const bool FailHard = true;
 
-    public GetNodeAttribute(string nodePath)
-    {
-        _path = nodePath;
-    }
+    public GetNodeAttribute(string nodePath) => _path = nodePath;
 
     public void SetNode(MemberInfo memberInfo, Node node)
     {
@@ -28,7 +24,7 @@ public sealed class GetNodeAttribute : Attribute
             HandleError($"Cannot find Node for NodePath '{_path}'", node);
         }
 
-        Type expectedType = memberInfo is FieldInfo fieldInfo ? fieldInfo.FieldType : ((PropertyInfo)memberInfo).PropertyType;
+        var expectedType = memberInfo is FieldInfo fieldInfo ? fieldInfo.FieldType : ((PropertyInfo)memberInfo).PropertyType;
 
         if (childNode.GetType() != expectedType && !childNode.GetType().IsSubclassOf(expectedType))
         {
@@ -36,15 +32,23 @@ public sealed class GetNodeAttribute : Attribute
         }
 
         if (memberInfo is FieldInfo)
+        {
             ((FieldInfo)memberInfo).SetValue(node, childNode);
+        }
         else
+        {
             ((PropertyInfo)memberInfo).SetValue(node, childNode);
+        }
     }
 
-    private void HandleError(string err, Node node)
+    private static void HandleError(string err, Node node)
     {
         GD.PrintErr(err);
-        if (FailHard) node.GetTree().Quit();
+        if (FailHard)
+        {
+            node.GetTree().Quit();
+        }
+
         throw new Exception(err);
     }
 }
@@ -65,19 +69,16 @@ public static class NodeAutoWire
         }
     }
 
-    private static IEnumerable<FieldInfo> GetFields(Node node)
-    {
-        return GetMembers<FieldInfo>(node);
-    }
+    private static IEnumerable<FieldInfo> GetFields(Node node) => GetMembers<FieldInfo>(node);
 
-    private static IEnumerable<PropertyInfo> GetProperties(Node node)
-    {
-        return GetMembers<PropertyInfo>(node);
-    }
+    private static IEnumerable<PropertyInfo> GetProperties(Node node) => GetMembers<PropertyInfo>(node);
 
     private static IEnumerable<T> GetMembers<T>(Node node) where T : MemberInfo
     {
-        if (node == null) return new List<T>();
+        if (node == null)
+        {
+            return new List<T>();
+        }
 
         var members = node.GetType().GetMembers(
             BindingFlags.FlattenHierarchy | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance

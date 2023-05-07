@@ -1,8 +1,7 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Godot;
 
 namespace PhotonPhighters.Scripts.Utils;
-
 public static class NodeExtensions
 {
     public static IEnumerable<T> GetNodes<T>(this Node node) where T : Node
@@ -12,7 +11,9 @@ public static class NodeExtensions
         foreach (var child in node.GetChildren())
         {
             if (child is T c)
+            {
                 output.Add(c);
+            }
         }
 
         return output;

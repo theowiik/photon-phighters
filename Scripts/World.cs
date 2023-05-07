@@ -1,11 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
+using PauseOverlay = PhotonPhighters.Scripts.OverlayControllers.PauseOverlay;
 
 namespace PhotonPhighters.Scripts;
-
 public partial class World : Node2D
 {
     [GetNode("LightSpawn")]
@@ -15,10 +16,13 @@ public partial class World : Node2D
     private Node2D _darkSpawn;
 
     [GetNode("CanvasLayer/Overlay")]
-    private OverlayControllers.Overlay _overlay;
+    private Overlay _overlay;
+
+    [GetNode("CanvasLayer/PauseOverlay")]
+    private PauseOverlay _pauseOverlay;
 
     [GetNode("CanvasLayer/PowerUpPicker")]
-    private OverlayControllers.PowerUpPicker _powerUpPicker;
+    private PowerUpPicker _powerUpPicker;
 
     [GetNode("RoundTimer")]
     private Timer _roundTimer;
@@ -33,7 +37,7 @@ public partial class World : Node2D
     private AudioStreamPlayer _darkWin;
 
     private Score _score;
-    private const int RoundTime = 1;
+    private const int RoundTime = 100;
     private const int ScoreToWin = 4;
     private IEnumerable<Player> _players;
     private Player _lightPlayer;
@@ -46,10 +50,12 @@ public partial class World : Node2D
         _score = new Score();
         _powerUpPicker.Visible = false;
         _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
+        _pauseOverlay.ResumeGame += TogglePause;
 
         var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
         uiUpdateTimer.Timeout += UpdateScore;
         uiUpdateTimer.Timeout += UpdateRoundTimer;
+        _roundTimer.Timeout += OnRoundFinished;
 
         var ob = GetNode<Area2D>("OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
@@ -60,15 +66,24 @@ public partial class World : Node2D
             player.PlayerDied += OnPlayerDied;
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
+            player.PlayerEffectAddedListeners += OnPlayerEffectAdded;
         }
 
         _lightPlayer = _players.First(p => p.PlayerNumber == 1);
         _darkPlayer = _players.First(p => p.PlayerNumber == 2);
 
         if (_lightPlayer == null || _darkPlayer == null)
+        {
             throw new Exception("Could not find players");
+        }
 
         StartRound();
+    }
+
+    private void OnPlayerEffectAdded(Node2D effect, Player who)
+    {
+        AddChild(effect);
+        effect.GlobalPosition = who.GlobalPosition;
     }
 
     private void OnPlayerDied(Player player)
@@ -99,9 +114,10 @@ public partial class World : Node2D
         ResetLights();
 
         foreach (var player in _players)
+        {
             player.Freeze = false;
+        }
 
-        _roundTimer.Timeout += OnRoundFinished;
         _roundTimer.Start(RoundTime);
     }
 
@@ -110,7 +126,9 @@ public partial class World : Node2D
         GD.Print("Round ended");
 
         foreach (var player in _players)
+        {
             player.Freeze = true;
+        }
 
         // Remove all bullets
         foreach (var bullet in GetTree().GetNodesInGroup("bullets"))
@@ -179,30 +197,54 @@ public partial class World : Node2D
         foreach (var light in lights)
         {
             if (light is not Light lightNode)
+            {
                 throw new Exception("Light node is not a Light!!");
+            }
 
             lightNode.SetLight(Light.LightMode.None);
         }
     }
 
-    private void OnShoot(Node2D bullet)
-    {
-        AddChild(bullet);
-    }
+    private void OnShoot(Node2D bullet) => AddChild(bullet);
 
     public struct Results
     {
         public int Light;
         public int Dark;
         public int Neutral;
+
+        public override bool Equals(object obj) => throw new NotImplementedException();
+
+        public override int GetHashCode() => throw new NotImplementedException();
+
+        public static bool operator ==(Results left, Results right) => left.Equals(right);
+
+        public static bool operator !=(Results left, Results right) => !(left == right);
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_cancel"))
         {
-            GetTree().Quit();
         }
+    }
+
+    private void TogglePause()
+    {
+        var isPaused = !_pauseOverlay.Visible;
+        _pauseOverlay.Visible = isPaused;
+
+        if (isPaused)
+        {
+            _pauseOverlay.GrabFocus();
+        }
+        else
+        {
+            _pauseOverlay.ReleaseFocus();
+        }
+
+        // Stop everything else
+        GetTree().Paused = isPaused;
     }
 
     private void UpdateScore()
@@ -217,10 +259,7 @@ public partial class World : Node2D
         _overlay.RoundScore = results;
     }
 
-    private void UpdateRoundTimer()
-    {
-        _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
-    }
+    private void UpdateRoundTimer() => _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
 
     private Results GetResults()
     {
@@ -230,7 +269,9 @@ public partial class World : Node2D
         foreach (var light in lights)
         {
             if (light is not Light lightNode)
+            {
                 throw new Exception("Light node is not a Light!!");
+            }
 
             switch (lightNode.LightState)
             {
@@ -242,6 +283,8 @@ public partial class World : Node2D
                     break;
                 case Light.LightMode.None:
                     results.Neutral++;
+                    break;
+                default:
                     break;
             }
         }

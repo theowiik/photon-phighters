@@ -1,7 +1,6 @@
-using Godot;
+﻿using Godot;
 
 namespace PhotonPhighters.Scripts;
-
 public partial class PlayerMovementDelegate : Node
 {
     public CharacterBody2D CharacterBody { get; set; }
@@ -13,6 +12,7 @@ public partial class PlayerMovementDelegate : Node
     private int _jumpCount;
     private int _maxJumps = 3;
     private Vector2 _velocity;
+    private bool _onFloorLastCall;
 
     public override void _Ready()
     {
@@ -31,7 +31,14 @@ public partial class PlayerMovementDelegate : Node
         {
             _jumpCount = 0;
             _velocity.Y = 0;
+
+            if (!_onFloorLastCall)
+            {
+                PlayerEffectsDelegate.AnimationPlayLand();
+            }
         }
+
+        _onFloorLastCall = onFloor;
 
         // Gravity
         var _onWall = CharacterBody.IsOnWall() && !onFloor && inputDirection.X != 0;
@@ -66,17 +73,38 @@ public partial class PlayerMovementDelegate : Node
         // Apply movement
         CharacterBody.Velocity = _velocity;
         CharacterBody.MoveAndSlide();
+
+        WalkAnimationHandler();
+    }
+
+    private void WalkAnimationHandler()
+    {
+        if (!_onFloorLastCall)
+        {
+            return;
+        }
+
+        if (CharacterBody.Velocity.X == 0)
+        {
+            return;
+        }
+
+        if (CharacterBody.Velocity.X > 0)
+        {
+            PlayerEffectsDelegate.AnimationPlayRunRight();
+        }
+        else
+        {
+            PlayerEffectsDelegate.AnimationPlayRunLeft();
+        }
     }
 
     private void JumpEffectsHandler()
     {
-        PlayerEffectsDelegate.PlayJumpParticles();
+        PlayerEffectsDelegate.EmitJumpParticles();
         PlayerEffectsDelegate.PlayJumpSound();
-        GD.Print("animate jump here?");
+        PlayerEffectsDelegate.AnimationPlayJump();
     }
 
-    private void LandEffectsHandler()
-    {
-        GD.Print("doing land effects");
-    }
+    private void LandEffectsHandler() => PlayerEffectsDelegate.AnimationPlayLand();
 }

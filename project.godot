@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Photon Phighters"
-run/main_scene="res://Scenes/Levels/BaseLevel.tscn"
+run/main_scene="res://Scenes/Levels/LargeLevel.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 boot_splash/image="res://Assets/banner.png"
 config/icon="res://icon.svg"

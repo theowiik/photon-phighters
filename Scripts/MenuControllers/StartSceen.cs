@@ -1,7 +1,6 @@
-using Godot;
+﻿using Godot;
 
 namespace PhotonPhighters.Scripts.MenuControllers;
-
 public partial class StartSceen : Node2D
 {
     public override void _Ready()
@@ -14,13 +13,7 @@ public partial class StartSceen : Node2D
         quitButton.Pressed += QuitGame;
     }
 
-    private void StartGame()
-    {
-        GetTree().ChangeSceneToFile("res://Scenes/Levels/BaseLevel.tscn");
-    }
+    private void StartGame() => GetTree().ChangeSceneToFile("res://Scenes/Levels/BaseLevel.tscn");
 
-    private void QuitGame()
-    {
-        GetTree().Quit();
-    }
+    private void QuitGame() => GetTree().Quit();
 }
