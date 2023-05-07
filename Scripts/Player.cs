@@ -79,6 +79,7 @@ public partial class Player : CharacterBody2D
         Gun.ShootActionName = $"p{PlayerNumber}_shoot";
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
+        _playerEffectsDelegate.PlayerSprite = _sprite2D;
         PlayerMovementDelegate.CharacterBody = this;
         PlayerMovementDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
         PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners += effect => PlayerEffectAddedListeners?.Invoke(effect, this);
@@ -113,6 +114,7 @@ public partial class Player : CharacterBody2D
         Health -= damage;
         _playerEffectsDelegate.EmitHurtParticles();
         _playerEffectsDelegate.PlayHurtSound();
+        _playerEffectsDelegate.AnimationPlayHurt();
 
         if (Health <= 0)
         {

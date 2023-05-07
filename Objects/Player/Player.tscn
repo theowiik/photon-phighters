@@ -160,6 +160,10 @@ libraries = {
 "": SubResource("AnimationLibrary_1me7g")
 }
 
+[node name="HurtTimer" type="Timer" parent="PlayerEffectsDelegate"]
+wait_time = 0.1
+one_shot = true
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_k4h85")
 

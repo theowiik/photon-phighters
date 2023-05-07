@@ -5,8 +5,12 @@ namespace PhotonPhighters.Scripts;
 
 public partial class PlayerEffectsDelegate : Node2D
 {
+    public Sprite2D PlayerSprite { get; set; }
+
+    // TODO: Create a object pool for particles
     private PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>("res://Objects/Player/Particles/JumpParticles.tscn");
     private PackedScene _deathParticlesScene = ResourceLoader.Load<PackedScene>("res://Objects/Player/Particles/DeathParticles.tscn");
+    private PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>("res://Objects/Player/Particles/HurtParticles.tscn");
 
     [GetNode("AnimationPlayer")]
     private AnimationPlayer _animationPlayer;
@@ -22,16 +26,26 @@ public partial class PlayerEffectsDelegate : Node2D
     
     [GetNode("Sfx/JumpPlayer")]
     private AudioStreamPlayer2D _jumpPlayer;
-    
+
+    [GetNode("HurtTimer")]
+    private Timer _hurtTimer;
+
     private const string JumpAnimation = "stretch_jump";
     private const string LandAnimation = "squish_land";
     private const string RunLeftAnimation = "running_left";
     private const string RunRightAnimation = "running_right";
     private const string Wall = "squish_wall";
+    private readonly Color _hurtColor = new(0.5f, 0, 0);
 
     public override void _Ready()
     {
         this.AutoWire();
+        _hurtTimer.Timeout += HurtTimerOnTimeout;
+    }
+
+    private void HurtTimerOnTimeout()
+    {
+        PlayerSprite.Modulate = Colors.White;
     }
 
     public delegate void PlayerEffectPerformed(Node2D effect);
@@ -51,7 +65,8 @@ public partial class PlayerEffectsDelegate : Node2D
 
     public void EmitHurtParticles()
     {
-        GD.Print("hurt!");
+        var instance = GenerateParticles(_hurtParticlesScene);
+        PlayerEffectAddedListeners?.Invoke(instance);
     }
     
     private static Node2D GenerateParticles(PackedScene particlesScene)
@@ -68,25 +83,21 @@ public partial class PlayerEffectsDelegate : Node2D
     
     public void PlayDeathSound()
     {
-        GD.Print("Playing death sound");
         _deathPlayer.Play();
     }
     
     public void PlayHurtSound()
     {
-        GD.Print("Playing hurt sound");
         _hurtPlayer.Play();
     }
     
     public void PlayFallDeathSound()
     {
-        GD.Print("Playing fall death sound");
         _fallDeathPlayer.Play();
     }
 
     public void PlayJumpSound()
     {
-        GD.Print("Playing jump sound");
         _jumpPlayer.Play();
     }
 
@@ -113,5 +124,11 @@ public partial class PlayerEffectsDelegate : Node2D
     public void AnimationPlayWall()
     {
         _animationPlayer.Play(Wall);
+    }
+
+    public void AnimationPlayHurt()
+    {
+        PlayerSprite.Modulate = _hurtColor;
+        _hurtTimer.Start();
     }
 }
