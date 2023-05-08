@@ -5,7 +5,7 @@
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="3_x6va4"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_grmef"]
-radius = 318.014
+radius = 300.0
 
 [node name="CapturePoint" type="Node2D"]
 script = ExtResource("1_no0dn")
