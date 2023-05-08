@@ -1,21 +1,27 @@
 using Godot;
+using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
 public partial class Explosion : Node2D
 {
-    // Called when the node enters the scene tree for the first time.
+    [GetNode("ExplosionPlayer")]
+    private AudioStreamPlayer2D _explosionPlayer;
+    
+    [GetNode("CpuParticles2D")]
+    private CpuParticles2D _explosionParticles;
+    
     public override void _Ready()
     {
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
     }
 
     public void Explode()
     {
-        
+        _explosionParticles.Emitting = true;
+        _explosionPlayer.Play();
     }
 }

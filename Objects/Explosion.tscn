@@ -41,3 +41,5 @@ angle_max = 720.0
 scale_amount_min = 0.3
 scale_amount_max = 0.7
 color_ramp = SubResource("Gradient_gtx85")
+
+[node name="ExplosionPlayer" type="AudioStreamPlayer2D" parent="."]
