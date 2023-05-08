@@ -59,12 +59,12 @@ public partial class Player : CharacterBody2D
 
             if (_freeze)
             {
-                ProcessMode = ProcessModeEnum.Disabled;
+                PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Disabled;
                 _sprite2D.Modulate = _seeTroughColor;
             }
             else
             {
-                ProcessMode = ProcessModeEnum.Inherit;
+                PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Inherit;
                 _sprite2D.Modulate = _nonSeeTroughColor;
             }
         }
@@ -80,7 +80,7 @@ public partial class Player : CharacterBody2D
         }
     }
 
-    public int MaxHealth { get; set; } = 50;
+    public int MaxHealth { get; set; } = 1;
 
     public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
 
@@ -130,9 +130,8 @@ public partial class Player : CharacterBody2D
 
     public void TakeDamage(int damage)
     {
-        GD.Print("Player took damage");
-        
         if (Freeze) return;
+        if (!IsAlive) return;
 
         Health -= damage;
         _playerEffectsDelegate.EmitHurtParticles();
@@ -147,6 +146,7 @@ public partial class Player : CharacterBody2D
         if (!IsAlive) return;
         IsAlive = false;
 
+        PlayerMovementDelegate.Reset();
         _playerEffectsDelegate.EmitDeathParticles();
         EmitSignal(SignalName.PlayerDied, this);
     }

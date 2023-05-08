@@ -7,6 +7,7 @@
 size = Vector2(128, 128)
 
 [node name="Floor" type="StaticBody2D" groups=["floors"]]
+collision_layer = 4
 script = ExtResource("1_0tmb8")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]

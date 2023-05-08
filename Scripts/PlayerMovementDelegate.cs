@@ -109,4 +109,10 @@ public partial class PlayerMovementDelegate : Node
     {
         PlayerEffectsDelegate.AnimationPlayLand();
     }
+    
+    public void Reset()
+    {
+        _velocity = Vector2.Zero;
+        _knockback = Vector2.Zero;
+    }
 }

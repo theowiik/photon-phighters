@@ -11,6 +11,7 @@ public partial class World : Node2D
 {
     private const int RoundTime = 20;
     private const int ScoreToWin = 10;
+    private readonly PackedScene _ragdollScene = GD.Load<PackedScene>("res://Objects/Player/Ragdoll.tscn");
 
     [GetNode("FollowingCamera")]
     private FollowingCamera _camera;
@@ -63,6 +64,7 @@ public partial class World : Node2D
 
         var ob = GetNode<Area2D>("OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
+        ob.BodyExited += OnOutOfBoundsExited;
 
         _players = GetTree().GetNodesInGroup("players").Cast<Player>();
         foreach (var player in _players)
@@ -104,15 +106,30 @@ public partial class World : Node2D
         };
         AddChild(liveTimer);
         liveTimer.Start();
+        
+        // Spawn ragdoll
+        var ragdoll = _ragdollScene.Instantiate<RigidBody2D>();
+        AddChild(ragdoll);
+        ragdoll.GlobalPosition = player.GlobalPosition;
+        ragdoll.ApplyCentralImpulse(GetRandomVector(-500, 500));
+        ragdoll.ApplyTorqueImpulse(1000);
+        ragdoll.ApplyTorque(1000);
     }
+    
+    private static Vector2 GetRandomVector(float min, float max) => new Vector2(GD.Randf() * (max - min) + min, GD.Randf() * (max - min) + min);
 
     private void OnOutOfBounds(Node body)
     {
-        if (body is Player player)
+        if (body is Player player && player.IsAlive)
         {
             player.TakeDamage(99999999);
             GD.Print("Player died from out of bounds, does this twice? Why twice? Why? wh y "); 
         };
+    }
+
+    private void OnOutOfBoundsExited(Node body)
+    {
+        GD.Print("exited");
     }
 
     private void StartRound()

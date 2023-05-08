@@ -9,20 +9,19 @@ colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 0.886076, 0, 0, 0, 0)
 
 [node name="DeathParticles" type="CPUParticles2D"]
 emitting = false
-amount = 15
-lifetime = 4.0
+amount = 100
 one_shot = true
 explosiveness = 1.0
 texture = ExtResource("1_7e6ke")
 direction = Vector2(0, 0)
 spread = 180.0
 gravity = Vector2(0, 0)
-initial_velocity_min = 211.92
-initial_velocity_max = 367.88
+initial_velocity_min = 200.0
+initial_velocity_max = 600.0
 angular_velocity_min = -720.0
 angular_velocity_max = 720.0
-orbit_velocity_min = -0.5
-orbit_velocity_max = 0.5
+orbit_velocity_min = -5.0
+orbit_velocity_max = 5.0
 angle_min = -720.0
 angle_max = 720.0
 scale_amount_min = 0.05
