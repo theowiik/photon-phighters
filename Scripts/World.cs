@@ -81,6 +81,16 @@ public partial class World : Node2D
         if (_lightPlayer == null || _darkPlayer == null) throw new Exception("Could not find players");
 
         StartRound();
+        
+        // Dev
+
+        var capture = GetNode<CapturePoint>("CapturePoint");
+        capture.CapturedListeners += OnCapturePointCaptured;
+    }
+
+    private void OnCapturePointCaptured(Player.TeamEnum team)
+    {
+        GD.Print("wowza");
     }
 
     private void OnPlayerEffectAdded(Node2D effect, Player who)

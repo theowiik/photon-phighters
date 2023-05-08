@@ -8,6 +8,9 @@ namespace PhotonPhighters.Scripts;
 
 public partial class CapturePoint : Node2D
 {
+    public delegate void CapturedEvent(Player.TeamEnum team);
+    public CapturedEvent CapturedListeners;
+    private bool _captured;
 
     private const float TimeToCapture = 5f;
 
@@ -48,6 +51,8 @@ public partial class CapturePoint : Node2D
 
     public override void _Process(double delta)
     {
+        if (_captured) return;
+
         QueueRedraw();
         var diffPlayers = CalcActiveCaptureDiff();
         if (diffPlayers == 0)
@@ -57,6 +62,20 @@ public partial class CapturePoint : Node2D
 
         var diff = diffPlayers > 0 ? 1 : -1;
         _captureTime += diff * (float)delta;
+
+        if (_captureTime >= TimeToCapture)
+        {
+            _captured = true;
+            CapturedListeners?.Invoke(Player.TeamEnum.Light);
+            _captureTime = TimeToCapture;
+        }
+        else if (_captureTime <= -TimeToCapture)
+        {
+            _captured = true;
+            CapturedListeners?.Invoke(Player.TeamEnum.Dark);
+            _captureTime = -TimeToCapture;
+        }
+        
         UpdateProgress();
     }
 
