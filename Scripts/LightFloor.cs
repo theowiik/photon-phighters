@@ -45,7 +45,10 @@ public partial class LightFloor : StaticBody2D
     {
         var output = new List<Vector2>();
 
-        for (var i = 0; i < lightsOnSide; i++) output.Add(baseVector + new Vector2(0, apart * i));
+        for (var i = 0; i < lightsOnSide; i++)
+        {
+            output.Add(baseVector + new Vector2(0, apart * i));
+        }
 
         return output;
     }

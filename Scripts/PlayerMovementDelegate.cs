@@ -5,8 +5,12 @@ namespace PhotonPhighters.Scripts;
 public partial class PlayerMovementDelegate : Node
 {
     private const float Gravity = 800;
+    private float _acceleration = 12f;
+    private float _deceleration = 12f;
     private float _glideGravityScale = 0.5f;
     private int _jumpCount;
+    private Vector2 _knockback;
+    private float _knockbackDecayRate = 0.1f;
     private bool _onFloorLastCall;
     private Vector2 _velocity;
     public float JumpForce { get; set; } = 600;
@@ -14,10 +18,6 @@ public partial class PlayerMovementDelegate : Node
     public float Speed { get; set; } = 500;
     public CharacterBody2D CharacterBody { get; set; }
     public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
-    private Vector2 _knockback;
-    private float _acceleration = 12f;
-    private float _deceleration = 12f;
-    private float _knockbackDecayRate = 0.1f;
 
     public override void _Ready()
     {
@@ -109,7 +109,7 @@ public partial class PlayerMovementDelegate : Node
     {
         PlayerEffectsDelegate.AnimationPlayLand();
     }
-    
+
     public void Reset()
     {
         _velocity = Vector2.Zero;

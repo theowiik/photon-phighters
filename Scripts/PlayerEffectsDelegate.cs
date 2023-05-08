@@ -12,7 +12,7 @@ public partial class PlayerEffectsDelegate : Node2D
     private const string RunLeftAnimation = "running_left";
     private const string RunRightAnimation = "running_right";
     private const string Wall = "squish_wall";
-    private readonly Color _hurtColor = new(0.8f, 0, 0);
+    private readonly Color _hurtColor = new Color(0.8f, 0, 0);
 
     [GetNode("AnimationPlayer")]
     private AnimationPlayer _animationPlayer;

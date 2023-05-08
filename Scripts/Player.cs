@@ -1,5 +1,4 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -17,11 +16,10 @@ public partial class Player : CharacterBody2D
         Dark
     }
 
-    private readonly Color _nonSeeTroughColor = new(1, 1, 1);
-    private readonly Color _seeTroughColor = new(1, 1, 1, 0.3f);
+    private readonly Color _nonSeeTroughColor = new Color(1, 1, 1);
+    private readonly Color _seeTroughColor = new Color(1, 1, 1, 0.3f);
     private bool _aimWithMouse = true;
     private bool _freeze;
-    public bool IsAlive { get; set; }
 
     [GetNode("Marker2D")]
     private Marker2D _gunMarker;
@@ -41,6 +39,8 @@ public partial class Player : CharacterBody2D
 
     [GetNode("Movement")]
     public PlayerMovementDelegate PlayerMovementDelegate;
+
+    public bool IsAlive { get; set; }
 
     [Export]
     public int PlayerNumber { get; set; }
@@ -144,6 +144,7 @@ public partial class Player : CharacterBody2D
     private void HandleDeath()
     {
         if (!IsAlive) return;
+
         IsAlive = false;
 
         PlayerMovementDelegate.Reset();
@@ -159,8 +160,10 @@ public partial class Player : CharacterBody2D
     private void Aim()
     {
         var joystickDeadzone = 0.05f;
-        var joystickVector = new Vector2(Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX),
-            Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY));
+        var joystickVector = new Vector2(
+            Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX),
+            Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY)
+        );
 
         // Controller has priority over mouse.
         if (joystickVector.Length() > joystickDeadzone)
