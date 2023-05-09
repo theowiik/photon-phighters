@@ -12,6 +12,7 @@ public partial class World : Node2D
     private const int RoundTime = 20;
     private const int ScoreToWin = 10;
     private readonly PackedScene _ragdollScene = GD.Load<PackedScene>("res://Objects/Player/Ragdoll.tscn");
+    private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
 
     [GetNode("FollowingCamera")]
     private FollowingCamera _camera;
@@ -64,7 +65,6 @@ public partial class World : Node2D
 
         var ob = GetNode<Area2D>("OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
-        ob.BodyExited += OnOutOfBoundsExited;
 
         _players = GetTree().GetNodesInGroup("players").Cast<Player>();
         foreach (var player in _players)
@@ -101,6 +101,8 @@ public partial class World : Node2D
 
     private void OnPlayerDied(Player player)
     {
+        var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
+        AddExplosion(player, oppositeLight);
         player.GlobalPosition = player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
         player.Freeze = true;
 
@@ -136,15 +138,7 @@ public partial class World : Node2D
         if (body is Player player && player.IsAlive)
         {
             player.TakeDamage(99999999);
-            GD.Print("Player died from out of bounds, does this twice? Why twice? Why? wh y ");
         }
-
-        ;
-    }
-
-    private void OnOutOfBoundsExited(Node body)
-    {
-        GD.Print("exited");
     }
 
     private void StartRound()
@@ -249,12 +243,18 @@ public partial class World : Node2D
 
         if (@event.IsActionPressed("ui_up"))
         {
-            var explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
-            var explosion = explosionScene.Instantiate<Explosion>();
-            AddChild(explosion);
-            explosion.GlobalPosition = _lightPlayer.GlobalPosition;
-            explosion.Explode();
+            AddExplosion(_lightPlayer, Light.LightMode.Dark);
         }
+    }
+
+    private void AddExplosion(Node2D where, Light.LightMode who)
+    {
+        
+        var explosion = _explosionScene.Instantiate<Explosion>();
+        explosion.LightMode = who;
+        AddChild(explosion);
+        explosion.GlobalPosition = where.GlobalPosition;
+        explosion.Explode();
     }
 
     private void TogglePause()

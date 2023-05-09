@@ -16,21 +16,12 @@ public partial class Explosion : Node2D
     
     [GetNode("Area2D")]
     private Area2D _area;
-    
-    /// <summary>
-    ///    If true, will get all lights inside the area and set them to dark.
-    ///    Semi hacky way due to physics engine not detecting areas in the first frame.
-    ///    Wait for the next frame to get all lights inside the area.
-    /// </summary>
-    private bool _getLightsInsideArea;
+
+    public Light.LightMode LightMode { get; set; }
 
     public override void _Ready()
     {
         this.AutoWire();
-    }
-
-    public override void _PhysicsProcess(double delta)
-    {
     }
 
     public void Explode()
@@ -38,6 +29,10 @@ public partial class Explosion : Node2D
         _explosionParticles.Emitting = true;
         _explosionPlayer.Play();
         ColorLightsInsideRadius();
+
+        var timer = TimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime);
+        timer.Timeout += QueueFree;
+        AddChild(timer);
     }
 
     private async void ColorLightsInsideRadius()
@@ -45,7 +40,7 @@ public partial class Explosion : Node2D
         var lights = await GetAllLightsInsideArea();
         foreach (var light in lights)
         {
-            light.SetLight(Light.LightMode.Dark);
+            light.SetLight(LightMode);
         }
     }
 

@@ -14,6 +14,7 @@ colors = PackedColorArray(0.89059, 0.89059, 0.89059, 1, 1, 1, 1, 0)
 script = ExtResource("1_dj6l3")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 modulate = Color(1, 0.231373, 0.172549, 1)
 texture = ExtResource("1_865aj")
 
