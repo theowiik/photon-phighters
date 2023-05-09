@@ -15,4 +15,16 @@ public static class TimerFactory
 
         return timer;
     }
+
+    public static Timer StartedTimer(int timeBetweenCapturePoint)
+    {
+        var timer = new Timer
+        {
+            Autostart = true,
+            OneShot = false,
+            WaitTime = timeBetweenCapturePoint
+        };
+
+        return timer;
+    }
 }

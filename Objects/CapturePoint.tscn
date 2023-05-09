@@ -11,6 +11,7 @@ radius = 300.0
 script = ExtResource("1_no0dn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
 texture = ExtResource("1_782k1")
 
 [node name="Area2D" type="Area2D" parent="."]

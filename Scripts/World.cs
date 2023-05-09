@@ -11,6 +11,8 @@ public partial class World : Node2D
 {
     private const int RoundTime = 20;
     private const int ScoreToWin = 10;
+    private const int TimeBetweenCapturePoint = 5;
+    private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
     private readonly PackedScene _ragdollScene = GD.Load<PackedScene>("res://Objects/Player/Ragdoll.tscn");
 
@@ -80,17 +82,29 @@ public partial class World : Node2D
 
         if (_lightPlayer == null || _darkPlayer == null) throw new Exception("Could not find players");
 
+        SetupCapturePoint();
         StartRound();
-
-        // Dev
-
-        var capture = GetNode<CapturePoint>("CapturePoint");
-        capture.CapturedListeners += OnCapturePointCaptured;
     }
 
-    private void OnCapturePointCaptured(Player.TeamEnum team)
+    private void SetupCapturePoint()
     {
-        GD.Print("wowza");
+        var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
+        AddChild(timer);
+        timer.Timeout += () =>
+        {
+            var randomNum = new Random().Next(0, int.MaxValue);
+            var player = _players.ElementAt(randomNum % _players.Count());
+            var capturePoint = _capturePointScene.Instantiate<CapturePoint>();
+            AddChild(capturePoint);
+            capturePoint.CapturedListeners += OnCapturePointCaptured;
+            capturePoint.GlobalPosition = player.GlobalPosition;
+        };
+    }
+
+    private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
+    {
+        var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
+        AddExplosion(which, light);
     }
 
     private void OnPlayerEffectAdded(Node2D effect, Player who)
@@ -101,6 +115,8 @@ public partial class World : Node2D
 
     private void OnPlayerDied(Player player)
     {
+        _camera.Shake(0.1f, FollowingCamera.ShakeStrength.Weak);
+
         var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
         AddExplosion(player, oppositeLight);
         player.GlobalPosition = player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
@@ -254,6 +270,7 @@ public partial class World : Node2D
         AddChild(explosion);
         explosion.GlobalPosition = where.GlobalPosition;
         explosion.Explode();
+        _camera.Shake(0.6f, FollowingCamera.ShakeStrength.Medium);
     }
 
     private void TogglePause()
