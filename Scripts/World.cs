@@ -246,6 +246,15 @@ public partial class World : Node2D
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_down")) _roundTimer.Start(0.05);
+
+        if (@event.IsActionPressed("ui_up"))
+        {
+            var explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
+            var explosion = explosionScene.Instantiate<Explosion>();
+            AddChild(explosion);
+            explosion.GlobalPosition = _lightPlayer.GlobalPosition;
+            explosion.Explode();
+        }
     }
 
     private void TogglePause()
@@ -255,10 +264,7 @@ public partial class World : Node2D
 
         if (isPaused)
             _pauseOverlay.GrabFocus();
-        // else
-        //     _pauseOverlay.ReleaseFocus();
-
-        // Stop everything else
+        
         GetTree().Paused = isPaused;
     }
 
