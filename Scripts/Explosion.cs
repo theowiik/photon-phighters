@@ -8,14 +8,15 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Explosion : Node2D
 {
-    [GetNode("ExplosionPlayer")]
-    private AudioStreamPlayer2D _explosionPlayer;
+
+    [GetNode("Area2D")]
+    private Area2D _area;
 
     [GetNode("CPUParticles2D")]
     private CpuParticles2D _explosionParticles;
-    
-    [GetNode("Area2D")]
-    private Area2D _area;
+
+    [GetNode("ExplosionPlayer")]
+    private AudioStreamPlayer2D _explosionPlayer;
 
     public Light.LightMode LightMode { get; set; }
 

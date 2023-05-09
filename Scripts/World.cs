@@ -11,8 +11,8 @@ public partial class World : Node2D
 {
     private const int RoundTime = 20;
     private const int ScoreToWin = 10;
-    private readonly PackedScene _ragdollScene = GD.Load<PackedScene>("res://Objects/Player/Ragdoll.tscn");
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
+    private readonly PackedScene _ragdollScene = GD.Load<PackedScene>("res://Objects/Player/Ragdoll.tscn");
 
     [GetNode("FollowingCamera")]
     private FollowingCamera _camera;
@@ -81,7 +81,7 @@ public partial class World : Node2D
         if (_lightPlayer == null || _darkPlayer == null) throw new Exception("Could not find players");
 
         StartRound();
-        
+
         // Dev
 
         var capture = GetNode<CapturePoint>("CapturePoint");
@@ -249,7 +249,6 @@ public partial class World : Node2D
 
     private void AddExplosion(Node2D where, Light.LightMode who)
     {
-        
         var explosion = _explosionScene.Instantiate<Explosion>();
         explosion.LightMode = who;
         AddChild(explosion);
@@ -264,7 +263,7 @@ public partial class World : Node2D
 
         if (isPaused)
             _pauseOverlay.GrabFocus();
-        
+
         GetTree().Paused = isPaused;
     }
 

@@ -9,10 +9,11 @@ namespace PhotonPhighters.Scripts;
 public partial class CapturePoint : Node2D
 {
     public delegate void CapturedEvent(Player.TeamEnum team);
-    public CapturedEvent CapturedListeners;
-    private bool _captured;
 
     private const float TimeToCapture = 5f;
+
+    private readonly ICollection<Player> _playersInside = new List<Player>();
+    private bool _captured;
 
     /// <summary>
     ///     Light should reach +TimeToCapture.
@@ -23,7 +24,7 @@ public partial class CapturePoint : Node2D
     [GetNode("Label")]
     private Label _label;
 
-    private readonly ICollection<Player> _playersInside = new List<Player>();
+    public CapturedEvent CapturedListeners;
 
     public override void _Ready()
     {
@@ -75,7 +76,7 @@ public partial class CapturePoint : Node2D
             CapturedListeners?.Invoke(Player.TeamEnum.Dark);
             _captureTime = -TimeToCapture;
         }
-        
+
         UpdateProgress();
     }
 
@@ -137,7 +138,7 @@ public partial class CapturePoint : Node2D
         var tiedColor = new Color(1, 0.67f, 0, 0.3f);
 
         var diffPlayers = CalcActiveCaptureDiff();
-        
+
         Color color;
         if (!_playersInside.Any())
         {
