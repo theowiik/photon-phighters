@@ -21,8 +21,8 @@ public partial class CapturePoint : Node2D
     /// </summary>
     private float _captureTime;
 
-    [GetNode("Label")]
-    private Label _label;
+    [GetNode("ProgressBar")]
+    private ProgressBar _progressBar;
 
     public CapturedEvent CapturedListeners;
 
@@ -80,38 +80,11 @@ public partial class CapturePoint : Node2D
 
     private void UpdateProgress()
     {
-        var progress = CreateProgressBar(-TimeToCapture, TimeToCapture, _captureTime, 10);
-        _label.Text = progress;
-    }
-
-    private static string CreateProgressBar(float minValue, float maxValue, float currentValue, int barLength)
-    {
-        const char first = '-';
-        const char last = '_';
-
-        if (minValue > maxValue) throw new ArgumentException("Min value should not be greater than max value.");
-
-        if (barLength <= 0) throw new ArgumentException("Bar length should be greater than 0.");
-
-        if (currentValue >= maxValue)
-        {
-            return "Light captured";
-            return new string(first, barLength);
-        }
-
-        if (currentValue < minValue)
-        {
-            return "Dark captured";
-            return new string(last, barLength);
-        }
-
-        var progress = (currentValue - minValue) / (maxValue - minValue);
-        var filledLength = (int)(barLength * progress);
-
-        var filled = new string(first, filledLength);
-        var empty = new string(last, barLength - filledLength);
-
-        return filled + empty;
+        var min = -TimeToCapture;
+        var max = TimeToCapture;
+        var value = _captureTime;
+        var progress = (value - min) / (max - min);
+        _progressBar.Value = progress;
     }
 
     public override void _Draw()
