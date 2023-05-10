@@ -14,7 +14,12 @@ public partial class World : Node2D
     private const int TimeBetweenCapturePoint = 5;
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
-    private readonly PackedScene _ragdollScene = GD.Load<PackedScene>("res://Objects/Player/Ragdoll.tscn");
+
+    private readonly PackedScene _ragdollDarkScene =
+        GD.Load<PackedScene>("res://Objects/Player/Ragdolls/RagdollDark.tscn");
+
+    private readonly PackedScene _ragdollLightScene =
+        GD.Load<PackedScene>("res://Objects/Player/Ragdolls/RagdollLight.tscn");
 
     [GetNode("FollowingCamera")]
     private FollowingCamera _camera;
@@ -136,7 +141,12 @@ public partial class World : Node2D
         liveTimer.Start();
 
         // Spawn ragdoll
-        var ragdoll = _ragdollScene.Instantiate<RigidBody2D>();
+        var ragdoll = player.Team == Player.TeamEnum.Light
+            ? _ragdollLightScene.Instantiate<RigidBody2D>()
+            : _ragdollDarkScene.Instantiate<RigidBody2D>();
+        var timer = TimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
+        ragdoll.AddChild(timer);
+
         AddChild(ragdoll);
         ragdoll.GlobalPosition = player.GlobalPosition;
         ragdoll.ApplyCentralImpulse(GetRandomVector(-500, 500));
@@ -151,10 +161,7 @@ public partial class World : Node2D
 
     private void OnOutOfBounds(Node body)
     {
-        if (body is Player player && player.IsAlive)
-        {
-            player.TakeDamage(99999999);
-        }
+        if (body is Player player && player.IsAlive) player.TakeDamage(99999999);
     }
 
     private void StartRound()
@@ -257,10 +264,7 @@ public partial class World : Node2D
     {
         if (@event.IsActionPressed("ui_down")) _roundTimer.Start(0.05);
 
-        if (@event.IsActionPressed("ui_up"))
-        {
-            AddExplosion(_lightPlayer, Light.LightMode.Dark);
-        }
+        if (@event.IsActionPressed("ui_up")) AddExplosion(_lightPlayer, Light.LightMode.Dark);
     }
 
     private void AddExplosion(Node2D where, Light.LightMode who)

@@ -5,7 +5,6 @@ namespace PhotonPhighters.Scripts;
 
 public partial class FollowingCamera : Camera2D
 {
-
     public enum ShakeStrength
     {
         Weak,

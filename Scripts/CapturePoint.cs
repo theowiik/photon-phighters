@@ -36,18 +36,12 @@ public partial class CapturePoint : Node2D
 
     private void OnBodyEntered(Node2D body)
     {
-        if (body is Player player)
-        {
-            _playersInside.Add(player);
-        }
+        if (body is Player player) _playersInside.Add(player);
     }
 
     private void OnBodyExited(Node2D body)
     {
-        if (body is Player player)
-        {
-            _playersInside.Remove(player);
-        }
+        if (body is Player player) _playersInside.Remove(player);
     }
 
     public override void _Process(double delta)
@@ -56,10 +50,7 @@ public partial class CapturePoint : Node2D
 
         QueueRedraw();
         var diffPlayers = CalcActiveCaptureDiff();
-        if (diffPlayers == 0)
-        {
-            return;
-        }
+        if (diffPlayers == 0) return;
 
         var diff = diffPlayers > 0 ? 1 : -1;
         _captureTime += diff * (float)delta;
@@ -98,15 +89,9 @@ public partial class CapturePoint : Node2D
         const char first = '-';
         const char last = '_';
 
-        if (minValue > maxValue)
-        {
-            throw new ArgumentException("Min value should not be greater than max value.");
-        }
+        if (minValue > maxValue) throw new ArgumentException("Min value should not be greater than max value.");
 
-        if (barLength <= 0)
-        {
-            throw new ArgumentException("Bar length should be greater than 0.");
-        }
+        if (barLength <= 0) throw new ArgumentException("Bar length should be greater than 0.");
 
         if (currentValue >= maxValue)
         {
@@ -141,9 +126,7 @@ public partial class CapturePoint : Node2D
 
         Color color;
         if (!_playersInside.Any())
-        {
             color = noneColor;
-        }
         else
             color = diffPlayers switch
             {

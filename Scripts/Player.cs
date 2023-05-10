@@ -16,8 +16,8 @@ public partial class Player : CharacterBody2D
         Dark
     }
 
-    private readonly Color _nonSeeTroughColor = new Color(1, 1, 1);
-    private readonly Color _seeTroughColor = new Color(1, 1, 1, 0.3f);
+    private readonly Color _nonSeeTroughColor = new(1, 1, 1);
+    private readonly Color _seeTroughColor = new(1, 1, 1, 0.3f);
     private bool _aimWithMouse = true;
     private bool _freeze;
 

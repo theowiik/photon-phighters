@@ -1,16 +1,18 @@
 [gd_scene load_steps=3 format=3 uid="uid://d2rg8btxttugm"]
 
-[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_annjt"]
+[ext_resource type="Texture2D" uid="uid://b746vcsacknmv" path="res://Assets/Player/light-player.svg" id="1_6kfim"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vb7dg"]
-size = Vector2(128, 127)
+size = Vector2(171, 97)
 
 [node name="Ragdoll" type="RigidBody2D"]
 collision_layer = 2
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_annjt")
+position = Vector2(-0.999878, 0)
+scale = Vector2(0.17963, 0.0888889)
+texture = ExtResource("1_6kfim")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
+position = Vector2(-6.5, -0.5)
 shape = SubResource("RectangleShape2D_vb7dg")

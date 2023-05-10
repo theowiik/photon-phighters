@@ -1,10 +1,11 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 
 namespace PhotonPhighters.Scripts.Utils;
 
 public static class TimerFactory
 {
-    public static Timer OneShotStartedTimer(double waitTime)
+    public static Timer OneShotStartedTimer(double waitTime, Action onTimeout = null)
     {
         var timer = new Timer
         {
@@ -12,6 +13,9 @@ public static class TimerFactory
             OneShot = true,
             WaitTime = waitTime
         };
+
+        if (onTimeout != null)
+            timer.Timeout += onTimeout;
 
         return timer;
     }

@@ -10,10 +10,8 @@ public static class NodeExtensions
         var output = new List<T>();
 
         foreach (var child in node.GetChildren())
-        {
             if (child is T c)
                 output.Add(c);
-        }
 
         return output;
     }
