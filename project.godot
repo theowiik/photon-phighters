@@ -13,8 +13,8 @@ config_version=5
 config/name="Photon Phighters"
 run/main_scene="res://Scenes/Levels/LargeLevel.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
-boot_splash/image="res://Assets/banner.png"
-config/icon="res://icon.svg"
+boot_splash/image="res://External/Logo/banner.png"
+config/icon="res://External/Logo/logo.png"
 
 [display]
 
