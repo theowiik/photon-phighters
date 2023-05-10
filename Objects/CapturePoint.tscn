@@ -29,11 +29,11 @@ texture = ExtResource("1_782k1")
 shape = SubResource("CircleShape2D_grmef")
 
 [node name="ProgressBar" type="ProgressBar" parent="."]
-offset_left = -132.0
-offset_top = -241.0
-offset_right = 133.0
-offset_bottom = -178.0
+offset_left = -117.0
+offset_top = -220.0
+offset_right = 118.0
+offset_bottom = -180.0
 theme = SubResource("Theme_4xebn")
 max_value = 1.0
-value = 0.66
+value = 0.5
 show_percentage = false

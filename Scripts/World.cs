@@ -9,9 +9,9 @@ namespace PhotonPhighters.Scripts;
 
 public partial class World : Node2D
 {
-    private const int RoundTime = 20;
+    private const int RoundTime = 120;
     private const int ScoreToWin = 10;
-    private const int TimeBetweenCapturePoint = 15;
+    private const int TimeBetweenCapturePoint = 30;
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
 
@@ -296,7 +296,7 @@ public partial class World : Node2D
 
     private void UpdateRoundTimer()
     {
-        _overlay.Time = $"{Math.Round(_roundTimer.TimeLeft, 1)}s";
+        _overlay.Time = $"{_roundTimer.TimeLeft.ToString("0.0")}s";
     }
 
     private Results GetResults()
