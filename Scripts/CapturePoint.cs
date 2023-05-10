@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -11,7 +10,6 @@ public partial class CapturePoint : Node2D
     public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
 
     private const float TimeToCapture = 5f;
-
     private readonly ICollection<Player> _playersInside = new List<Player>();
     private bool _captured;
 
@@ -59,13 +57,11 @@ public partial class CapturePoint : Node2D
         {
             _captured = true;
             CapturedListeners?.Invoke(this, Player.TeamEnum.Light);
-            _captureTime = TimeToCapture;
         }
         else if (_captureTime <= -TimeToCapture)
         {
             _captured = true;
             CapturedListeners?.Invoke(this, Player.TeamEnum.Dark);
-            _captureTime = -TimeToCapture;
         }
 
         UpdateProgress();
@@ -80,10 +76,7 @@ public partial class CapturePoint : Node2D
 
     private void UpdateProgress()
     {
-        var min = -TimeToCapture;
-        var max = TimeToCapture;
-        var value = _captureTime;
-        var progress = (value - min) / (max - min);
+        var progress = (_captureTime + TimeToCapture) / (TimeToCapture * 2);
         _progressBar.Value = progress;
     }
 

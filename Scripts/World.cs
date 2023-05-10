@@ -110,6 +110,7 @@ public partial class World : Node2D
     {
         var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
         AddExplosion(which, light);
+        which.QueueFree();
     }
 
     private void OnPlayerEffectAdded(Node2D effect, Player who)
