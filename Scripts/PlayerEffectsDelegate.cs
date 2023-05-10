@@ -59,6 +59,8 @@ public partial class PlayerEffectsDelegate : Node2D
 
     public void EmitDeathParticles()
     {
+        GD.Print("Disabled death particles");
+        return;
         var instance = GenerateParticles(_deathParticlesScene);
         PlayerEffectAddedListeners?.Invoke(instance);
     }

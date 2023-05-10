@@ -44,7 +44,7 @@ public partial class Player : CharacterBody2D
     public int PlayerNumber { get; set; }
 
     [GetNode("Marker2D/Gun")]
-    public Gun Gun { get; set; }
+    public Gun Gun { get; private set; }
 
     public bool Freeze
     {
