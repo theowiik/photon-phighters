@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cf6p1cqopmcy7"]
+[gd_scene load_steps=20 format=3 uid="uid://cf6p1cqopmcy7"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
@@ -69,6 +69,21 @@ tracks/1/keys = {
 "values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
 }
 
+[sub_resource type="Animation" id="Animation_5marj"]
+resource_name = "spawn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.188235)]
+}
+
 [sub_resource type="Animation" id="Animation_vdp7y"]
 resource_name = "squish_land"
 length = 0.3
@@ -122,6 +137,7 @@ _data = {
 "RESET": SubResource("Animation_xkv87"),
 "running_left": SubResource("Animation_ignui"),
 "running_right": SubResource("Animation_nk06g"),
+"spawn": SubResource("Animation_5marj"),
 "squish_land": SubResource("Animation_vdp7y"),
 "squish_wall": SubResource("Animation_7ly8p"),
 "stretch_jump": SubResource("Animation_qj5pb")
@@ -169,8 +185,9 @@ one_shot = true
 shape = SubResource("CircleShape2D_k4h85")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.188235)
 position = Vector2(0.5, -9.83477e-06)
-rotation = -0.174533
+rotation = 0.174533
 scale = Vector2(0.131, 0.131)
 texture = ExtResource("2_ykldl")
 

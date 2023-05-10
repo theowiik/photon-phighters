@@ -11,7 +11,7 @@ public partial class World : Node2D
 {
     private const int RoundTime = 20;
     private const int ScoreToWin = 10;
-    private const int TimeBetweenCapturePoint = 5;
+    private const int TimeBetweenCapturePoint = 15;
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
 
@@ -149,15 +149,11 @@ public partial class World : Node2D
 
         AddChild(ragdoll);
         ragdoll.GlobalPosition = player.GlobalPosition;
-        ragdoll.ApplyCentralImpulse(GetRandomVector(-500, 500));
-        ragdoll.ApplyTorqueImpulse(1000);
-        ragdoll.ApplyTorque(1000);
+        var angleVec = -Vector2.Right.Rotated((float)GD.RandRange(0, Math.PI));
+        ragdoll.ApplyCentralImpulse(angleVec * (float)GD.RandRange(1000f, 1500f));
+        ragdoll.AngularVelocity = GD.RandRange(-50, 50);
     }
 
-    private static Vector2 GetRandomVector(float min, float max)
-    {
-        return new Vector2(GD.Randf() * (max - min) + min, GD.Randf() * (max - min) + min);
-    }
 
     private void OnOutOfBounds(Node body)
     {

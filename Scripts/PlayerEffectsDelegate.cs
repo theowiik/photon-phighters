@@ -11,6 +11,7 @@ public partial class PlayerEffectsDelegate : Node2D
     private const string LandAnimation = "squish_land";
     private const string RunLeftAnimation = "running_left";
     private const string RunRightAnimation = "running_right";
+    private const string SpawnAnimation = "spawn";
     private const string Wall = "squish_wall";
     private readonly Color _hurtColor = new(0.8f, 0, 0);
 
@@ -135,5 +136,10 @@ public partial class PlayerEffectsDelegate : Node2D
     {
         PlayerSprite.Modulate = _hurtColor;
         _hurtTimer.Start();
+    }
+
+    public void AnimationPlaySpawn()
+    {
+        _animationPlayer.Play(SpawnAnimation);
     }
 }

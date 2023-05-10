@@ -16,8 +16,6 @@ public partial class Player : CharacterBody2D
         Dark
     }
 
-    private readonly Color _nonSeeTroughColor = new(1, 1, 1);
-    private readonly Color _seeTroughColor = new(1, 1, 1, 0.3f);
     private bool _aimWithMouse = true;
     private bool _freeze;
 
@@ -60,17 +58,17 @@ public partial class Player : CharacterBody2D
             if (_freeze)
             {
                 PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Disabled;
-                _sprite2D.Modulate = _seeTroughColor;
+                _playerEffectsDelegate.AnimationPlaySpawn();
             }
             else
             {
                 PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Inherit;
-                _sprite2D.Modulate = _nonSeeTroughColor;
+                _sprite2D.Modulate = Colors.White;
             }
         }
     }
 
-    public int Health
+    private int Health
     {
         get => _health;
         set
