@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cf6p1cqopmcy7"]
+[gd_scene load_steps=22 format=3 uid="uid://cf6p1cqopmcy7"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
@@ -149,6 +149,12 @@ radius = 67.0075
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
 size = Vector2(119, 122.5)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctffe"]
+bg_color = Color(0, 0.709804, 0.490196, 1)
+
+[sub_resource type="Theme" id="Theme_hil3n"]
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_ctffe")
+
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 collision_mask = 5
 script = ExtResource("1_be4dv")
@@ -206,9 +212,12 @@ shape = SubResource("RectangleShape2D_d4oxs")
 [node name="Movement" type="Node" parent="."]
 script = ExtResource("10_ueqen")
 
-[node name="HealthLabel" type="Label" parent="."]
-offset_left = -24.0
-offset_top = -124.0
-offset_right = 25.0
-offset_bottom = -98.0
-text = "player"
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -45.0
+offset_top = -105.0
+offset_right = 45.0
+offset_bottom = -91.0
+theme = SubResource("Theme_hil3n")
+max_value = 1.0
+value = 0.66
+show_percentage = false

@@ -24,8 +24,8 @@ public partial class Player : CharacterBody2D
 
     private int _health;
 
-    [GetNode("HealthLabel")]
-    private Label _healthLabel;
+    [GetNode("HealthBar")]
+    private ProgressBar _healthBar;
 
     [GetNode("PlayerEffectsDelegate")]
     private PlayerEffectsDelegate _playerEffectsDelegate;
@@ -74,11 +74,11 @@ public partial class Player : CharacterBody2D
         set
         {
             _health = value;
-            _healthLabel.Text = $"{_health}/{MaxHealth}";
+            _healthBar.Value = (float)_health / MaxHealth;
         }
     }
 
-    public int MaxHealth { get; set; } = 1;
+    public int MaxHealth { get; set; } = 50;
 
     public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
 
