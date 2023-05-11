@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://8q5374jy4ukb"]
+[gd_scene load_steps=17 format=3 uid="uid://8q5374jy4ukb"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_88vom"]
 [ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_f7esu"]
@@ -6,22 +6,21 @@
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="6_sjnbq"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="7_i0o6w"]
 [ext_resource type="PackedScene" uid="uid://21mvhckupcnw" path="res://Objects/UI/PowerUpPicker.tscn" id="7_m0wyp"]
-[ext_resource type="PackedScene" uid="uid://cjd12co7m0as5" path="res://Objects/UI/PauseOverlay.tscn" id="8_gcu72"]
+[ext_resource type="PackedScene" uid="uid://b7ix1pgcvbwjk" path="res://Objects/UI/PauseOverlay.tscn" id="8_gcu72"]
 [ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://Objects/UI/Overlay.tscn" id="8_xi1s5"]
 [ext_resource type="PackedScene" uid="uid://b7qkrkt2lacyf" path="res://Objects/Player/LightPlayer.tscn" id="9_1y10x"]
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="9_xoby6"]
 [ext_resource type="PackedScene" uid="uid://ca1utwdulasnh" path="res://Objects/Player/DarkPlayer.tscn" id="10_fd7gw"]
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="10_ucaug"]
-[ext_resource type="PackedScene" uid="uid://cw8obmyablcs0" path="res://Objects/Light.tscn" id="12_p7mll"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ncqr5"]
 size = Vector2(5637, 862.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qg742"]
-size = Vector2(1000, 3249.5)
+size = Vector2(1075, 3924.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_42qnf"]
-size = Vector2(911, 3306)
+size = Vector2(921.5, 3947)
 
 [sub_resource type="Environment" id="Environment_1kha7"]
 background_mode = 3
@@ -35,7 +34,7 @@ glow_hdr_scale = 2.12
 script = ExtResource("1_88vom")
 
 [node name="Light-gray" type="Sprite2D" parent="."]
-position = Vector2(758.5, -268.5)
+position = Vector2(759.5, -268.5)
 scale = Vector2(10.9694, 6.87315)
 texture = ExtResource("2_f7esu")
 
@@ -72,6 +71,7 @@ volume_db = -30.167
 visible = false
 
 [node name="PauseOverlay" parent="CanvasLayer" instance=ExtResource("8_gcu72")]
+visible = false
 
 [node name="Sfx" type="Node" parent="."]
 
@@ -111,9 +111,3 @@ position = Vector2(912, 268)
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1kha7")
-
-[node name="LightLight" parent="." instance=ExtResource("12_p7mll")]
-position = Vector2(760, 564)
-
-[node name="DarkLight" parent="." instance=ExtResource("12_p7mll")]
-position = Vector2(522, 570)

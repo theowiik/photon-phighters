@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cf6p1cqopmcy7"]
+[gd_scene load_steps=22 format=3 uid="uid://cf6p1cqopmcy7"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
@@ -69,6 +69,21 @@ tracks/1/keys = {
 "values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
 }
 
+[sub_resource type="Animation" id="Animation_5marj"]
+resource_name = "spawn"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.188235)]
+}
+
 [sub_resource type="Animation" id="Animation_vdp7y"]
 resource_name = "squish_land"
 length = 0.3
@@ -122,6 +137,7 @@ _data = {
 "RESET": SubResource("Animation_xkv87"),
 "running_left": SubResource("Animation_ignui"),
 "running_right": SubResource("Animation_nk06g"),
+"spawn": SubResource("Animation_5marj"),
 "squish_land": SubResource("Animation_vdp7y"),
 "squish_wall": SubResource("Animation_7ly8p"),
 "stretch_jump": SubResource("Animation_qj5pb")
@@ -133,7 +149,14 @@ radius = 67.0075
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
 size = Vector2(119, 122.5)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctffe"]
+bg_color = Color(0, 0.709804, 0.490196, 1)
+
+[sub_resource type="Theme" id="Theme_hil3n"]
+ProgressBar/styles/fill = SubResource("StyleBoxFlat_ctffe")
+
 [node name="Player" type="CharacterBody2D" groups=["players"]]
+collision_mask = 5
 script = ExtResource("1_be4dv")
 
 [node name="PlayerEffectsDelegate" type="Node2D" parent="."]
@@ -168,8 +191,9 @@ one_shot = true
 shape = SubResource("CircleShape2D_k4h85")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.188235)
 position = Vector2(0.5, -9.83477e-06)
-rotation = -0.174533
+rotation = 0.174533
 scale = Vector2(0.131, 0.131)
 texture = ExtResource("2_ykldl")
 
@@ -188,9 +212,12 @@ shape = SubResource("RectangleShape2D_d4oxs")
 [node name="Movement" type="Node" parent="."]
 script = ExtResource("10_ueqen")
 
-[node name="HealthLabel" type="Label" parent="."]
-offset_left = -24.0
-offset_top = -124.0
-offset_right = 25.0
-offset_bottom = -98.0
-text = "player"
+[node name="HealthBar" type="ProgressBar" parent="."]
+offset_left = -45.0
+offset_top = -105.0
+offset_right = 45.0
+offset_bottom = -91.0
+theme = SubResource("Theme_hil3n")
+max_value = 1.0
+value = 0.66
+show_percentage = false

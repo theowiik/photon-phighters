@@ -26,6 +26,17 @@ offset_bottom = 207.0
 grow_horizontal = 2
 alignment = 1
 
+[node name="DummyMargin" type="Label" parent="VBox"]
+layout_mode = 2
+
+[node name="RoundScoreBar" type="TextureProgressBar" parent="VBox"]
+layout_mode = 2
+max_value = 1.0
+step = 0.01
+value = 0.5
+texture_under = ExtResource("3_n5lup")
+texture_progress = ExtResource("4_degc6")
+
 [node name="RoundTimerLabel" type="Label" parent="VBox"]
 layout_mode = 2
 theme = ExtResource("2_l63ws")
@@ -35,17 +46,8 @@ horizontal_alignment = 1
 [node name="TotalScoreLabel" type="Label" parent="VBox"]
 layout_mode = 2
 theme = ExtResource("2_l63ws")
-text = "total score"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="RoundScoreBar" type="TextureProgressBar" parent="VBox"]
-layout_mode = 2
-max_value = 1.0
-step = 0.01
-value = 0.5
-texture_under = ExtResource("3_n5lup")
-texture_progress = ExtResource("4_degc6")
 
 [node name="Logs" type="RichTextLabel" parent="VBox"]
 layout_mode = 2

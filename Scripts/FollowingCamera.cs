@@ -2,44 +2,76 @@
 using Godot;
 
 namespace PhotonPhighters.Scripts;
+
 public partial class FollowingCamera : Camera2D
 {
+    public enum ShakeStrength
+    {
+        Weak,
+        Medium,
+        Strong,
+        Uber
+    }
+
     private readonly IList<Node2D> _targets = new List<Node2D>();
+    private float _remainingShakeTime;
+    private ShakeStrength _shakeStrength;
 
     public void AddTarget(Node2D target)
     {
-        if (_targets.Contains(target))
-        {
-            return;
-        }
-
-        if (target == null)
-        {
-            return;
-        }
+        if (_targets.Contains(target)) return;
+        if (target == null) return;
 
         _targets.Add(target);
     }
 
+    /// <summary>
+    ///     Shake the camera for the given amount of time.
+    /// </summary>
+    /// <param name="shakeTime">
+    ///     The amount of time to shake the camera.
+    /// </param>
+    /// <param name="strength">
+    ///     The strength of the shake.
+    /// </param>
+    public void Shake(float shakeTime, ShakeStrength strength)
+    {
+        _remainingShakeTime = shakeTime;
+        _shakeStrength = strength;
+    }
+
     public override void _PhysicsProcess(double delta)
     {
-        if (_targets.Count == 0)
-        {
-            return;
-        }
+        if (_targets.Count == 0) return;
 
         var targetPosition = Vector2.Zero;
-        foreach (var target in _targets)
-        {
-            targetPosition += target.Position;
-        }
+        foreach (var target in _targets) targetPosition += target.Position;
 
         targetPosition /= _targets.Count;
-
         Position = Position.Lerp(targetPosition, (float)delta * 5.0f);
+
+        // Camera shake
+        if (_remainingShakeTime > 0)
+        {
+            var shakeOffset = ShakeStrengthToOffset(_shakeStrength);
+            Position += new Vector2(GD.RandRange(-shakeOffset, shakeOffset), GD.RandRange(-shakeOffset, shakeOffset));
+            _remainingShakeTime -= (float)delta;
+        }
 
         // Zoom
         FitZoom();
+    }
+
+    private static int ShakeStrengthToOffset(ShakeStrength strength)
+    {
+        return strength switch
+        {
+            ShakeStrength.Weak => 5,
+            ShakeStrength.Medium => 10,
+            ShakeStrength.Strong => 30,
+            ShakeStrength.Uber => 150,
+            _ => 0
+        };
     }
 
     private void FitZoom()

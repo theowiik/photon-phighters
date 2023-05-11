@@ -1,22 +1,29 @@
-﻿using Godot;
+﻿using System;
+using System.Collections.Generic;
+using Godot;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
+
 public partial class PowerUpPicker : Control
 {
     // Non Godot signal since Godot doesnt support custom types
-    public delegate void PowerUpPicked(PowerUpManager.IPowerUpApplier powerUpApplier);
-    public event PowerUpPicked PowerUpPickedListeners;
+    public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
-    [GetNode("GridContainer")]
-    private GridContainer _gridContainer;
+    private const int AmountPowerUps = 4;
+    public const bool DevMode = false;
 
     [GetNode("BackgroundRect")]
     private ColorRect _backgroundRect;
 
+    [GetNode("GridContainer")]
+    private GridContainer _gridContainer;
+
     [GetNode("Label")]
     private Label _label;
+
+    private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
 
     public TeamEnum WinningSide
     {
@@ -35,13 +42,12 @@ public partial class PowerUpPicker : Control
                     _label.Text = "Dark team won! Lightness, pick a helping hand";
                     break;
                 default:
-                    break;
+                    throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
         }
     }
 
-    private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
-    private const int AmountPowerUps = 4;
+    public event PowerUpPicked PowerUpPickedListeners;
 
     public override void _Ready()
     {
@@ -57,17 +63,17 @@ public partial class PowerUpPicker : Control
 
     private void Populate()
     {
-        var powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
+        IEnumerable<PowerUpManager.IPowerUp> powerUps;
+
+        if (DevMode)
+            powerUps = PowerUpManager.GetAllPowerUps();
+        powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
 
         foreach (var powerUp in powerUps)
         {
             var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
             powerUpButton.Text = powerUp.Name;
-            powerUpButton.Pressed += () =>
-            {
-                GD.Print("Powerup button pressed");
-                PowerUpPickedListeners?.Invoke(powerUp);
-            };
+            powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
 
             _gridContainer.AddChild(powerUpButton);
         }
@@ -75,9 +81,6 @@ public partial class PowerUpPicker : Control
 
     private void Clear()
     {
-        foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
-        {
-            powerUpButton.QueueFree();
-        }
+        foreach (var powerUpButton in _gridContainer.GetNodes<Button>()) powerUpButton.QueueFree();
     }
 }

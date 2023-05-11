@@ -14,6 +14,7 @@ scale = Vector2(0.117593, 0.117593)
 texture = ExtResource("2_mrjcj")
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
 
 [node name="ShootPlayer" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("3_5tc0c")

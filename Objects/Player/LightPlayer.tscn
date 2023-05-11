@@ -7,4 +7,5 @@
 PlayerNumber = 1
 
 [node name="Sprite2D" parent="." index="2"]
+modulate = Color(1, 1, 1, 0.188235)
 texture = ExtResource("2_ekwba")

@@ -3,11 +3,15 @@ using System.Linq;
 using Godot;
 
 namespace PhotonPhighters.Scripts;
+
 public partial class LightFloor : StaticBody2D
 {
     private PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
 
-    public override void _Ready() => BasicLightPlacement();
+    public override void _Ready()
+    {
+        BasicLightPlacement();
+    }
 
     private void BasicLightPlacement()
     {
@@ -41,10 +45,7 @@ public partial class LightFloor : StaticBody2D
     {
         var output = new List<Vector2>();
 
-        for (var i = 0; i < lightsOnSide; i++)
-        {
-            output.Add(baseVector + new Vector2(0, apart * i));
-        }
+        for (var i = 0; i < lightsOnSide; i++) output.Add(baseVector + new Vector2(0, apart * i));
 
         return output;
     }

@@ -1,7 +1,12 @@
-[gd_scene load_steps=3 format=3 uid="uid://dbar2l4ttgl8l"]
+[gd_scene load_steps=5 format=3 uid="uid://b7ix1pgcvbwjk"]
 
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="1_l4yn2"]
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PauseOverlay.cs" id="1_omib1"]
+[ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="2_yf1v0"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7fgg2"]
+shader = ExtResource("2_yf1v0")
+shader_parameter/lod = 2.0
 
 [node name="PauseOverlay" type="Control"]
 process_mode = 3
@@ -14,6 +19,7 @@ grow_vertical = 2
 script = ExtResource("1_omib1")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_7fgg2")
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -22,25 +28,28 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.231373, 1, 1, 0.0352941)
 
-[node name="VBox" type="VBoxContainer" parent="."]
+[node name="Center" type="CenterContainer" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="VBox"]
+[node name="Label" type="Label" parent="Center/VBox"]
 layout_mode = 2
 theme = ExtResource("1_l4yn2")
-text = "paused"
+text = "Menu"
 horizontal_alignment = 1
 
-[node name="ResumeButton" type="Button" parent="VBox"]
+[node name="ResumeButton" type="Button" parent="Center/VBox"]
 layout_mode = 2
 text = "Resume"
 
-[node name="QuitButton" type="Button" parent="VBox"]
+[node name="QuitButton" type="Button" parent="Center/VBox"]
 layout_mode = 2
 text = "Quit"
