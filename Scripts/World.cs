@@ -97,12 +97,15 @@ public partial class World : Node2D
         AddChild(timer);
         timer.Timeout += () =>
         {
-            var randomNum = new Random().Next(0, int.MaxValue);
-            var player = _players.ElementAt(randomNum % _players.Count());
+            var res = GetResults();
+            var losingPlayer = res.Light > res.Dark ? _darkPlayer : _lightPlayer;
+
             var capturePoint = _capturePointScene.Instantiate<CapturePoint>();
             AddChild(capturePoint);
             capturePoint.CapturedListeners += OnCapturePointCaptured;
-            capturePoint.GlobalPosition = player.GlobalPosition;
+
+            var offset = new Vector2(GD.RandRange(-100, 100), GD.RandRange(-100, 100));
+            capturePoint.GlobalPosition = losingPlayer.GlobalPosition + offset;
         };
     }
 
