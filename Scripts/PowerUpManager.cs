@@ -45,7 +45,8 @@ public static class PowerUpManager
     /// </exception>
     public static IEnumerable<IPowerUp> GetUniquePowerUps(int n)
     {
-        if (n < 0) throw new ArgumentException("n must be greater than or equal to 0");
+        if (n < 0)
+            throw new ArgumentException("n must be greater than or equal to 0");
 
         var random = new Random();
         var powerUps = new List<IPowerUp>();
@@ -55,10 +56,12 @@ public static class PowerUpManager
             var powerUp = SPowerUps[randomIndex];
 
             // Add unique powerup
-            if (!powerUps.Contains(powerUp)) powerUps.Add(powerUp);
+            if (!powerUps.Contains(powerUp))
+                powerUps.Add(powerUp);
 
             // All unique powerups added, add duplicates
-            if (powerUps.Count >= SPowerUps.Count) powerUps.Add(powerUp);
+            if (powerUps.Count >= SPowerUps.Count)
+                powerUps.Add(powerUp);
         }
 
         return powerUps.Shuffle();

@@ -18,8 +18,9 @@ public partial class PlayerEffectsDelegate : Node2D
     [GetNode("AnimationPlayer")]
     private AnimationPlayer _animationPlayer;
 
-    private PackedScene _deathParticlesScene =
-        ResourceLoader.Load<PackedScene>("res://Objects/Player/Particles/DeathParticles.tscn");
+    private PackedScene _deathParticlesScene = ResourceLoader.Load<PackedScene>(
+        "res://Objects/Player/Particles/DeathParticles.tscn"
+    );
 
     [GetNode("Sfx/DeathPlayer")]
     private AudioStreamPlayer2D _deathPlayer;
@@ -27,8 +28,9 @@ public partial class PlayerEffectsDelegate : Node2D
     [GetNode("Sfx/FallDeathPlayer")]
     private AudioStreamPlayer2D _fallDeathPlayer;
 
-    private PackedScene _hurtParticlesScene =
-        ResourceLoader.Load<PackedScene>("res://Objects/Player/Particles/HurtParticles.tscn");
+    private PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
+        "res://Objects/Player/Particles/HurtParticles.tscn"
+    );
 
     [GetNode("Sfx/HurtPlayer")]
     private AudioStreamPlayer2D _hurtPlayer;
@@ -37,8 +39,9 @@ public partial class PlayerEffectsDelegate : Node2D
     private Timer _hurtTimer;
 
     // TODO: Create a object pool for particles
-    private PackedScene _jumpParticlesScene =
-        ResourceLoader.Load<PackedScene>("res://Objects/Player/Particles/JumpParticles.tscn");
+    private PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
+        "res://Objects/Player/Particles/JumpParticles.tscn"
+    );
 
     [GetNode("Sfx/JumpPlayer")]
     private AudioStreamPlayer2D _jumpPlayer;
