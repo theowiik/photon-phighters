@@ -34,12 +34,16 @@ public partial class Gun : Node2D
         }
     }
 
+    /// <summary>
+    ///     The spread of the bullets in radians.
+    /// </summary>
+    public float BulletSpread { get; set; } = 0.1f;
+
     public Light.LightMode LightMode { get; set; }
     public string ShootActionName { get; set; }
     public float BulletSpeed { get; set; } = 1000;
     public float BulletSizeFactor { get; set; } = 1.0f;
     public int BulletCount { get; set; } = 3;
-    private float BulletSpread { get; set; } = 0.1f;
     public float BulletGravity { get; set; } = 1.0f;
     public int BulletDamage { get; set; } = 5;
     public bool Freeze { get; set; }

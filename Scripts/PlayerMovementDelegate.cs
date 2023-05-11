@@ -10,12 +10,20 @@ public partial class PlayerMovementDelegate : Node
     private float _glideGravityScale = 0.5f;
     private int _jumpCount;
     private Vector2 _knockback;
-    private float _knockbackDecayRate = 0.1f;
+    private float _knockbackDecayRate = 0.04f;
     private bool _onFloorLastCall;
+    private float _speed = 800;
     private Vector2 _velocity;
-    public float JumpForce { get; set; } = 600;
-    public int MaxJumps { get; set; } = 3;
-    public float Speed { get; set; } = 500;
+    public int PlayerNumber { get; set; }
+    public float JumpForce { get; set; } = 700;
+    public int MaxJumps { get; set; } = 2;
+
+    public float Speed
+    {
+        get => _speed;
+        set => _speed = Mathf.Max(100f, value);
+    }
+
     public CharacterBody2D CharacterBody { get; set; }
     public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
 
@@ -25,7 +33,10 @@ public partial class PlayerMovementDelegate : Node
 
     public override void _PhysicsProcess(double delta)
     {
-        var inputDirection = new Vector2(Input.GetActionStrength("p1_right") - Input.GetActionStrength("p1_left"), 0);
+        var inputDirection =
+            new Vector2(
+                Input.GetActionStrength($"p{PlayerNumber}_right") - Input.GetActionStrength($"p{PlayerNumber}_left"),
+                0);
 
         // Walking
         var targetSpeed = inputDirection.X * Speed;
@@ -54,7 +65,7 @@ public partial class PlayerMovementDelegate : Node
         else
             _velocity.Y += Gravity * (float)delta;
 
-        if (Input.IsActionJustPressed("p1_jump"))
+        if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
         {
             if (onFloor || _jumpCount < MaxJumps)
             {

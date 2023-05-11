@@ -79,7 +79,7 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.PlayerMovementDelegate.Speed += 100;
+            player.PlayerMovementDelegate.Speed += 200;
         }
 
         public string Name => "Photon Boost";
@@ -89,7 +89,7 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.MaxHealth += 50;
+            player.MaxHealth = (int)(player.MaxHealth * 1.5f);
         }
 
         public string Name => "Health Boost";
@@ -109,7 +109,6 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.PlayerMovementDelegate.JumpForce += 200;
             player.PlayerMovementDelegate.MaxJumps += 1;
         }
 
@@ -120,8 +119,9 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.MaxHealth += 50;
-            player.PlayerMovementDelegate.Speed -= -100.0f;
+            player.MaxHealth *= 2;
+            player.PlayerMovementDelegate.Speed -= -150.0f;
+            player.Gun.BulletSpread *= 1.2f;
         }
 
         public string Name => "Photon Muncher";
@@ -141,7 +141,8 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.Gun.BulletSpeed += 250.0f;
+            player.Gun.BulletSpeed += 300.0f;
+            player.Gun.BulletSpread *= 1.05f;
         }
 
         public string Name => "Photon Accelerator";
@@ -151,7 +152,8 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.Gun.BulletCount += 2;
+            player.Gun.BulletCount = (int)Math.Ceiling(player.Gun.BulletCount * 1.5f);
+            player.Gun.BulletSpread *= 1.05f;
         }
 
         public string Name => "Photon Multiplier";
@@ -161,9 +163,10 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.Gun.BulletSizeFactor += 1;
+            player.Gun.BulletSizeFactor += 1.5f;
             player.Gun.BulletDamage += 10;
-            player.Gun.BulletSpeed += 100.0f;
+            player.Gun.BulletSpeed -= 150.0f;
+            player.Gun.BulletSpread *= 1.25f;
         }
 
         public string Name => "Photon Enlarger";
@@ -173,8 +176,9 @@ public static class PowerUpManager
     {
         public void Apply(Player player)
         {
-            player.MaxHealth = 1;
-            player.Gun.BulletDamage = 100;
+            player.MaxHealth /= 2;
+            player.Gun.BulletDamage *= 3;
+            player.Gun.BulletSpread *= 1.15f;
         }
 
         public string Name => "Glass Cannon";
@@ -186,7 +190,8 @@ public static class PowerUpManager
 
         public void Apply(Player player)
         {
-            player.Gun.FireRate -= 0.1f;
+            player.Gun.FireRate -= 0.7f;
+            player.Gun.BulletSpread *= 1.05f;
         }
     }
 }

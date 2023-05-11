@@ -9,9 +9,9 @@ namespace PhotonPhighters.Scripts;
 
 public partial class World : Node2D
 {
-    private const int RoundTime = 120;
-    private const int ScoreToWin = 10;
-    private const int TimeBetweenCapturePoint = 1;
+    private const int RoundTime = 40;
+    private const int ScoreToWin = 4;
+    private const int TimeBetweenCapturePoint = 10;
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
 
@@ -93,7 +93,7 @@ public partial class World : Node2D
 
     private void SetupCapturePoint()
     {
-        var timer = TimerFactory.OneShotStartedTimer(TimeBetweenCapturePoint);
+        var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
         AddChild(timer);
         timer.Timeout += () =>
         {
@@ -121,8 +121,6 @@ public partial class World : Node2D
 
     private void OnPlayerDied(Player player)
     {
-        _camera.Shake(0.1f, FollowingCamera.ShakeStrength.Weak);
-
         var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
         AddExplosion(player, oppositeLight);
         player.GlobalPosition = player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
@@ -231,11 +229,9 @@ public partial class World : Node2D
             powerUp.Apply(_lightPlayer);
             powerUp.Apply(_darkPlayer);
         }
-        else
-        {
-            var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
-            powerUp.Apply(loser);
-        }
+
+        var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
+        powerUp.Apply(loser);
 
         StartRound();
     }
@@ -271,7 +267,7 @@ public partial class World : Node2D
         AddChild(explosion);
         explosion.GlobalPosition = where.GlobalPosition;
         explosion.Explode();
-        _camera.Shake(0.6f, FollowingCamera.ShakeStrength.Medium);
+        _camera.Shake(0.6f, FollowingCamera.ShakeStrength.Strong);
     }
 
     private void TogglePause()

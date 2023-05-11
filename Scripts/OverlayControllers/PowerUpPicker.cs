@@ -12,7 +12,7 @@ public partial class PowerUpPicker : Control
     public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
     private const int AmountPowerUps = 4;
-    public const bool DevMode = true;
+    public const bool DevMode = false;
 
     [GetNode("BackgroundRect")]
     private ColorRect _backgroundRect;
@@ -67,8 +67,7 @@ public partial class PowerUpPicker : Control
 
         if (DevMode)
             powerUps = PowerUpManager.GetAllPowerUps();
-        else
-            powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
+        powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
 
         foreach (var powerUp in powerUps)
         {

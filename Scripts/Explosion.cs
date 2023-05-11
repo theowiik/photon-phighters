@@ -46,6 +46,10 @@ public partial class Explosion : Node2D
         await ToSignal(GetTree(), "process_frame");
         await ToSignal(GetTree(), "process_frame");
         await ToSignal(GetTree(), "process_frame");
+        await ToSignal(GetTree(), "process_frame");
+        await ToSignal(GetTree(), "process_frame");
+        await ToSignal(GetTree(), "process_frame");
+        await ToSignal(GetTree(), "process_frame");
         var areas = _area.GetOverlappingAreas();
         return areas.OfType<Light>();
     }

@@ -92,6 +92,7 @@ public partial class Player : CharacterBody2D
         Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
         _playerEffectsDelegate.PlayerSprite = _sprite2D;
+        PlayerMovementDelegate.PlayerNumber = PlayerNumber;
         PlayerMovementDelegate.CharacterBody = this;
         PlayerMovementDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
         PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners +=

@@ -8,14 +8,25 @@ namespace PhotonPhighters.Scripts;
 public partial class CapturePoint : Node2D
 {
     public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
-    
+
+    private const float TimeToCapture = 4f;
+    private readonly ICollection<Player> _playersInside = new List<Player>();
+    private bool _captured;
+
+    /// <summary>
+    ///     Light should reach +TimeToCapture.
+    ///     Dark should reach -TimeToCapture.
+    /// </summary>
+    private float _captureTime;
+
     [GetNode("ChargePlayer")]
     private AudioStreamPlayer2D _chargePlayer;
 
-    private const float TimeToCapture = 20f;
-    private readonly ICollection<Player> _playersInside = new List<Player>();
-    private bool _captured;
-    
+    [GetNode("ProgressBar")]
+    private ProgressBar _progressBar;
+
+    public CapturedEvent CapturedListeners;
+
     private bool ChargePlayerPlaying
     {
         get => _chargePlayer.Playing;
@@ -30,17 +41,6 @@ public partial class CapturePoint : Node2D
         }
     }
 
-    /// <summary>
-    ///     Light should reach +TimeToCapture.
-    ///     Dark should reach -TimeToCapture.
-    /// </summary>
-    private float _captureTime;
-
-    [GetNode("ProgressBar")]
-    private ProgressBar _progressBar;
-
-    public CapturedEvent CapturedListeners;
-
     public override void _Ready()
     {
         this.AutoWire();
@@ -51,7 +51,7 @@ public partial class CapturePoint : Node2D
 
     private void OnBodyEntered(Node2D body)
     {
-        if (body is Player player) _playersInside.Add(player);
+        if (body is Player { IsAlive: true, Freeze: false } player) _playersInside.Add(player);
     }
 
     private void OnBodyExited(Node2D body)
@@ -70,6 +70,7 @@ public partial class CapturePoint : Node2D
             ChargePlayerPlaying = false;
             return;
         }
+
         ChargePlayerPlaying = true;
 
         var diff = diffPlayers > 0 ? 1 : -1;

@@ -17,10 +17,10 @@
 size = Vector2(5637, 862.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qg742"]
-size = Vector2(1000, 3249.5)
+size = Vector2(1075, 3924.75)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_42qnf"]
-size = Vector2(911, 3306)
+size = Vector2(921.5, 3947)
 
 [sub_resource type="Environment" id="Environment_1kha7"]
 background_mode = 3
