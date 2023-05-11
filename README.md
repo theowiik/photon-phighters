@@ -22,12 +22,12 @@ After each round the losing team gets to choose a power-up which will help them 
 ## TODO
 
 - [ ] Game-flow
-  - [ ] Start screen
-  - [ ] Pause screen
+  - [x] Start screen
+  - [x] Pause screen
 - [ ] UI
-  - [ ] Progress bar instead of % text
-  - [ ] Health bar
-  - [ ] Scale UI
+  - [x] Progress bar instead of % text
+  - [x] Health bar
+  - [x] Scale UI
 - [ ] Gameplay
   - [ ] Improve light visibility
-  - [ ] Particles on jump
+  - [x] Particles on jump
