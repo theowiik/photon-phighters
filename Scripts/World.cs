@@ -11,7 +11,7 @@ public partial class World : Node2D
 {
     private const int RoundTime = 120;
     private const int ScoreToWin = 10;
-    private const int TimeBetweenCapturePoint = 30;
+    private const int TimeBetweenCapturePoint = 1;
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
 
@@ -93,7 +93,7 @@ public partial class World : Node2D
 
     private void SetupCapturePoint()
     {
-        var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
+        var timer = TimerFactory.OneShotStartedTimer(TimeBetweenCapturePoint);
         AddChild(timer);
         timer.Timeout += () =>
         {

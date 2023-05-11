@@ -8,10 +8,27 @@ namespace PhotonPhighters.Scripts;
 public partial class CapturePoint : Node2D
 {
     public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
+    
+    [GetNode("ChargePlayer")]
+    private AudioStreamPlayer2D _chargePlayer;
 
-    private const float TimeToCapture = 5f;
+    private const float TimeToCapture = 20f;
     private readonly ICollection<Player> _playersInside = new List<Player>();
     private bool _captured;
+    
+    private bool ChargePlayerPlaying
+    {
+        get => _chargePlayer.Playing;
+        set
+        {
+            if (ChargePlayerPlaying == value) return;
+
+            if (value)
+                _chargePlayer.Play();
+            else
+                _chargePlayer.Stop();
+        }
+    }
 
     /// <summary>
     ///     Light should reach +TimeToCapture.
@@ -48,7 +65,12 @@ public partial class CapturePoint : Node2D
 
         QueueRedraw();
         var diffPlayers = CalcActiveCaptureDiff();
-        if (diffPlayers == 0) return;
+        if (diffPlayers == 0)
+        {
+            ChargePlayerPlaying = false;
+            return;
+        }
+        ChargePlayerPlaying = true;
 
         var diff = diffPlayers > 0 ? 1 : -1;
         _captureTime += diff * (float)delta;
@@ -83,10 +105,10 @@ public partial class CapturePoint : Node2D
     public override void _Draw()
     {
         const int radius = 300;
-        var noneColor = new Color(0, 1, 0.8f, 0.3f);
+        var noneColor = new Color(0, 1, 0.2f, 0.3f);
         var lightColor = new Color(1, 1, 1, 0.3f);
         var darkColor = new Color(0, 0, 0, 0.3f);
-        var tiedColor = new Color(1, 0.67f, 0, 0.3f);
+        var tiedColor = new Color(1, 0f, 0, 0.2f);
 
         var diffPlayers = CalcActiveCaptureDiff();
 

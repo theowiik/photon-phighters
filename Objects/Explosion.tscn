@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://ghbuqncfeed2"]
+[gd_scene load_steps=7 format=3 uid="uid://ghbuqncfeed2"]
 
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_865aj"]
 [ext_resource type="Script" path="res://Scripts/Explosion.cs" id="1_dj6l3"]
 [ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="2_dqsc1"]
+[ext_resource type="AudioStream" uid="uid://c1mmegitkhuun" path="res://Sfx/WorldSounds/explosion2.wav" id="4_w728g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lpe6q"]
 radius = 383.6
@@ -45,3 +46,4 @@ scale_amount_max = 0.7
 color_ramp = SubResource("Gradient_gtx85")
 
 [node name="ExplosionPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_w728g")
