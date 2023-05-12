@@ -12,14 +12,20 @@ public partial class World : Node2D
     private const int RoundTime = 40;
     private const int ScoreToWin = 4;
     private const int TimeBetweenCapturePoint = 10;
-    private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
-    private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
+    private readonly PackedScene _capturePointScene = GD.Load<PackedScene>(
+        "res://Objects/CapturePoint.tscn"
+    );
+    private readonly PackedScene _explosionScene = GD.Load<PackedScene>(
+        "res://Objects/Explosion.tscn"
+    );
 
-    private readonly PackedScene _ragdollDarkScene =
-        GD.Load<PackedScene>("res://Objects/Player/Ragdolls/RagdollDark.tscn");
+    private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(
+        "res://Objects/Player/Ragdolls/RagdollDark.tscn"
+    );
 
-    private readonly PackedScene _ragdollLightScene =
-        GD.Load<PackedScene>("res://Objects/Player/Ragdolls/RagdollLight.tscn");
+    private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(
+        "res://Objects/Player/Ragdolls/RagdollLight.tscn"
+    );
 
     [GetNode("FollowingCamera")]
     private FollowingCamera _camera;
@@ -85,7 +91,8 @@ public partial class World : Node2D
         _lightPlayer = _players.First(p => p.PlayerNumber == 1);
         _darkPlayer = _players.First(p => p.PlayerNumber == 2);
 
-        if (_lightPlayer == null || _darkPlayer == null) throw new Exception("Could not find players");
+        if (_lightPlayer == null || _darkPlayer == null)
+            throw new Exception("Could not find players");
 
         SetupCapturePoint();
         StartRound();
@@ -124,16 +131,14 @@ public partial class World : Node2D
 
     private void OnPlayerDied(Player player)
     {
-        var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
+        var oppositeLight =
+            player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
         AddExplosion(player, oppositeLight);
-        player.GlobalPosition = player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
+        player.GlobalPosition =
+            player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
         player.Freeze = true;
 
-        var liveTimer = new Timer
-        {
-            OneShot = true,
-            WaitTime = 2
-        };
+        var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
         liveTimer.Timeout += () =>
         {
             player.Freeze = false;
@@ -143,9 +148,10 @@ public partial class World : Node2D
         liveTimer.Start();
 
         // Spawn ragdoll
-        var ragdoll = player.Team == Player.TeamEnum.Light
-            ? _ragdollLightScene.Instantiate<RigidBody2D>()
-            : _ragdollDarkScene.Instantiate<RigidBody2D>();
+        var ragdoll =
+            player.Team == Player.TeamEnum.Light
+                ? _ragdollLightScene.Instantiate<RigidBody2D>()
+                : _ragdollDarkScene.Instantiate<RigidBody2D>();
         var timer = TimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
         ragdoll.AddChild(timer);
 
@@ -156,17 +162,18 @@ public partial class World : Node2D
         ragdoll.AngularVelocity = GD.RandRange(-50, 50);
     }
 
-
     private void OnOutOfBounds(Node body)
     {
-        if (body is Player player && player.IsAlive) player.TakeDamage(99999999);
+        if (body is Player player && player.IsAlive)
+            player.TakeDamage(99999999);
     }
 
     private void StartRound()
     {
         ResetLights();
 
-        foreach (var player in _players) player.Freeze = false;
+        foreach (var player in _players)
+            player.Freeze = false;
 
         _roundTimer.Start(RoundTime);
     }
@@ -175,10 +182,12 @@ public partial class World : Node2D
     {
         GD.Print("Round ended");
 
-        foreach (var player in _players) player.Freeze = true;
+        foreach (var player in _players)
+            player.Freeze = true;
 
         // Remove all bullets
-        foreach (var bullet in GetTree().GetNodesInGroup("bullets")) bullet.QueueFree();
+        foreach (var bullet in GetTree().GetNodesInGroup("bullets"))
+            bullet.QueueFree();
 
         var results = GetResults();
         if (results.Light == results.Dark)
@@ -201,7 +210,8 @@ public partial class World : Node2D
             _darkWin.Play();
         }
 
-        _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
+        _overlay.TotalScore =
+            $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
         if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
         {
             GD.Print("Game over");
@@ -245,7 +255,8 @@ public partial class World : Node2D
 
         foreach (var light in lights)
         {
-            if (light is not Light lightNode) throw new Exception("Light node is not a Light!!");
+            if (light is not Light lightNode)
+                throw new Exception("Light node is not a Light!!");
 
             lightNode.SetLight(Light.LightMode.None);
         }
@@ -258,9 +269,11 @@ public partial class World : Node2D
 
     public override void _UnhandledInput(InputEvent @event)
     {
-        if (@event.IsActionPressed("ui_down")) _roundTimer.Start(0.05);
+        if (@event.IsActionPressed("ui_down"))
+            _roundTimer.Start(0.05);
 
-        if (@event.IsActionPressed("ui_up")) AddExplosion(_lightPlayer, Light.LightMode.Dark);
+        if (@event.IsActionPressed("ui_up"))
+            AddExplosion(_lightPlayer, Light.LightMode.Dark);
     }
 
     private void AddExplosion(Node2D where, Light.LightMode who)
@@ -288,7 +301,8 @@ public partial class World : Node2D
     {
         var results = GetResults();
 
-        if (results.Light == 0 && results.Dark == 0) return;
+        if (results.Light == 0 && results.Dark == 0)
+            return;
 
         _overlay.RoundScore = results;
     }
@@ -305,7 +319,8 @@ public partial class World : Node2D
 
         foreach (var light in lights)
         {
-            if (light is not Light lightNode) throw new Exception("Light node is not a Light!!");
+            if (light is not Light lightNode)
+                throw new Exception("Light node is not a Light!!");
 
             switch (lightNode.LightState)
             {

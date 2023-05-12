@@ -8,7 +8,9 @@ public partial class Gun : Node2D
     [Signal]
     public delegate void ShootDelegateEventHandler(Node2D bullet);
 
-    private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
+    private readonly PackedScene _bulletScene = GD.Load<PackedScene>(
+        "res://Objects/Player/Bullet.tscn"
+    );
     private readonly Color _loadedModulationColor = new(1, 1, 1);
     private readonly Color _reloadModulationColor = new(1, 1, 1, 0.1f);
 
@@ -68,15 +70,18 @@ public partial class Gun : Node2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Freeze) return;
+        if (Freeze)
+            return;
 
-        if (Input.IsActionPressed(ShootActionName) && !Loading) Shoot();
+        if (Input.IsActionPressed(ShootActionName) && !Loading)
+            Shoot();
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_right"))
-            LightMode = LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
+            LightMode =
+                LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
     }
 
     private void Shoot()
@@ -111,6 +116,8 @@ public partial class Gun : Node2D
 
     private float GetLightPitch()
     {
-        return LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
+        return LightMode == Light.LightMode.Light
+            ? (float)GD.RandRange(1.5f, 1.8f)
+            : (float)GD.RandRange(0.7f, 0.9f);
     }
 }

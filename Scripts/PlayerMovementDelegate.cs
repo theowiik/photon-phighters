@@ -27,16 +27,15 @@ public partial class PlayerMovementDelegate : Node
     public CharacterBody2D CharacterBody { get; set; }
     public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
 
-    public override void _Ready()
-    {
-    }
+    public override void _Ready() { }
 
     public override void _PhysicsProcess(double delta)
     {
-        var inputDirection =
-            new Vector2(
-                Input.GetActionStrength($"p{PlayerNumber}_right") - Input.GetActionStrength($"p{PlayerNumber}_left"),
-                0);
+        var inputDirection = new Vector2(
+            Input.GetActionStrength($"p{PlayerNumber}_right")
+                - Input.GetActionStrength($"p{PlayerNumber}_left"),
+            0
+        );
 
         // Walking
         var targetSpeed = inputDirection.X * Speed;
@@ -50,7 +49,8 @@ public partial class PlayerMovementDelegate : Node
             _jumpCount = 0;
             _velocity.Y = 0;
 
-            if (!_onFloorLastCall) PlayerEffectsDelegate.AnimationPlayLand();
+            if (!_onFloorLastCall)
+                PlayerEffectsDelegate.AnimationPlayLand();
         }
 
         _onFloorLastCall = onFloor;
@@ -99,9 +99,11 @@ public partial class PlayerMovementDelegate : Node
 
     private void WalkAnimationHandler()
     {
-        if (!_onFloorLastCall) return;
+        if (!_onFloorLastCall)
+            return;
 
-        if (CharacterBody.Velocity.X == 0) return;
+        if (CharacterBody.Velocity.X == 0)
+            return;
 
         if (CharacterBody.Velocity.X > 0)
             PlayerEffectsDelegate.AnimationPlayRunRight();

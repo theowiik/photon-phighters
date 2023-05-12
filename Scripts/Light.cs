@@ -32,7 +32,8 @@ public partial class Light : Area2D
 
     public void SetLight(LightMode lightMode)
     {
-        if (LightState == lightMode) return;
+        if (LightState == lightMode)
+            return;
 
         if (lightMode == LightMode.None)
         {
@@ -44,7 +45,8 @@ public partial class Light : Area2D
         // _animationPlayer.Play("pulsate");
         LightState = lightMode;
         _lightSprite.Visible = true;
-        _lightSprite.Modulate = LightState == LightMode.Light ? _lightColorModulate : _darkColorModulate;
+        _lightSprite.Modulate =
+            LightState == LightMode.Light ? _lightColorModulate : _darkColorModulate;
 
         QueueRedraw(); // TODO: Dev remove
     }
@@ -53,7 +55,8 @@ public partial class Light : Area2D
     {
         const bool debugDraw = false;
 
-        if (!debugDraw) return;
+        if (!debugDraw)
+            return;
 
         var color = Colors.Transparent;
 
