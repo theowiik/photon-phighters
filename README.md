@@ -31,3 +31,7 @@ After each round the losing team gets to choose a power-up which will help them 
 - [ ] Gameplay
   - [ ] Improve light visibility
   - [x] Particles on jump
+
+## Dev
+
+- dotnet 7
