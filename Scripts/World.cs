@@ -119,7 +119,7 @@ public partial class World : Node2D
     private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
     {
         var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
-        AddExplosion(which, light);
+        SpawnExplosion(which, light);
         which.QueueFree();
     }
 
@@ -133,7 +133,10 @@ public partial class World : Node2D
     {
         var oppositeLight =
             player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
-        AddExplosion(player, oppositeLight);
+
+        SpawnRagdoll(player);
+        SpawnExplosion(player, oppositeLight);
+
         player.GlobalPosition =
             player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
         player.Freeze = true;
@@ -146,8 +149,10 @@ public partial class World : Node2D
         };
         AddChild(liveTimer);
         liveTimer.Start();
+    }
 
-        // Spawn ragdoll
+    private void SpawnRagdoll(Player player)
+    {
         var ragdoll =
             player.Team == Player.TeamEnum.Light
                 ? _ragdollLightScene.Instantiate<RigidBody2D>()
@@ -273,10 +278,10 @@ public partial class World : Node2D
             _roundTimer.Start(0.05);
 
         if (@event.IsActionPressed("ui_up"))
-            AddExplosion(_lightPlayer, Light.LightMode.Dark);
+            SpawnExplosion(_lightPlayer, Light.LightMode.Dark);
     }
 
-    private void AddExplosion(Node2D where, Light.LightMode who)
+    private void SpawnExplosion(Node2D where, Light.LightMode who)
     {
         var explosion = _explosionScene.Instantiate<Explosion>();
         explosion.LightMode = who;
