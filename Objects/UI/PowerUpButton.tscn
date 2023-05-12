@@ -1,9 +1,18 @@
-[gd_scene load_steps=2 format=3 uid="uid://dymlsgg4ejjhs"]
+[gd_scene load_steps=3 format=3 uid="uid://dymlsgg4ejjhs"]
 
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpButton.cs" id="2_kwm8b"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hlmv0"]
+bg_color = Color(0.329412, 0.364706, 0.623529, 1)
+skew = Vector2(0.1, 0)
+corner_detail = 20
+
 [node name="PowerUpButton" type="Button"]
-offset_right = 38.0
-offset_bottom = 38.0
+offset_right = 192.0
+offset_bottom = 192.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_hlmv0")
 text = "power up name here"
 script = ExtResource("2_kwm8b")
