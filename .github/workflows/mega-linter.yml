@@ -22,6 +22,8 @@ concurrency:
 jobs:
   build:
     name: MegaLinter
+    env:
+      PAT: ${{ secrets.PAT }}
     runs-on: ubuntu-latest
     steps:
       # Git Checkout
