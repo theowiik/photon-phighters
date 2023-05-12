@@ -38,7 +38,8 @@ public partial class Explosion : Node2D
     private async void ColorLightsInsideRadius()
     {
         var lights = await GetAllLightsInsideArea();
-        foreach (var light in lights) light.SetLight(LightMode);
+        foreach (var light in lights)
+            light.SetLight(LightMode);
     }
 
     private async Task<IEnumerable<Light>> GetAllLightsInsideArea()

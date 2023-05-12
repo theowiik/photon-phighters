@@ -95,8 +95,8 @@ public partial class Player : CharacterBody2D
         PlayerMovementDelegate.PlayerNumber = PlayerNumber;
         PlayerMovementDelegate.CharacterBody = this;
         PlayerMovementDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
-        PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners +=
-            effect => PlayerEffectAddedListeners?.Invoke(effect, this);
+        PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners += effect =>
+            PlayerEffectAddedListeners?.Invoke(effect, this);
 
         // Gun
         var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
@@ -105,15 +105,18 @@ public partial class Player : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        if (Freeze) return;
+        if (Freeze)
+            return;
 
         Aim();
     }
 
     private void OnBulletEntered(Area2D area)
     {
-        if (Freeze) return;
-        if (!IsAlive) return;
+        if (Freeze)
+            return;
+        if (!IsAlive)
+            return;
 
         if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
         {
@@ -132,20 +135,24 @@ public partial class Player : CharacterBody2D
 
     public void TakeDamage(int damage)
     {
-        if (Freeze) return;
-        if (!IsAlive) return;
+        if (Freeze)
+            return;
+        if (!IsAlive)
+            return;
 
         Health -= damage;
         _playerEffectsDelegate.EmitHurtParticles();
         _playerEffectsDelegate.PlayHurtSound();
         _playerEffectsDelegate.AnimationPlayHurt();
 
-        if (Health <= 0) HandleDeath();
+        if (Health <= 0)
+            HandleDeath();
     }
 
     private void HandleDeath()
     {
-        if (!IsAlive) return;
+        if (!IsAlive)
+            return;
 
         IsAlive = false;
 
