@@ -32,7 +32,8 @@ public partial class CapturePoint : Node2D
         get => _chargePlayer.Playing;
         set
         {
-            if (ChargePlayerPlaying == value) return;
+            if (ChargePlayerPlaying == value)
+                return;
 
             if (value)
                 _chargePlayer.Play();
@@ -51,17 +52,20 @@ public partial class CapturePoint : Node2D
 
     private void OnBodyEntered(Node2D body)
     {
-        if (body is Player { IsAlive: true, Freeze: false } player) _playersInside.Add(player);
+        if (body is Player { IsAlive: true, Freeze: false } player)
+            _playersInside.Add(player);
     }
 
     private void OnBodyExited(Node2D body)
     {
-        if (body is Player player) _playersInside.Remove(player);
+        if (body is Player player)
+            _playersInside.Remove(player);
     }
 
     public override void _Process(double delta)
     {
-        if (_captured) return;
+        if (_captured)
+            return;
 
         QueueRedraw();
         var diffPlayers = CalcActiveCaptureDiff();

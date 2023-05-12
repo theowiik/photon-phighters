@@ -23,7 +23,9 @@ public partial class PowerUpPicker : Control
     [GetNode("Label")]
     private Label _label;
 
-    private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
+    private PackedScene _powerUpButtonScene = GD.Load<PackedScene>(
+        "res://Objects/UI/PowerUpButton.tscn"
+    );
 
     public TeamEnum WinningSide
     {
@@ -81,6 +83,7 @@ public partial class PowerUpPicker : Control
 
     private void Clear()
     {
-        foreach (var powerUpButton in _gridContainer.GetNodes<Button>()) powerUpButton.QueueFree();
+        foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
+            powerUpButton.QueueFree();
     }
 }

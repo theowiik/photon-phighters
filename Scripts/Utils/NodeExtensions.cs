@@ -5,7 +5,8 @@ namespace PhotonPhighters.Scripts.Utils;
 
 public static class NodeExtensions
 {
-    public static IEnumerable<T> GetNodes<T>(this Node node) where T : Node
+    public static IEnumerable<T> GetNodes<T>(this Node node)
+        where T : Node
     {
         var output = new List<T>();
 
