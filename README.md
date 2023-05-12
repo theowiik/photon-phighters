@@ -13,21 +13,21 @@ The final state of the game jam can be found in the [game-jam-final](https://git
 
 ## Gameplay
 
-In Photon Phighters, two teams battle to color the map with light or darkness by firing their flashlight.
+In Photon Phighters, two teams battle to cover the map with light or darkness by firing their flashlight.
 
-Players can also attack their enemy to stop them from coloring the map. The team who has covered the largest area of the map after each round wins
+Players can also attack their enemy to stop them from coloring the map. The team who has covered the largest area of the map after each round wins.
 
 After each round the losing team gets to choose a power-up which will help them in the next round.
 
 ## TODO
 
 - [ ] Game-flow
-  - [ ] Start screen
-  - [ ] Pause screen
+  - [x] Start screen
+  - [x] Pause screen
 - [ ] UI
-  - [ ] Progress bar instead of % text
-  - [ ] Health bar
-  - [ ] Scale UI
+  - [x] Progress bar instead of % text
+  - [x] Health bar
+  - [x] Scale UI
 - [ ] Gameplay
   - [ ] Improve light visibility
-  - [ ] Particles on jump
+  - [x] Particles on jump
