@@ -43,13 +43,12 @@ public partial class Explosion : Node2D
 
     private async Task<IEnumerable<Light>> GetAllLightsInsideArea()
     {
-        await ToSignal(GetTree(), "process_frame");
-        await ToSignal(GetTree(), "process_frame");
-        await ToSignal(GetTree(), "process_frame");
-        await ToSignal(GetTree(), "process_frame");
-        await ToSignal(GetTree(), "process_frame");
-        await ToSignal(GetTree(), "process_frame");
-        await ToSignal(GetTree(), "process_frame");
+        // TODO: Wait for an idle frame instead of a fixed number of frames
+        const int frameToWait = 10;
+
+        for (var i = 0; i < frameToWait; i++)
+            await ToSignal(GetTree(), "process_frame");
+
         var areas = _area.GetOverlappingAreas();
         return areas.OfType<Light>();
     }
