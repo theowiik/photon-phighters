@@ -9,12 +9,12 @@ public partial class DamageAmountIndicator : Node2D
     private const float Speed = 600;
     private Vector2 _velocity;
 
-    public int Damage
+    public string Message
     {
         set
         {
             var label = GetNode<Label>("Label");
-            label.Text = value.ToString();
+            label.Text = value;
         }
     }
 

@@ -107,11 +107,16 @@ public partial class World : Node2D
 
     private void OnPlayerHurt(Player player, int damage)
     {
+        SpawnHurtIndicator(player, damage.ToString());
+    }
+
+    private void SpawnHurtIndicator(Node2D player, string msg)
+    {
         var indicator = _scene.Instantiate<DamageAmountIndicator>();
         indicator.AddChild(TimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
         AddChild(indicator);
         indicator.GlobalPosition = player.GlobalPosition;
-        indicator.Damage = damage;
+        indicator.Message = msg;
     }
 
     private void SetupCapturePoint()
@@ -152,6 +157,7 @@ public partial class World : Node2D
 
         SpawnRagdoll(player);
         SpawnExplosion(player, oppositeLight);
+        SpawnHurtIndicator(player, GetRandomDeathMessage());
 
         player.GlobalPosition =
             player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
@@ -165,6 +171,16 @@ public partial class World : Node2D
         };
         AddChild(liveTimer);
         liveTimer.Start();
+    }
+
+    private static string GetRandomDeathMessage()
+    {
+        var deathMessages = new List<string>
+        {
+            "oof", "ouch", "ow", "yikes", "rip", "x_x", "-_-", "T_T", "u_u", "X_X", "@_@", "(X_X)", "[-_-]", "{x_x}",
+            "[T_T]", "{@_@}", "<x_x>", "(.-.)", "[._.]", "<@_@>", "(xOx)", "[x_x]", "<-_->", "{-_-}", "(XoX)"
+        };
+        return deathMessages[GD.RandRange(0, deathMessages.Count - 1)];
     }
 
     private void SpawnRagdoll(Player player)
