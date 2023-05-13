@@ -22,31 +22,35 @@ position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_7k6wd")
 
 [node name="ProceduralPlayer" type="StaticBody2D" parent="."]
-position = Vector2(554, 471)
+position = Vector2(554, 340)
 script = ExtResource("1_s6agt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ProceduralPlayer"]
-position = Vector2(4, -125)
 shape = SubResource("CircleShape2D_rnbiy")
 
 [node name="LeftLeg" type="Sprite2D" parent="ProceduralPlayer"]
-position = Vector2(-8, -77)
+position = Vector2(-14, 49)
 scale = Vector2(0.08, 0.279998)
 texture = ExtResource("1_hryic")
 
 [node name="RightLeg" type="Sprite2D" parent="ProceduralPlayer"]
-position = Vector2(18, -77)
+position = Vector2(18, 49)
 scale = Vector2(0.08, 0.279998)
 texture = ExtResource("1_hryic")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="ProceduralPlayer"]
-position = Vector2(4.25, -75.75)
+position = Vector2(0, 46)
 shape = SubResource("RectangleShape2D_4odxp")
 
 [node name="LeftRay" type="RayCast2D" parent="ProceduralPlayer"]
-position = Vector2(-10, -103)
+position = Vector2(-17, 24)
 target_position = Vector2(-14, 54)
 
 [node name="RightRay" type="RayCast2D" parent="ProceduralPlayer"]
-position = Vector2(18, -103)
+position = Vector2(17, 24)
 target_position = Vector2(14, 54)
+
+[node name="Camera2D" type="Camera2D" parent="ProceduralPlayer"]
+zoom = Vector2(3, 3)
+
+[node name="Marker2D" type="Marker2D" parent="ProceduralPlayer"]

@@ -29,33 +29,28 @@ public partial class ProceduralPlayer : StaticBody2D
     public override void _Process(double delta)
     {
         Movement(delta);
-        var getRayPointHit = _rightRay.GetCollider();
-        var maxAngleDiff = Mathf.Pi / 4;
 
         if (_leftRay.IsColliding())
         {
-            var hitPoint = _leftRay.GetCollisionPoint();
-            GD.Print("Hit point: " + hitPoint);
-            GD.Print("Current leg position: " + _leftLegPosition);
+            var globalHitPoint = _leftRay.GetCollisionPoint();
 
+            // Only once
             if (_leftLegPosition == Vector2.Zero)
             {
-                _leftLegPosition = hitPoint;
+                _leftLegPosition = globalHitPoint;
                 GD.Print("initial");
             }
 
-            if (_leftLegPosition.DistanceTo(hitPoint) > 0.1)
+            // Only if the point is far enough
+            if (_leftLegPosition.DistanceTo(globalHitPoint) > 100)
             {
-                _leftLegPosition = hitPoint;
+                _leftLegPosition = globalHitPoint;
                 GD.Print("switching");
             }
 
-            var angleToLeftRay = GlobalPosition.AngleTo(_leftLegPosition);
-            _leftLeg.Rotation = -angleToLeftRay;
-        }
-        else
-        {
-            _leftLeg.Rotation = 0;
+            var angleToLeftPos = GlobalPosition.AngleTo(_leftLegPosition);
+            GD.Print(angleToLeftPos);
+            _leftLeg.GlobalRotation = angleToLeftPos;
         }
     }
 
@@ -69,7 +64,7 @@ public partial class ProceduralPlayer : StaticBody2D
 
         var speed = 100f;
         var velocity = input.Normalized() * speed;
-    
+
         Position += velocity * (float)delta;
     }
 }
