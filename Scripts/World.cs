@@ -177,8 +177,31 @@ public partial class World : Node2D
     {
         var deathMessages = new List<string>
         {
-            "oof", "ouch", "ow", "yikes", "rip", "x_x", "-_-", "T_T", "u_u", "X_X", "@_@", "(X_X)", "[-_-]", "{x_x}",
-            "[T_T]", "{@_@}", "<x_x>", "(.-.)", "[._.]", "<@_@>", "(xOx)", "[x_x]", "<-_->", "{-_-}", "(XoX)"
+            "oof",
+            "ouch",
+            "ow",
+            "yikes",
+            "rip",
+            "x_x",
+            "-_-",
+            "T_T",
+            "u_u",
+            "X_X",
+            "@_@",
+            "(X_X)",
+            "[-_-]",
+            "{x_x}",
+            "[T_T]",
+            "{@_@}",
+            "<x_x>",
+            "(.-.)",
+            "[._.]",
+            "<@_@>",
+            "(xOx)",
+            "[x_x]",
+            "<-_->",
+            "{-_-}",
+            "(XoX)"
         };
         return deathMessages[GD.RandRange(0, deathMessages.Count - 1)];
     }

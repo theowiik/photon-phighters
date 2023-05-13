@@ -8,17 +8,18 @@ public partial class ProceduralPlayer : StaticBody2D
     [GetNode("LeftLeg")]
     private Node2D _leftLeg;
 
-    [GetNode("RightLeg")]
-    private Node2D _rightLeg;
+    private Vector2 _leftLegPosition;
 
     [GetNode("LeftRay")]
     private RayCast2D _leftRay;
 
+    [GetNode("RightLeg")]
+    private Node2D _rightLeg;
+
+    private Vector2 _rightLegPosition;
+
     [GetNode("RightRay")]
     private RayCast2D _rightRay;
-
-    private Vector2 _leftLegPosition;
-    private Vector2 _rightLegPosition;
 
     public override void _Ready()
     {
