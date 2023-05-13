@@ -11,6 +11,7 @@ public partial class Gun : Node2D
     private readonly PackedScene _bulletScene = GD.Load<PackedScene>(
         "res://Objects/Player/Bullet.tscn"
     );
+
     private readonly Color _loadedModulationColor = new(1, 1, 1);
     private readonly Color _reloadModulationColor = new(1, 1, 1, 0.1f);
 

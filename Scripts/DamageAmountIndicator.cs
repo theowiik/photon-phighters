@@ -5,9 +5,9 @@ namespace PhotonPhighters.Scripts;
 
 public partial class DamageAmountIndicator : Node2D
 {
-    private Vector2 _velocity;
     private const float Gravity = 1500;
     private const float Speed = 600;
+    private Vector2 _velocity;
 
     public int Damage
     {

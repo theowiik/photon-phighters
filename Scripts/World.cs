@@ -29,7 +29,9 @@ public partial class World : Node2D
         "res://Objects/Player/Ragdolls/RagdollLight.tscn"
     );
 
-    private readonly PackedScene _scene = GD.Load<PackedScene>("res://Objects/UI/DamageAmountIndicator.tscn");
+    private readonly PackedScene _scene = GD.Load<PackedScene>(
+        "res://Objects/UI/DamageAmountIndicator.tscn"
+    );
 
     [GetNode("FollowingCamera")]
     private FollowingCamera _camera;

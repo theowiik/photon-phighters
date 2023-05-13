@@ -6,12 +6,12 @@ namespace PhotonPhighters.Scripts;
 public partial class Player : CharacterBody2D
 {
     [Signal]
-    public delegate void PlayerHurtEventHandler(Player player, int damage);
-
-    [Signal]
     public delegate void PlayerDiedEventHandler(Player player);
 
     public delegate void PlayerEffectAdded(Node2D effect, Player who);
+
+    [Signal]
+    public delegate void PlayerHurtEventHandler(Player player, int damage);
 
     public enum TeamEnum
     {
