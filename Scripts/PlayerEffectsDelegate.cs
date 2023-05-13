@@ -35,6 +35,9 @@ public partial class PlayerEffectsDelegate : Node2D
     [GetNode("Sfx/HurtPlayer")]
     private AudioStreamPlayer2D _hurtPlayer;
 
+    [GetNode("Sfx/Hurt2Player")]
+    private AudioStreamPlayer2D _hurt2Player;
+
     [GetNode("HurtTimer")]
     private Timer _hurtTimer;
 
@@ -99,7 +102,13 @@ public partial class PlayerEffectsDelegate : Node2D
 
     public void PlayHurtSound()
     {
+        _hurtPlayer.PitchScale = (float)GD.RandRange(0.8, 1.2);
         _hurtPlayer.Play();
+
+        if (GD.Randf() > 0.6)
+        {
+            _hurt2Player.Play();
+        }
     }
 
     public void PlayFallDeathSound()

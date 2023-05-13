@@ -1,8 +1,9 @@
-[gd_scene load_steps=22 format=3 uid="uid://cmxhv53no4cy5"]
+[gd_scene load_steps=23 format=3 uid="uid://cmxhv53no4cy5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
 [ext_resource type="PackedScene" uid="uid://dpatm74iofg13" path="res://Objects/Player/Gun.tscn" id="3_g1rr3"]
+[ext_resource type="AudioStream" uid="uid://cu4yecucyw8l1" path="res://Sfx/PlayerEffects/punch.mp3" id="4_kgptp"]
 [ext_resource type="Script" path="res://Scripts/PlayerEffectsDelegate.cs" id="5_gj8sb"]
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Sfx/jump-sfx.wav" id="5_iig84"]
 [ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Sfx/death.wav" id="6_km5ul"]
@@ -168,6 +169,9 @@ script = ExtResource("5_gj8sb")
 stream = ExtResource("6_km5ul")
 
 [node name="HurtPlayer" type="AudioStreamPlayer2D" parent="PlayerEffectsDelegate/Sfx"]
+stream = ExtResource("4_kgptp")
+
+[node name="Hurt2Player" type="AudioStreamPlayer2D" parent="PlayerEffectsDelegate/Sfx"]
 stream = ExtResource("8_k35ro")
 
 [node name="FallDeathPlayer" type="AudioStreamPlayer2D" parent="PlayerEffectsDelegate/Sfx"]

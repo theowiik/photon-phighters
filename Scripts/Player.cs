@@ -162,6 +162,7 @@ public partial class Player : CharacterBody2D
 
         PlayerMovementDelegate.Reset();
         _playerEffectsDelegate.EmitDeathParticles();
+        _playerEffectsDelegate.PlayDeathSound();
         EmitSignal(SignalName.PlayerDied, this);
     }
 
