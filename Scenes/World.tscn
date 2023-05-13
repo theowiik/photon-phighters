@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_f0l43"]
 [ext_resource type="Texture2D" uid="uid://cvlu7ya34qp7l" path="res://Assets/Archive/rounds_map.png" id="1_qy8fx"]
 [ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="1_tncw2"]
-[ext_resource type="PackedScene" uid="uid://cf6p1cqopmcy7" path="res://Objects/Player/Player.tscn" id="2_4m2gk"]
+[ext_resource type="PackedScene" uid="uid://cmxhv53no4cy5" path="res://Objects/Player/Player.tscn" id="2_4m2gk"]
 [ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_ut05v"]
 [ext_resource type="Texture2D" uid="uid://yaherysqfje5" path="res://Assets/Archive/slate.png" id="3_8238p"]
 [ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://Objects/UI/Overlay.tscn" id="5_73lpy"]

@@ -12,9 +12,11 @@ public partial class World : Node2D
     private const int RoundTime = 40;
     private const int ScoreToWin = 4;
     private const int TimeBetweenCapturePoint = 10;
+
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>(
         "res://Objects/CapturePoint.tscn"
     );
+
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>(
         "res://Objects/Explosion.tscn"
     );
@@ -26,6 +28,8 @@ public partial class World : Node2D
     private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(
         "res://Objects/Player/Ragdolls/RagdollLight.tscn"
     );
+
+    private readonly PackedScene _scene = GD.Load<PackedScene>("res://Objects/UI/DamageAmountIndicator.tscn");
 
     [GetNode("FollowingCamera")]
     private FollowingCamera _camera;
@@ -83,6 +87,7 @@ public partial class World : Node2D
         foreach (var player in _players)
         {
             player.PlayerDied += OnPlayerDied;
+            player.PlayerHurt += OnPlayerHurt;
             player.Gun.ShootDelegate += OnShoot;
             _camera.AddTarget(player);
             player.PlayerEffectAddedListeners += OnPlayerEffectAdded;
@@ -96,6 +101,15 @@ public partial class World : Node2D
 
         SetupCapturePoint();
         StartRound();
+    }
+
+    private void OnPlayerHurt(Player player, int damage)
+    {
+        var indicator = _scene.Instantiate<DamageAmountIndicator>();
+        indicator.AddChild(TimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
+        AddChild(indicator);
+        indicator.GlobalPosition = player.GlobalPosition;
+        indicator.Damage = damage;
     }
 
     private void SetupCapturePoint()
