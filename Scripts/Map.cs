@@ -10,12 +10,12 @@ public partial class Map : Node2D
 
     [GetNode("LightSpawn")]
     public Node2D LightSpawn { get; set; }
-    
+
     [GetNode("OB")]
     public Area2D OutOfBounds { get; set; }
 
     public override void _Ready()
     {
-        this.AutoWire();    
+        this.AutoWire();
     }
 }

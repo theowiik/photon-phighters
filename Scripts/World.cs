@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -77,7 +77,7 @@ public partial class World : Node2D
         uiUpdateTimer.Timeout += UpdateRoundTimer;
         _roundTimer.Timeout += OnRoundFinished;
 
-        var ob =CurrentMap.OutOfBounds;
+        var ob = CurrentMap.OutOfBounds;
         ob.BodyEntered += OnOutOfBounds;
 
         _players = GetTree().GetNodesInGroup("players").Cast<Player>();
@@ -379,15 +379,15 @@ public partial class World : Node2D
 
             switch (lightNode.LightState)
             {
-                case Light.LightMode.Light:
-                    results.Light++;
-                    break;
-                case Light.LightMode.Dark:
-                    results.Dark++;
-                    break;
-                case Light.LightMode.None:
-                    results.Neutral++;
-                    break;
+            case Light.LightMode.Light:
+                results.Light++;
+                break;
+            case Light.LightMode.Dark:
+                results.Dark++;
+                break;
+            case Light.LightMode.None:
+                results.Neutral++;
+                break;
             }
         }
 

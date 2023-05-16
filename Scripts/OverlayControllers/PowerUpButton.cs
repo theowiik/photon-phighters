@@ -1,4 +1,4 @@
-﻿// TODO: Remove?
+// TODO: Remove?
 
 using Godot;
 

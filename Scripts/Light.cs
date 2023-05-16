@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -62,14 +62,14 @@ public partial class Light : Area2D
 
         switch (LightState)
         {
-            case LightMode.Light:
-                color = Colors.White;
-                break;
-            case LightMode.Dark:
-                color = Colors.Black;
-                break;
-            case LightMode.None:
-                break;
+        case LightMode.Light:
+            color = Colors.White;
+            break;
+        case LightMode.Dark:
+            color = Colors.Black;
+            break;
+        case LightMode.None:
+            break;
         }
 
         DrawCircle(Vector2.Zero, 5, color);
