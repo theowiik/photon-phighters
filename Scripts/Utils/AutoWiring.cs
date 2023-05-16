@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -99,9 +99,9 @@ public static class NodeAutoWire
         var members = node.GetType()
             .GetMembers(
                 BindingFlags.FlattenHierarchy
-                | BindingFlags.Public
-                | BindingFlags.NonPublic
-                | BindingFlags.Instance
+                    | BindingFlags.Public
+                    | BindingFlags.NonPublic
+                    | BindingFlags.Instance
             )
             .OfType<T>();
 

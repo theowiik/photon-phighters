@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using Godot;
 
 namespace PhotonPhighters.Scripts.Utils;
@@ -7,7 +7,12 @@ public static class TimerFactory
 {
     public static Timer OneShotStartedTimer(double waitTime, Action onTimeout = null)
     {
-        var timer = new Timer { Autostart = true, OneShot = true, WaitTime = waitTime };
+        var timer = new Timer
+        {
+            Autostart = true,
+            OneShot = true,
+            WaitTime = waitTime
+        };
 
         if (onTimeout != null)
         {
@@ -19,7 +24,12 @@ public static class TimerFactory
 
     public static Timer StartedTimer(int timeBetweenCapturePoint)
     {
-        var timer = new Timer { Autostart = true, OneShot = false, WaitTime = timeBetweenCapturePoint };
+        var timer = new Timer
+        {
+            Autostart = true,
+            OneShot = false,
+            WaitTime = timeBetweenCapturePoint
+        };
 
         return timer;
     }

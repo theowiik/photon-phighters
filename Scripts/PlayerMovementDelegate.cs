@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 
 namespace PhotonPhighters.Scripts;
 
@@ -33,7 +33,7 @@ public partial class PlayerMovementDelegate : Node
     {
         var inputDirection = new Vector2(
             Input.GetActionStrength($"p{PlayerNumber}_right")
-            - Input.GetActionStrength($"p{PlayerNumber}_left"),
+                - Input.GetActionStrength($"p{PlayerNumber}_left"),
             0
         );
 

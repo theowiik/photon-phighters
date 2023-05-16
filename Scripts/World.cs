@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -157,7 +157,9 @@ public partial class World : Node2D
         SpawnHurtIndicator(player, GetRandomDeathMessage());
 
         player.GlobalPosition =
-            player.PlayerNumber == 1 ? CurrentMap.LightSpawn.GlobalPosition : CurrentMap.DarkSpawn.GlobalPosition;
+            player.PlayerNumber == 1
+                ? CurrentMap.LightSpawn.GlobalPosition
+                : CurrentMap.DarkSpawn.GlobalPosition;
         player.Freeze = true;
 
         var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
