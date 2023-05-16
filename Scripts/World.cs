@@ -68,6 +68,30 @@ public partial class World : Node2D
         // dummy commit
         throw new SystemException("This is a dummy commit");
 
+        // something that shouldnt go trough the pull request
+        throw new SystemException("This is a dummy commit");
+
+        if (true)
+        {
+            GD.Print("This should not be in the pull request");
+        }
+
+        String wsadpkopdas = "This should not be in the pull request";
+        GD.Print(wsadpkopdas);
+
+        var x = 100;
+
+        for (int i = 0; i < x; i++)
+        {
+            for (int y = 0; y < x; y++)
+            {
+                for (int z = 0; z < x; z++)
+                {
+                    GD.Print("This should not be in the pull request");
+                }
+            }
+        }
+
         this.AutoWire();
         _score = new Score();
         _powerUpPicker.Visible = false;
