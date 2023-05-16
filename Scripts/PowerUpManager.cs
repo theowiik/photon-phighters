@@ -6,195 +6,201 @@ namespace PhotonPhighters.Scripts;
 
 public static class PowerUpManager
 {
-    private static readonly IList<IPowerUp> SPowerUps;
+  private static readonly IList<IPowerUp> SPowerUps;
 
-    static PowerUpManager()
+  static PowerUpManager()
+  {
+    SPowerUps = new List<IPowerUp>
     {
-        SPowerUps = new List<IPowerUp>
-        {
-            new PhotonBoost(),
-            new HealthBoost(),
-            new BunnyBoost(),
-            new PhotonMultiplier(),
-            new PhotonEnlarger(),
-            new PhotonAccelerator(),
-            new GlassCannon(),
-            new Gravitronizer(),
-            new PhotonMuncher(),
-            new AirWalker(),
-            new GeneratorEngine()
-        };
+      new PhotonBoost(),
+      new HealthBoost(),
+      new BunnyBoost(),
+      new PhotonMultiplier(),
+      new PhotonEnlarger(),
+      new PhotonAccelerator(),
+      new GlassCannon(),
+      new Gravitronizer(),
+      new PhotonMuncher(),
+      new AirWalker(),
+      new GeneratorEngine()
+    };
+  }
+
+  public static IPowerUp GetRandomPowerup()
+  {
+    var random = new Random();
+    var randomIndex = random.Next(0, SPowerUps.Count);
+    return SPowerUps[randomIndex];
+  }
+
+  /// <summary>
+  ///     Returns a specified number (n) of unique power-ups from a list of available power-ups (_powerUps).
+  ///     If n is greater than the total number of unique power-ups, duplicates will be added.
+  /// </summary>
+  /// <param name="n">The number of power-ups to be returned. Must be greater than or equal to 0.</param>
+  /// <returns>An IEnumerable of IPowerUpApplier objects containing the requested number of power-ups.</returns>
+  /// <exception cref="ArgumentException">
+  ///     Thrown when n is less than 0 or when n is greater than the total number of unique
+  ///     power-ups.
+  /// </exception>
+  public static IEnumerable<IPowerUp> GetUniquePowerUps(int n)
+  {
+    if (n < 0)
+    {
+      throw new ArgumentException("n must be greater than or equal to 0");
     }
 
-    public static IPowerUp GetRandomPowerup()
+    var random = new Random();
+    var powerUps = new List<IPowerUp>();
+    while (powerUps.Count < n)
     {
-        var random = new Random();
-        var randomIndex = random.Next(0, SPowerUps.Count);
-        return SPowerUps[randomIndex];
+      var randomIndex = random.Next(0, SPowerUps.Count);
+      var powerUp = SPowerUps[randomIndex];
+
+      // Add unique powerup
+      if (!powerUps.Contains(powerUp))
+      {
+        powerUps.Add(powerUp);
+      }
+
+      // All unique powerups added, add duplicates
+      if (powerUps.Count >= SPowerUps.Count)
+      {
+        powerUps.Add(powerUp);
+      }
     }
 
-    /// <summary>
-    ///     Returns a specified number (n) of unique power-ups from a list of available power-ups (_powerUps).
-    ///     If n is greater than the total number of unique power-ups, duplicates will be added.
-    /// </summary>
-    /// <param name="n">The number of power-ups to be returned. Must be greater than or equal to 0.</param>
-    /// <returns>An IEnumerable of IPowerUpApplier objects containing the requested number of power-ups.</returns>
-    /// <exception cref="ArgumentException">
-    ///     Thrown when n is less than 0 or when n is greater than the total number of unique
-    ///     power-ups.
-    /// </exception>
-    public static IEnumerable<IPowerUp> GetUniquePowerUps(int n)
+    return powerUps.Shuffle();
+  }
+
+  public static IEnumerable<IPowerUp> GetAllPowerUps()
+  {
+    return SPowerUps;
+  }
+
+  public interface IPowerUp
+  {
+    string Name { get; }
+    void Apply(Player player);
+  }
+
+  private class PhotonBoost : IPowerUp
+  {
+    public void Apply(Player player)
     {
-        if (n < 0)
-            throw new ArgumentException("n must be greater than or equal to 0");
-
-        var random = new Random();
-        var powerUps = new List<IPowerUp>();
-        while (powerUps.Count < n)
-        {
-            var randomIndex = random.Next(0, SPowerUps.Count);
-            var powerUp = SPowerUps[randomIndex];
-
-            // Add unique powerup
-            if (!powerUps.Contains(powerUp))
-                powerUps.Add(powerUp);
-
-            // All unique powerups added, add duplicates
-            if (powerUps.Count >= SPowerUps.Count)
-                powerUps.Add(powerUp);
-        }
-
-        return powerUps.Shuffle();
+      player.PlayerMovementDelegate.Speed += 200;
     }
 
-    public static IEnumerable<IPowerUp> GetAllPowerUps()
+    public string Name => "Photon Boost";
+  }
+
+  private class HealthBoost : IPowerUp
+  {
+    public void Apply(Player player)
     {
-        return SPowerUps;
+      player.MaxHealth = (int)(player.MaxHealth * 1.5f);
     }
 
-    public interface IPowerUp
+    public string Name => "Health Boost";
+  }
+
+  private class BunnyBoost : IPowerUp
+  {
+    public void Apply(Player player)
     {
-        string Name { get; }
-        void Apply(Player player);
+      player.PlayerMovementDelegate.JumpForce += 300;
     }
 
-    private class PhotonBoost : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.PlayerMovementDelegate.Speed += 200;
-        }
+    public string Name => "Bunny Boost";
+  }
 
-        public string Name => "Photon Boost";
+  private class AirWalker : IPowerUp
+  {
+    public void Apply(Player player)
+    {
+      player.PlayerMovementDelegate.MaxJumps += 1;
     }
 
-    private class HealthBoost : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.MaxHealth = (int)(player.MaxHealth * 1.5f);
-        }
+    public string Name => "Air Walker";
+  }
 
-        public string Name => "Health Boost";
+  private class PhotonMuncher : IPowerUp
+  {
+    public void Apply(Player player)
+    {
+      player.MaxHealth *= 2;
+      player.PlayerMovementDelegate.Speed -= -150.0f;
+      player.Gun.BulletSpread *= 1.2f;
     }
 
-    private class BunnyBoost : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.PlayerMovementDelegate.JumpForce += 300;
-        }
+    public string Name => "Photon Muncher";
+  }
 
-        public string Name => "Bunny Boost";
+  private class Gravitronizer : IPowerUp
+  {
+    public void Apply(Player player)
+    {
+      player.Gun.BulletGravity = 0.0f;
     }
 
-    private class AirWalker : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.PlayerMovementDelegate.MaxJumps += 1;
-        }
+    public string Name => "Gravitronizer";
+  }
 
-        public string Name => "Air Walker";
+  private class PhotonAccelerator : IPowerUp
+  {
+    public void Apply(Player player)
+    {
+      player.Gun.BulletSpeed += 300.0f;
+      player.Gun.BulletSpread *= 1.05f;
     }
 
-    private class PhotonMuncher : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.MaxHealth *= 2;
-            player.PlayerMovementDelegate.Speed -= -150.0f;
-            player.Gun.BulletSpread *= 1.2f;
-        }
+    public string Name => "Photon Accelerator";
+  }
 
-        public string Name => "Photon Muncher";
+  private class PhotonMultiplier : IPowerUp
+  {
+    public void Apply(Player player)
+    {
+      player.Gun.BulletCount = (int)Math.Ceiling(player.Gun.BulletCount * 1.5f);
+      player.Gun.BulletSpread *= 1.05f;
     }
 
-    private class Gravitronizer : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.Gun.BulletGravity = 0.0f;
-        }
+    public string Name => "Photon Multiplier";
+  }
 
-        public string Name => "Gravitronizer";
+  private class PhotonEnlarger : IPowerUp
+  {
+    public void Apply(Player player)
+    {
+      player.Gun.BulletSizeFactor += 1.5f;
+      player.Gun.BulletDamage += 10;
+      player.Gun.BulletSpeed -= 150.0f;
+      player.Gun.BulletSpread *= 1.25f;
     }
 
-    private class PhotonAccelerator : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.Gun.BulletSpeed += 300.0f;
-            player.Gun.BulletSpread *= 1.05f;
-        }
+    public string Name => "Photon Enlarger";
+  }
 
-        public string Name => "Photon Accelerator";
+  private class GlassCannon : IPowerUp
+  {
+    public void Apply(Player player)
+    {
+      player.MaxHealth /= 2;
+      player.Gun.BulletDamage *= 3;
+      player.Gun.BulletSpread *= 1.15f;
     }
 
-    private class PhotonMultiplier : IPowerUp
+    public string Name => "Glass Cannon";
+  }
+
+  private class GeneratorEngine : IPowerUp
+  {
+    public string Name => "Generator Engine";
+
+    public void Apply(Player player)
     {
-        public void Apply(Player player)
-        {
-            player.Gun.BulletCount = (int)Math.Ceiling(player.Gun.BulletCount * 1.5f);
-            player.Gun.BulletSpread *= 1.05f;
-        }
-
-        public string Name => "Photon Multiplier";
+      player.Gun.FireRate -= 0.7f;
+      player.Gun.BulletSpread *= 1.05f;
     }
-
-    private class PhotonEnlarger : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.Gun.BulletSizeFactor += 1.5f;
-            player.Gun.BulletDamage += 10;
-            player.Gun.BulletSpeed -= 150.0f;
-            player.Gun.BulletSpread *= 1.25f;
-        }
-
-        public string Name => "Photon Enlarger";
-    }
-
-    private class GlassCannon : IPowerUp
-    {
-        public void Apply(Player player)
-        {
-            player.MaxHealth /= 2;
-            player.Gun.BulletDamage *= 3;
-            player.Gun.BulletSpread *= 1.15f;
-        }
-
-        public string Name => "Glass Cannon";
-    }
-
-    private class GeneratorEngine : IPowerUp
-    {
-        public string Name => "Generator Engine";
-
-        public void Apply(Player player)
-        {
-            player.Gun.FireRate -= 0.7f;
-            player.Gun.BulletSpread *= 1.05f;
-        }
-    }
+  }
 }

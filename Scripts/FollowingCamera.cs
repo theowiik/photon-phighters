@@ -5,98 +5,104 @@ namespace PhotonPhighters.Scripts;
 
 public partial class FollowingCamera : Camera2D
 {
-    public enum ShakeStrength
+  public enum ShakeStrength
+  {
+    Weak,
+    Medium,
+    Strong,
+    Uber
+  }
+
+  private readonly IList<Node2D> _targets = new List<Node2D>();
+  private float _remainingShakeTime;
+  private ShakeStrength _shakeStrength;
+
+  public void AddTarget(Node2D target)
+  {
+    if (_targets.Contains(target))
     {
-        Weak,
-        Medium,
-        Strong,
-        Uber
+      return;
     }
 
-    private readonly IList<Node2D> _targets = new List<Node2D>();
-    private float _remainingShakeTime;
-    private ShakeStrength _shakeStrength;
-
-    public void AddTarget(Node2D target)
+    if (target == null)
     {
-        if (_targets.Contains(target))
-            return;
-        if (target == null)
-            return;
-
-        _targets.Add(target);
+      return;
     }
 
-    /// <summary>
-    ///     Shake the camera for the given amount of time.
-    /// </summary>
-    /// <param name="shakeTime">
-    ///     The amount of time to shake the camera.
-    /// </param>
-    /// <param name="strength">
-    ///     The strength of the shake.
-    /// </param>
-    public void Shake(float shakeTime, ShakeStrength strength)
+    _targets.Add(target);
+  }
+
+  /// <summary>
+  ///     Shake the camera for the given amount of time.
+  /// </summary>
+  /// <param name="shakeTime">
+  ///     The amount of time to shake the camera.
+  /// </param>
+  /// <param name="strength">
+  ///     The strength of the shake.
+  /// </param>
+  public void Shake(float shakeTime, ShakeStrength strength)
+  {
+    _remainingShakeTime = shakeTime;
+    _shakeStrength = strength;
+  }
+
+  public override void _PhysicsProcess(double delta)
+  {
+    if (_targets.Count == 0)
     {
-        _remainingShakeTime = shakeTime;
-        _shakeStrength = strength;
+      return;
     }
 
-    public override void _PhysicsProcess(double delta)
+    var targetPosition = Vector2.Zero;
+    foreach (var target in _targets)
     {
-        if (_targets.Count == 0)
-            return;
-
-        var targetPosition = Vector2.Zero;
-        foreach (var target in _targets)
-            targetPosition += target.Position;
-
-        targetPosition /= _targets.Count;
-        Position = Position.Lerp(targetPosition, (float)delta * 5.0f);
-
-        // Camera shake
-        if (_remainingShakeTime > 0)
-        {
-            var shakeOffset = ShakeStrengthToOffset(_shakeStrength);
-            Position += new Vector2(
-                GD.RandRange(-shakeOffset, shakeOffset),
-                GD.RandRange(-shakeOffset, shakeOffset)
-            );
-            _remainingShakeTime -= (float)delta;
-        }
-
-        // Zoom
-        FitZoom();
+      targetPosition += target.Position;
     }
 
-    private static int ShakeStrengthToOffset(ShakeStrength strength)
+    targetPosition /= _targets.Count;
+    Position = Position.Lerp(targetPosition, (float)delta * 5.0f);
+
+    // Camera shake
+    if (_remainingShakeTime > 0)
     {
-        return strength switch
-        {
-            ShakeStrength.Weak => 5,
-            ShakeStrength.Medium => 10,
-            ShakeStrength.Strong => 30,
-            ShakeStrength.Uber => 150,
-            _ => 0
-        };
+      var shakeOffset = ShakeStrengthToOffset(_shakeStrength);
+      Position += new Vector2(GD.RandRange(-shakeOffset, shakeOffset), GD.RandRange(-shakeOffset, shakeOffset));
+      _remainingShakeTime -= (float)delta;
     }
 
-    private void FitZoom()
+    // Zoom
+    FitZoom();
+  }
+
+  private static int ShakeStrengthToOffset(ShakeStrength strength)
+  {
+    return strength switch
     {
-        // Calculate the bounding box of all objects in the list
-        var bounds = new Rect2();
-        foreach (var obj in _targets)
-        {
-            var rect = obj.GetViewportRect();
-            rect.Position = obj.ToGlobal(rect.Position);
-            bounds = bounds.Merge(rect);
-        }
+      ShakeStrength.Weak => 5,
+      ShakeStrength.Medium => 10,
+      ShakeStrength.Strong => 30,
+      ShakeStrength.Uber => 150,
+      _ => 0
+    };
+  }
 
-        // Calculate the target zoom level to fit the bounding box on the screen
-        var screenBounds = GetViewportRect().Size;
-        var targetZoom = Mathf.Min(screenBounds.X / bounds.Size.X, screenBounds.Y / bounds.Size.Y);
-
-        // Smoothly adjust the camera's zoom level and set its offset to the center of the bounding box
-        Zoom = Zoom.Lerp(new Vector2(targetZoom + 0.3f, targetZoom + 0.3f), 1);
+  private void FitZoom()
+  {
+    // Calculate the bounding box of all objects in the list
+    var bounds = new Rect2();
+    foreach (var obj in _targets)
+    {
+      var rect = obj.GetViewportRect();
+      rect.Position = obj.ToGlobal(rect.Position);
+      bounds = bounds.Merge(rect);
     }
+
+    // Calculate the target zoom level to fit the bounding box on the screen
+    var screenBounds = GetViewportRect().Size;
+    var targetZoom = Mathf.Min(screenBounds.X / bounds.Size.X, screenBounds.Y / bounds.Size.Y);
+
+    // Smoothly adjust the camera's zoom level and set its offset to the center of the bounding box
+    Zoom = Zoom.Lerp(new Vector2(targetZoom + 0.3f, targetZoom + 0.3f), 1);
+  }
 }

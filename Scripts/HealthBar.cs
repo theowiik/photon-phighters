@@ -5,16 +5,16 @@ namespace PhotonPhighters.Scripts;
 
 public partial class HealthBar : Control
 {
-    [GetNode("HealthLabel")]
-    private Label _healthLabel;
+  [GetNode("HealthLabel")]
+  private Label _healthLabel;
 
-    public override void _Ready()
-    {
-        this.AutoWire();
-    }
+  public override void _Ready()
+  {
+    this.AutoWire();
+  }
 
-    public void SetHealth(int health, int maxHealth)
-    {
-        _healthLabel.Text = $"{health}/{maxHealth}";
-    }
+  public void SetHealth(int health, int maxHealth)
+  {
+    _healthLabel.Text = $"{health}/{maxHealth}";
+  }
 }

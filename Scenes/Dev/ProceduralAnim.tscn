@@ -1,0 +1,56 @@
+[gd_scene load_steps=6 format=3 uid="uid://dxw7m3gkv3dpv"]
+
+[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_hryic"]
+[ext_resource type="Script" path="res://Scripts/Dev/ProceduralPlayer.cs" id="1_s6agt"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7k6wd"]
+size = Vector2(397, 74)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rnbiy"]
+radius = 27.1662
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4odxp"]
+size = Vector2(29.5, 49.5)
+
+[node name="Node2D" type="Node2D"]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(553, 449)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_7k6wd")
+
+[node name="ProceduralPlayer" type="StaticBody2D" parent="."]
+position = Vector2(554, 340)
+script = ExtResource("1_s6agt")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ProceduralPlayer"]
+shape = SubResource("CircleShape2D_rnbiy")
+
+[node name="LeftLeg" type="Sprite2D" parent="ProceduralPlayer"]
+position = Vector2(-14, 49)
+scale = Vector2(0.08, 0.279998)
+texture = ExtResource("1_hryic")
+
+[node name="RightLeg" type="Sprite2D" parent="ProceduralPlayer"]
+position = Vector2(18, 49)
+scale = Vector2(0.08, 0.279998)
+texture = ExtResource("1_hryic")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ProceduralPlayer"]
+position = Vector2(0, 46)
+shape = SubResource("RectangleShape2D_4odxp")
+
+[node name="LeftRay" type="RayCast2D" parent="ProceduralPlayer"]
+position = Vector2(-17, 24)
+target_position = Vector2(-14, 54)
+
+[node name="RightRay" type="RayCast2D" parent="ProceduralPlayer"]
+position = Vector2(17, 24)
+target_position = Vector2(14, 54)
+
+[node name="Camera2D" type="Camera2D" parent="ProceduralPlayer"]
+zoom = Vector2(3, 3)
+
+[node name="Marker2D" type="Marker2D" parent="ProceduralPlayer"]

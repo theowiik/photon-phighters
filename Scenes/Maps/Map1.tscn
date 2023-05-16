@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://dondfwp8syxsj"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/Maps/Map.tscn" id="1_kpheg"]
+[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_6ryi7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_onwgb"]
+size = Vector2(5651.72, 362.5)
+
+[node name="Map1" instance=ExtResource("1_kpheg")]
+
+[node name="DarkSpawn" parent="." index="1"]
+position = Vector2(1061, 79)
+
+[node name="LightSpawn" parent="." index="2"]
+position = Vector2(178, 293)
+
+[node name="Floor" parent="Floors" index="0" instance=ExtResource("2_6ryi7")]
+position = Vector2(182, 525)
+
+[node name="Floor2" parent="Floors" index="1" instance=ExtResource("2_6ryi7")]
+position = Vector2(1064, 284)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(663, 1181)
+shape = SubResource("RectangleShape2D_onwgb")

@@ -1,135 +1,27 @@
-[gd_scene load_steps=16 format=3 uid="uid://dwl225ce8ue30"]
+[gd_scene load_steps=13 format=3 uid="uid://rccnn2c5h8ji"]
 
-[ext_resource type="Script" path="res://Scripts/World.cs" id="1_f0l43"]
-[ext_resource type="Texture2D" uid="uid://cvlu7ya34qp7l" path="res://Assets/Archive/rounds_map.png" id="1_qy8fx"]
-[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="1_tncw2"]
-[ext_resource type="PackedScene" uid="uid://cf6p1cqopmcy7" path="res://Objects/Player/Player.tscn" id="2_4m2gk"]
-[ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_ut05v"]
-[ext_resource type="Texture2D" uid="uid://yaherysqfje5" path="res://Assets/Archive/slate.png" id="3_8238p"]
-[ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://Objects/UI/Overlay.tscn" id="5_73lpy"]
-[ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="8_xdl4t"]
-[ext_resource type="Texture2D" uid="uid://b746vcsacknmv" path="res://Assets/Player/light-player.svg" id="9_5gk2c"]
-[ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="9_xwee1"]
-[ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="11_js3pc"]
-[ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="12_evv5a"]
+[ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
+[ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="4_g4vs6"]
+[ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="5_tu48r"]
+[ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://Objects/UI/Overlay.tscn" id="6_ukett"]
+[ext_resource type="PackedScene" uid="uid://21mvhckupcnw" path="res://Objects/UI/PowerUpPicker.tscn" id="7_mepvd"]
+[ext_resource type="PackedScene" uid="uid://b7ix1pgcvbwjk" path="res://Objects/UI/PauseOverlay.tscn" id="8_707gv"]
+[ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="9_jmxqj"]
+[ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="10_ratws"]
+[ext_resource type="PackedScene" uid="uid://b7qkrkt2lacyf" path="res://Objects/Player/LightPlayer.tscn" id="11_c62ed"]
+[ext_resource type="PackedScene" uid="uid://dondfwp8syxsj" path="res://Scenes/Maps/Map1.tscn" id="11_j68kp"]
+[ext_resource type="PackedScene" uid="uid://ca1utwdulasnh" path="res://Objects/Player/DarkPlayer.tscn" id="12_y8lsb"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ncqr5"]
-size = Vector2(5637, 862.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qg742"]
-size = Vector2(1000, 3249.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_42qnf"]
-size = Vector2(911, 3306)
+[sub_resource type="Environment" id="Environment_1kha7"]
+background_mode = 3
+glow_enabled = true
+glow_intensity = 8.0
+glow_strength = 2.0
+glow_hdr_threshold = 1.5
+glow_hdr_scale = 2.12
 
 [node name="World" type="Node2D"]
-script = ExtResource("1_f0l43")
-
-[node name="Light-gray" type="Sprite2D" parent="."]
-position = Vector2(758.5, -268.5)
-scale = Vector2(10.9694, 6.87315)
-texture = ExtResource("2_ut05v")
-
-[node name="Slate" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(548, 366)
-scale = Vector2(1.20521, 1.36852)
-texture = ExtResource("3_8238p")
-
-[node name="RoundsMap" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(534, 261)
-texture = ExtResource("1_qy8fx")
-
-[node name="Map" type="Node2D" parent="."]
-
-[node name="Floor1" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(-104, 690)
-scale = Vector2(2.5, 1.75)
-
-[node name="Floor2" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(1172, 690)
-scale = Vector2(2.5, 1.75)
-
-[node name="Floor3" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(536, 690)
-scale = Vector2(2.5, 1.75)
-
-[node name="Floor4" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(135, 257)
-scale = Vector2(2.3, 0.65)
-
-[node name="Floor5" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(936, 257)
-scale = Vector2(2.3, 0.65)
-
-[node name="Floor6" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(1089, 474)
-scale = Vector2(0.7, 0.65)
-
-[node name="Floor7" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(1299, 375)
-scale = Vector2(0.7, 0.65)
-
-[node name="Floor8" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(-23, 477)
-scale = Vector2(0.7, 0.65)
-
-[node name="Floor9" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(-232, 378)
-scale = Vector2(0.7, 0.65)
-
-[node name="Floor10" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(209, 672)
-scale = Vector2(0.7, 0.65)
-
-[node name="Floor11" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(858, 674)
-scale = Vector2(0.7, 0.65)
-
-[node name="Floor12" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(120, -34)
-scale = Vector2(1, 0.4)
-
-[node name="Floor13" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(952, -34)
-scale = Vector2(1, 0.4)
-
-[node name="Floor14" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(710, 48)
-scale = Vector2(1, 0.4)
-
-[node name="Floor15" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(358, 50)
-scale = Vector2(1, 0.4)
-
-[node name="Floor17" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(-166, 84)
-scale = Vector2(1.3, 0.4)
-
-[node name="Floor18" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(1234, 82)
-scale = Vector2(1.3, 0.4)
-
-[node name="Floor19" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(534, 360)
-scale = Vector2(2.5, 0.3)
-
-[node name="Floor20" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(534, 419)
-scale = Vector2(0.35, 0.6)
-
-[node name="Floor21" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(394, 532)
-scale = Vector2(0.3, 0.8)
-
-[node name="Floor22" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(674, 532)
-scale = Vector2(0.3, 0.8)
-
-[node name="Floor16" parent="Map" instance=ExtResource("1_tncw2")]
-position = Vector2(536, 194)
-scale = Vector2(1, 0.4)
+script = ExtResource("1_lvc03")
 
 [node name="UIUpdateTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -140,55 +32,39 @@ wait_time = 10.0
 one_shot = true
 
 [node name="FollowingCamera" type="Camera2D" parent="."]
-script = ExtResource("8_xdl4t")
-
-[node name="Player1" parent="." instance=ExtResource("2_4m2gk")]
-position = Vector2(949, -119)
-scale = Vector2(0.35, 0.35)
-PlayerNumber = 1
-
-[node name="Sprite2D" parent="Player1" index="2"]
-texture = ExtResource("9_5gk2c")
-
-[node name="Player2" parent="." instance=ExtResource("2_4m2gk")]
-position = Vector2(122, -133)
-scale = Vector2(0.35, 0.35)
-PlayerNumber = 2
+script = ExtResource("4_g4vs6")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("9_xwee1")
+stream = ExtResource("5_tu48r")
 volume_db = -30.167
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Overlay" parent="CanvasLayer" instance=ExtResource("5_73lpy")]
+[node name="Overlay" parent="CanvasLayer" instance=ExtResource("6_ukett")]
+
+[node name="PowerUpPicker" parent="CanvasLayer" instance=ExtResource("7_mepvd")]
+visible = false
+
+[node name="PauseOverlay" parent="CanvasLayer" instance=ExtResource("8_707gv")]
+visible = false
 
 [node name="Sfx" type="Node" parent="."]
 
 [node name="DarkWin" type="AudioStreamPlayer" parent="Sfx"]
-stream = ExtResource("12_evv5a")
+stream = ExtResource("9_jmxqj")
 
 [node name="LightWin" type="AudioStreamPlayer" parent="Sfx"]
-stream = ExtResource("11_js3pc")
+stream = ExtResource("10_ratws")
 
-[node name="OutOfBounds" type="Area2D" parent="."]
+[node name="Players" type="Node" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OutOfBounds"]
-position = Vector2(444.5, 1567)
-shape = SubResource("RectangleShape2D_ncqr5")
+[node name="LightPlayer" parent="Players" instance=ExtResource("11_c62ed")]
+position = Vector2(368, 256)
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="OutOfBounds"]
-position = Vector2(-1852, -500)
-shape = SubResource("RectangleShape2D_qg742")
+[node name="DarkPlayer" parent="Players" instance=ExtResource("12_y8lsb")]
+position = Vector2(912, 268)
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="OutOfBounds"]
-position = Vector2(2805, -520)
-shape = SubResource("RectangleShape2D_42qnf")
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_1kha7")
 
-[node name="P1Spawn" type="Marker2D" parent="."]
-position = Vector2(138, 137)
-
-[node name="P2Spawn" type="Marker2D" parent="."]
-position = Vector2(937, 153)
-
-[editable path="Player1"]
+[node name="Map1" parent="." instance=ExtResource("11_j68kp")]
