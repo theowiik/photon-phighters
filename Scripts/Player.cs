@@ -109,7 +109,9 @@ public partial class Player : CharacterBody2D
     public override void _PhysicsProcess(double delta)
     {
         if (Freeze)
+        {
             return;
+        }
 
         Aim();
     }
@@ -117,9 +119,14 @@ public partial class Player : CharacterBody2D
     private void OnBulletEntered(Area2D area)
     {
         if (Freeze)
+        {
             return;
+        }
+
         if (!IsAlive)
+        {
             return;
+        }
 
         if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
         {
@@ -139,9 +146,14 @@ public partial class Player : CharacterBody2D
     public void TakeDamage(int damage)
     {
         if (Freeze)
+        {
             return;
+        }
+
         if (!IsAlive)
+        {
             return;
+        }
 
         Health -= damage;
         EmitSignal(SignalName.PlayerHurt, this, damage);
@@ -150,13 +162,17 @@ public partial class Player : CharacterBody2D
         _playerEffectsDelegate.AnimationPlayHurt();
 
         if (Health <= 0)
+        {
             HandleDeath();
+        }
     }
 
     private void HandleDeath()
     {
         if (!IsAlive)
+        {
             return;
+        }
 
         IsAlive = false;
 

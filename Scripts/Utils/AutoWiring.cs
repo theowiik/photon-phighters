@@ -23,29 +23,39 @@ public sealed class GetNodeAttribute : Attribute
         var childNode = node.GetNodeOrNull(_path);
 
         if (childNode == null)
+        {
             HandleError($"Cannot find Node for NodePath '{_path}'", node);
+        }
 
         var expectedType = memberInfo is FieldInfo fieldInfo
             ? fieldInfo.FieldType
             : ((PropertyInfo)memberInfo).PropertyType;
 
         if (childNode.GetType() != expectedType && !childNode.GetType().IsSubclassOf(expectedType))
+        {
             HandleError(
                 $"Node is not a valid type. Expected {expectedType} got {childNode.GetType()}",
                 node
             );
+        }
 
         if (memberInfo is FieldInfo)
+        {
             ((FieldInfo)memberInfo).SetValue(node, childNode);
+        }
         else
+        {
             ((PropertyInfo)memberInfo).SetValue(node, childNode);
+        }
     }
 
     private static void HandleError(string err, Node node)
     {
         GD.PrintErr(err);
         if (FailHard)
+        {
             node.GetTree().Quit();
+        }
 
         throw new Exception(err);
     }
@@ -63,7 +73,9 @@ public static class NodeAutoWire
         where T : MemberInfo
     {
         foreach (var member in members)
+        {
             member.GetCustomAttribute<GetNodeAttribute>()?.SetNode(member, node);
+        }
     }
 
     private static IEnumerable<FieldInfo> GetFields(Node node)
@@ -80,14 +92,16 @@ public static class NodeAutoWire
         where T : MemberInfo
     {
         if (node == null)
+        {
             return new List<T>();
+        }
 
         var members = node.GetType()
             .GetMembers(
                 BindingFlags.FlattenHierarchy
-                    | BindingFlags.Public
-                    | BindingFlags.NonPublic
-                    | BindingFlags.Instance
+                | BindingFlags.Public
+                | BindingFlags.NonPublic
+                | BindingFlags.Instance
             )
             .OfType<T>();
 

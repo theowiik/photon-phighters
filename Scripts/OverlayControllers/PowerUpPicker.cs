@@ -33,18 +33,18 @@ public partial class PowerUpPicker : Control
         {
             switch (value)
             {
-            case TeamEnum.Light:
-                _backgroundRect.Color = new Color(1, 1, 1, 0.5f);
-                _label.Modulate = Colors.Black;
-                _label.Text = "Light team won! Darkness, pick a helping hand";
-                break;
-            case TeamEnum.Dark:
-                _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
-                _label.Modulate = Colors.White;
-                _label.Text = "Dark team won! Lightness, pick a helping hand";
-                break;
-            default:
-                throw new ArgumentOutOfRangeException(nameof(value), value, null);
+                case TeamEnum.Light:
+                    _backgroundRect.Color = new Color(1, 1, 1, 0.5f);
+                    _label.Modulate = Colors.Black;
+                    _label.Text = "Light team won! Darkness, pick a helping hand";
+                    break;
+                case TeamEnum.Dark:
+                    _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
+                    _label.Modulate = Colors.White;
+                    _label.Text = "Dark team won! Lightness, pick a helping hand";
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(value), value, null);
             }
         }
     }
@@ -68,7 +68,10 @@ public partial class PowerUpPicker : Control
         IEnumerable<PowerUpManager.IPowerUp> powerUps;
 
         if (DevMode)
+        {
             powerUps = PowerUpManager.GetAllPowerUps();
+        }
+
         powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
 
         foreach (var powerUp in powerUps)
@@ -84,6 +87,8 @@ public partial class PowerUpPicker : Control
     private void Clear()
     {
         foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
+        {
             powerUpButton.QueueFree();
+        }
     }
 }

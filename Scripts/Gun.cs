@@ -72,17 +72,23 @@ public partial class Gun : Node2D
     public override void _PhysicsProcess(double delta)
     {
         if (Freeze)
+        {
             return;
+        }
 
         if (Input.IsActionPressed(ShootActionName) && !Loading)
+        {
             Shoot();
+        }
     }
 
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_right"))
+        {
             LightMode =
                 LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
+        }
     }
 
     private void Shoot()

@@ -33,12 +33,18 @@ public partial class CapturePoint : Node2D
         set
         {
             if (ChargePlayerPlaying == value)
+            {
                 return;
+            }
 
             if (value)
+            {
                 _chargePlayer.Play();
+            }
             else
+            {
                 _chargePlayer.Stop();
+            }
         }
     }
 
@@ -53,19 +59,25 @@ public partial class CapturePoint : Node2D
     private void OnBodyEntered(Node2D body)
     {
         if (body is Player { IsAlive: true, Freeze: false } player)
+        {
             _playersInside.Add(player);
+        }
     }
 
     private void OnBodyExited(Node2D body)
     {
         if (body is Player player)
+        {
             _playersInside.Remove(player);
+        }
     }
 
     public override void _Process(double delta)
     {
         if (_captured)
+        {
             return;
+        }
 
         QueueRedraw();
         var diffPlayers = CalcActiveCaptureDiff();
@@ -119,14 +131,18 @@ public partial class CapturePoint : Node2D
 
         Color color;
         if (!_playersInside.Any())
+        {
             color = noneColor;
+        }
         else
+        {
             color = diffPlayers switch
             {
                 0 => tiedColor,
                 > 0 => lightColor,
                 _ => darkColor
             };
+        }
 
         DrawCircle(Vector2.Zero, radius, color);
     }

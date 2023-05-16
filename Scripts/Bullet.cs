@@ -22,7 +22,9 @@ public partial class Bullet : Area2D
 
         var sprite = GetNode<Sprite2D>("Sprite2D");
         if (LightMode == Light.LightMode.Dark)
+        {
             sprite.Modulate = new Color(0, 0, 0);
+        }
     }
 
     public override void _PhysicsProcess(double delta)
@@ -48,6 +50,8 @@ public partial class Bullet : Area2D
     private void OnBodyEntered(Node2D body)
     {
         if (body.IsInGroup("floors"))
+        {
             QueueFree();
+        }
     }
 }

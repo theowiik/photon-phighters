@@ -13,7 +13,7 @@ public partial class PlayerEffectsDelegate : Node2D
     private const string RunRightAnimation = "running_right";
     private const string SpawnAnimation = "spawn";
     private const string Wall = "squish_wall";
-    private readonly Color _hurtColor = new Color(0.8f, 0, 0);
+    private readonly Color _hurtColor = new(0.8f, 0, 0);
 
     [GetNode("AnimationPlayer")]
     private AnimationPlayer _animationPlayer;
@@ -107,7 +107,9 @@ public partial class PlayerEffectsDelegate : Node2D
         _hurtPlayer.Play();
 
         if (GD.Randf() > 0.6)
+        {
             _hurt2Player.Play();
+        }
     }
 
     public void PlayFallDeathSound()

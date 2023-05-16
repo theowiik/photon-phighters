@@ -13,7 +13,9 @@ public static class NodeExtensions
         foreach (var child in node.GetChildren())
         {
             if (child is T c)
+            {
                 output.Add(c);
+            }
         }
 
         return output;

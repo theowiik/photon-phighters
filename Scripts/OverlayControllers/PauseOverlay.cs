@@ -24,7 +24,9 @@ public partial class PauseOverlay : Control
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_cancel"))
+        {
             EmitSignal(SignalName.ResumeGame);
+        }
         // TODO: Mark input as handled
     }
 }

@@ -12,7 +12,6 @@ public partial class World : Node2D
     private const int RoundTime = 40;
     private const int ScoreToWin = 4;
     private const int TimeBetweenCapturePoint = 10;
-    private Map CurrentMap => GetNode<Map>("Map1");
 
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>(
         "res://Objects/CapturePoint.tscn"
@@ -63,6 +62,7 @@ public partial class World : Node2D
     private Timer _roundTimer;
 
     private Score _score;
+    private Map CurrentMap => GetNode<Map>("Map1");
 
     public override void _Ready()
     {
@@ -94,7 +94,9 @@ public partial class World : Node2D
         _darkPlayer = _players.First(p => p.PlayerNumber == 2);
 
         if (_lightPlayer == null || _darkPlayer == null)
+        {
             throw new Exception("Could not find players");
+        }
 
         SetupCapturePoint();
         StartRound();
@@ -220,7 +222,9 @@ public partial class World : Node2D
     private void OnOutOfBounds(Node body)
     {
         if (body is Player player && player.IsAlive)
+        {
             player.TakeDamage(99999999);
+        }
     }
 
     private void StartRound()
@@ -228,7 +232,9 @@ public partial class World : Node2D
         ResetLights();
 
         foreach (var player in _players)
+        {
             player.Freeze = false;
+        }
 
         _roundTimer.Start(RoundTime);
     }
@@ -238,11 +244,15 @@ public partial class World : Node2D
         GD.Print("Round ended");
 
         foreach (var player in _players)
+        {
             player.Freeze = true;
+        }
 
         // Remove all bullets
         foreach (var bullet in GetTree().GetNodesInGroup("bullets"))
+        {
             bullet.QueueFree();
+        }
 
         var results = GetResults();
         if (results.Light == results.Dark)
@@ -272,9 +282,13 @@ public partial class World : Node2D
             GD.Print("Game over");
 
             if (_score.Light > _score.Dark)
+            {
                 GetTree().ChangeSceneToFile("res://Scenes/EndScreenLight.tscn");
+            }
             else
+            {
                 GetTree().ChangeSceneToFile("res://Scenes/EndScreenDarkness.tscn");
+            }
         }
 
         StartPowerUpSelection();
@@ -311,7 +325,9 @@ public partial class World : Node2D
         foreach (var light in lights)
         {
             if (light is not Light lightNode)
+            {
                 throw new Exception("Light node is not a Light!!");
+            }
 
             lightNode.SetLight(Light.LightMode.None);
         }
@@ -325,10 +341,14 @@ public partial class World : Node2D
     public override void _UnhandledInput(InputEvent @event)
     {
         if (@event.IsActionPressed("ui_down"))
+        {
             _roundTimer.Start(0.05);
+        }
 
         if (@event.IsActionPressed("ui_up"))
+        {
             SpawnExplosion(_lightPlayer, Light.LightMode.Dark);
+        }
     }
 
     private void SpawnExplosion(Node2D where, Light.LightMode who)
@@ -347,7 +367,9 @@ public partial class World : Node2D
         _pauseOverlay.Visible = isPaused;
 
         if (isPaused)
+        {
             _pauseOverlay.GrabFocus();
+        }
 
         GetTree().Paused = isPaused;
     }
@@ -357,7 +379,9 @@ public partial class World : Node2D
         var results = GetResults();
 
         if (results.Light == 0 && results.Dark == 0)
+        {
             return;
+        }
 
         _overlay.RoundScore = results;
     }
@@ -375,19 +399,21 @@ public partial class World : Node2D
         foreach (var light in lights)
         {
             if (light is not Light lightNode)
+            {
                 throw new Exception("Light node is not a Light!!");
+            }
 
             switch (lightNode.LightState)
             {
-            case Light.LightMode.Light:
-                results.Light++;
-                break;
-            case Light.LightMode.Dark:
-                results.Dark++;
-                break;
-            case Light.LightMode.None:
-                results.Neutral++;
-                break;
+                case Light.LightMode.Light:
+                    results.Light++;
+                    break;
+                case Light.LightMode.Dark:
+                    results.Dark++;
+                    break;
+                case Light.LightMode.None:
+                    results.Neutral++;
+                    break;
             }
         }
 

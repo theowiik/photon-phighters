@@ -59,9 +59,14 @@ public partial class ProceduralPlayer : StaticBody2D
     {
         var input = new Vector2();
         if (Input.IsActionPressed("ui_right"))
+        {
             input.X += 1;
+        }
+
         if (Input.IsActionPressed("ui_left"))
+        {
             input.X -= 1;
+        }
 
         var speed = 100f;
         var velocity = input.Normalized() * speed;
