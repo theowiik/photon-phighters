@@ -1,7 +1,6 @@
-[gd_scene load_steps=16 format=3 uid="uid://caut5di71581l"]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
-[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="3_2hjyl"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="4_g4vs6"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="5_tu48r"]
 [ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://Objects/UI/Overlay.tscn" id="6_ukett"]
@@ -10,6 +9,7 @@
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="9_jmxqj"]
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="10_ratws"]
 [ext_resource type="PackedScene" uid="uid://b7qkrkt2lacyf" path="res://Objects/Player/LightPlayer.tscn" id="11_c62ed"]
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/Maps/Map.tscn" id="11_up2ga"]
 [ext_resource type="PackedScene" uid="uid://ca1utwdulasnh" path="res://Objects/Player/DarkPlayer.tscn" id="12_y8lsb"]
 
 [sub_resource type="Environment" id="Environment_1kha7"]
@@ -19,15 +19,6 @@ glow_intensity = 8.0
 glow_strength = 2.0
 glow_hdr_threshold = 1.5
 glow_hdr_scale = 2.12
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ncqr5"]
-size = Vector2(5637, 862.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qg742"]
-size = Vector2(1075, 3924.75)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_42qnf"]
-size = Vector2(921.5, 3947)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_lvc03")
@@ -76,41 +67,4 @@ position = Vector2(912, 268)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1kha7")
 
-[node name="Map" type="Node2D" parent="."]
-
-[node name="ColorRect" type="ColorRect" parent="Map"]
-offset_left = -4272.0
-offset_top = -4223.0
-offset_right = 5818.0
-offset_bottom = 3959.0
-color = Color(0.337255, 0.305882, 0.341176, 1)
-
-[node name="DarkSpawn" type="Marker2D" parent="Map"]
-position = Vector2(906, 290)
-
-[node name="LightSpawn" type="Marker2D" parent="Map"]
-position = Vector2(376, 291)
-
-[node name="Floors" type="Node2D" parent="Map"]
-
-[node name="Floor22" parent="Map/Floors" instance=ExtResource("3_2hjyl")]
-position = Vector2(899, 480)
-scale = Vector2(2.36173, 1.82628)
-
-[node name="Floor16" parent="Map/Floors" instance=ExtResource("3_2hjyl")]
-position = Vector2(371, 481)
-scale = Vector2(2.4483, 1.83071)
-
-[node name="OutOfBounds" type="Area2D" parent="Map"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Map/OutOfBounds"]
-position = Vector2(444.5, 1567)
-shape = SubResource("RectangleShape2D_ncqr5")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="Map/OutOfBounds"]
-position = Vector2(-1852, -500)
-shape = SubResource("RectangleShape2D_qg742")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="Map/OutOfBounds"]
-position = Vector2(2805, -520)
-shape = SubResource("RectangleShape2D_42qnf")
+[node name="Map" parent="." instance=ExtResource("11_up2ga")]
