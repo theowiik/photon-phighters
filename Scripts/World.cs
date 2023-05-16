@@ -96,71 +96,17 @@ public partial class World : Node2D
     StartRound();
   }
 
-  private void OnPlayerHurt(Player player, int damage)
+  public override void _UnhandledInput(InputEvent @event)
   {
-    SpawnHurtIndicator(player, damage.ToString());
-  }
-
-  private void SpawnHurtIndicator(Node2D player, string msg)
-  {
-    var indicator = _scene.Instantiate<DamageAmountIndicator>();
-    indicator.AddChild(TimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
-    AddChild(indicator);
-    indicator.GlobalPosition = player.GlobalPosition;
-    indicator.Message = msg;
-  }
-
-  private void SetupCapturePoint()
-  {
-    var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
-    AddChild(timer);
-    timer.Timeout += () =>
+    if (@event.IsActionPressed("ui_down"))
     {
-      var res = GetResults();
-      var losingPlayer = res.Light > res.Dark ? _darkPlayer : _lightPlayer;
+      _roundTimer.Start(0.05);
+    }
 
-      var capturePoint = _capturePointScene.Instantiate<CapturePoint>();
-      AddChild(capturePoint);
-      capturePoint.CapturedListeners += OnCapturePointCaptured;
-
-      var offset = new Vector2(GD.RandRange(-100, 100), GD.RandRange(-100, 100));
-      capturePoint.GlobalPosition = losingPlayer.GlobalPosition + offset;
-    };
-  }
-
-  private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
-  {
-    var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
-    SpawnExplosion(which, light);
-    which.QueueFree();
-  }
-
-  private void OnPlayerEffectAdded(Node2D effect, Player who)
-  {
-    AddChild(effect);
-    effect.GlobalPosition = who.GlobalPosition;
-  }
-
-  private void OnPlayerDied(Player player)
-  {
-    var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
-
-    SpawnRagdoll(player);
-    SpawnExplosion(player, oppositeLight);
-    SpawnHurtIndicator(player, GetRandomDeathMessage());
-
-    player.GlobalPosition =
-      player.PlayerNumber == 1 ? CurrentMap.LightSpawn.GlobalPosition : CurrentMap.DarkSpawn.GlobalPosition;
-    player.Freeze = true;
-
-    var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
-    liveTimer.Timeout += () =>
+    if (@event.IsActionPressed("ui_up"))
     {
-      player.Freeze = false;
-      player.IsAlive = true;
-    };
-    AddChild(liveTimer);
-    liveTimer.Start();
+      SpawnExplosion(_lightPlayer, Light.LightMode.Dark);
+    }
   }
 
   private static string GetRandomDeathMessage()
@@ -196,20 +142,42 @@ public partial class World : Node2D
     return deathMessages[GD.RandRange(0, deathMessages.Count - 1)];
   }
 
-  private void SpawnRagdoll(Player player)
+  private Results GetResults()
   {
-    var ragdoll =
-      player.Team == Player.TeamEnum.Light
-        ? _ragdollLightScene.Instantiate<RigidBody2D>()
-        : _ragdollDarkScene.Instantiate<RigidBody2D>();
-    var timer = TimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
-    ragdoll.AddChild(timer);
+    var lights = GetTree().GetNodesInGroup("lights");
+    var results = new Results();
 
-    AddChild(ragdoll);
-    ragdoll.GlobalPosition = player.GlobalPosition;
-    var angleVec = -Vector2.Right.Rotated((float)GD.RandRange(0, Math.PI));
-    ragdoll.ApplyCentralImpulse(angleVec * (float)GD.RandRange(1000f, 1500f));
-    ragdoll.AngularVelocity = GD.RandRange(-50, 50);
+    foreach (var light in lights)
+    {
+      if (light is not Light lightNode)
+      {
+        throw new Exception("Light node is not a Light!!");
+      }
+
+      switch (lightNode.LightState)
+      {
+        case Light.LightMode.Light:
+          results.Light++;
+          break;
+
+        case Light.LightMode.Dark:
+          results.Dark++;
+          break;
+
+        case Light.LightMode.None:
+          results.Neutral++;
+          break;
+      }
+    }
+
+    return results;
+  }
+
+  private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
+  {
+    var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
+    SpawnExplosion(which, light);
+    which.QueueFree();
   }
 
   private void OnOutOfBounds(Node body)
@@ -220,16 +188,53 @@ public partial class World : Node2D
     }
   }
 
-  private void StartRound()
+  private void OnPlayerDied(Player player)
   {
-    ResetLights();
+    var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
 
-    foreach (var player in _players)
+    SpawnRagdoll(player);
+    SpawnExplosion(player, oppositeLight);
+    SpawnHurtIndicator(player, GetRandomDeathMessage());
+
+    player.GlobalPosition =
+      player.PlayerNumber == 1 ? CurrentMap.LightSpawn.GlobalPosition : CurrentMap.DarkSpawn.GlobalPosition;
+    player.Freeze = true;
+
+    var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
+    liveTimer.Timeout += () =>
     {
       player.Freeze = false;
+      player.IsAlive = true;
+    };
+    AddChild(liveTimer);
+    liveTimer.Start();
+  }
+
+  private void OnPlayerEffectAdded(Node2D effect, Player who)
+  {
+    AddChild(effect);
+    effect.GlobalPosition = who.GlobalPosition;
+  }
+
+  private void OnPlayerHurt(Player player, int damage)
+  {
+    SpawnHurtIndicator(player, damage.ToString());
+  }
+
+  private void OnPowerUpSelected(PowerUpManager.IPowerUp powerUp)
+  {
+    _powerUpPicker.Visible = false;
+
+    if (PowerUpPicker.DevMode)
+    {
+      powerUp.Apply(_lightPlayer);
+      powerUp.Apply(_darkPlayer);
     }
 
-    _roundTimer.Start(RoundTime);
+    var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
+    powerUp.Apply(loser);
+
+    StartRound();
   }
 
   private void OnRoundFinished()
@@ -286,28 +291,9 @@ public partial class World : Node2D
     StartPowerUpSelection();
   }
 
-  private void StartPowerUpSelection()
+  private void OnShoot(Node2D bullet)
   {
-    _powerUpPicker.WinningSide = _lastPlayerToScore.Team;
-    _powerUpPicker.Visible = true;
-    _powerUpPicker.GrabFocus();
-    _powerUpPicker.Reset();
-  }
-
-  private void OnPowerUpSelected(PowerUpManager.IPowerUp powerUp)
-  {
-    _powerUpPicker.Visible = false;
-
-    if (PowerUpPicker.DevMode)
-    {
-      powerUp.Apply(_lightPlayer);
-      powerUp.Apply(_darkPlayer);
-    }
-
-    var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
-    powerUp.Apply(loser);
-
-    StartRound();
+    AddChild(bullet);
   }
 
   private void ResetLights()
@@ -325,22 +311,22 @@ public partial class World : Node2D
     }
   }
 
-  private void OnShoot(Node2D bullet)
+  private void SetupCapturePoint()
   {
-    AddChild(bullet);
-  }
-
-  public override void _UnhandledInput(InputEvent @event)
-  {
-    if (@event.IsActionPressed("ui_down"))
+    var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
+    AddChild(timer);
+    timer.Timeout += () =>
     {
-      _roundTimer.Start(0.05);
-    }
+      var res = GetResults();
+      var losingPlayer = res.Light > res.Dark ? _darkPlayer : _lightPlayer;
 
-    if (@event.IsActionPressed("ui_up"))
-    {
-      SpawnExplosion(_lightPlayer, Light.LightMode.Dark);
-    }
+      var capturePoint = _capturePointScene.Instantiate<CapturePoint>();
+      AddChild(capturePoint);
+      capturePoint.CapturedListeners += OnCapturePointCaptured;
+
+      var offset = new Vector2(GD.RandRange(-100, 100), GD.RandRange(-100, 100));
+      capturePoint.GlobalPosition = losingPlayer.GlobalPosition + offset;
+    };
   }
 
   private void SpawnExplosion(Node2D where, Light.LightMode who)
@@ -351,6 +337,51 @@ public partial class World : Node2D
     explosion.GlobalPosition = where.GlobalPosition;
     explosion.Explode();
     _camera.Shake(0.6f, FollowingCamera.ShakeStrength.Strong);
+  }
+
+  private void SpawnHurtIndicator(Node2D player, string msg)
+  {
+    var indicator = _scene.Instantiate<DamageAmountIndicator>();
+    indicator.AddChild(TimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
+    AddChild(indicator);
+    indicator.GlobalPosition = player.GlobalPosition;
+    indicator.Message = msg;
+  }
+
+  private void SpawnRagdoll(Player player)
+  {
+    var ragdoll =
+      player.Team == Player.TeamEnum.Light
+        ? _ragdollLightScene.Instantiate<RigidBody2D>()
+        : _ragdollDarkScene.Instantiate<RigidBody2D>();
+    var timer = TimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
+    ragdoll.AddChild(timer);
+
+    AddChild(ragdoll);
+    ragdoll.GlobalPosition = player.GlobalPosition;
+    var angleVec = -Vector2.Right.Rotated((float)GD.RandRange(0, Math.PI));
+    ragdoll.ApplyCentralImpulse(angleVec * (float)GD.RandRange(1000f, 1500f));
+    ragdoll.AngularVelocity = GD.RandRange(-50, 50);
+  }
+
+  private void StartPowerUpSelection()
+  {
+    _powerUpPicker.WinningSide = _lastPlayerToScore.Team;
+    _powerUpPicker.Visible = true;
+    _powerUpPicker.GrabFocus();
+    _powerUpPicker.Reset();
+  }
+
+  private void StartRound()
+  {
+    ResetLights();
+
+    foreach (var player in _players)
+    {
+      player.Freeze = false;
+    }
+
+    _roundTimer.Start(RoundTime);
   }
 
   private void TogglePause()
@@ -366,6 +397,11 @@ public partial class World : Node2D
     GetTree().Paused = isPaused;
   }
 
+  private void UpdateRoundTimer()
+  {
+    _overlay.Time = $"{_roundTimer.TimeLeft.ToString("0.0")}s";
+  }
+
   private void UpdateScore()
   {
     var results = GetResults();
@@ -378,45 +414,21 @@ public partial class World : Node2D
     _overlay.RoundScore = results;
   }
 
-  private void UpdateRoundTimer()
-  {
-    _overlay.Time = $"{_roundTimer.TimeLeft.ToString("0.0")}s";
-  }
-
-  private Results GetResults()
-  {
-    var lights = GetTree().GetNodesInGroup("lights");
-    var results = new Results();
-
-    foreach (var light in lights)
-    {
-      if (light is not Light lightNode)
-      {
-        throw new Exception("Light node is not a Light!!");
-      }
-
-      switch (lightNode.LightState)
-      {
-        case Light.LightMode.Light:
-          results.Light++;
-          break;
-        case Light.LightMode.Dark:
-          results.Dark++;
-          break;
-        case Light.LightMode.None:
-          results.Neutral++;
-          break;
-      }
-    }
-
-    return results;
-  }
-
   public struct Results
   {
-    public int Light;
     public int Dark;
+    public int Light;
     public int Neutral;
+
+    public static bool operator !=(Results left, Results right)
+    {
+      return !(left == right);
+    }
+
+    public static bool operator ==(Results left, Results right)
+    {
+      return left.Equals(right);
+    }
 
     public override bool Equals(object obj)
     {
@@ -427,22 +439,12 @@ public partial class World : Node2D
     {
       throw new NotImplementedException();
     }
-
-    public static bool operator ==(Results left, Results right)
-    {
-      return left.Equals(right);
-    }
-
-    public static bool operator !=(Results left, Results right)
-    {
-      return !(left == right);
-    }
   }
 
   private struct Score
   {
-    public int Light;
     public int Dark;
+    public int Light;
     public int Ties;
   }
 }

@@ -5,21 +5,13 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Player : CharacterBody2D
 {
-  [Signal]
-  public delegate void PlayerDiedEventHandler(Player player);
+  public PlayerEffectAdded PlayerEffectAddedListeners;
 
-  public delegate void PlayerEffectAdded(Node2D effect, Player who);
-
-  [Signal]
-  public delegate void PlayerHurtEventHandler(Player player, int damage);
-
-  public enum TeamEnum
-  {
-    Light,
-    Dark
-  }
+  [GetNode("Movement")]
+  public PlayerMovementDelegate PlayerMovementDelegate;
 
   private bool _aimWithMouse = true;
+
   private bool _freeze;
 
   [GetNode("Marker2D")]
@@ -36,18 +28,19 @@ public partial class Player : CharacterBody2D
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
-  public PlayerEffectAdded PlayerEffectAddedListeners;
+  [Signal]
+  public delegate void PlayerDiedEventHandler(Player player);
 
-  [GetNode("Movement")]
-  public PlayerMovementDelegate PlayerMovementDelegate;
+  public delegate void PlayerEffectAdded(Node2D effect, Player who);
 
-  public bool IsAlive { get; set; }
+  [Signal]
+  public delegate void PlayerHurtEventHandler(Player player, int damage);
 
-  [Export]
-  public int PlayerNumber { get; set; }
-
-  [GetNode("Marker2D/Gun")]
-  public Gun Gun { get; private set; }
+  public enum TeamEnum
+  {
+    Light,
+    Dark
+  }
 
   public bool Freeze
   {
@@ -71,6 +64,18 @@ public partial class Player : CharacterBody2D
     }
   }
 
+  [GetNode("Marker2D/Gun")]
+  public Gun Gun { get; private set; }
+
+  public bool IsAlive { get; set; }
+
+  public int MaxHealth { get; set; } = 50;
+
+  [Export]
+  public int PlayerNumber { get; set; }
+
+  public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
+
   private int Health
   {
     get => _health;
@@ -81,9 +86,15 @@ public partial class Player : CharacterBody2D
     }
   }
 
-  public int MaxHealth { get; set; } = 50;
+  public override void _PhysicsProcess(double delta)
+  {
+    if (Freeze)
+    {
+      return;
+    }
 
-  public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
+    Aim();
+  }
 
   public override void _Ready()
   {
@@ -106,41 +117,9 @@ public partial class Player : CharacterBody2D
     bulletDetectionArea.AreaEntered += OnBulletEntered;
   }
 
-  public override void _PhysicsProcess(double delta)
+  public void ResetHealth()
   {
-    if (Freeze)
-    {
-      return;
-    }
-
-    Aim();
-  }
-
-  private void OnBulletEntered(Area2D area)
-  {
-    if (Freeze)
-    {
-      return;
-    }
-
-    if (!IsAlive)
-    {
-      return;
-    }
-
-    if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
-    {
-      TakeDamage(bullet.Damage);
-      ApplyBulletKnockback(bullet);
-      bullet.QueueFree();
-    }
-  }
-
-  private void ApplyBulletKnockback(Bullet bullet)
-  {
-    var pushDirection = bullet.GlobalPosition.DirectionTo(GlobalPosition);
-    var knockback = pushDirection.Normalized() * bullet.Speed;
-    PlayerMovementDelegate.AddKnockback(knockback);
+    Health = MaxHealth;
   }
 
   public void TakeDamage(int damage)
@@ -167,26 +146,6 @@ public partial class Player : CharacterBody2D
     }
   }
 
-  private void HandleDeath()
-  {
-    if (!IsAlive)
-    {
-      return;
-    }
-
-    IsAlive = false;
-
-    PlayerMovementDelegate.Reset();
-    _playerEffectsDelegate.EmitDeathParticles();
-    _playerEffectsDelegate.PlayDeathSound();
-    EmitSignal(SignalName.PlayerDied, this);
-  }
-
-  public void ResetHealth()
-  {
-    Health = MaxHealth;
-  }
-
   private void Aim()
   {
     var joystickDeadzone = 0.05f;
@@ -207,6 +166,48 @@ public partial class Player : CharacterBody2D
     {
       var direction = GetGlobalMousePosition() - GlobalPosition;
       _gunMarker.Rotation = direction.Angle();
+    }
+  }
+
+  private void ApplyBulletKnockback(Bullet bullet)
+  {
+    var pushDirection = bullet.GlobalPosition.DirectionTo(GlobalPosition);
+    var knockback = pushDirection.Normalized() * bullet.Speed;
+    PlayerMovementDelegate.AddKnockback(knockback);
+  }
+
+  private void HandleDeath()
+  {
+    if (!IsAlive)
+    {
+      return;
+    }
+
+    IsAlive = false;
+
+    PlayerMovementDelegate.Reset();
+    _playerEffectsDelegate.EmitDeathParticles();
+    _playerEffectsDelegate.PlayDeathSound();
+    EmitSignal(SignalName.PlayerDied, this);
+  }
+
+  private void OnBulletEntered(Area2D area)
+  {
+    if (Freeze)
+    {
+      return;
+    }
+
+    if (!IsAlive)
+    {
+      return;
+    }
+
+    if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
+    {
+      TakeDamage(bullet.Damage);
+      ApplyBulletKnockback(bullet);
+      bullet.QueueFree();
     }
   }
 }

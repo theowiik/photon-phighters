@@ -5,6 +5,12 @@ namespace PhotonPhighters.Scripts;
 
 public partial class FollowingCamera : Camera2D
 {
+  private readonly IList<Node2D> _targets = new List<Node2D>();
+
+  private float _remainingShakeTime;
+
+  private ShakeStrength _shakeStrength;
+
   public enum ShakeStrength
   {
     Weak,
@@ -13,9 +19,33 @@ public partial class FollowingCamera : Camera2D
     Uber
   }
 
-  private readonly IList<Node2D> _targets = new List<Node2D>();
-  private float _remainingShakeTime;
-  private ShakeStrength _shakeStrength;
+  public override void _PhysicsProcess(double delta)
+  {
+    if (_targets.Count == 0)
+    {
+      return;
+    }
+
+    var targetPosition = Vector2.Zero;
+    foreach (var target in _targets)
+    {
+      targetPosition += target.Position;
+    }
+
+    targetPosition /= _targets.Count;
+    Position = Position.Lerp(targetPosition, (float)delta * 5.0f);
+
+    // Camera shake
+    if (_remainingShakeTime > 0)
+    {
+      var shakeOffset = ShakeStrengthToOffset(_shakeStrength);
+      Position += new Vector2(GD.RandRange(-shakeOffset, shakeOffset), GD.RandRange(-shakeOffset, shakeOffset));
+      _remainingShakeTime -= (float)delta;
+    }
+
+    // Zoom
+    FitZoom();
+  }
 
   public void AddTarget(Node2D target)
   {
@@ -45,34 +75,6 @@ public partial class FollowingCamera : Camera2D
   {
     _remainingShakeTime = shakeTime;
     _shakeStrength = strength;
-  }
-
-  public override void _PhysicsProcess(double delta)
-  {
-    if (_targets.Count == 0)
-    {
-      return;
-    }
-
-    var targetPosition = Vector2.Zero;
-    foreach (var target in _targets)
-    {
-      targetPosition += target.Position;
-    }
-
-    targetPosition /= _targets.Count;
-    Position = Position.Lerp(targetPosition, (float)delta * 5.0f);
-
-    // Camera shake
-    if (_remainingShakeTime > 0)
-    {
-      var shakeOffset = ShakeStrengthToOffset(_shakeStrength);
-      Position += new Vector2(GD.RandRange(-shakeOffset, shakeOffset), GD.RandRange(-shakeOffset, shakeOffset));
-      _remainingShakeTime -= (float)delta;
-    }
-
-    // Zoom
-    FitZoom();
   }
 
   private static int ShakeStrengthToOffset(ShakeStrength strength)

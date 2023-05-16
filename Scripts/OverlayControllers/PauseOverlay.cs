@@ -5,14 +5,14 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PauseOverlay : Control
 {
-  [Signal]
-  public delegate void ResumeGameEventHandler();
-
   [GetNode("Center/VBox/QuitButton")]
   private Button _quitButton;
 
   [GetNode("Center/VBox/ResumeButton")]
   private Button _resumeButton;
+
+  [Signal]
+  public delegate void ResumeGameEventHandler();
 
   public override void _Ready()
   {
