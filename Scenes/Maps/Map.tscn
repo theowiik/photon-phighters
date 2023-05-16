@@ -1,6 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bb2vib63bh7gn"]
+[gd_scene load_steps=6 format=3 uid="uid://bb2vib63bh7gn"]
 
 [ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="1_82i6f"]
+[ext_resource type="Script" path="res://Scripts/Map.cs" id="1_rqkxc"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ncqr5"]
 size = Vector2(5637, 862.5)
@@ -12,12 +13,13 @@ size = Vector2(1075, 3924.75)
 size = Vector2(921.5, 3947)
 
 [node name="Map" type="Node2D"]
+script = ExtResource("1_rqkxc")
 
 [node name="ColorRect" type="ColorRect" parent="."]
-offset_left = -4272.0
-offset_top = -4223.0
-offset_right = 5818.0
-offset_bottom = 3959.0
+offset_left = -4208.0
+offset_top = -4143.0
+offset_right = 5882.0
+offset_bottom = 4039.0
 color = Color(0.337255, 0.305882, 0.341176, 1)
 
 [node name="DarkSpawn" type="Marker2D" parent="."]
@@ -36,16 +38,16 @@ scale = Vector2(2.36173, 1.82628)
 position = Vector2(371, 481)
 scale = Vector2(2.4483, 1.83071)
 
-[node name="OutOfBounds" type="Area2D" parent="."]
+[node name="OB" type="Area2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OutOfBounds"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB"]
 position = Vector2(444.5, 1567)
 shape = SubResource("RectangleShape2D_ncqr5")
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="OutOfBounds"]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB"]
 position = Vector2(-1852, -500)
 shape = SubResource("RectangleShape2D_qg742")
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="OutOfBounds"]
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB"]
 position = Vector2(2805, -520)
 shape = SubResource("RectangleShape2D_42qnf")

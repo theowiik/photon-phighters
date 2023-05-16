@@ -12,6 +12,7 @@ public partial class World : Node2D
     private const int RoundTime = 40;
     private const int ScoreToWin = 4;
     private const int TimeBetweenCapturePoint = 10;
+    private Map CurrentMap => GetNode<Map>("Map");
 
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>(
         "res://Objects/CapturePoint.tscn"
@@ -38,17 +39,11 @@ public partial class World : Node2D
 
     private Player _darkPlayer;
 
-    [GetNode("Map/DarkSpawn")]
-    private Node2D _darkSpawn;
-
     [GetNode("Sfx/DarkWin")]
     private AudioStreamPlayer _darkWin;
 
     private Player _lastPlayerToScore;
     private Player _lightPlayer;
-
-    [GetNode("Map/LightSpawn")]
-    private Node2D _lightSpawn;
 
     [GetNode("Sfx/LightWin")]
     private AudioStreamPlayer _lightWin;
@@ -82,7 +77,7 @@ public partial class World : Node2D
         uiUpdateTimer.Timeout += UpdateRoundTimer;
         _roundTimer.Timeout += OnRoundFinished;
 
-        var ob = GetNode<Area2D>("Map/OutOfBounds");
+        var ob =CurrentMap.OutOfBounds;
         ob.BodyEntered += OnOutOfBounds;
 
         _players = GetTree().GetNodesInGroup("players").Cast<Player>();
@@ -160,7 +155,7 @@ public partial class World : Node2D
         SpawnHurtIndicator(player, GetRandomDeathMessage());
 
         player.GlobalPosition =
-            player.PlayerNumber == 1 ? _lightSpawn.GlobalPosition : _darkSpawn.GlobalPosition;
+            player.PlayerNumber == 1 ? CurrentMap.LightSpawn.GlobalPosition : CurrentMap.DarkSpawn.GlobalPosition;
         player.Freeze = true;
 
         var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
