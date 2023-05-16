@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.OverlayControllers;
@@ -13,9 +12,11 @@ public partial class World : Node2D
     private const int RoundTime = 40;
     private const int ScoreToWin = 4;
     private const int TimeBetweenCapturePoint = 10;
+
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>(
         "res://Objects/CapturePoint.tscn"
     );
+
     private readonly PackedScene _explosionScene = GD.Load<PackedScene>(
         "res://Objects/Explosion.tscn"
     );
