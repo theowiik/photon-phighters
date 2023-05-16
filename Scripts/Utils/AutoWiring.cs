@@ -93,7 +93,7 @@ public static class NodeAutoWire
   }
 
   private static void WireMembers<T>(Node node, IEnumerable<T> members)
-          where T : MemberInfo
+    where T : MemberInfo
   {
     foreach (var member in members)
     {
