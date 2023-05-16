@@ -12,7 +12,7 @@ public partial class World : Node2D
     private const int RoundTime = 40;
     private const int ScoreToWin = 4;
     private const int TimeBetweenCapturePoint = 10;
-    private Map CurrentMap => GetNode<Map>("Map");
+    private Map CurrentMap => GetNode<Map>("Map1");
 
     private readonly PackedScene _capturePointScene = GD.Load<PackedScene>(
         "res://Objects/CapturePoint.tscn"

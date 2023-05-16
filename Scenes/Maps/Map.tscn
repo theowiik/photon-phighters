@@ -1,16 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bb2vib63bh7gn"]
+[gd_scene load_steps=2 format=3 uid="uid://bb2vib63bh7gn"]
 
-[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="1_82i6f"]
 [ext_resource type="Script" path="res://Scripts/Map.cs" id="1_rqkxc"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ncqr5"]
-size = Vector2(5637, 862.5)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qg742"]
-size = Vector2(1075, 3924.75)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_42qnf"]
-size = Vector2(921.5, 3947)
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_rqkxc")
@@ -30,24 +20,4 @@ position = Vector2(376, 291)
 
 [node name="Floors" type="Node2D" parent="."]
 
-[node name="Floor22" parent="Floors" instance=ExtResource("1_82i6f")]
-position = Vector2(899, 480)
-scale = Vector2(2.36173, 1.82628)
-
-[node name="Floor16" parent="Floors" instance=ExtResource("1_82i6f")]
-position = Vector2(371, 481)
-scale = Vector2(2.4483, 1.83071)
-
 [node name="OB" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OB"]
-position = Vector2(444.5, 1567)
-shape = SubResource("RectangleShape2D_ncqr5")
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB"]
-position = Vector2(-1852, -500)
-shape = SubResource("RectangleShape2D_qg742")
-
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB"]
-position = Vector2(2805, -520)
-shape = SubResource("RectangleShape2D_42qnf")
