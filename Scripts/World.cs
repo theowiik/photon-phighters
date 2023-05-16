@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.OverlayControllers;
@@ -141,6 +142,50 @@ public partial class World : Node2D
                 }
             }
         }
+    }
+
+    public void ConnectToDatabase()
+    {
+        string connectionString = "Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;";
+        //... rest of the connection process
+    }
+
+    public void DoSomething()
+    {
+        try
+        {
+            // some code that can throw an exception
+        }
+        catch (Exception ex)
+        {
+            // do nothing
+        }
+    }
+
+    public void WriteToFile()
+    {
+        var streamWriter = new StreamWriter("pathToFile");
+        streamWriter.Write("some text");
+        // forgot to dispose the StreamWriter
+    }
+
+    public void Process()
+    {
+        for (int i = 0; i < 42; i++)
+        {
+            //... some processing on i
+        }
+    }
+
+    public void DoSomethingElse()
+    {
+        //... some code without comments
+    }
+
+    public void CalculateArea(int a, int b)
+    {
+        int r = a * b;
+        // r is a poor variable name
     }
 
     private void SetupCapturePoint()
