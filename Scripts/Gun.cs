@@ -5,15 +5,14 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Gun : Node2D
 {
-  [Signal]
-  public delegate void ShootDelegateEventHandler(Node2D bullet);
-
   private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
 
   private readonly Color _loadedModulationColor = new(1, 1, 1);
+
   private readonly Color _reloadModulationColor = new(1, 1, 1, 0.1f);
 
   private float _fireRate;
+
   private bool _loading;
 
   [GetNode("ShootPlayer")]
@@ -21,6 +20,24 @@ public partial class Gun : Node2D
 
   [GetNode("Timer")]
   private Timer _shootTimer;
+
+  [Signal]
+  public delegate void ShootDelegateEventHandler(Node2D bullet);
+
+  public int BulletCount { get; set; } = 3;
+
+  public int BulletDamage { get; set; } = 5;
+
+  public float BulletGravity { get; set; } = 1.0f;
+
+  public float BulletSizeFactor { get; set; } = 1.0f;
+
+  public float BulletSpeed { get; set; } = 1000;
+
+  /// <summary>
+  ///     The spread of the bullets in radians.
+  /// </summary>
+  public float BulletSpread { get; set; } = 0.1f;
 
   /// <summary>
   ///     The rate of fire in bullets per second.
@@ -35,19 +52,9 @@ public partial class Gun : Node2D
     }
   }
 
-  /// <summary>
-  ///     The spread of the bullets in radians.
-  /// </summary>
-  public float BulletSpread { get; set; } = 0.1f;
-
+  public bool Freeze { get; set; }
   public Light.LightMode LightMode { get; set; }
   public string ShootActionName { get; set; }
-  public float BulletSpeed { get; set; } = 1000;
-  public float BulletSizeFactor { get; set; } = 1.0f;
-  public int BulletCount { get; set; } = 3;
-  public float BulletGravity { get; set; } = 1.0f;
-  public int BulletDamage { get; set; } = 5;
-  public bool Freeze { get; set; }
 
   private bool Loading
   {
@@ -57,14 +64,6 @@ public partial class Gun : Node2D
       _loading = value;
       Modulate = _loading ? _reloadModulationColor : _loadedModulationColor;
     }
-  }
-
-  public override void _Ready()
-  {
-    this.AutoWire();
-    FireRate = 3f;
-    _shootTimer.Timeout += () => Loading = !Loading;
-    LightMode = Light.LightMode.Light;
   }
 
   public override void _PhysicsProcess(double delta)
@@ -80,12 +79,30 @@ public partial class Gun : Node2D
     }
   }
 
+  public override void _Ready()
+  {
+    this.AutoWire();
+    FireRate = 3f;
+    _shootTimer.Timeout += () => Loading = !Loading;
+    LightMode = Light.LightMode.Light;
+  }
+
   public override void _UnhandledInput(InputEvent @event)
   {
     if (@event.IsActionPressed("ui_right"))
     {
       LightMode = LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
     }
+  }
+
+  private static float GetRandomBetweenRange(float min, float max)
+  {
+    return (float)GD.RandRange(min, max);
+  }
+
+  private float GetLightPitch()
+  {
+    return LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
   }
 
   private void Shoot()
@@ -111,15 +128,5 @@ public partial class Gun : Node2D
 
     Loading = true;
     _shootTimer.Start();
-  }
-
-  private static float GetRandomBetweenRange(float min, float max)
-  {
-    return (float)GD.RandRange(min, max);
-  }
-
-  private float GetLightPitch()
-  {
-    return LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
   }
 }

@@ -11,6 +11,7 @@ public sealed class GetNodeAttribute : Attribute
 {
   // Whether to exit the application if the node cannot be found
   private const bool FailHard = true;
+
   private readonly string _path;
 
   public GetNodeAttribute(string nodePath)
@@ -66,23 +67,9 @@ public static class NodeAutoWire
     WireMembers(node, GetProperties(node));
   }
 
-  private static void WireMembers<T>(Node node, IEnumerable<T> members)
-    where T : MemberInfo
-  {
-    foreach (var member in members)
-    {
-      member.GetCustomAttribute<GetNodeAttribute>()?.SetNode(member, node);
-    }
-  }
-
   private static IEnumerable<FieldInfo> GetFields(Node node)
   {
     return GetMembers<FieldInfo>(node);
-  }
-
-  private static IEnumerable<PropertyInfo> GetProperties(Node node)
-  {
-    return GetMembers<PropertyInfo>(node);
   }
 
   private static IEnumerable<T> GetMembers<T>(Node node)
@@ -98,5 +85,19 @@ public static class NodeAutoWire
       .OfType<T>();
 
     return new List<T>(members);
+  }
+
+  private static IEnumerable<PropertyInfo> GetProperties(Node node)
+  {
+    return GetMembers<PropertyInfo>(node);
+  }
+
+  private static void WireMembers<T>(Node node, IEnumerable<T> members)
+    where T : MemberInfo
+  {
+    foreach (var member in members)
+    {
+      member.GetCustomAttribute<GetNodeAttribute>()?.SetNode(member, node);
+    }
   }
 }

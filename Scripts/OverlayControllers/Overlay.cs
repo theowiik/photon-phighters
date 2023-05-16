@@ -18,6 +18,11 @@ public partial class Overlay : Control
   [GetNode("VBox/TotalScoreLabel")]
   private Label _totalScoreLabel;
 
+  public Results RoundScore
+  {
+    set => _roundScoreBar.Value = (float)value.Dark / (value.Light + value.Dark);
+  }
+
   public string Time
   {
     set => _timerLabel.Text = value;
@@ -26,11 +31,6 @@ public partial class Overlay : Control
   public string TotalScore
   {
     set => _totalScoreLabel.Text = value;
-  }
-
-  public Results RoundScore
-  {
-    set => _roundScoreBar.Value = (float)value.Dark / (value.Light + value.Dark);
   }
 
   public override void _Ready()

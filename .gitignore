@@ -2,5 +2,6 @@
 .godot/
 
 .idea/
+.vs/
 
 megalinter-reports/
