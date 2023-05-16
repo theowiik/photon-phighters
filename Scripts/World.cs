@@ -38,7 +38,7 @@ public partial class World : Node2D
 
     private Player _darkPlayer;
 
-    [GetNode("DarkSpawn")]
+    [GetNode("Map/DarkSpawn")]
     private Node2D _darkSpawn;
 
     [GetNode("Sfx/DarkWin")]
@@ -47,7 +47,7 @@ public partial class World : Node2D
     private Player _lastPlayerToScore;
     private Player _lightPlayer;
 
-    [GetNode("LightSpawn")]
+    [GetNode("Map/LightSpawn")]
     private Node2D _lightSpawn;
 
     [GetNode("Sfx/LightWin")]
@@ -82,7 +82,7 @@ public partial class World : Node2D
         uiUpdateTimer.Timeout += UpdateRoundTimer;
         _roundTimer.Timeout += OnRoundFinished;
 
-        var ob = GetNode<Area2D>("OutOfBounds");
+        var ob = GetNode<Area2D>("Map/OutOfBounds");
         ob.BodyEntered += OnOutOfBounds;
 
         _players = GetTree().GetNodesInGroup("players").Cast<Player>();

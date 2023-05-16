@@ -1,7 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://caut5di71581l"]
+[gd_scene load_steps=16 format=3 uid="uid://caut5di71581l"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
-[ext_resource type="Texture2D" uid="uid://b3mdq50wakwn3" path="res://Assets/light-gray.svg" id="2_mrd41"]
 [ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="3_2hjyl"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="4_g4vs6"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="5_tu48r"]
@@ -32,12 +31,6 @@ size = Vector2(921.5, 3947)
 
 [node name="World" type="Node2D"]
 script = ExtResource("1_lvc03")
-
-[node name="Light-gray" type="Sprite2D" parent="."]
-visible = false
-position = Vector2(759.5, -268.5)
-scale = Vector2(10.9694, 6.87315)
-texture = ExtResource("2_mrd41")
 
 [node name="UIUpdateTimer" type="Timer" parent="."]
 wait_time = 0.1
@@ -84,6 +77,13 @@ position = Vector2(912, 268)
 environment = SubResource("Environment_1kha7")
 
 [node name="Map" type="Node2D" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="Map"]
+offset_left = -4272.0
+offset_top = -4223.0
+offset_right = 5818.0
+offset_bottom = 3959.0
+color = Color(0.337255, 0.305882, 0.341176, 1)
 
 [node name="DarkSpawn" type="Marker2D" parent="Map"]
 position = Vector2(906, 290)
