@@ -65,6 +65,9 @@ public partial class World : Node2D
 
     public override void _Ready()
     {
+        // dummy commit
+        throw new SystemException("This is a dummy commit");
+
         this.AutoWire();
         _score = new Score();
         _powerUpPicker.Visible = false;
