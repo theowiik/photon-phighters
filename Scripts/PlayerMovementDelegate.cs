@@ -14,20 +14,17 @@ public partial class PlayerMovementDelegate : Node
   private bool _onFloorLastCall;
   private float _speed = 800;
   private Vector2 _velocity;
-  public int PlayerNumber { get; set; }
+  public CharacterBody2D CharacterBody { get; set; }
   public float JumpForce { get; set; } = 700;
   public int MaxJumps { get; set; } = 2;
+  public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
+  public int PlayerNumber { get; set; }
 
   public float Speed
   {
     get => _speed;
     set => _speed = Mathf.Max(100f, value);
   }
-
-  public CharacterBody2D CharacterBody { get; set; }
-  public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
-
-  public override void _Ready() { }
 
   public override void _PhysicsProcess(double delta)
   {
@@ -97,9 +94,29 @@ public partial class PlayerMovementDelegate : Node
     WalkAnimationHandler();
   }
 
+  public override void _Ready() { }
+
   public void AddKnockback(Vector2 knockback)
   {
     _knockback += knockback;
+  }
+
+  public void Reset()
+  {
+    _velocity = Vector2.Zero;
+    _knockback = Vector2.Zero;
+  }
+
+  private void JumpEffectsHandler()
+  {
+    PlayerEffectsDelegate.EmitJumpParticles();
+    PlayerEffectsDelegate.PlayJumpSound();
+    PlayerEffectsDelegate.AnimationPlayJump();
+  }
+
+  private void LandEffectsHandler()
+  {
+    PlayerEffectsDelegate.AnimationPlayLand();
   }
 
   private void WalkAnimationHandler()
@@ -122,23 +139,5 @@ public partial class PlayerMovementDelegate : Node
     {
       PlayerEffectsDelegate.AnimationPlayRunLeft();
     }
-  }
-
-  private void JumpEffectsHandler()
-  {
-    PlayerEffectsDelegate.EmitJumpParticles();
-    PlayerEffectsDelegate.PlayJumpSound();
-    PlayerEffectsDelegate.AnimationPlayJump();
-  }
-
-  private void LandEffectsHandler()
-  {
-    PlayerEffectsDelegate.AnimationPlayLand();
-  }
-
-  public void Reset()
-  {
-    _velocity = Vector2.Zero;
-    _knockback = Vector2.Zero;
   }
 }

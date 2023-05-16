@@ -7,10 +7,12 @@ namespace PhotonPhighters.Scripts;
 
 public partial class CapturePoint : Node2D
 {
-  public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
+  public CapturedEvent CapturedListeners;
 
   private const float TimeToCapture = 4f;
+
   private readonly ICollection<Player> _playersInside = new List<Player>();
+
   private bool _captured;
 
   /// <summary>
@@ -25,7 +27,7 @@ public partial class CapturePoint : Node2D
   [GetNode("ProgressBar")]
   private ProgressBar _progressBar;
 
-  public CapturedEvent CapturedListeners;
+  public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
 
   private bool ChargePlayerPlaying
   {
@@ -48,28 +50,32 @@ public partial class CapturePoint : Node2D
     }
   }
 
-  public override void _Ready()
+  public override void _Draw()
   {
-    this.AutoWire();
-    var area = GetNode<Area2D>("Area2D");
-    area.BodyEntered += OnBodyEntered;
-    area.BodyExited += OnBodyExited;
-  }
+    const int radius = 300;
+    var noneColor = new Color(0, 1, 0.2f, 0.3f);
+    var lightColor = new Color(1, 1, 1, 0.3f);
+    var darkColor = new Color(0, 0, 0, 0.3f);
+    var tiedColor = new Color(1, 0f, 0, 0.2f);
 
-  private void OnBodyEntered(Node2D body)
-  {
-    if (body is Player { IsAlive: true, Freeze: false } player)
-    {
-      _playersInside.Add(player);
-    }
-  }
+    var diffPlayers = CalcActiveCaptureDiff();
 
-  private void OnBodyExited(Node2D body)
-  {
-    if (body is Player player)
+    Color color;
+    if (!_playersInside.Any())
     {
-      _playersInside.Remove(player);
+      color = noneColor;
     }
+    else
+    {
+      color = diffPlayers switch
+      {
+        0 => tiedColor,
+        > 0 => lightColor,
+        _ => darkColor
+      };
+    }
+
+    DrawCircle(Vector2.Zero, radius, color);
   }
 
   public override void _Process(double delta)
@@ -106,6 +112,14 @@ public partial class CapturePoint : Node2D
     UpdateProgress();
   }
 
+  public override void _Ready()
+  {
+    this.AutoWire();
+    var area = GetNode<Area2D>("Area2D");
+    area.BodyEntered += OnBodyEntered;
+    area.BodyExited += OnBodyExited;
+  }
+
   private int CalcActiveCaptureDiff()
   {
     var lightPlayers = _playersInside.Count(p => p.Team == Player.TeamEnum.Light);
@@ -113,37 +127,25 @@ public partial class CapturePoint : Node2D
     return lightPlayers - darkPlayers;
   }
 
+  private void OnBodyEntered(Node2D body)
+  {
+    if (body is Player { IsAlive: true, Freeze: false } player)
+    {
+      _playersInside.Add(player);
+    }
+  }
+
+  private void OnBodyExited(Node2D body)
+  {
+    if (body is Player player)
+    {
+      _playersInside.Remove(player);
+    }
+  }
+
   private void UpdateProgress()
   {
     var progress = (_captureTime + TimeToCapture) / (TimeToCapture * 2);
     _progressBar.Value = progress;
-  }
-
-  public override void _Draw()
-  {
-    const int radius = 300;
-    var noneColor = new Color(0, 1, 0.2f, 0.3f);
-    var lightColor = new Color(1, 1, 1, 0.3f);
-    var darkColor = new Color(0, 0, 0, 0.3f);
-    var tiedColor = new Color(1, 0f, 0, 0.2f);
-
-    var diffPlayers = CalcActiveCaptureDiff();
-
-    Color color;
-    if (!_playersInside.Any())
-    {
-      color = noneColor;
-    }
-    else
-    {
-      color = diffPlayers switch
-      {
-        0 => tiedColor,
-        > 0 => lightColor,
-        _ => darkColor
-      };
-    }
-
-    DrawCircle(Vector2.Zero, radius, color);
   }
 }

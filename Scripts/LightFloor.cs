@@ -13,6 +13,18 @@ public partial class LightFloor : StaticBody2D
     BasicLightPlacement();
   }
 
+  private static IEnumerable<Vector2> BuildSide(Vector2 baseVector, int lightsOnSide, float apart)
+  {
+    var output = new List<Vector2>();
+
+    for (var i = 0; i < lightsOnSide; i++)
+    {
+      output.Add(baseVector + new Vector2(0, apart * i));
+    }
+
+    return output;
+  }
+
   private void BasicLightPlacement()
   {
     // TODO: Dont hardcode side length
@@ -39,17 +51,5 @@ public partial class LightFloor : StaticBody2D
       AddChild(light);
       light.Position = vector;
     }
-  }
-
-  private static IEnumerable<Vector2> BuildSide(Vector2 baseVector, int lightsOnSide, float apart)
-  {
-    var output = new List<Vector2>();
-
-    for (var i = 0; i < lightsOnSide; i++)
-    {
-      output.Add(baseVector + new Vector2(0, apart * i));
-    }
-
-    return output;
   }
 }

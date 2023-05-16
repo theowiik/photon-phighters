@@ -8,11 +8,9 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpPicker : Control
 {
-  // Non Godot signal since Godot doesnt support custom types
-  public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
+  public const bool DevMode = false;
 
   private const int AmountPowerUps = 4;
-  public const bool DevMode = false;
 
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;
@@ -25,6 +23,11 @@ public partial class PowerUpPicker : Control
 
   private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
 
+  // Non Godot signal since Godot doesnt support custom types
+  public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
+
+  public event PowerUpPicked PowerUpPickedListeners;
+
   public TeamEnum WinningSide
   {
     set
@@ -36,18 +39,18 @@ public partial class PowerUpPicker : Control
           _label.Modulate = Colors.Black;
           _label.Text = "Light team won! Darkness, pick a helping hand";
           break;
+
         case TeamEnum.Dark:
           _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
           _label.Modulate = Colors.White;
           _label.Text = "Dark team won! Lightness, pick a helping hand";
           break;
+
         default:
           throw new ArgumentOutOfRangeException(nameof(value), value, null);
       }
     }
   }
-
-  public event PowerUpPicked PowerUpPickedListeners;
 
   public override void _Ready()
   {
@@ -59,6 +62,14 @@ public partial class PowerUpPicker : Control
   {
     Clear();
     Populate();
+  }
+
+  private void Clear()
+  {
+    foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
+    {
+      powerUpButton.QueueFree();
+    }
   }
 
   private void Populate()
@@ -79,14 +90,6 @@ public partial class PowerUpPicker : Control
       powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
 
       _gridContainer.AddChild(powerUpButton);
-    }
-  }
-
-  private void Clear()
-  {
-    foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
-    {
-      powerUpButton.QueueFree();
     }
   }
 }

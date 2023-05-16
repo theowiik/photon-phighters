@@ -5,14 +5,20 @@ namespace PhotonPhighters.Scripts;
 
 public partial class PlayerEffectsDelegate : Node2D
 {
-  public delegate void PlayerEffectPerformed(Node2D effect);
+  public PlayerEffectPerformed PlayerEffectAddedListeners;
 
   private const string JumpAnimation = "stretch_jump";
+
   private const string LandAnimation = "squish_land";
+
   private const string RunLeftAnimation = "running_left";
+
   private const string RunRightAnimation = "running_right";
+
   private const string SpawnAnimation = "spawn";
+
   private const string Wall = "squish_wall";
+
   private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   [GetNode("AnimationPlayer")]
@@ -49,7 +55,8 @@ public partial class PlayerEffectsDelegate : Node2D
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
 
-  public PlayerEffectPerformed PlayerEffectAddedListeners;
+  public delegate void PlayerEffectPerformed(Node2D effect);
+
   public Sprite2D PlayerSprite { get; set; }
 
   public override void _Ready()
@@ -58,68 +65,10 @@ public partial class PlayerEffectsDelegate : Node2D
     _hurtTimer.Timeout += HurtTimerOnTimeout;
   }
 
-  private void HurtTimerOnTimeout()
+  public void AnimationPlayHurt()
   {
-    PlayerSprite.Modulate = Colors.White;
-  }
-
-  public void EmitDeathParticles()
-  {
-    GD.Print("Disabled death particles");
-    return;
-
-    var instance = GenerateParticles(_deathParticlesScene);
-    PlayerEffectAddedListeners?.Invoke(instance);
-  }
-
-  public void EmitJumpParticles()
-  {
-    var instance = GenerateParticles(_jumpParticlesScene);
-    PlayerEffectAddedListeners?.Invoke(instance);
-  }
-
-  public void EmitHurtParticles()
-  {
-    var instance = GenerateParticles(_hurtParticlesScene);
-    PlayerEffectAddedListeners?.Invoke(instance);
-  }
-
-  private static Node2D GenerateParticles(PackedScene particlesScene)
-  {
-    var instance = particlesScene.Instantiate<CpuParticles2D>();
-    var timer = TimerFactory.OneShotStartedTimer(instance.Lifetime);
-
-    instance.Emitting = true;
-    timer.Timeout += () => instance.QueueFree();
-    instance.AddChild(timer);
-
-    return instance;
-  }
-
-  public void PlayDeathSound()
-  {
-    _deathPlayer.Play();
-  }
-
-  public void PlayHurtSound()
-  {
-    _hurtPlayer.PitchScale = (float)GD.RandRange(0.8, 1.2);
-    _hurtPlayer.Play();
-
-    if (GD.Randf() > 0.6)
-    {
-      _hurt2Player.Play();
-    }
-  }
-
-  public void PlayFallDeathSound()
-  {
-    _fallDeathPlayer.Play();
-  }
-
-  public void PlayJumpSound()
-  {
-    _jumpPlayer.Play();
+    PlayerSprite.Modulate = _hurtColor;
+    _hurtTimer.Start();
   }
 
   public void AnimationPlayJump()
@@ -142,19 +91,77 @@ public partial class PlayerEffectsDelegate : Node2D
     _animationPlayer.Play(RunRightAnimation);
   }
 
+  public void AnimationPlaySpawn()
+  {
+    _animationPlayer.Play(SpawnAnimation);
+  }
+
   public void AnimationPlayWall()
   {
     _animationPlayer.Play(Wall);
   }
 
-  public void AnimationPlayHurt()
+  public void EmitDeathParticles()
   {
-    PlayerSprite.Modulate = _hurtColor;
-    _hurtTimer.Start();
+    GD.Print("Disabled death particles");
+    return;
+
+    var instance = GenerateParticles(_deathParticlesScene);
+    PlayerEffectAddedListeners?.Invoke(instance);
   }
 
-  public void AnimationPlaySpawn()
+  public void EmitHurtParticles()
   {
-    _animationPlayer.Play(SpawnAnimation);
+    var instance = GenerateParticles(_hurtParticlesScene);
+    PlayerEffectAddedListeners?.Invoke(instance);
+  }
+
+  public void EmitJumpParticles()
+  {
+    var instance = GenerateParticles(_jumpParticlesScene);
+    PlayerEffectAddedListeners?.Invoke(instance);
+  }
+
+  public void PlayDeathSound()
+  {
+    _deathPlayer.Play();
+  }
+
+  public void PlayFallDeathSound()
+  {
+    _fallDeathPlayer.Play();
+  }
+
+  public void PlayHurtSound()
+  {
+    _hurtPlayer.PitchScale = (float)GD.RandRange(0.8, 1.2);
+    _hurtPlayer.Play();
+
+    if (GD.Randf() > 0.6)
+    {
+      _hurt2Player.Play();
+    }
+  }
+
+  public void PlayJumpSound()
+  {
+    _jumpPlayer.Play();
+  }
+
+  private static Node2D GenerateParticles(PackedScene particlesScene)
+  {
+    var instance = particlesScene.Instantiate<CpuParticles2D>();
+    var timer = TimerFactory.OneShotStartedTimer(instance.Lifetime);
+
+    instance.Emitting = true;
+    timer.Timeout += () => instance.QueueFree();
+    instance.AddChild(timer);
+
+    return instance;
+  }
+
+  private void HurtTimerOnTimeout()
+  {
+    PlayerSprite.Modulate = Colors.White;
   }
 }

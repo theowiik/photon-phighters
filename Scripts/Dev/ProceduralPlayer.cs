@@ -21,12 +21,6 @@ public partial class ProceduralPlayer : StaticBody2D
   [GetNode("RightRay")]
   private RayCast2D _rightRay;
 
-  public override void _Ready()
-  {
-    this.AutoWire();
-    _leftRay.Enabled = true;
-  }
-
   public override void _Process(double delta)
   {
     Movement(delta);
@@ -53,6 +47,12 @@ public partial class ProceduralPlayer : StaticBody2D
       GD.Print(angleToLeftPos);
       _leftLeg.GlobalRotation = angleToLeftPos;
     }
+  }
+
+  public override void _Ready()
+  {
+    this.AutoWire();
+    _leftRay.Enabled = true;
   }
 
   private void Movement(double delta)
