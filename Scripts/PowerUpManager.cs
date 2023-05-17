@@ -26,13 +26,6 @@ public static class PowerUpManager
     };
   }
 
-  public interface IPowerUp
-  {
-    string Name { get; }
-
-    void Apply(Player player);
-  }
-
   public static IEnumerable<IPowerUp> GetAllPowerUps()
   {
     return SPowerUps;
@@ -46,14 +39,14 @@ public static class PowerUpManager
   }
 
   /// <summary>
-  ///     Returns a specified number (n) of unique power-ups from a list of available power-ups (_powerUps).
-  ///     If n is greater than the total number of unique power-ups, duplicates will be added.
+  ///   Returns a specified number (n) of unique power-ups from a list of available power-ups (_powerUps).
+  ///   If n is greater than the total number of unique power-ups, duplicates will be added.
   /// </summary>
   /// <param name="n">The number of power-ups to be returned. Must be greater than or equal to 0.</param>
   /// <returns>An IEnumerable of IPowerUpApplier objects containing the requested number of power-ups.</returns>
   /// <exception cref="ArgumentException">
-  ///     Thrown when n is less than 0 or when n is greater than the total number of unique
-  ///     power-ups.
+  ///   Thrown when n is less than 0 or when n is greater than the total number of unique
+  ///   power-ups.
   /// </exception>
   public static IEnumerable<IPowerUp> GetUniquePowerUps(int n)
   {
@@ -83,6 +76,13 @@ public static class PowerUpManager
     }
 
     return powerUps.Shuffle();
+  }
+
+  public interface IPowerUp
+  {
+    string Name { get; }
+
+    void Apply(Player player);
   }
 
   private class AirWalker : IPowerUp
