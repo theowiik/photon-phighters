@@ -106,12 +106,12 @@ public partial class World : Node2D
   {
     if (@event.IsActionPressed("ui_down"))
     {
-      _roundTimer.Start(0.05);
+      _roundTimer.Start(0.00001);
     }
 
-    if (@event.IsActionPressed("ui_up"))
+    if (@event.IsActionPressed("ui_left"))
     {
-      SpawnExplosion(_lightPlayer, Light.LightMode.Dark);
+      _mapManager.StartRandomMap();
     }
   }
 

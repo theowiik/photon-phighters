@@ -1,7 +1,6 @@
 using System;
 using Godot;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 
 namespace PhotonPhighters.Scripts;

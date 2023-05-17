@@ -20,11 +20,18 @@ public partial class PlayerMovementDelegate : Node
   public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
   public int PlayerNumber { get; set; }
 
+  /// <summary>
+  ///   The speed of which the player start taking damage from aerodynamic heating
+  /// </summary>
+  private const int AerodynamicHeatingVelocity = 10_000;
+
   public float Speed
   {
     get => _speed;
     set => _speed = Mathf.Max(100f, value);
   }
+
+  public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
 
   public override void _PhysicsProcess(double delta)
   {

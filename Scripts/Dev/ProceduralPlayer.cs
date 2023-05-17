@@ -33,18 +33,15 @@ public partial class ProceduralPlayer : StaticBody2D
       if (_leftLegPosition == Vector2.Zero)
       {
         _leftLegPosition = globalHitPoint;
-        GD.Print("initial");
       }
 
       // Only if the point is far enough
       if (_leftLegPosition.DistanceTo(globalHitPoint) > 100)
       {
         _leftLegPosition = globalHitPoint;
-        GD.Print("switching");
       }
 
       var angleToLeftPos = GlobalPosition.AngleTo(_leftLegPosition);
-      GD.Print(angleToLeftPos);
       _leftLeg.GlobalRotation = angleToLeftPos;
     }
   }

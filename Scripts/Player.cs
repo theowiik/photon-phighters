@@ -20,7 +20,6 @@ public partial class Player : CharacterBody2D
   }
 
   private bool _aimWithMouse = true;
-
   private bool _freeze;
 
   [GetNode("Marker2D")]
@@ -37,10 +36,10 @@ public partial class Player : CharacterBody2D
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
-  public PlayerEffectAdded PlayerEffectAddedListeners;
+  public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
 
   [GetNode("Movement")]
-  public PlayerMovementDelegate PlayerMovementDelegate;
+  public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
 
   public bool Freeze
   {
@@ -76,6 +75,10 @@ public partial class Player : CharacterBody2D
 
   public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
 
+  /// <summary>
+  ///   The player's health.
+  ///   Dont set this directly, use TakeDamage instead.
+  /// </summary>
   private int Health
   {
     get => _health;
@@ -91,6 +94,12 @@ public partial class Player : CharacterBody2D
     if (Freeze)
     {
       return;
+    }
+
+    // TODO: Move this to PlayerMovementDelegate
+    if (PlayerMovementDelegate.HasReachedAerodynamicHeatingVelocity)
+    {
+      TakeDamage((int)(999 * delta));
     }
 
     Aim();
@@ -186,7 +195,6 @@ public partial class Player : CharacterBody2D
     IsAlive = false;
 
     PlayerMovementDelegate.Reset();
-    _playerEffectsDelegate.EmitDeathParticles();
     _playerEffectsDelegate.PlayDeathSound();
     EmitSignal(SignalName.PlayerDied, this);
   }
