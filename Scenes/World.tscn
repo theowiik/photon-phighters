@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://rccnn2c5h8ji"]
+[gd_scene load_steps=12 format=3 uid="uid://cxt0fjve8r5yw"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="4_g4vs6"]
@@ -9,7 +9,6 @@
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="9_jmxqj"]
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="10_ratws"]
 [ext_resource type="PackedScene" uid="uid://b7qkrkt2lacyf" path="res://Objects/Player/LightPlayer.tscn" id="11_c62ed"]
-[ext_resource type="PackedScene" uid="uid://dondfwp8syxsj" path="res://Scenes/Maps/Map1.tscn" id="11_j68kp"]
 [ext_resource type="PackedScene" uid="uid://ca1utwdulasnh" path="res://Objects/Player/DarkPlayer.tscn" id="12_y8lsb"]
 
 [sub_resource type="Environment" id="Environment_1kha7"]
@@ -67,4 +66,4 @@ position = Vector2(912, 268)
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1kha7")
 
-[node name="Map1" parent="." instance=ExtResource("11_j68kp")]
+[node name="MapManager" type="Node2D" parent="."]

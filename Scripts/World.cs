@@ -32,6 +32,9 @@ public partial class World : Node2D
 
   private Player _darkPlayer;
 
+  [GetNode("MapManager")]
+  private MapManager _mapManager;
+
   [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
 
@@ -56,24 +59,26 @@ public partial class World : Node2D
   private Timer _roundTimer;
 
   private Score _score;
-  private Map CurrentMap => GetNode<Map>("Map1");
 
   public override void _Ready()
   {
     this.AutoWire();
     _score = new Score();
-    _powerUpPicker.Visible = false;
-    _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
-    _pauseOverlay.ResumeGame += TogglePause;
 
+    // UI
     var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
     uiUpdateTimer.Timeout += UpdateScore;
     uiUpdateTimer.Timeout += UpdateRoundTimer;
     _roundTimer.Timeout += OnRoundFinished;
+    _pauseOverlay.ResumeGame += TogglePause;
+    _powerUpPicker.Visible = false;
+    _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
 
-    var ob = CurrentMap.OutOfBounds;
+    // Setup map
+    var ob = _mapManager.OutOfBounds;
     ob.BodyEntered += OnOutOfBounds;
 
+    // Setup players
     _players = GetTree().GetNodesInGroup("players").Cast<Player>();
     foreach (var player in _players)
     {
@@ -92,6 +97,8 @@ public partial class World : Node2D
       throw new Exception("Could not find players");
     }
 
+    // Start round
+    _mapManager.StartRandomMap();
     SetupCapturePoint();
     StartRound();
   }
@@ -184,7 +191,7 @@ public partial class World : Node2D
   {
     if (body is Player player && player.IsAlive)
     {
-      player.TakeDamage(99999999);
+      player.TakeDamage(99999);
     }
   }
 
@@ -197,7 +204,7 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, GetRandomDeathMessage());
 
     player.GlobalPosition =
-      player.PlayerNumber == 1 ? CurrentMap.LightSpawn.GlobalPosition : CurrentMap.DarkSpawn.GlobalPosition;
+      player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
     player.Freeze = true;
 
     var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
