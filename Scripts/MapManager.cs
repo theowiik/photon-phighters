@@ -1,14 +1,14 @@
 using System;
-using System.Linq;
 using Godot;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace PhotonPhighters.Scripts;
 
 public partial class MapManager : Node2D
 {
-  private const string MapsFolder = "Scenes/Maps";
+  private const string MapsFolder = "res://Scenes/Maps";
   public delegate void OutOfBoundsEvent(Player player);
   public OutOfBoundsEvent OutOfBoundsEventListeners;
   public Node2D LightSpawn => CurrentMap.LightSpawn;
@@ -26,6 +26,7 @@ public partial class MapManager : Node2D
 
     // Start new map
     var map = GetRandomMap();
+    AddChild(map);
     map.OutOfBounds.BodyEntered += body =>
     {
       if (body is Player player)
@@ -33,14 +34,12 @@ public partial class MapManager : Node2D
         OutOfBoundsEventListeners?.Invoke(player);
       }
     };
-
-    AddChild(map);
   }
 
   private Map GetRandomMap()
   {
     var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
-    var mapName = maps[GD.RandRange(0, maps.Count)];
+    var mapName = maps[GD.RandRange(0, maps.Count - 1)];
     GD.Print("Loading map: " + mapName + "...");
     var mapScene = GD.Load<PackedScene>(mapName);
     return mapScene.Instantiate<Map>();
@@ -48,17 +47,31 @@ public partial class MapManager : Node2D
 
   private IList<string> GetAllFilesInDirectory(string directory, string extension)
   {
-    try
+    var dir = DirAccess.Open(directory);
+    if (dir == null)
+      HandleError("Could not open directory: " + directory);
+
+    var files = new List<string>();
+
+    dir.ListDirBegin();
+    var fileName = dir.GetNext();
+    while (fileName != "")
     {
-      var files = Directory.GetFiles(directory, $"*.{extension}");
-      return files.Where(file => file.EndsWith(extension)).ToList();
+      if (!dir.CurrentIsDir())
+      {
+        files.Add($"{directory}/{fileName}");
+      }
+
+      fileName = dir.GetNext();
     }
-    catch (Exception e)
-    {
-      Console.WriteLine(e);
-      GD.PrintErr("Could not find directory: " + directory);
-      GetTree().Quit();
-      throw;
-    }
+
+    return files.Where(file => file.EndsWith(extension)).ToList();
+  }
+
+  private void HandleError(string message)
+  {
+    Console.WriteLine(message);
+    GD.PrintErr(message);
+    GetTree().Quit();
   }
 }
