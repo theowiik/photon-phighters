@@ -75,8 +75,7 @@ public partial class World : Node2D
     _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
 
     // Setup map
-    var ob = _mapManager.OutOfBounds;
-    ob.BodyEntered += OnOutOfBounds;
+    _mapManager.OutOfBoundsEventListeners += OnOutOfBounds;
 
     // Setup players
     _players = GetTree().GetNodesInGroup("players").Cast<Player>();
@@ -187,9 +186,9 @@ public partial class World : Node2D
     which.QueueFree();
   }
 
-  private void OnOutOfBounds(Node body)
+  private static void OnOutOfBounds(Player player)
   {
-    if (body is Player player && player.IsAlive)
+    if (player.IsAlive)
     {
       player.TakeDamage(99999);
     }
