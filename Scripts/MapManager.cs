@@ -10,7 +10,7 @@ public partial class MapManager : Node2D
 {
   private const string MapsFolder = "res://Scenes/Maps";
   public delegate void OutOfBoundsEvent(Player player);
-  public OutOfBoundsEvent OutOfBoundsEventListeners;
+  public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
   public Node2D LightSpawn => CurrentMap.LightSpawn;
   public Node2D DarkSpawn => CurrentMap.DarkSpawn;
   private Map CurrentMap => GetChild<Map>(0);
@@ -40,7 +40,6 @@ public partial class MapManager : Node2D
   {
     var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
     var mapName = maps[GD.RandRange(0, maps.Count - 1)];
-    GD.Print("Loading map: " + mapName + "...");
     var mapScene = GD.Load<PackedScene>(mapName);
     return mapScene.Instantiate<Map>();
   }

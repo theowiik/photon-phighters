@@ -7,7 +7,7 @@ namespace PhotonPhighters.Scripts;
 
 public partial class CapturePoint : Node2D
 {
-  public CapturedEvent CapturedListeners;
+  public CapturedEvent CapturedListeners { get; set; }
 
   private const float TimeToCapture = 4f;
 

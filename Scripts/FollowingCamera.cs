@@ -11,7 +11,6 @@ public partial class FollowingCamera : Camera2D
 
   private ShakeStrength _shakeStrength;
 
-  // lorem ipsum
   public enum ShakeStrength
   {
     Weak,

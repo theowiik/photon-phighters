@@ -319,10 +319,18 @@ public partial class World : Node2D
 
   private void SetupCapturePoint()
   {
+    const int MaxConcurrentCapturePoints = 2;
     var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
+
     AddChild(timer);
+
     timer.Timeout += () =>
     {
+      if (GetTree().GetNodesInGroup("capture_points").Count >= MaxConcurrentCapturePoints)
+      {
+        return;
+      }
+
       var res = GetResults();
       var losingPlayer = res.Light > res.Dark ? _darkPlayer : _lightPlayer;
 

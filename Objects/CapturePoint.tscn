@@ -17,7 +17,7 @@ bg_color = Color(1, 1, 1, 1)
 ProgressBar/styles/background = SubResource("StyleBoxFlat_c602g")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_mi0lp")
 
-[node name="CapturePoint" type="Node2D"]
+[node name="CapturePoint" type="Node2D" groups=["capture_points"]]
 script = ExtResource("1_no0dn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
