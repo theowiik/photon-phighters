@@ -150,7 +150,7 @@ public partial class World : Node2D
 
   private static void OnOutOfBounds(Player player)
   {
-    if (player.IsAlive)
+    if (player.Exists)
     {
       player.TakeDamage(99999);
     }
@@ -245,8 +245,6 @@ public partial class World : Node2D
 
   private void OnRoundFinished()
   {
-    GD.Print("Round ended");
-
     foreach (var player in _players)
     {
       player.Freeze = true;
@@ -256,6 +254,12 @@ public partial class World : Node2D
     foreach (var bullet in GetTree().GetNodesInGroup("bullets"))
     {
       bullet.QueueFree();
+    }
+
+    // Remove all capture points
+    foreach (var capturePoint in GetTree().GetNodesInGroup("capture_points"))
+    {
+      capturePoint.QueueFree();
     }
 
     var results = GetResults();
@@ -282,8 +286,6 @@ public partial class World : Node2D
     _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
     if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
     {
-      GD.Print("Game over");
-
       if (_score.Light > _score.Dark)
       {
         GetTree().ChangeSceneToFile("res://Scenes/EndScreenLight.tscn");

@@ -129,7 +129,7 @@ public partial class CapturePoint : Node2D
 
   private void OnBodyEntered(Node2D body)
   {
-    if (body is Player { IsAlive: true, Freeze: false } player)
+    if (body is Player player && player.Exists)
     {
       _playersInside.Add(player);
     }

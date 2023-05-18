@@ -37,6 +37,11 @@ public partial class Player : CharacterBody2D
     Dark
   }
 
+  /// <summary>
+  ///   A player exits if they are alive and not frozen.
+  /// </summary>
+  public bool Exists => IsAlive && !Freeze;
+
   public bool Freeze
   {
     get => _freeze;
@@ -93,7 +98,7 @@ public partial class Player : CharacterBody2D
 
   public override void _PhysicsProcess(double delta)
   {
-    if (Freeze)
+    if (!Exists)
     {
       return;
     }
@@ -135,12 +140,7 @@ public partial class Player : CharacterBody2D
 
   public void TakeDamage(int damage)
   {
-    if (Freeze)
-    {
-      return;
-    }
-
-    if (!IsAlive)
+    if (!Exists)
     {
       return;
     }
@@ -203,12 +203,7 @@ public partial class Player : CharacterBody2D
 
   private void OnBulletEntered(Area2D area)
   {
-    if (Freeze)
-    {
-      return;
-    }
-
-    if (!IsAlive)
+    if (!Exists)
     {
       return;
     }
