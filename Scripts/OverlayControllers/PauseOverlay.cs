@@ -45,7 +45,7 @@ public partial class PauseOverlay : Control
     this.AutoWire();
     _resumeButton.Pressed += () => EmitSignal(SignalName.ResumeGame);
     _quitButton.Pressed += () => GetTree().Quit();
-    _restartButton.Pressed += () => GetTree().ChangeSceneToFile("res://Scenes/StartSceen.tscn");
+    _restartButton.Pressed += () => GetTree().ChangeSceneToFile("res://Scenes/StartScreen.tscn");
   }
 
   public override void _UnhandledInput(InputEvent @event)

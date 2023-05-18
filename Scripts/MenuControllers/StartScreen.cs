@@ -22,6 +22,6 @@ public partial class StartScreen : Node2D
 
   private void StartGame()
   {
-    GetTree().ChangeSceneToFile("res://Scenes/Levels/BaseLevel.tscn");
+    GetTree().ChangeSceneToFile("res://Scenes/World.tscn");
   }
 }
