@@ -5,6 +5,20 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Player : CharacterBody2D
 {
+  [Signal]
+  public delegate void PlayerDiedEventHandler(Player player);
+
+  public delegate void PlayerEffectAdded(Node2D effect, Player who);
+
+  [Signal]
+  public delegate void PlayerHurtEventHandler(Player player, int damage);
+
+  public enum TeamEnum
+  {
+    Light,
+    Dark
+  }
+
   private bool _aimWithMouse = true;
 
   private bool _frozen;
@@ -22,20 +36,6 @@ public partial class Player : CharacterBody2D
 
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
-
-  [Signal]
-  public delegate void PlayerDiedEventHandler(Player player);
-
-  public delegate void PlayerEffectAdded(Node2D effect, Player who);
-
-  [Signal]
-  public delegate void PlayerHurtEventHandler(Player player, int damage);
-
-  public enum TeamEnum
-  {
-    Light,
-    Dark
-  }
 
   /// <summary>
   ///   A player exits if they are alive and not frozen.

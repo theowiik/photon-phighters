@@ -7,6 +7,8 @@ namespace PhotonPhighters.Scripts;
 
 public partial class CapturePoint : Node2D
 {
+  public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
+
   private const float TimeToCapture = 4f;
 
   private readonly ICollection<Player> _playersInside = new List<Player>();
@@ -24,8 +26,6 @@ public partial class CapturePoint : Node2D
 
   [GetNode("ProgressBar")]
   private ProgressBar _progressBar;
-
-  public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
 
   public CapturedEvent CapturedListeners { get; set; }
 

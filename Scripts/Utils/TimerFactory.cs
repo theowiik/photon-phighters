@@ -5,6 +5,17 @@ namespace PhotonPhighters.Scripts.Utils;
 
 public static class TimerFactory
 {
+  public static Timer OneShotSelfDestructingStartedTimer(double waitTime, Action onTimeout = null)
+  {
+    var timer = OneShotStartedTimer(waitTime);
+    timer.Timeout += () =>
+    {
+      onTimeout?.Invoke();
+      timer.QueueFree();
+    };
+    return timer;
+  }
+
   public static Timer OneShotStartedTimer(double waitTime, Action onTimeout = null)
   {
     var timer = new Timer
@@ -19,17 +30,6 @@ public static class TimerFactory
       timer.Timeout += onTimeout;
     }
 
-    return timer;
-  }
-
-  public static Timer OneShotSelfDestructingStartedTimer(double waitTime, Action onTimeout = null)
-  {
-    var timer = OneShotStartedTimer(waitTime);
-    timer.Timeout += () =>
-    {
-      onTimeout?.Invoke();
-      timer.QueueFree();
-    };
     return timer;
   }
 

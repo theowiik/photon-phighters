@@ -8,19 +8,19 @@ namespace PhotonPhighters.Scripts;
 
 public partial class MapManager : Node2D
 {
-  private const string MapsFolder = "res://Scenes/Maps";
-
   public delegate void OutOfBoundsEvent(Player player);
 
-  public Node2D DarkSpawn => CurrentMap.DarkSpawn;
-  public Node2D LightSpawn => CurrentMap.LightSpawn;
-  public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
-  private Map CurrentMap => GetChild<Map>(0);
+  private const string MapsFolder = "res://Scenes/Maps";
 
   /// <summary>
   ///   A queue of maps to play. When the queue is empty, all maps in the MapsFolder will be added to the queue.
   /// </summary>
   private Queue<string> _mapsQueue = new();
+
+  public Node2D DarkSpawn => CurrentMap.DarkSpawn;
+  public Node2D LightSpawn => CurrentMap.LightSpawn;
+  public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
+  private Map CurrentMap => GetChild<Map>(0);
 
   /// <summary>
   ///   Spawns the next map but does not enable map specific logic. See <see cref="StartNextMap" />.
@@ -55,19 +55,6 @@ public partial class MapManager : Node2D
     CurrentMap.CollisionsEnabled = true;
   }
 
-  private Map GetNextMap()
-  {
-    if (_mapsQueue.Count == 0)
-    {
-      var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
-      _mapsQueue = new Queue<string>(maps.Shuffle());
-    }
-
-    var mapName = _mapsQueue.Dequeue();
-    var mapScene = GD.Load<PackedScene>(mapName);
-    return mapScene.Instantiate<Map>();
-  }
-
   private IEnumerable<string> GetAllFilesInDirectory(string directory, string extension)
   {
     var dir = DirAccess.Open(directory);
@@ -91,6 +78,19 @@ public partial class MapManager : Node2D
     }
 
     return files.Where(file => file.EndsWith(extension)).ToList();
+  }
+
+  private Map GetNextMap()
+  {
+    if (_mapsQueue.Count == 0)
+    {
+      var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
+      _mapsQueue = new Queue<string>(maps.Shuffle());
+    }
+
+    var mapName = _mapsQueue.Dequeue();
+    var mapScene = GD.Load<PackedScene>(mapName);
+    return mapScene.Instantiate<Map>();
   }
 
   private void HandleError(string message)

@@ -5,20 +5,20 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PauseOverlay : Control
 {
-  [GetNode("Center/VBox/QuitButton")]
-  private Button _quitButton;
-
-  [GetNode("Center/VBox/ResumeButton")]
-  private Button _resumeButton;
-
-  [GetNode("Center/VBox/RestartButton")]
-  private Button _restartButton;
+  [Signal]
+  public delegate void ResumeGameEventHandler();
 
   [GetNode("AudioStreamPlayer")]
   private AudioStreamPlayer _audioStreamPlayer;
 
-  [Signal]
-  public delegate void ResumeGameEventHandler();
+  [GetNode("Center/VBox/QuitButton")]
+  private Button _quitButton;
+
+  [GetNode("Center/VBox/RestartButton")]
+  private Button _restartButton;
+
+  [GetNode("Center/VBox/ResumeButton")]
+  private Button _resumeButton;
 
   public bool Enabled
   {

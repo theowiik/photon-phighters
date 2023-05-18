@@ -1,4 +1,4 @@
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 public partial class SecondScene : Node2D

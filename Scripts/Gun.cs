@@ -5,6 +5,9 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Gun : Node2D
 {
+  [Signal]
+  public delegate void ShootDelegateEventHandler(Node2D bullet);
+
   private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
 
   private readonly Color _loadedModulationColor = new(1, 1, 1);
@@ -20,9 +23,6 @@ public partial class Gun : Node2D
 
   [GetNode("Timer")]
   private Timer _shootTimer;
-
-  [Signal]
-  public delegate void ShootDelegateEventHandler(Node2D bullet);
 
   public int BulletCount { get; set; } = 3;
 

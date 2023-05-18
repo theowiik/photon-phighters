@@ -5,7 +5,7 @@ namespace PhotonPhighters.Scripts;
 
 public partial class PlayerEffectsDelegate : Node2D
 {
-  public PlayerEffectPerformed PlayerEffectAddedListeners;
+  public delegate void PlayerEffectPerformed(Node2D effect);
 
   private const string JumpAnimation = "stretch_jump";
 
@@ -55,7 +55,7 @@ public partial class PlayerEffectsDelegate : Node2D
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
 
-  public delegate void PlayerEffectPerformed(Node2D effect);
+  public PlayerEffectPerformed PlayerEffectAddedListeners;
 
   public Sprite2D PlayerSprite { get; set; }
 

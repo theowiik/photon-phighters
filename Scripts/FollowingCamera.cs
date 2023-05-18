@@ -5,12 +5,6 @@ namespace PhotonPhighters.Scripts;
 
 public partial class FollowingCamera : Camera2D
 {
-  private readonly IList<Node2D> _targets = new List<Node2D>();
-
-  private float _remainingShakeTime;
-
-  private ShakeStrength _shakeStrength;
-
   public enum ShakeStrength
   {
     Weak,
@@ -18,6 +12,12 @@ public partial class FollowingCamera : Camera2D
     Strong,
     Uber
   }
+
+  private readonly IList<Node2D> _targets = new List<Node2D>();
+
+  private float _remainingShakeTime;
+
+  private ShakeStrength _shakeStrength;
 
   public override void _PhysicsProcess(double delta)
   {

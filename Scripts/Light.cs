@@ -5,6 +5,13 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Light : Area2D
 {
+  public enum LightMode
+  {
+    Light,
+    Dark,
+    None
+  }
+
   private readonly Color _darkColorModulate = new(0, 0, 0, 0.5f);
 
   private readonly Color _lightColorModulate = new(1, 1, 1, 0.5f);
@@ -14,13 +21,6 @@ public partial class Light : Area2D
 
   [GetNode("LightSprite")]
   private Sprite2D _lightSprite;
-
-  public enum LightMode
-  {
-    Light,
-    Dark,
-    None
-  }
 
   public LightMode LightState { get; private set; }
 
