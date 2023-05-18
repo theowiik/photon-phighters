@@ -17,6 +17,13 @@ public partial class Explosion : Node2D
   [GetNode("ExplosionPlayer")]
   private AudioStreamPlayer2D _explosionPlayer;
 
+  public enum ExplosionRadiusEnum
+  {
+    Small = 80,
+    Medium = 200,
+    Large = 400
+  }
+
   public Light.LightMode LightMode { get; set; }
 
   public override void _Ready()
@@ -29,10 +36,15 @@ public partial class Explosion : Node2D
     _explosionParticles.Emitting = true;
     _explosionPlayer.Play();
     ColorLightsInsideRadius();
-
     var timer = TimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime);
     timer.Timeout += QueueFree;
     AddChild(timer);
+  }
+
+  public void SetRadius(ExplosionRadiusEnum radius)
+  {
+    var shape = _area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
+    shape.Shape = new CircleShape2D { Radius = (int)radius };
   }
 
   private async void ColorLightsInsideRadius()

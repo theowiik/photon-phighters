@@ -6,7 +6,7 @@
 [ext_resource type="AudioStream" uid="uid://c1mmegitkhuun" path="res://Sfx/WorldSounds/explosion2.wav" id="4_w728g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_lpe6q"]
-radius = 383.6
+radius = 0.01
 
 [sub_resource type="Gradient" id="Gradient_gtx85"]
 colors = PackedColorArray(0.89059, 0.89059, 0.89059, 1, 1, 1, 1, 0)

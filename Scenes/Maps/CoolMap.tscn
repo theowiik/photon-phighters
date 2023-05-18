@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cw0y5b05vfc4n"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_nynx3"]
+[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_1atno"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r6sjp"]
+size = Vector2(3055, 437)
+
+[node name="CoolMap" instance=ExtResource("1_nynx3")]
+
+[node name="LightSpawn" parent="." index="2"]
+position = Vector2(1010, 228)
+
+[node name="Floor" parent="Floors" index="0" instance=ExtResource("2_1atno")]
+position = Vector2(225, 539)
+
+[node name="Floor2" parent="Floors" index="1" instance=ExtResource("2_1atno")]
+position = Vector2(1010, 475)
+
+[node name="OB" parent="." index="4"]
+position = Vector2(225, 345)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(540.5, 832)
+shape = SubResource("RectangleShape2D_r6sjp")

@@ -101,15 +101,6 @@ public partial class PlayerEffectsDelegate : Node2D
     _animationPlayer.Play(Wall);
   }
 
-  public void EmitDeathParticles()
-  {
-    GD.Print("Disabled death particles");
-    return;
-
-    var instance = GenerateParticles(_deathParticlesScene);
-    PlayerEffectAddedListeners?.Invoke(instance);
-  }
-
   public void EmitHurtParticles()
   {
     var instance = GenerateParticles(_hurtParticlesScene);

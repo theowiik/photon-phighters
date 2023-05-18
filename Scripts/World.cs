@@ -41,6 +41,9 @@ public partial class World : Node2D
   [GetNode("Sfx/LightWin")]
   private AudioStreamPlayer _lightWin;
 
+  [GetNode("MapManager")]
+  private MapManager _mapManager;
+
   [GetNode("CanvasLayer/Overlay")]
   private Overlay _overlay;
 
@@ -56,24 +59,25 @@ public partial class World : Node2D
   private Timer _roundTimer;
 
   private Score _score;
-  private Map CurrentMap => GetNode<Map>("Map1");
 
   public override void _Ready()
   {
     this.AutoWire();
     _score = new Score();
-    _powerUpPicker.Visible = false;
-    _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
-    _pauseOverlay.ResumeGame += TogglePause;
 
-    var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
+    // UI
+    var uiUpdateTimer = this.GetNodeOrExplode<Timer>("UIUpdateTimer");
     uiUpdateTimer.Timeout += UpdateScore;
     uiUpdateTimer.Timeout += UpdateRoundTimer;
     _roundTimer.Timeout += OnRoundFinished;
+    _pauseOverlay.ResumeGame += TogglePause;
+    _powerUpPicker.Visible = false;
+    _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
 
-    var ob = CurrentMap.OutOfBounds;
-    ob.BodyEntered += OnOutOfBounds;
+    // Setup map
+    _mapManager.OutOfBoundsEventListeners += OnOutOfBounds;
 
+    // Setup players
     _players = GetTree().GetNodesInGroup("players").Cast<Player>();
     foreach (var player in _players)
     {
@@ -92,6 +96,8 @@ public partial class World : Node2D
       throw new Exception("Could not find players");
     }
 
+    // Start round
+    _mapManager.StartRandomMap();
     SetupCapturePoint();
     StartRound();
   }
@@ -100,12 +106,12 @@ public partial class World : Node2D
   {
     if (@event.IsActionPressed("ui_down"))
     {
-      _roundTimer.Start(0.05);
+      _roundTimer.Start(0.00001);
     }
 
-    if (@event.IsActionPressed("ui_up"))
+    if (@event.IsActionPressed("ui_left"))
     {
-      SpawnExplosion(_lightPlayer, Light.LightMode.Dark);
+      _mapManager.StartRandomMap();
     }
   }
 
@@ -142,6 +148,14 @@ public partial class World : Node2D
     return deathMessages[GD.RandRange(0, deathMessages.Count - 1)];
   }
 
+  private static void OnOutOfBounds(Player player)
+  {
+    if (player.IsAlive)
+    {
+      player.TakeDamage(99999);
+    }
+  }
+
   private Results GetResults()
   {
     var lights = GetTree().GetNodesInGroup("lights");
@@ -176,16 +190,8 @@ public partial class World : Node2D
   private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
   {
     var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
-    SpawnExplosion(which, light);
+    SpawnExplosion(which, light, Explosion.ExplosionRadiusEnum.Large);
     which.QueueFree();
-  }
-
-  private void OnOutOfBounds(Node body)
-  {
-    if (body is Player player && player.IsAlive)
-    {
-      player.TakeDamage(99999999);
-    }
   }
 
   private void OnPlayerDied(Player player)
@@ -193,11 +199,11 @@ public partial class World : Node2D
     var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
 
     SpawnRagdoll(player);
-    SpawnExplosion(player, oppositeLight);
+    SpawnExplosion(player, oppositeLight, Explosion.ExplosionRadiusEnum.Medium);
     SpawnHurtIndicator(player, GetRandomDeathMessage());
 
     player.GlobalPosition =
-      player.PlayerNumber == 1 ? CurrentMap.LightSpawn.GlobalPosition : CurrentMap.DarkSpawn.GlobalPosition;
+      player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
     player.Freeze = true;
 
     var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
@@ -313,10 +319,18 @@ public partial class World : Node2D
 
   private void SetupCapturePoint()
   {
+    const int MaxConcurrentCapturePoints = 2;
     var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
+
     AddChild(timer);
+
     timer.Timeout += () =>
     {
+      if (GetTree().GetNodesInGroup("capture_points").Count >= MaxConcurrentCapturePoints)
+      {
+        return;
+      }
+
       var res = GetResults();
       var losingPlayer = res.Light > res.Dark ? _darkPlayer : _lightPlayer;
 
@@ -329,11 +343,12 @@ public partial class World : Node2D
     };
   }
 
-  private void SpawnExplosion(Node2D where, Light.LightMode who)
+  private void SpawnExplosion(Node2D where, Light.LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
   {
     var explosion = _explosionScene.Instantiate<Explosion>();
     explosion.LightMode = who;
     AddChild(explosion);
+    explosion.SetRadius(explosionRadius);
     explosion.GlobalPosition = where.GlobalPosition;
     explosion.Explode();
     _camera.Shake(0.6f, FollowingCamera.ShakeStrength.Strong);

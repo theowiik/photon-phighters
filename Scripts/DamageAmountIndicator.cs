@@ -1,5 +1,6 @@
 ﻿using System;
 using Godot;
+using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
@@ -13,7 +14,7 @@ public partial class DamageAmountIndicator : Node2D
   {
     set
     {
-      var label = GetNode<Label>("Label");
+      var label = this.GetNodeOrExplode<Label>("Label");
       label.Text = value;
     }
   }

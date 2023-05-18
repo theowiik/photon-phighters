@@ -1,4 +1,5 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts.MenuControllers;
 
@@ -6,9 +7,9 @@ public partial class StartSceen : Node2D
 {
   public override void _Ready()
   {
-    const string buttonsRoot = "CanvasLayer/VBoxContainer/";
-    var startButton = GetNode<Button>(buttonsRoot + "StartButton");
-    var quitButton = GetNode<Button>(buttonsRoot + "QuitButton");
+    const string ButtonsRoot = "CanvasLayer/VBoxContainer/";
+    var startButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "StartButton");
+    var quitButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "QuitButton");
 
     startButton.Pressed += StartGame;
     quitButton.Pressed += QuitGame;

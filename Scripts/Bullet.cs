@@ -1,4 +1,5 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
@@ -20,13 +21,13 @@ public partial class Bullet : Area2D
   public override void _Ready()
   {
     _velocity = Vector2.FromAngle(Rotation) * Speed;
-    var lifeTimeTimer = GetNode<Timer>("Timer");
+    var lifeTimeTimer = this.GetNodeOrExplode<Timer>("Timer");
     lifeTimeTimer.Timeout += OnTimerTimeout;
     lifeTimeTimer.Start(5);
     AreaEntered += OnAreaEntered;
     BodyEntered += OnBodyEntered;
 
-    var sprite = GetNode<Sprite2D>("Sprite2D");
+    var sprite = this.GetNodeOrExplode<Sprite2D>("Sprite2D");
     if (LightMode == Light.LightMode.Dark)
     {
       sprite.Modulate = new Color(0, 0, 0);

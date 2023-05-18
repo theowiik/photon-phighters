@@ -5,11 +5,6 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Player : CharacterBody2D
 {
-  public PlayerEffectAdded PlayerEffectAddedListeners;
-
-  [GetNode("Movement")]
-  public PlayerMovementDelegate PlayerMovementDelegate;
-
   private bool _aimWithMouse = true;
 
   private bool _freeze;
@@ -68,14 +63,21 @@ public partial class Player : CharacterBody2D
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
-
   public int MaxHealth { get; set; } = 50;
+  public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
+
+  [GetNode("Movement")]
+  public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
 
   [Export]
   public int PlayerNumber { get; set; }
 
   public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
 
+  /// <summary>
+  ///   The player's health.
+  ///   Dont set this directly, use TakeDamage instead.
+  /// </summary>
   private int Health
   {
     get => _health;
@@ -91,6 +93,12 @@ public partial class Player : CharacterBody2D
     if (Freeze)
     {
       return;
+    }
+
+    // TODO: Move this to PlayerMovementDelegate
+    if (PlayerMovementDelegate.HasReachedAerodynamicHeatingVelocity)
+    {
+      TakeDamage((int)(999 * delta));
     }
 
     Aim();
@@ -113,7 +121,7 @@ public partial class Player : CharacterBody2D
       PlayerEffectAddedListeners?.Invoke(effect, this);
 
     // Gun
-    var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
+    var bulletDetectionArea = this.GetNodeOrExplode<Area2D>("BulletDetectionArea");
     bulletDetectionArea.AreaEntered += OnBulletEntered;
   }
 
@@ -186,7 +194,6 @@ public partial class Player : CharacterBody2D
     IsAlive = false;
 
     PlayerMovementDelegate.Reset();
-    _playerEffectsDelegate.EmitDeathParticles();
     _playerEffectsDelegate.PlayDeathSound();
     EmitSignal(SignalName.PlayerDied, this);
   }

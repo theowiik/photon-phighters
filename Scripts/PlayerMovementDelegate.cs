@@ -4,6 +4,11 @@ namespace PhotonPhighters.Scripts;
 
 public partial class PlayerMovementDelegate : Node
 {
+  /// <summary>
+  ///   The speed of which the player start taking damage from aerodynamic heating
+  /// </summary>
+  private const int AerodynamicHeatingVelocity = 10_000;
+
   private const float Gravity = 800;
   private float _acceleration = 12f;
   private float _deceleration = 12f;
@@ -15,6 +20,7 @@ public partial class PlayerMovementDelegate : Node
   private float _speed = 800;
   private Vector2 _velocity;
   public CharacterBody2D CharacterBody { get; set; }
+  public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
   public float JumpForce { get; set; } = 700;
   public int MaxJumps { get; set; } = 2;
   public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }

@@ -1,9 +1,9 @@
 [gd_scene load_steps=2 format=3 uid="uid://bb2vib63bh7gn"]
 
-[ext_resource type="Script" path="res://Scripts/Map.cs" id="1_rqkxc"]
+[ext_resource type="Script" path="res://Scripts/Map.cs" id="1_jnf5b"]
 
 [node name="Map" type="Node2D"]
-script = ExtResource("1_rqkxc")
+script = ExtResource("1_jnf5b")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 offset_left = -4208.0
@@ -13,10 +13,8 @@ offset_bottom = 4039.0
 color = Color(0.337255, 0.305882, 0.341176, 1)
 
 [node name="DarkSpawn" type="Marker2D" parent="."]
-position = Vector2(906, 290)
 
 [node name="LightSpawn" type="Marker2D" parent="."]
-position = Vector2(376, 291)
 
 [node name="Floors" type="Node2D" parent="."]
 
