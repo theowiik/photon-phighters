@@ -8,17 +8,17 @@ size = Vector2(3055, 437)
 
 [node name="CoolMap" instance=ExtResource("1_nynx3")]
 
+[node name="DarkSpawn" parent="." index="1"]
+position = Vector2(240, 170)
+
 [node name="LightSpawn" parent="." index="2"]
-position = Vector2(1010, 228)
+position = Vector2(981, 193)
 
 [node name="Floor" parent="Floors" index="0" instance=ExtResource("2_1atno")]
-position = Vector2(225, 539)
+position = Vector2(249, 469)
 
 [node name="Floor2" parent="Floors" index="1" instance=ExtResource("2_1atno")]
-position = Vector2(1010, 475)
-
-[node name="OB" parent="." index="4"]
-position = Vector2(225, 345)
+position = Vector2(984, 456)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
 position = Vector2(540.5, 832)
