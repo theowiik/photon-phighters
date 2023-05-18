@@ -182,7 +182,7 @@ public partial class World : Node2D
   private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
   {
     var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
-    SpawnExplosion(which, light);
+    SpawnExplosion(which, light, Explosion.ExplosionRadiusEnum.Large);
     which.QueueFree();
   }
 
@@ -199,7 +199,7 @@ public partial class World : Node2D
     var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
 
     SpawnRagdoll(player);
-    SpawnExplosion(player, oppositeLight);
+    SpawnExplosion(player, oppositeLight, Explosion.ExplosionRadiusEnum.Medium);
     SpawnHurtIndicator(player, GetRandomDeathMessage());
 
     player.GlobalPosition =
@@ -343,12 +343,12 @@ public partial class World : Node2D
     };
   }
 
-  private void SpawnExplosion(Node2D where, Light.LightMode who)
+  private void SpawnExplosion(Node2D where, Light.LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
   {
     var explosion = _explosionScene.Instantiate<Explosion>();
     explosion.LightMode = who;
-    explosion.Radius = 10;
     AddChild(explosion);
+    explosion.SetRadius(explosionRadius);
     explosion.GlobalPosition = where.GlobalPosition;
     explosion.Explode();
     _camera.Shake(0.6f, FollowingCamera.ShakeStrength.Strong);
