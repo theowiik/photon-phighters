@@ -33,7 +33,7 @@ position = Vector2(1739, 748)
 [node name="Block" type="Node2D" parent="Floors" index="0"]
 
 [node name="Floor" parent="Floors/Block" index="0" instance=ExtResource("2_8auvb")]
-position = Vector2(553, 597)
+position = Vector2(558, 461)
 scale = Vector2(4.48064, 0.48252)
 
 [node name="Floor2" parent="Floors/Block" index="1" instance=ExtResource("2_8auvb")]
@@ -56,7 +56,7 @@ scale = Vector2(2.17291, 0.480753)
 position = Vector2(579, -2)
 
 [node name="Floor" parent="Floors/Block2" index="0" instance=ExtResource("2_8auvb")]
-position = Vector2(553, 597)
+position = Vector2(565, 461)
 scale = Vector2(4.48064, 0.48252)
 
 [node name="Floor2" parent="Floors/Block2" index="1" instance=ExtResource("2_8auvb")]
@@ -82,6 +82,14 @@ scale = Vector2(2.51688, 0.630655)
 [node name="Floor2" parent="Floors" index="3" instance=ExtResource("2_8auvb")]
 position = Vector2(1733, 927)
 scale = Vector2(2.51688, 0.630655)
+
+[node name="Floor3" parent="Floors" index="4" instance=ExtResource("2_8auvb")]
+position = Vector2(1628, 618)
+scale = Vector2(0.684258, 0.724185)
+
+[node name="Floor4" parent="Floors" index="5" instance=ExtResource("2_8auvb")]
+position = Vector2(144, 618)
+scale = Vector2(0.684258, 0.724185)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
 position = Vector2(3114, -466.219)

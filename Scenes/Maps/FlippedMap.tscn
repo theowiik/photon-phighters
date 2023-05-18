@@ -1,7 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnk1nk7cl4y6c"]
+[gd_scene load_steps=7 format=3 uid="uid://cnk1nk7cl4y6c"]
 
 [ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_gtyku"]
 [ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_aj4nv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8x41"]
+size = Vector2(451.813, 7149.78)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0x4f"]
+size = Vector2(370.5, 7446.13)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fm2j0"]
+size = Vector2(5517, 448)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu2gs"]
+size = Vector2(5961, 212)
 
 [node name="FlippedMap" instance=ExtResource("1_gtyku")]
 
@@ -90,3 +102,19 @@ scale = Vector2(0.656893, 3.82054)
 [node name="Floor8" parent="Floors/WrapperThing" index="6" instance=ExtResource("2_aj4nv")]
 position = Vector2(899, -537)
 scale = Vector2(3.17562, 0.725314)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(3744, -1279.11)
+shape = SubResource("RectangleShape2D_o8x41")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="1"]
+position = Vector2(-1865, -1435.94)
+shape = SubResource("RectangleShape2D_b0x4f")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="2"]
+position = Vector2(1180.5, -4876)
+shape = SubResource("RectangleShape2D_fm2j0")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
+position = Vector2(940, 2433)
+shape = SubResource("RectangleShape2D_eu2gs")
