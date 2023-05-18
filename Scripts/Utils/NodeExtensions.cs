@@ -20,4 +20,19 @@ public static class NodeExtensions
 
     return output;
   }
+
+  public static T GetNodeOrExplode<T>(this Node node, string name)
+    where T : Node
+  {
+    var n = node.GetNodeOrNull<T>(name);
+
+    if (n == null)
+    {
+      GD.PrintErr($"Could not find child {name} on {node.Name}");
+      node.GetTree().Quit();
+      throw new KeyNotFoundException($"Could not find child {name} on {node.Name}");
+    }
+
+    return n;
+  }
 }

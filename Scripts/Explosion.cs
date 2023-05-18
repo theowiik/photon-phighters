@@ -19,6 +19,20 @@ public partial class Explosion : Node2D
 
   public Light.LightMode LightMode { get; set; }
 
+  public int Radius
+  {
+    set
+    {
+      var shape = _area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
+
+      shape.Shape = new CircleShape2D()
+      {
+        Radius = value
+      };
+      shape.Set("radius", value);
+    }
+  }
+
   public override void _Ready()
   {
     this.AutoWire();
@@ -26,10 +40,6 @@ public partial class Explosion : Node2D
 
   public void Explode()
   {
-    _explosionParticles.Emitting = true;
-    _explosionPlayer.Play();
-    ColorLightsInsideRadius();
-
     var timer = TimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime);
     timer.Timeout += QueueFree;
     AddChild(timer);

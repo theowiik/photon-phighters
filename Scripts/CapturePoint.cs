@@ -115,7 +115,7 @@ public partial class CapturePoint : Node2D
   public override void _Ready()
   {
     this.AutoWire();
-    var area = GetNode<Area2D>("Area2D");
+    var area = this.GetNodeOrExplode<Area2D>("Area2D");
     area.BodyEntered += OnBodyEntered;
     area.BodyExited += OnBodyExited;
   }

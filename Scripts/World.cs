@@ -66,7 +66,7 @@ public partial class World : Node2D
     _score = new Score();
 
     // UI
-    var uiUpdateTimer = GetNode<Timer>("UIUpdateTimer");
+    var uiUpdateTimer = this.GetNodeOrExplode<Timer>("UIUpdateTimer");
     uiUpdateTimer.Timeout += UpdateScore;
     uiUpdateTimer.Timeout += UpdateRoundTimer;
     _roundTimer.Timeout += OnRoundFinished;
@@ -347,6 +347,7 @@ public partial class World : Node2D
   {
     var explosion = _explosionScene.Instantiate<Explosion>();
     explosion.LightMode = who;
+    explosion.Radius = 10;
     AddChild(explosion);
     explosion.GlobalPosition = where.GlobalPosition;
     explosion.Explode();

@@ -122,7 +122,7 @@ public partial class Player : CharacterBody2D
       PlayerEffectAddedListeners?.Invoke(effect, this);
 
     // Gun
-    var bulletDetectionArea = GetNode<Area2D>("BulletDetectionArea");
+    var bulletDetectionArea = this.GetNodeOrExplode<Area2D>("BulletDetectionArea");
     bulletDetectionArea.AreaEntered += OnBulletEntered;
   }
 
