@@ -89,6 +89,12 @@ public partial class PowerUpPicker : Control
       powerUpButton.Text = powerUp.Name;
       powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
 
+      // Disable at first
+      powerUpButton.Disabled = true;
+      AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(2, () =>
+        powerUpButton.Disabled = false
+      ));
+
       _gridContainer.AddChild(powerUpButton);
     }
   }
