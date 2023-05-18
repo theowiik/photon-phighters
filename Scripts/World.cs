@@ -97,7 +97,7 @@ public partial class World : Node2D
     }
 
     // Start round
-    _mapManager.StartRandomMap();
+    _mapManager.StartNextMap();
     SetupCapturePoint();
     StartRound();
   }
@@ -111,7 +111,7 @@ public partial class World : Node2D
 
     if (@event.IsActionPressed("ui_left"))
     {
-      _mapManager.StartRandomMap();
+      _mapManager.StartNextMap();
     }
   }
 
