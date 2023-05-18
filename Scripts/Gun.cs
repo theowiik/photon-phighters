@@ -52,7 +52,7 @@ public partial class Gun : Node2D
     }
   }
 
-  public bool Freeze { get; set; }
+  public bool Frozen { get; set; }
   public Light.LightMode LightMode { get; set; }
   public string ShootActionName { get; set; }
 
@@ -68,7 +68,7 @@ public partial class Gun : Node2D
 
   public override void _PhysicsProcess(double delta)
   {
-    if (Freeze)
+    if (Frozen)
     {
       return;
     }

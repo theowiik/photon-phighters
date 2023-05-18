@@ -22,6 +22,17 @@ public static class TimerFactory
     return timer;
   }
 
+  public static Timer OneShotSelfDestructingStartedTimer(double waitTime, Action onTimeout = null)
+  {
+    var timer = OneShotStartedTimer(waitTime);
+    timer.Timeout += () =>
+    {
+      onTimeout?.Invoke();
+      timer.QueueFree();
+    };
+    return timer;
+  }
+
   public static Timer StartedTimer(int timeBetweenCapturePoint)
   {
     var timer = new Timer

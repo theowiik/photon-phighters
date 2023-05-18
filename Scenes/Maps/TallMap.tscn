@@ -8,6 +8,9 @@ size = Vector2(3571.5, 290)
 
 [node name="TallMap" instance=ExtResource("1_8jdpi")]
 
+[node name="ColorRect" parent="." index="0"]
+color = Color(0.215686, 0.262745, 0.360784, 1)
+
 [node name="DarkSpawn" parent="." index="1"]
 position = Vector2(183, -196)
 

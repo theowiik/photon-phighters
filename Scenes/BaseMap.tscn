@@ -19,3 +19,4 @@ color = Color(0.337255, 0.305882, 0.341176, 1)
 [node name="Floors" type="Node2D" parent="."]
 
 [node name="OB" type="Area2D" parent="."]
+monitoring = false

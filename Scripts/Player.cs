@@ -7,7 +7,7 @@ public partial class Player : CharacterBody2D
 {
   private bool _aimWithMouse = true;
 
-  private bool _freeze;
+  private bool _frozen;
 
   [GetNode("Marker2D")]
   private Marker2D _gunMarker;
@@ -40,21 +40,24 @@ public partial class Player : CharacterBody2D
   /// <summary>
   ///   A player exits if they are alive and not frozen.
   /// </summary>
-  public bool Exists => IsAlive && !Freeze;
+  public bool Exists => IsAlive && !Frozen;
 
-  public bool Freeze
+  public bool Frozen
   {
-    get => _freeze;
+    get => _frozen;
     set
     {
-      _freeze = value;
-      Gun.Freeze = _freeze;
+      // TODO: This basically acts as a reset for the player. Maybe refactor?
+
+      _frozen = value;
+      Gun.Frozen = _frozen;
       Health = MaxHealth;
+      PlayerMovementDelegate.Reset();
 
       var collisionShape = this.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
-      collisionShape.Disabled = _freeze;
+      collisionShape.Disabled = _frozen;
 
-      if (_freeze)
+      if (_frozen)
       {
         PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Disabled;
         _playerEffectsDelegate.AnimationPlaySpawn();

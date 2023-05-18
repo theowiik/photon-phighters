@@ -22,18 +22,22 @@ public partial class MapManager : Node2D
   /// </summary>
   private Queue<string> _mapsQueue = new();
 
-  public void StartNextMap()
+  /// <summary>
+  ///   Spawns the next map but does not enable map specific logic. See <see cref="StartNextMap" />.
+  /// </summary>
+  public void InitNextMap()
   {
-    // Remove all children
-    foreach (var child in GetChildren())
+    var cm = CurrentMap;
+    if (cm != null)
     {
-      RemoveChild(child);
-      child.QueueFree();
+      RemoveChild(cm);
+      cm.QueueFree();
     }
 
     // Start new map
     var map = GetNextMap();
     AddChild(map);
+    map.CollisionsEnabled = false;
     map.OutOfBounds.BodyEntered += body =>
     {
       if (body is Player player)
@@ -41,6 +45,14 @@ public partial class MapManager : Node2D
         OutOfBoundsEventListeners?.Invoke(player);
       }
     };
+  }
+
+  /// <summary>
+  ///   Enables map specific logic.
+  /// </summary>
+  public void StartNextMap()
+  {
+    CurrentMap.CollisionsEnabled = true;
   }
 
   private Map GetNextMap()

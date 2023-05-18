@@ -4,9 +4,12 @@
 [ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_1atno"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r6sjp"]
-size = Vector2(3055, 437)
+size = Vector2(3701, 677.875)
 
 [node name="CoolMap" instance=ExtResource("1_nynx3")]
+
+[node name="ColorRect" parent="." index="0"]
+color = Color(0.164706, 0.211765, 0.180392, 1)
 
 [node name="DarkSpawn" parent="." index="1"]
 position = Vector2(240, 170)
@@ -21,5 +24,5 @@ position = Vector2(249, 469)
 position = Vector2(984, 456)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
-position = Vector2(540.5, 832)
+position = Vector2(624.5, 1429.06)
 shape = SubResource("RectangleShape2D_r6sjp")

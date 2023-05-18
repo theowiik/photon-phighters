@@ -17,6 +17,9 @@ size = Vector2(5490, 212)
 
 [node name="Map" instance=ExtResource("1_t4j6q")]
 
+[node name="ColorRect" parent="." index="0"]
+color = Color(0.411765, 0.27451, 0.294118, 1)
+
 [node name="DarkSpawn" parent="." index="1"]
 position = Vector2(409, 287)
 
