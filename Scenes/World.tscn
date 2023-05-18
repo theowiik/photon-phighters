@@ -36,7 +36,8 @@ script = ExtResource("4_g4vs6")
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_tu48r")
-volume_db = -30.167
+volume_db = -11.946
+autoplay = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

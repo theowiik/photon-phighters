@@ -16,7 +16,7 @@ public partial class FollowingCamera : Camera2D
   private readonly IList<Node2D> _targets = new List<Node2D>();
   private float _remainingShakeTime;
   private ShakeStrength _shakeStrength;
-  private float _zoomFactor = 0.3f;
+  private float _zoomFactor = 0.15f;
 
   public override void _PhysicsProcess(double delta)
   {

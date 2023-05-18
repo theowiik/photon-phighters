@@ -161,8 +161,6 @@ public partial class World : Node2D
     var lights = GetTree().GetNodesInGroup("lights");
     var results = new Results();
 
-    return results;
-
     foreach (var light in lights)
     {
       if (light is not Light lightNode)

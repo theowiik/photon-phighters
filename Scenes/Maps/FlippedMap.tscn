@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnk1nk7cl4y6c"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_gtyku"]
+[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_aj4nv"]
+
+[node name="FlippedMap" instance=ExtResource("1_gtyku")]
+
+[node name="ColorRect" parent="." index="0"]
+color = Color(0.364706, 0.305882, 0.258824, 1)
+
+[node name="DarkSpawn" parent="." index="1"]
+position = Vector2(379, 467)
+
+[node name="LightSpawn" parent="." index="2"]
+position = Vector2(654, -195)
+
+[node name="WrapperThing" type="Node2D" parent="Floors" index="0"]
+position = Vector2(59, 25)
+rotation = 0.656861
+
+[node name="FloorIsh" type="Node2D" parent="Floors/WrapperThing" index="0"]
+position = Vector2(-27, 337)
+
+[node name="Floor5" parent="Floors/WrapperThing/FloorIsh" index="0" instance=ExtResource("2_aj4nv")]
+position = Vector2(571, 73)
+scale = Vector2(0.784924, 0.912396)
+
+[node name="Floor6" parent="Floors/WrapperThing/FloorIsh" index="1" instance=ExtResource("2_aj4nv")]
+position = Vector2(682, 72)
+scale = Vector2(0.831538, 0.932648)
+
+[node name="Floor7" parent="Floors/WrapperThing/FloorIsh" index="2" instance=ExtResource("2_aj4nv")]
+position = Vector2(455, 74)
+scale = Vector2(0.875155, 0.908249)
+
+[node name="Floor8" parent="Floors/WrapperThing/FloorIsh" index="3" instance=ExtResource("2_aj4nv")]
+position = Vector2(802, 71)
+scale = Vector2(0.878702, 0.95893)
+
+[node name="FloorIsh2" type="Node2D" parent="Floors/WrapperThing" index="1"]
+position = Vector2(969, 337)
+
+[node name="Floor5" parent="Floors/WrapperThing/FloorIsh2" index="0" instance=ExtResource("2_aj4nv")]
+position = Vector2(571, 73)
+scale = Vector2(0.784924, 0.912396)
+
+[node name="Floor6" parent="Floors/WrapperThing/FloorIsh2" index="1" instance=ExtResource("2_aj4nv")]
+position = Vector2(682, 72)
+scale = Vector2(0.831538, 0.932648)
+
+[node name="Floor7" parent="Floors/WrapperThing/FloorIsh2" index="2" instance=ExtResource("2_aj4nv")]
+position = Vector2(455, 74)
+scale = Vector2(0.875155, 0.908249)
+
+[node name="Floor8" parent="Floors/WrapperThing/FloorIsh2" index="3" instance=ExtResource("2_aj4nv")]
+position = Vector2(802, 71)
+scale = Vector2(0.878702, 0.95893)
+
+[node name="FloorIsh3" type="Node2D" parent="Floors/WrapperThing" index="2"]
+position = Vector2(471, -62)
+
+[node name="Floor5" parent="Floors/WrapperThing/FloorIsh3" index="0" instance=ExtResource("2_aj4nv")]
+position = Vector2(571, 73)
+scale = Vector2(0.784924, 0.912396)
+
+[node name="Floor6" parent="Floors/WrapperThing/FloorIsh3" index="1" instance=ExtResource("2_aj4nv")]
+position = Vector2(682, 72)
+scale = Vector2(0.831538, 0.932648)
+
+[node name="Floor7" parent="Floors/WrapperThing/FloorIsh3" index="2" instance=ExtResource("2_aj4nv")]
+position = Vector2(455, 74)
+scale = Vector2(0.875155, 0.908249)
+
+[node name="Floor8" parent="Floors/WrapperThing/FloorIsh3" index="3" instance=ExtResource("2_aj4nv")]
+position = Vector2(802, 71)
+scale = Vector2(0.878702, 0.95893)
+
+[node name="Floor5" parent="Floors/WrapperThing" index="3" instance=ExtResource("2_aj4nv")]
+position = Vector2(145, -48)
+scale = Vector2(0.656893, 3.82054)
+
+[node name="Floor6" parent="Floors/WrapperThing" index="4" instance=ExtResource("2_aj4nv")]
+position = Vector2(307, -358)
+scale = Vector2(3.17562, 0.725314)
+
+[node name="Floor7" parent="Floors/WrapperThing" index="5" instance=ExtResource("2_aj4nv")]
+position = Vector2(135, -668)
+scale = Vector2(0.656893, 3.82054)
+
+[node name="Floor8" parent="Floors/WrapperThing" index="6" instance=ExtResource("2_aj4nv")]
+position = Vector2(899, -537)
+scale = Vector2(3.17562, 0.725314)
