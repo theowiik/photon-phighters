@@ -3,7 +3,7 @@ using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts.MenuControllers;
 
-public partial class StartSceen : Node2D
+public partial class StartScreen : Node2D
 {
   public override void _Ready()
   {

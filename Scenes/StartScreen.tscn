@@ -1,10 +1,10 @@
-[gd_scene load_steps=3 format=3 uid="uid://h4voojgaexsb"]
+[gd_scene load_steps=3 format=3 uid="uid://c3fl8xddmbi74"]
 
-[ext_resource type="Script" path="res://Scripts/MenuControllers/StartSceen.cs" id="1_d4apo"]
-[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="2_354ko"]
+[ext_resource type="Script" path="res://Scripts/MenuControllers/StartScreen.cs" id="1_stbcu"]
+[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="2_nlhw4"]
 
 [node name="StartScreen" type="Node2D"]
-script = ExtResource("1_d4apo")
+script = ExtResource("1_stbcu")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -23,7 +23,7 @@ grow_vertical = 2
 
 [node name="TitleLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
-theme = ExtResource("2_354ko")
+theme = ExtResource("2_nlhw4")
 text = "Photon Phighters"
 horizontal_alignment = 1
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=3 format=3 uid="uid://baeu03tteo0kx"]
 
 [ext_resource type="Script" path="res://Scripts/MenuControllers/EndScreen.cs" id="1_juval"]
 [ext_resource type="Texture2D" uid="uid://drvdhg48d02qt" path="res://Assets/Screens/light-wins.png" id="2_m7o5g"]

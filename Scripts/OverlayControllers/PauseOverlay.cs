@@ -11,6 +11,9 @@ public partial class PauseOverlay : Control
   [GetNode("Center/VBox/ResumeButton")]
   private Button _resumeButton;
 
+  [GetNode("Center/VBox/RestartButton")]
+  private Button _restartButton;
+
   [GetNode("AudioStreamPlayer")]
   private AudioStreamPlayer _audioStreamPlayer;
 
@@ -23,16 +26,16 @@ public partial class PauseOverlay : Control
     set
     {
       Visible = value;
+      _audioStreamPlayer.StreamPaused = !value;
+
       if (value)
       {
+        if (!_audioStreamPlayer.Playing)
+        {
+          _audioStreamPlayer.Play();
+        }
+
         GrabFocus();
-        // _audioStreamPlayer.Play();
-        _audioStreamPlayer.StreamPaused = false;
-      }
-      else
-      {
-        // _audioStreamPlayer.Stop();
-        _audioStreamPlayer.StreamPaused = true;
       }
     }
   }
@@ -42,6 +45,7 @@ public partial class PauseOverlay : Control
     this.AutoWire();
     _resumeButton.Pressed += () => EmitSignal(SignalName.ResumeGame);
     _quitButton.Pressed += () => GetTree().Quit();
+    _restartButton.Pressed += () => GetTree().ChangeSceneToFile("res://Scenes/StartSceen.tscn");
   }
 
   public override void _UnhandledInput(InputEvent @event)
@@ -53,4 +57,3 @@ public partial class PauseOverlay : Control
     // TODO: Mark input as handled
   }
 }
-console.log("🚀 ~ file: PauseOverlay.cs:56 ~ delegate:", delegate)

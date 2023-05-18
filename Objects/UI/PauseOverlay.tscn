@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://b7ix1pgcvbwjk"]
+[gd_scene load_steps=5 format=3 uid="uid://b7ix1pgcvbwjk"]
 
-[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="1_l4yn2"]
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PauseOverlay.cs" id="1_omib1"]
 [ext_resource type="Shader" path="res://Shaders/blur.gdshader" id="2_yf1v0"]
 [ext_resource type="AudioStream" uid="uid://snsy5x5to21y" path="res://Music/Elevator/Elevator Music loop - Dar Golan - 130bpm - 03-11.mp3" id="4_q2ma0"]
@@ -41,15 +40,13 @@ grow_vertical = 2
 layout_mode = 2
 alignment = 1
 
-[node name="Label" type="Label" parent="Center/VBox"]
-layout_mode = 2
-theme = ExtResource("1_l4yn2")
-text = "Menu"
-horizontal_alignment = 1
-
 [node name="ResumeButton" type="Button" parent="Center/VBox"]
 layout_mode = 2
 text = "Resume"
+
+[node name="RestartButton" type="Button" parent="Center/VBox"]
+layout_mode = 2
+text = "Restart"
 
 [node name="QuitButton" type="Button" parent="Center/VBox"]
 layout_mode = 2
@@ -57,4 +54,5 @@ text = "Quit"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("4_q2ma0")
-autoplay = true
+volume_db = -10.0
+pitch_scale = 0.85
