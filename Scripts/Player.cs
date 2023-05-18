@@ -5,21 +5,8 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Player : CharacterBody2D
 {
-  [Signal]
-  public delegate void PlayerDiedEventHandler(Player player);
-
-  public delegate void PlayerEffectAdded(Node2D effect, Player who);
-
-  [Signal]
-  public delegate void PlayerHurtEventHandler(Player player, int damage);
-
-  public enum TeamEnum
-  {
-    Light,
-    Dark
-  }
-
   private bool _aimWithMouse = true;
+
   private bool _freeze;
 
   [GetNode("Marker2D")]
@@ -36,10 +23,19 @@ public partial class Player : CharacterBody2D
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
-  public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
+  [Signal]
+  public delegate void PlayerDiedEventHandler(Player player);
 
-  [GetNode("Movement")]
-  public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
+  public delegate void PlayerEffectAdded(Node2D effect, Player who);
+
+  [Signal]
+  public delegate void PlayerHurtEventHandler(Player player, int damage);
+
+  public enum TeamEnum
+  {
+    Light,
+    Dark
+  }
 
   public bool Freeze
   {
@@ -67,8 +63,11 @@ public partial class Player : CharacterBody2D
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
-
   public int MaxHealth { get; set; } = 50;
+  public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
+
+  [GetNode("Movement")]
+  public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
 
   [Export]
   public int PlayerNumber { get; set; }

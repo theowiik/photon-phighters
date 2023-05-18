@@ -35,12 +35,12 @@ public partial class Gun : Node2D
   public float BulletSpeed { get; set; } = 1000;
 
   /// <summary>
-  ///     The spread of the bullets in radians.
+  ///   The spread of the bullets in radians.
   /// </summary>
   public float BulletSpread { get; set; } = 0.1f;
 
   /// <summary>
-  ///     The rate of fire in bullets per second.
+  ///   The rate of fire in bullets per second.
   /// </summary>
   public float FireRate
   {

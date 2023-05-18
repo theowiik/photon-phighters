@@ -5,7 +5,7 @@ namespace PhotonPhighters.Scripts;
 
 public partial class PlayerEffectsDelegate : Node2D
 {
-  public delegate void PlayerEffectPerformed(Node2D effect);
+  public PlayerEffectPerformed PlayerEffectAddedListeners;
 
   private const string JumpAnimation = "stretch_jump";
 
@@ -19,7 +19,7 @@ public partial class PlayerEffectsDelegate : Node2D
 
   private const string Wall = "squish_wall";
 
-  private readonly Color _hurtColor = new Color(0.8f, 0, 0);
+  private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   [GetNode("AnimationPlayer")]
   private AnimationPlayer _animationPlayer;
@@ -55,7 +55,7 @@ public partial class PlayerEffectsDelegate : Node2D
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
 
-  public PlayerEffectPerformed PlayerEffectAddedListeners;
+  public delegate void PlayerEffectPerformed(Node2D effect);
 
   public Sprite2D PlayerSprite { get; set; }
 

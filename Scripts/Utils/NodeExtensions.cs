@@ -6,22 +6,6 @@ namespace PhotonPhighters.Scripts.Utils;
 
 public static class NodeExtensions
 {
-  public static IEnumerable<T> GetNodes<T>(this Node node)
-    where T : Node
-  {
-    var output = new List<T>();
-
-    foreach (var child in node.GetChildren())
-    {
-      if (child is T c)
-      {
-        output.Add(c);
-      }
-    }
-
-    return output;
-  }
-
   public static T GetNodeOrExplode<T>(this Node node, string name)
     where T : Node
   {
@@ -43,5 +27,21 @@ public static class NodeExtensions
     }
 
     return n;
+  }
+
+  public static IEnumerable<T> GetNodes<T>(this Node node)
+    where T : Node
+  {
+    var output = new List<T>();
+
+    foreach (var child in node.GetChildren())
+    {
+      if (child is T c)
+      {
+        output.Add(c);
+      }
+    }
+
+    return output;
   }
 }

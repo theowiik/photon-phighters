@@ -32,9 +32,6 @@ public partial class World : Node2D
 
   private Player _darkPlayer;
 
-  [GetNode("MapManager")]
-  private MapManager _mapManager;
-
   [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
 
@@ -43,6 +40,9 @@ public partial class World : Node2D
 
   [GetNode("Sfx/LightWin")]
   private AudioStreamPlayer _lightWin;
+
+  [GetNode("MapManager")]
+  private MapManager _mapManager;
 
   [GetNode("CanvasLayer/Overlay")]
   private Overlay _overlay;
@@ -148,6 +148,14 @@ public partial class World : Node2D
     return deathMessages[GD.RandRange(0, deathMessages.Count - 1)];
   }
 
+  private static void OnOutOfBounds(Player player)
+  {
+    if (player.IsAlive)
+    {
+      player.TakeDamage(99999);
+    }
+  }
+
   private Results GetResults()
   {
     var lights = GetTree().GetNodesInGroup("lights");
@@ -184,14 +192,6 @@ public partial class World : Node2D
     var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
     SpawnExplosion(which, light, Explosion.ExplosionRadiusEnum.Large);
     which.QueueFree();
-  }
-
-  private static void OnOutOfBounds(Player player)
-  {
-    if (player.IsAlive)
-    {
-      player.TakeDamage(99999);
-    }
   }
 
   private void OnPlayerDied(Player player)

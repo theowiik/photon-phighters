@@ -63,13 +63,13 @@ public partial class FollowingCamera : Camera2D
   }
 
   /// <summary>
-  ///     Shake the camera for the given amount of time.
+  ///   Shake the camera for the given amount of time.
   /// </summary>
   /// <param name="shakeTime">
-  ///     The amount of time to shake the camera.
+  ///   The amount of time to shake the camera.
   /// </param>
   /// <param name="strength">
-  ///     The strength of the shake.
+  ///   The strength of the shake.
   /// </param>
   public void Shake(float shakeTime, ShakeStrength strength)
   {

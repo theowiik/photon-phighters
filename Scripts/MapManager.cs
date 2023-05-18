@@ -1,17 +1,19 @@
-using System;
-using Godot;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Godot;
 
 namespace PhotonPhighters.Scripts;
 
 public partial class MapManager : Node2D
 {
   private const string MapsFolder = "res://Scenes/Maps";
+
   public delegate void OutOfBoundsEvent(Player player);
-  public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
-  public Node2D LightSpawn => CurrentMap.LightSpawn;
+
   public Node2D DarkSpawn => CurrentMap.DarkSpawn;
+  public Node2D LightSpawn => CurrentMap.LightSpawn;
+  public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
   private Map CurrentMap => GetChild<Map>(0);
 
   public void StartRandomMap()
@@ -35,19 +37,13 @@ public partial class MapManager : Node2D
     };
   }
 
-  private Map GetRandomMap()
-  {
-    var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
-    var mapName = maps[GD.RandRange(0, maps.Count - 1)];
-    var mapScene = GD.Load<PackedScene>(mapName);
-    return mapScene.Instantiate<Map>();
-  }
-
   private IList<string> GetAllFilesInDirectory(string directory, string extension)
   {
     var dir = DirAccess.Open(directory);
     if (dir == null)
+    {
       HandleError("Could not open directory: " + directory);
+    }
 
     var files = new List<string>();
 
@@ -64,6 +60,14 @@ public partial class MapManager : Node2D
     }
 
     return files.Where(file => file.EndsWith(extension)).ToList();
+  }
+
+  private Map GetRandomMap()
+  {
+    var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
+    var mapName = maps[GD.RandRange(0, maps.Count - 1)];
+    var mapScene = GD.Load<PackedScene>(mapName);
+    return mapScene.Instantiate<Map>();
   }
 
   private void HandleError(string message)

@@ -26,6 +26,13 @@ public static class PowerUpManager
     };
   }
 
+  public interface IPowerUp
+  {
+    string Name { get; }
+
+    void Apply(Player player);
+  }
+
   public static IEnumerable<IPowerUp> GetAllPowerUps()
   {
     return SPowerUps;
@@ -76,13 +83,6 @@ public static class PowerUpManager
     }
 
     return powerUps.Shuffle();
-  }
-
-  public interface IPowerUp
-  {
-    string Name { get; }
-
-    void Apply(Player player);
   }
 
   private class AirWalker : IPowerUp
