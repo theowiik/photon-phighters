@@ -152,10 +152,6 @@ public partial class World : Node2D
   {
     if (player.Exists)
     {
-      GD.Print("Player out of bounds!");
-      GD.Print("Is alive: " + player.IsAlive);
-      GD.Print("Is frozen: " + player.Frozen);
-      GD.Print("Exists: " + player.Exists);
       player.TakeDamage(99999);
     }
   }
