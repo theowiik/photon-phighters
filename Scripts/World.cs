@@ -81,6 +81,7 @@ public partial class World : Node2D
     _players = GetTree().GetNodesInGroup("players").Cast<Player>();
     foreach (var player in _players)
     {
+      player.Freeze = true;
       player.PlayerDied += OnPlayerDied;
       player.PlayerHurt += OnPlayerHurt;
       player.Gun.ShootDelegate += OnShoot;
@@ -97,7 +98,6 @@ public partial class World : Node2D
     }
 
     // Start round
-    _mapManager.StartNextMap();
     SetupCapturePoint();
     StartRound();
   }
@@ -389,7 +389,11 @@ public partial class World : Node2D
 
   private void StartRound()
   {
+    _mapManager.StartNextMap();
     ResetLights();
+
+    _lightPlayer.GlobalPosition = _mapManager.LightSpawn.GlobalPosition;
+    _darkPlayer.GlobalPosition = _mapManager.DarkSpawn.GlobalPosition;
 
     foreach (var player in _players)
     {
@@ -401,14 +405,8 @@ public partial class World : Node2D
 
   private void TogglePause()
   {
-    var isPaused = !_pauseOverlay.Visible;
-    _pauseOverlay.Visible = isPaused;
-
-    if (isPaused)
-    {
-      _pauseOverlay.GrabFocus();
-    }
-
+    var isPaused = !_pauseOverlay.Enabled;
+    _pauseOverlay.Enabled = isPaused;
     GetTree().Paused = isPaused;
   }
 

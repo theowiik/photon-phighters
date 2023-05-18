@@ -46,6 +46,9 @@ public partial class Player : CharacterBody2D
       Gun.Freeze = _freeze;
       Health = MaxHealth;
 
+      var collisionShape = this.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
+      collisionShape.Disabled = _freeze;
+
       if (_freeze)
       {
         PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Disabled;

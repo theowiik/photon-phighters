@@ -56,7 +56,6 @@ public partial class MapManager : Node2D
     return mapScene.Instantiate<Map>();
   }
 
-
   private IEnumerable<string> GetAllFilesInDirectory(string directory, string extension)
   {
     var dir = DirAccess.Open(directory);
