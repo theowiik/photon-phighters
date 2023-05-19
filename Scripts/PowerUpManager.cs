@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -7,6 +8,8 @@ namespace PhotonPhighters.Scripts;
 public static class PowerUpManager
 {
   private static readonly IList<IPowerUp> s_allPowerUps;
+
+  // List of power ups, with duplicates to represent the rarity
   private static readonly IList<IPowerUp> s_powerUpsRarity;
 
   static PowerUpManager()
@@ -27,17 +30,14 @@ public static class PowerUpManager
       new MiniGun()
     };
 
+    s_powerUpsRarity = new List<IPowerUp>();
     foreach (var powerUp in s_allPowerUps)
     {
-
+      for (var i = 0; i < (int)powerUp.Rarity; i++)
+      {
+        s_powerUpsRarity.Add(powerUp);
+      }
     }
-  }
-
-  public enum Rarity
-  {
-    Common,
-    Rare,
-    Legendary
   }
 
   public static IEnumerable<IPowerUp> GetAllPowerUps()
@@ -50,6 +50,35 @@ public static class PowerUpManager
     var random = new Random();
     var randomIndex = random.Next(0, s_allPowerUps.Count);
     return s_allPowerUps[randomIndex];
+  }
+
+  public enum Rarity
+  {
+    Common = 4,
+    Rare = 2,
+    Legendary = 1,
+  }
+
+  public interface IPowerUp
+  {
+    string Name { get; }
+    Rarity Rarity { get; }
+
+    void Apply(Player player);
+  }
+
+  // Gets n power ups. At least nRare should be rare or better (legendary)
+  public static IEnumerable<IPowerUp> GetUniquePowerUpsWithRarity(int n, int nRare)
+  {
+    var common = s_powerUpsRarity.Select(p => p.Rarity == Rarity.Common).ToList();
+    var rare = s_powerUpsRarity.Select(p => p.Rarity == Rarity.Rare).ToList();
+    var legendary = s_powerUpsRarity.Select(p => p.Rarity == Rarity.Legendary).ToList();
+
+    var output = new List<IPowerUp>();
+    
+    for (var i = 0; i < nRare; i++)
+    {
+    }
   }
 
   /// <summary>
@@ -90,14 +119,6 @@ public static class PowerUpManager
     }
 
     return powerUps.Shuffle();
-  }
-
-  public interface IPowerUp
-  {
-    string Name { get; }
-    Rarity Rarity { get; }
-
-    void Apply(Player player);
   }
 
   private class AirWalker : IPowerUp

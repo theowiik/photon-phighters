@@ -93,8 +93,8 @@ public partial class PowerUpPicker : Control
       var rarityText = powerUp.Rarity switch
       {
         PowerUpManager.Rarity.Common => "",
-        PowerUpManager.Rarity.Rare => "(rare)",
-        PowerUpManager.Rarity.Legendary => "(LEGENDARY)",
+        PowerUpManager.Rarity.Rare => "(Rare) ",
+        PowerUpManager.Rarity.Legendary => "(LEGENDARY) ",
         _ => throw new KeyNotFoundException("Rarity not supported")
       };
 
