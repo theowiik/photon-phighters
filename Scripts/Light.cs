@@ -12,9 +12,9 @@ public partial class Light : Area2D
     None
   }
 
-  private readonly Color _darkColorModulate = new(0, 0, 0, 0.5f);
+  private readonly Color _darkColorModulate = new Color(0, 0, 0, 0.5f);
 
-  private readonly Color _lightColorModulate = new(1, 1, 1, 0.5f);
+  private readonly Color _lightColorModulate = new Color(1, 1, 1, 0.5f);
 
   [GetNode("AnimationPlayer")]
   private AnimationPlayer _animationPlayer;

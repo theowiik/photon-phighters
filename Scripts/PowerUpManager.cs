@@ -7,6 +7,14 @@ namespace PhotonPhighters.Scripts;
 
 public static class PowerUpManager
 {
+
+  public enum Rarity
+  {
+    Common = 4,
+    Rare = 2,
+    Legendary = 1
+  }
+
   private static readonly IList<IPowerUp> s_allPowerUps;
 
   // List of power ups, with duplicates to represent the rarity
@@ -27,7 +35,8 @@ public static class PowerUpManager
       new PhotonMuncher(),
       new AirWalker(),
       new GeneratorEngine(),
-      new MiniGun()
+      new MiniGun(),
+      new Sniper()
     };
 
     s_powerUpsRarity = new List<IPowerUp>();
@@ -50,21 +59,6 @@ public static class PowerUpManager
     var random = new Random();
     var randomIndex = random.Next(0, s_allPowerUps.Count);
     return s_allPowerUps[randomIndex];
-  }
-
-  public enum Rarity
-  {
-    Common = 4,
-    Rare = 2,
-    Legendary = 1,
-  }
-
-  public interface IPowerUp
-  {
-    string Name { get; }
-    Rarity Rarity { get; }
-
-    void Apply(Player player);
   }
 
   // Gets n power ups. At least nRare should be rare or better (legendary)
@@ -143,6 +137,14 @@ public static class PowerUpManager
     }
 
     return powerUps.Shuffled();
+  }
+
+  public interface IPowerUp
+  {
+    string Name { get; }
+    Rarity Rarity { get; }
+
+    void Apply(Player player);
   }
 
   private class AirWalker : IPowerUp
@@ -289,7 +291,7 @@ public static class PowerUpManager
 
   private class MiniGun : IPowerUp
   {
-    public string Name => "Mini Gun";
+    public string Name => "1 000 000 lumen";
 
     public Rarity Rarity => Rarity.Legendary;
 
@@ -301,4 +303,20 @@ public static class PowerUpManager
       player.Gun.FireRate += 3;
     }
   }
+
+  private class Sniper : IPowerUp
+  {
+    public string Name => "Photon Sniper";
+
+    public Rarity Rarity => Rarity.Legendary;
+
+    public void Apply(Player player)
+    {
+      player.Gun.BulletCount = 1;
+      player.Gun.BulletDamage = 50;
+      player.Gun.BulletSpread = 0.01f;
+      player.Gun.FireRate -= 3;
+    }
+  }
+
 }
