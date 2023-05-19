@@ -60,12 +60,10 @@ public partial class Player : CharacterBody2D
       if (_frozen)
       {
         PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Disabled;
-        _playerEffectsDelegate.AnimationPlaySpawn();
       }
       else
       {
         PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Inherit;
-        _sprite2D.Modulate = Colors.White;
       }
     }
   }
