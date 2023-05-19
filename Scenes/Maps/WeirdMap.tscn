@@ -1,0 +1,108 @@
+[gd_scene load_steps=7 format=3 uid="uid://cw5ddylhug2ra"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_t4j6q"]
+[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_8auvb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0uauh"]
+size = Vector2(451.813, 4327.56)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_88gma"]
+size = Vector2(370.5, 4348.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wyuea"]
+size = Vector2(4552, 448)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1fpty"]
+size = Vector2(5490, 212)
+
+[node name="Map" instance=ExtResource("1_t4j6q")]
+
+[node name="ColorRect" parent="." index="0"]
+offset_left = -7616.0
+offset_top = -7295.0
+offset_right = 8314.0
+offset_bottom = 6247.0
+color = Color(0.588235, 0.411765, 0.435294, 1)
+
+[node name="DarkSpawn" parent="." index="1"]
+position = Vector2(-55, 728)
+
+[node name="LightSpawn" parent="." index="2"]
+position = Vector2(1739, 748)
+
+[node name="Block" type="Node2D" parent="Floors" index="0"]
+
+[node name="Floor" parent="Floors/Block" index="0" instance=ExtResource("2_8auvb")]
+position = Vector2(558, 461)
+scale = Vector2(4.48064, 0.48252)
+
+[node name="Floor2" parent="Floors/Block" index="1" instance=ExtResource("2_8auvb")]
+position = Vector2(420, 1028)
+scale = Vector2(2.17291, 0.480753)
+
+[node name="Floor3" parent="Floors/Block" index="2" instance=ExtResource("2_8auvb")]
+position = Vector2(809, 878)
+scale = Vector2(0.574546, 1.6938)
+
+[node name="Floor4" parent="Floors/Block" index="3" instance=ExtResource("2_8auvb")]
+position = Vector2(311, 878)
+scale = Vector2(0.514475, 1.68976)
+
+[node name="Floor5" parent="Floors/Block" index="4" instance=ExtResource("2_8auvb")]
+position = Vector2(711, 1028)
+scale = Vector2(2.17291, 0.480753)
+
+[node name="Block2" type="Node2D" parent="Floors" index="1"]
+position = Vector2(579, -2)
+
+[node name="Floor" parent="Floors/Block2" index="0" instance=ExtResource("2_8auvb")]
+position = Vector2(565, 461)
+scale = Vector2(4.48064, 0.48252)
+
+[node name="Floor2" parent="Floors/Block2" index="1" instance=ExtResource("2_8auvb")]
+position = Vector2(420, 1028)
+scale = Vector2(2.17291, 0.480753)
+
+[node name="Floor3" parent="Floors/Block2" index="2" instance=ExtResource("2_8auvb")]
+position = Vector2(809, 878)
+scale = Vector2(0.574546, 1.6938)
+
+[node name="Floor4" parent="Floors/Block2" index="3" instance=ExtResource("2_8auvb")]
+position = Vector2(311, 878)
+scale = Vector2(0.514475, 1.68976)
+
+[node name="Floor5" parent="Floors/Block2" index="4" instance=ExtResource("2_8auvb")]
+position = Vector2(711, 1028)
+scale = Vector2(2.17291, 0.480753)
+
+[node name="Floor" parent="Floors" index="2" instance=ExtResource("2_8auvb")]
+position = Vector2(-77, 909)
+scale = Vector2(2.51688, 0.630655)
+
+[node name="Floor2" parent="Floors" index="3" instance=ExtResource("2_8auvb")]
+position = Vector2(1733, 927)
+scale = Vector2(2.51688, 0.630655)
+
+[node name="Floor3" parent="Floors" index="4" instance=ExtResource("2_8auvb")]
+position = Vector2(1628, 618)
+scale = Vector2(0.684258, 0.724185)
+
+[node name="Floor4" parent="Floors" index="5" instance=ExtResource("2_8auvb")]
+position = Vector2(144, 618)
+scale = Vector2(0.684258, 0.724185)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(3114, -466.219)
+shape = SubResource("RectangleShape2D_0uauh")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="1"]
+position = Vector2(-1937.25, -479.875)
+shape = SubResource("RectangleShape2D_88gma")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="2"]
+position = Vector2(572, -2398)
+shape = SubResource("RectangleShape2D_wyuea")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
+position = Vector2(598, 1835)
+shape = SubResource("RectangleShape2D_1fpty")

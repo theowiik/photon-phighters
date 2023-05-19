@@ -8,6 +8,13 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Explosion : Node2D
 {
+  public enum ExplosionRadiusEnum
+  {
+    Small = 80,
+    Medium = 200,
+    Large = 400
+  }
+
   [GetNode("Area2D")]
   private Area2D _area;
 
@@ -16,13 +23,6 @@ public partial class Explosion : Node2D
 
   [GetNode("ExplosionPlayer")]
   private AudioStreamPlayer2D _explosionPlayer;
-
-  public enum ExplosionRadiusEnum
-  {
-    Small = 80,
-    Medium = 200,
-    Large = 400
-  }
 
   public Light.LightMode LightMode { get; set; }
 

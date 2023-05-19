@@ -1,25 +1,65 @@
-[gd_scene load_steps=4 format=3 uid="uid://1pdbu7d42w7u"]
+[gd_scene load_steps=7 format=3 uid="uid://bjurl5flah6m2"]
 
 [ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_8jdpi"]
 [ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_wh0w3"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_nh1id"]
-size = Vector2(3571.5, 290)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7g036"]
+size = Vector2(8071.25, 364.938)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_l3y6m"]
+size = Vector2(452, 13005)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m3gne"]
+size = Vector2(8078, 514)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_278n2"]
+size = Vector2(557, 13015.5)
 
 [node name="TallMap" instance=ExtResource("1_8jdpi")]
 
+[node name="ColorRect" parent="." index="0"]
+offset_left = -15193.0
+offset_top = -15331.0
+offset_right = 16120.0
+offset_bottom = 6616.0
+color = Color(0.384314, 0.45098, 0.588235, 1)
+
 [node name="DarkSpawn" parent="." index="1"]
-position = Vector2(183, -196)
+position = Vector2(546, -183)
 
 [node name="LightSpawn" parent="." index="2"]
-position = Vector2(-227, -1036)
+position = Vector2(1119, -191)
 
 [node name="Floor" parent="Floors" index="0" instance=ExtResource("2_wh0w3")]
-position = Vector2(-224, -865)
+position = Vector2(548, 97)
 
 [node name="Floor2" parent="Floors" index="1" instance=ExtResource("2_wh0w3")]
-position = Vector2(167, 94)
+position = Vector2(262, 462)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
-position = Vector2(19, 339)
-shape = SubResource("RectangleShape2D_nh1id")
+[node name="Floor3" parent="Floors" index="2" instance=ExtResource("2_wh0w3")]
+position = Vector2(34, -278)
+
+[node name="Floor4" parent="Floors" index="3" instance=ExtResource("2_wh0w3")]
+position = Vector2(1126, 103)
+
+[node name="Floor5" parent="Floors" index="4" instance=ExtResource("2_wh0w3")]
+position = Vector2(1413, 421)
+
+[node name="Floor6" parent="Floors" index="5" instance=ExtResource("2_wh0w3")]
+position = Vector2(1531, -207)
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(90.625, 2268)
+shape = SubResource("RectangleShape2D_7g036")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="1"]
+position = Vector2(-3738, -4470)
+shape = SubResource("RectangleShape2D_l3y6m")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="2"]
+position = Vector2(102, -11365)
+shape = SubResource("RectangleShape2D_m3gne")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="OB" index="3"]
+position = Vector2(3924, -4481)
+shape = SubResource("RectangleShape2D_278n2")

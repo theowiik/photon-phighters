@@ -2,32 +2,42 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
 public partial class MapManager : Node2D
 {
+  public delegate void OutOfBoundsEvent(Player player);
+
   private const string MapsFolder = "res://Scenes/Maps";
 
-  public delegate void OutOfBoundsEvent(Player player);
+  /// <summary>
+  ///   A queue of maps to play. When the queue is empty, all maps in the MapsFolder will be added to the queue.
+  /// </summary>
+  private Queue<string> _mapsQueue = new Queue<string>();
 
   public Node2D DarkSpawn => CurrentMap.DarkSpawn;
   public Node2D LightSpawn => CurrentMap.LightSpawn;
   public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
   private Map CurrentMap => GetChild<Map>(0);
 
-  public void StartRandomMap()
+  /// <summary>
+  ///   Spawns the next map but does not enable map specific logic. See <see cref="StartNextMap" />.
+  /// </summary>
+  public void InitNextMap()
   {
-    // Remove all children
-    foreach (var child in GetChildren())
+    var cm = CurrentMap;
+    if (cm != null)
     {
-      RemoveChild(child);
-      child.QueueFree();
+      RemoveChild(cm);
+      cm.QueueFree();
     }
 
     // Start new map
-    var map = GetRandomMap();
+    var map = GetNextMap();
     AddChild(map);
+    map.CollisionsEnabled = false;
     map.OutOfBounds.BodyEntered += body =>
     {
       if (body is Player player)
@@ -37,7 +47,15 @@ public partial class MapManager : Node2D
     };
   }
 
-  private IList<string> GetAllFilesInDirectory(string directory, string extension)
+  /// <summary>
+  ///   Enables map specific logic.
+  /// </summary>
+  public void StartNextMap()
+  {
+    CurrentMap.CollisionsEnabled = true;
+  }
+
+  private IEnumerable<string> GetAllFilesInDirectory(string directory, string extension)
   {
     var dir = DirAccess.Open(directory);
     if (dir == null)
@@ -62,10 +80,15 @@ public partial class MapManager : Node2D
     return files.Where(file => file.EndsWith(extension)).ToList();
   }
 
-  private Map GetRandomMap()
+  private Map GetNextMap()
   {
-    var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
-    var mapName = maps[GD.RandRange(0, maps.Count - 1)];
+    if (_mapsQueue.Count == 0)
+    {
+      var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
+      _mapsQueue = new Queue<string>(maps.Shuffled());
+    }
+
+    var mapName = _mapsQueue.Dequeue();
     var mapScene = GD.Load<PackedScene>(mapName);
     return mapScene.Instantiate<Map>();
   }

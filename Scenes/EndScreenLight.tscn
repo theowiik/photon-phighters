@@ -1,18 +1,25 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3 uid="uid://baeu03tteo0kx"]
 
-[ext_resource type="Script" path="res://Scripts/MenuControllers/EndScreen.cs" id="1_juval"]
+[ext_resource type="AudioStream" uid="uid://c7op87ibmyxam" path="res://Music/LightWin/Free Background Chill Music - Dar Golan - 180bpm - 01-42.mp3" id="2_ea35o"]
 [ext_resource type="Texture2D" uid="uid://drvdhg48d02qt" path="res://Assets/Screens/light-wins.png" id="2_m7o5g"]
+[ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Sfx/Win/the light.mp3" id="3_l7brk"]
 
 [node name="EndScreenLight" type="Node2D"]
-script = ExtResource("1_juval")
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 3.0
 autostart = true
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-
 [node name="Darkness-wins" type="Sprite2D" parent="."]
 position = Vector2(645.667, 363.5)
 scale = Vector2(0.669444, 0.669444)
 texture = ExtResource("2_m7o5g")
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_ea35o")
+autoplay = true
+
+[node name="Yippi" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_l7brk")
+volume_db = 14.054
+autoplay = true

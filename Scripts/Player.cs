@@ -5,9 +5,23 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Player : CharacterBody2D
 {
+  [Signal]
+  public delegate void PlayerDiedEventHandler(Player player);
+
+  public delegate void PlayerEffectAdded(Node2D effect, Player who);
+
+  [Signal]
+  public delegate void PlayerHurtEventHandler(Player player, int damage);
+
+  public enum TeamEnum
+  {
+    Light,
+    Dark
+  }
+
   private bool _aimWithMouse = true;
 
-  private bool _freeze;
+  private bool _frozen;
 
   [GetNode("Marker2D")]
   private Marker2D _gunMarker;
@@ -23,30 +37,27 @@ public partial class Player : CharacterBody2D
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
-  [Signal]
-  public delegate void PlayerDiedEventHandler(Player player);
+  /// <summary>
+  ///   A player exits if they are alive and not frozen.
+  /// </summary>
+  public bool Exists => IsAlive && !Frozen;
 
-  public delegate void PlayerEffectAdded(Node2D effect, Player who);
-
-  [Signal]
-  public delegate void PlayerHurtEventHandler(Player player, int damage);
-
-  public enum TeamEnum
+  public bool Frozen
   {
-    Light,
-    Dark
-  }
-
-  public bool Freeze
-  {
-    get => _freeze;
+    get => _frozen;
     set
     {
-      _freeze = value;
-      Gun.Freeze = _freeze;
-      Health = MaxHealth;
+      // TODO: This basically acts as a reset for the player. Maybe refactor?
 
-      if (_freeze)
+      _frozen = value;
+      Gun.Frozen = _frozen;
+      Health = MaxHealth;
+      PlayerMovementDelegate.Reset();
+
+      var collisionShape = this.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
+      collisionShape.Disabled = _frozen;
+
+      if (_frozen)
       {
         PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Disabled;
         _playerEffectsDelegate.AnimationPlaySpawn();
@@ -90,7 +101,7 @@ public partial class Player : CharacterBody2D
 
   public override void _PhysicsProcess(double delta)
   {
-    if (Freeze)
+    if (!Exists)
     {
       return;
     }
@@ -132,12 +143,7 @@ public partial class Player : CharacterBody2D
 
   public void TakeDamage(int damage)
   {
-    if (Freeze)
-    {
-      return;
-    }
-
-    if (!IsAlive)
+    if (!Exists)
     {
       return;
     }
@@ -200,12 +206,7 @@ public partial class Player : CharacterBody2D
 
   private void OnBulletEntered(Area2D area)
   {
-    if (Freeze)
-    {
-      return;
-    }
-
-    if (!IsAlive)
+    if (!Exists)
     {
       return;
     }

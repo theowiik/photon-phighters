@@ -1,0 +1,120 @@
+[gd_scene load_steps=7 format=3 uid="uid://bdn8aabfdc1vi"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_gtyku"]
+[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_aj4nv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8x41"]
+size = Vector2(451.813, 7149.78)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b0x4f"]
+size = Vector2(370.5, 7446.13)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fm2j0"]
+size = Vector2(5517, 448)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eu2gs"]
+size = Vector2(5961, 212)
+
+[node name="FlippedMap" instance=ExtResource("1_gtyku")]
+
+[node name="ColorRect" parent="." index="0"]
+color = Color(0.541176, 0.466667, 0.403922, 1)
+
+[node name="DarkSpawn" parent="." index="1"]
+position = Vector2(379, 467)
+
+[node name="LightSpawn" parent="." index="2"]
+position = Vector2(654, -195)
+
+[node name="WrapperThing" type="Node2D" parent="Floors" index="0"]
+position = Vector2(59, 25)
+rotation = 0.656861
+
+[node name="FloorIsh" type="Node2D" parent="Floors/WrapperThing" index="0"]
+position = Vector2(-27, 337)
+
+[node name="Floor5" parent="Floors/WrapperThing/FloorIsh" index="0" instance=ExtResource("2_aj4nv")]
+position = Vector2(571, 73)
+scale = Vector2(0.784924, 0.912396)
+
+[node name="Floor6" parent="Floors/WrapperThing/FloorIsh" index="1" instance=ExtResource("2_aj4nv")]
+position = Vector2(682, 72)
+scale = Vector2(0.831538, 0.932648)
+
+[node name="Floor7" parent="Floors/WrapperThing/FloorIsh" index="2" instance=ExtResource("2_aj4nv")]
+position = Vector2(455, 74)
+scale = Vector2(0.875155, 0.908249)
+
+[node name="Floor8" parent="Floors/WrapperThing/FloorIsh" index="3" instance=ExtResource("2_aj4nv")]
+position = Vector2(802, 71)
+scale = Vector2(0.878702, 0.95893)
+
+[node name="FloorIsh2" type="Node2D" parent="Floors/WrapperThing" index="1"]
+position = Vector2(969, 337)
+
+[node name="Floor5" parent="Floors/WrapperThing/FloorIsh2" index="0" instance=ExtResource("2_aj4nv")]
+position = Vector2(571, 73)
+scale = Vector2(0.784924, 0.912396)
+
+[node name="Floor6" parent="Floors/WrapperThing/FloorIsh2" index="1" instance=ExtResource("2_aj4nv")]
+position = Vector2(682, 72)
+scale = Vector2(0.831538, 0.932648)
+
+[node name="Floor7" parent="Floors/WrapperThing/FloorIsh2" index="2" instance=ExtResource("2_aj4nv")]
+position = Vector2(455, 74)
+scale = Vector2(0.875155, 0.908249)
+
+[node name="Floor8" parent="Floors/WrapperThing/FloorIsh2" index="3" instance=ExtResource("2_aj4nv")]
+position = Vector2(802, 71)
+scale = Vector2(0.878702, 0.95893)
+
+[node name="FloorIsh3" type="Node2D" parent="Floors/WrapperThing" index="2"]
+position = Vector2(471, -62)
+
+[node name="Floor5" parent="Floors/WrapperThing/FloorIsh3" index="0" instance=ExtResource("2_aj4nv")]
+position = Vector2(571, 73)
+scale = Vector2(0.784924, 0.912396)
+
+[node name="Floor6" parent="Floors/WrapperThing/FloorIsh3" index="1" instance=ExtResource("2_aj4nv")]
+position = Vector2(682, 72)
+scale = Vector2(0.831538, 0.932648)
+
+[node name="Floor7" parent="Floors/WrapperThing/FloorIsh3" index="2" instance=ExtResource("2_aj4nv")]
+position = Vector2(455, 74)
+scale = Vector2(0.875155, 0.908249)
+
+[node name="Floor8" parent="Floors/WrapperThing/FloorIsh3" index="3" instance=ExtResource("2_aj4nv")]
+position = Vector2(802, 71)
+scale = Vector2(0.878702, 0.95893)
+
+[node name="Floor5" parent="Floors/WrapperThing" index="3" instance=ExtResource("2_aj4nv")]
+position = Vector2(145, -48)
+scale = Vector2(0.656893, 3.82054)
+
+[node name="Floor6" parent="Floors/WrapperThing" index="4" instance=ExtResource("2_aj4nv")]
+position = Vector2(307, -358)
+scale = Vector2(3.17562, 0.725314)
+
+[node name="Floor7" parent="Floors/WrapperThing" index="5" instance=ExtResource("2_aj4nv")]
+position = Vector2(135, -668)
+scale = Vector2(0.656893, 3.82054)
+
+[node name="Floor8" parent="Floors/WrapperThing" index="6" instance=ExtResource("2_aj4nv")]
+position = Vector2(899, -537)
+scale = Vector2(3.17562, 0.725314)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(3744, -1279.11)
+shape = SubResource("RectangleShape2D_o8x41")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="1"]
+position = Vector2(-1865, -1435.94)
+shape = SubResource("RectangleShape2D_b0x4f")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="2"]
+position = Vector2(1180.5, -4876)
+shape = SubResource("RectangleShape2D_fm2j0")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
+position = Vector2(940, 2433)
+shape = SubResource("RectangleShape2D_eu2gs")

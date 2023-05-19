@@ -5,11 +5,14 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Gun : Node2D
 {
+  [Signal]
+  public delegate void ShootDelegateEventHandler(Node2D bullet);
+
   private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
 
-  private readonly Color _loadedModulationColor = new(1, 1, 1);
+  private readonly Color _loadedModulationColor = new Color(1, 1, 1);
 
-  private readonly Color _reloadModulationColor = new(1, 1, 1, 0.1f);
+  private readonly Color _reloadModulationColor = new Color(1, 1, 1, 0.1f);
 
   private float _fireRate;
 
@@ -20,9 +23,6 @@ public partial class Gun : Node2D
 
   [GetNode("Timer")]
   private Timer _shootTimer;
-
-  [Signal]
-  public delegate void ShootDelegateEventHandler(Node2D bullet);
 
   public int BulletCount { get; set; } = 3;
 
@@ -52,7 +52,7 @@ public partial class Gun : Node2D
     }
   }
 
-  public bool Freeze { get; set; }
+  public bool Frozen { get; set; }
   public Light.LightMode LightMode { get; set; }
   public string ShootActionName { get; set; }
 
@@ -68,7 +68,7 @@ public partial class Gun : Node2D
 
   public override void _PhysicsProcess(double delta)
   {
-    if (Freeze)
+    if (Frozen)
     {
       return;
     }

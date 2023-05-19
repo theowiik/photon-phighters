@@ -5,6 +5,11 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Map : Node2D
 {
+  public bool CollisionsEnabled
+  {
+    set => OutOfBounds.Monitoring = value;
+  }
+
   [GetNode("DarkSpawn")]
   public Node2D DarkSpawn { get; set; }
 

@@ -1,16 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
 public static class PowerUpManager
 {
-  private static readonly IList<IPowerUp> SPowerUps;
+  public enum Rarity
+  {
+    Common = 4,
+    Rare = 2,
+    Legendary = 1
+  }
+
+  private static readonly IList<IPowerUp> s_allPowerUps;
+
+  // List of power ups, with duplicates to represent the rarity
+  private static readonly IList<IPowerUp> s_powerUpsRarity;
 
   static PowerUpManager()
   {
-    SPowerUps = new List<IPowerUp>
+    s_allPowerUps = new List<IPowerUp>
     {
       new PhotonBoost(),
       new HealthBoost(),
@@ -22,27 +33,69 @@ public static class PowerUpManager
       new Gravitronizer(),
       new PhotonMuncher(),
       new AirWalker(),
-      new GeneratorEngine()
+      new GeneratorEngine(),
+      new MiniGun(),
+      new Sniper()
     };
-  }
 
-  public interface IPowerUp
-  {
-    string Name { get; }
-
-    void Apply(Player player);
+    s_powerUpsRarity = new List<IPowerUp>();
+    foreach (var powerUp in s_allPowerUps)
+    {
+      for (var i = 0; i < (int)powerUp.Rarity; i++)
+      {
+        s_powerUpsRarity.Add(powerUp);
+      }
+    }
   }
 
   public static IEnumerable<IPowerUp> GetAllPowerUps()
   {
-    return SPowerUps;
+    return s_allPowerUps;
   }
 
   public static IPowerUp GetRandomPowerup()
   {
     var random = new Random();
-    var randomIndex = random.Next(0, SPowerUps.Count);
-    return SPowerUps[randomIndex];
+    var randomIndex = random.Next(0, s_allPowerUps.Count);
+    return s_allPowerUps[randomIndex];
+  }
+
+  // Gets n power ups. At least nRare should be rare or better (legendary)
+  public static IEnumerable<IPowerUp> GetUniquePowerUpsWithRarity(int n, int nRare)
+  {
+    if (n <= 0 || nRare <= 0)
+    {
+      throw new ArgumentException("n and nRare must be greater than 0");
+    }
+
+    if (nRare > n)
+    {
+      throw new ArgumentException("Rare amount must be lesser than the total amount");
+    }
+
+    var rares = s_powerUpsRarity.Where(p => p.Rarity == Rarity.Rare).ToList();
+    var raresAdded = 0;
+
+    var output = new List<IPowerUp>();
+    while (output.Count < n)
+    {
+      // Force selection of rare powerups until minimum is reached
+      var p = raresAdded < nRare ? rares.Sample() : s_powerUpsRarity.Sample();
+
+      if (output.Contains(p))
+      {
+        continue;
+      }
+
+      if (p.Rarity == Rarity.Rare)
+      {
+        raresAdded++;
+      }
+
+      output.Add(p);
+    }
+
+    return output.Shuffled();
   }
 
   /// <summary>
@@ -66,8 +119,8 @@ public static class PowerUpManager
     var powerUps = new List<IPowerUp>();
     while (powerUps.Count < n)
     {
-      var randomIndex = random.Next(0, SPowerUps.Count);
-      var powerUp = SPowerUps[randomIndex];
+      var randomIndex = random.Next(0, s_allPowerUps.Count);
+      var powerUp = s_allPowerUps[randomIndex];
 
       // Add unique powerup
       if (!powerUps.Contains(powerUp))
@@ -76,18 +129,28 @@ public static class PowerUpManager
       }
 
       // All unique powerups added, add duplicates
-      if (powerUps.Count >= SPowerUps.Count)
+      if (powerUps.Count >= s_allPowerUps.Count)
       {
         powerUps.Add(powerUp);
       }
     }
 
-    return powerUps.Shuffle();
+    return powerUps.Shuffled();
+  }
+
+  public interface IPowerUp
+  {
+    string Name { get; }
+    Rarity Rarity { get; }
+
+    void Apply(Player player);
   }
 
   private class AirWalker : IPowerUp
   {
     public string Name => "Air Walker";
+
+    public Rarity Rarity => Rarity.Common;
 
     public void Apply(Player player)
     {
@@ -99,6 +162,8 @@ public static class PowerUpManager
   {
     public string Name => "Bunny Boost";
 
+    public Rarity Rarity => Rarity.Common;
+
     public void Apply(Player player)
     {
       player.PlayerMovementDelegate.JumpForce += 300;
@@ -108,6 +173,8 @@ public static class PowerUpManager
   private class GeneratorEngine : IPowerUp
   {
     public string Name => "Generator Engine";
+
+    public Rarity Rarity => Rarity.Rare;
 
     public void Apply(Player player)
     {
@@ -119,6 +186,8 @@ public static class PowerUpManager
   private class GlassCannon : IPowerUp
   {
     public string Name => "Glass Cannon";
+
+    public Rarity Rarity => Rarity.Rare;
 
     public void Apply(Player player)
     {
@@ -132,6 +201,8 @@ public static class PowerUpManager
   {
     public string Name => "Gravitronizer";
 
+    public Rarity Rarity => Rarity.Common;
+
     public void Apply(Player player)
     {
       player.Gun.BulletGravity = 0.0f;
@@ -142,6 +213,8 @@ public static class PowerUpManager
   {
     public string Name => "Health Boost";
 
+    public Rarity Rarity => Rarity.Common;
+
     public void Apply(Player player)
     {
       player.MaxHealth = (int)(player.MaxHealth * 1.5f);
@@ -151,6 +224,8 @@ public static class PowerUpManager
   private class PhotonAccelerator : IPowerUp
   {
     public string Name => "Photon Accelerator";
+
+    public Rarity Rarity => Rarity.Common;
 
     public void Apply(Player player)
     {
@@ -163,6 +238,8 @@ public static class PowerUpManager
   {
     public string Name => "Photon Boost";
 
+    public Rarity Rarity => Rarity.Common;
+
     public void Apply(Player player)
     {
       player.PlayerMovementDelegate.Speed += 200;
@@ -172,6 +249,8 @@ public static class PowerUpManager
   private class PhotonEnlarger : IPowerUp
   {
     public string Name => "Photon Enlarger";
+
+    public Rarity Rarity => Rarity.Common;
 
     public void Apply(Player player)
     {
@@ -186,6 +265,8 @@ public static class PowerUpManager
   {
     public string Name => "Photon Multiplier";
 
+    public Rarity Rarity => Rarity.Rare;
+
     public void Apply(Player player)
     {
       player.Gun.BulletCount = (int)Math.Ceiling(player.Gun.BulletCount * 1.5f);
@@ -195,13 +276,45 @@ public static class PowerUpManager
 
   private class PhotonMuncher : IPowerUp
   {
-    public string Name => "Photon Muncher";
+    public string Name => "Mega Photon Muncher";
+
+    public Rarity Rarity => Rarity.Rare;
 
     public void Apply(Player player)
     {
       player.MaxHealth *= 2;
-      player.PlayerMovementDelegate.Speed -= -150.0f;
+      player.PlayerMovementDelegate.Speed -= -200.0f;
       player.Gun.BulletSpread *= 1.2f;
+    }
+  }
+
+  private class MiniGun : IPowerUp
+  {
+    public string Name => "1 000 000 lumen";
+
+    public Rarity Rarity => Rarity.Legendary;
+
+    public void Apply(Player player)
+    {
+      player.Gun.BulletCount += 8;
+      player.Gun.BulletDamage = 1;
+      player.Gun.BulletSpread += 0.3f;
+      player.Gun.FireRate += 3;
+    }
+  }
+
+  private class Sniper : IPowerUp
+  {
+    public string Name => "Photon Sniper";
+
+    public Rarity Rarity => Rarity.Legendary;
+
+    public void Apply(Player player)
+    {
+      player.Gun.BulletCount = 1;
+      player.Gun.BulletDamage = 50;
+      player.Gun.BulletSpread = 0.01f;
+      player.Gun.FireRate -= 3;
     }
   }
 }

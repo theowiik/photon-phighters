@@ -81,6 +81,7 @@ public partial class World : Node2D
     _players = GetTree().GetNodesInGroup("players").Cast<Player>();
     foreach (var player in _players)
     {
+      player.Frozen = true;
       player.PlayerDied += OnPlayerDied;
       player.PlayerHurt += OnPlayerHurt;
       player.Gun.ShootDelegate += OnShoot;
@@ -97,7 +98,6 @@ public partial class World : Node2D
     }
 
     // Start round
-    _mapManager.StartRandomMap();
     SetupCapturePoint();
     StartRound();
   }
@@ -111,7 +111,7 @@ public partial class World : Node2D
 
     if (@event.IsActionPressed("ui_left"))
     {
-      _mapManager.StartRandomMap();
+      _mapManager.InitNextMap();
     }
   }
 
@@ -150,7 +150,7 @@ public partial class World : Node2D
 
   private static void OnOutOfBounds(Player player)
   {
-    if (player.IsAlive)
+    if (player.Exists)
     {
       player.TakeDamage(99999);
     }
@@ -204,14 +204,17 @@ public partial class World : Node2D
 
     player.GlobalPosition =
       player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
-    player.Freeze = true;
+    player.Frozen = true;
 
-    var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
-    liveTimer.Timeout += () =>
-    {
-      player.Freeze = false;
-      player.IsAlive = true;
-    };
+    var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(
+      3.5f,
+      () =>
+      {
+        player.Frozen = false;
+        player.IsAlive = true;
+      }
+    );
+
     AddChild(liveTimer);
     liveTimer.Start();
   }
@@ -245,17 +248,21 @@ public partial class World : Node2D
 
   private void OnRoundFinished()
   {
-    GD.Print("Round ended");
-
     foreach (var player in _players)
     {
-      player.Freeze = true;
+      player.Frozen = true;
     }
 
     // Remove all bullets
     foreach (var bullet in GetTree().GetNodesInGroup("bullets"))
     {
       bullet.QueueFree();
+    }
+
+    // Remove all capture points
+    foreach (var capturePoint in GetTree().GetNodesInGroup("capture_points"))
+    {
+      capturePoint.QueueFree();
     }
 
     var results = GetResults();
@@ -279,11 +286,9 @@ public partial class World : Node2D
       _darkWin.Play();
     }
 
-    _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
+    _overlay.TotalScore = $"Light: {_score.Light}/{ScoreToWin} - Dark: {_score.Dark}/{ScoreToWin}";
     if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
     {
-      GD.Print("Game over");
-
       if (_score.Light > _score.Dark)
       {
         GetTree().ChangeSceneToFile("res://Scenes/EndScreenLight.tscn");
@@ -389,39 +394,41 @@ public partial class World : Node2D
 
   private void StartRound()
   {
+    _mapManager.InitNextMap();
     ResetLights();
+
+    _lightPlayer.GlobalPosition = _mapManager.LightSpawn.GlobalPosition;
+    _darkPlayer.GlobalPosition = _mapManager.DarkSpawn.GlobalPosition;
+    ForceUpdateTransform();
 
     foreach (var player in _players)
     {
-      player.Freeze = false;
+      player.Frozen = false;
     }
 
+    // TODO: Hack to ensure players are moved before activating the map
+    AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
+    // _mapManager.StartNextMap(); // <- Should be done similar to this
     _roundTimer.Start(RoundTime);
   }
 
   private void TogglePause()
   {
-    var isPaused = !_pauseOverlay.Visible;
-    _pauseOverlay.Visible = isPaused;
-
-    if (isPaused)
-    {
-      _pauseOverlay.GrabFocus();
-    }
-
+    var isPaused = !_pauseOverlay.Enabled;
+    _pauseOverlay.Enabled = isPaused;
     GetTree().Paused = isPaused;
   }
 
   private void UpdateRoundTimer()
   {
-    _overlay.Time = $"{_roundTimer.TimeLeft.ToString("0.0")}s";
+    _overlay.Time = $"{_roundTimer.TimeLeft:0.0}s";
   }
 
   private void UpdateScore()
   {
     var results = GetResults();
 
-    if (results.Light == 0 && results.Dark == 0)
+    if (results is { Light: 0, Dark: 0 })
     {
       return;
     }
