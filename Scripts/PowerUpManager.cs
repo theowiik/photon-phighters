@@ -7,7 +7,6 @@ namespace PhotonPhighters.Scripts;
 
 public static class PowerUpManager
 {
-
   public enum Rarity
   {
     Common = 4,
@@ -318,5 +317,4 @@ public static class PowerUpManager
       player.Gun.FireRate -= 3;
     }
   }
-
 }

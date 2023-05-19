@@ -83,7 +83,6 @@ public partial class PowerUpPicker : Control
 
     powerUps = PowerUpManager.GetUniquePowerUpsWithRarity(4, 1);
 
-
     foreach (var powerUp in powerUps)
     {
       var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
@@ -101,12 +100,7 @@ public partial class PowerUpPicker : Control
 
       // Disable at first
       powerUpButton.Disabled = true;
-      AddChild(
-        TimerFactory.OneShotSelfDestructingStartedTimer(
-          2, () =>
-            powerUpButton.Disabled = false
-        )
-      );
+      AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(2, () => powerUpButton.Disabled = false));
 
       _gridContainer.AddChild(powerUpButton);
     }
