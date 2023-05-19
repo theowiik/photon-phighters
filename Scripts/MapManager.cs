@@ -85,7 +85,7 @@ public partial class MapManager : Node2D
     if (_mapsQueue.Count == 0)
     {
       var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
-      _mapsQueue = new Queue<string>(maps.Shuffle());
+      _mapsQueue = new Queue<string>(maps.Shuffled());
     }
 
     var mapName = _mapsQueue.Dequeue();

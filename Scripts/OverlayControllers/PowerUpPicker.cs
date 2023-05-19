@@ -11,7 +11,7 @@ public partial class PowerUpPicker : Control
   // Non Godot signal since Godot doesnt support custom types
   public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
-  public const bool DevMode = true;
+  public const bool DevMode = false;
 
   private const int AmountPowerUps = 4;
 
@@ -82,7 +82,7 @@ public partial class PowerUpPicker : Control
     }
     else
     {
-      powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
+      powerUps = PowerUpManager.GetUniquePowerUpsWithRarity(4, 1);
     }
 
 

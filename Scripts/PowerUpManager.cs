@@ -70,15 +70,39 @@ public static class PowerUpManager
   // Gets n power ups. At least nRare should be rare or better (legendary)
   public static IEnumerable<IPowerUp> GetUniquePowerUpsWithRarity(int n, int nRare)
   {
-    var common = s_powerUpsRarity.Select(p => p.Rarity == Rarity.Common).ToList();
-    var rare = s_powerUpsRarity.Select(p => p.Rarity == Rarity.Rare).ToList();
-    var legendary = s_powerUpsRarity.Select(p => p.Rarity == Rarity.Legendary).ToList();
+    if (n <= 0 || nRare <= 0)
+    {
+      throw new ArgumentException("n and nRare must be greater than 0");
+    }
+
+    if (nRare > n)
+    {
+      throw new ArgumentException("Rare amount must be lesser than the total amount");
+    }
+
+    var rares = s_powerUpsRarity.Where(p => p.Rarity == Rarity.Rare).ToList();
+    var raresAdded = 0;
 
     var output = new List<IPowerUp>();
-    
-    for (var i = 0; i < nRare; i++)
+    while (output.Count < n)
     {
+      // Force selection of rare powerups until minimum is reached
+      var p = raresAdded < nRare ? rares.Sample() : s_powerUpsRarity.Sample();
+
+      if (output.Contains(p))
+      {
+        continue;
+      }
+
+      if (p.Rarity == Rarity.Rare)
+      {
+        raresAdded++;
+      }
+
+      output.Add(p);
     }
+
+    return output.Shuffled();
   }
 
   /// <summary>
@@ -118,7 +142,7 @@ public static class PowerUpManager
       }
     }
 
-    return powerUps.Shuffle();
+    return powerUps.Shuffled();
   }
 
   private class AirWalker : IPowerUp
