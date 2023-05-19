@@ -283,7 +283,7 @@ public partial class World : Node2D
       _darkWin.Play();
     }
 
-    _overlay.TotalScore = $"Lightness: {_score.Light}, Darkness: {_score.Dark}, Ties: {_score.Ties}";
+    _overlay.TotalScore = $"Light: {_score.Light}/{ScoreToWin} - Dark: {_score.Dark}/{ScoreToWin}";
     if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
     {
       if (_score.Light > _score.Dark)
