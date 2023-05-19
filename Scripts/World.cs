@@ -206,12 +206,12 @@ public partial class World : Node2D
       player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
     player.Frozen = true;
 
-    var liveTimer = new Timer { OneShot = true, WaitTime = 2 };
-    liveTimer.Timeout += () =>
+    var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(3.5f, () =>
     {
       player.Frozen = false;
       player.IsAlive = true;
-    };
+    });
+
     AddChild(liveTimer);
     liveTimer.Start();
   }
