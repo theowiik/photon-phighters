@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://1pdbu7d42w7u"]
+[gd_scene load_steps=7 format=3 uid="uid://bjurl5flah6m2"]
 
 [ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_8jdpi"]
 [ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_wh0w3"]
@@ -22,7 +22,7 @@ offset_left = -15193.0
 offset_top = -15331.0
 offset_right = 16120.0
 offset_bottom = 6616.0
-color = Color(0.215686, 0.262745, 0.360784, 1)
+color = Color(0.384314, 0.45098, 0.588235, 1)
 
 [node name="DarkSpawn" parent="." index="1"]
 position = Vector2(546, -183)

@@ -11,7 +11,7 @@ public partial class PowerUpPicker : Control
   // Non Godot signal since Godot doesnt support custom types
   public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
-  public const bool DevMode = false;
+  public const bool DevMode = true;
 
   private const int AmountPowerUps = 4;
 
@@ -80,13 +80,25 @@ public partial class PowerUpPicker : Control
     {
       powerUps = PowerUpManager.GetAllPowerUps();
     }
+    else
+    {
+      powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
+    }
 
-    powerUps = PowerUpManager.GetUniquePowerUps(AmountPowerUps);
 
     foreach (var powerUp in powerUps)
     {
       var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
-      powerUpButton.Text = powerUp.Name;
+
+      var rarityText = powerUp.Rarity switch
+      {
+        PowerUpManager.Rarity.Common => "",
+        PowerUpManager.Rarity.Rare => "(rare)",
+        PowerUpManager.Rarity.Legendary => "(LEGENDARY)",
+        _ => throw new KeyNotFoundException("Rarity not supported")
+      };
+
+      powerUpButton.Text = rarityText + powerUp.Name;
       powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
 
       // Disable at first
