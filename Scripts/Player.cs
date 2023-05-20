@@ -20,17 +20,9 @@ public partial class Player : CharacterBody2D
   }
 
   private bool _aimWithMouse = true;
-  private bool _frozen;
 
-  private bool CanTakeDamage
-  {
-    get => _canTakeDamage;
-    set
-    {
-      _canTakeDamage = value;
-      ApplyInvincibilityShader(!_canTakeDamage);
-    }
-  }
+  private bool _canTakeDamage;
+  private bool _frozen;
 
   [GetNode("Marker2D")]
   private Marker2D _gunMarker;
@@ -46,7 +38,15 @@ public partial class Player : CharacterBody2D
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
-  private bool _canTakeDamage;
+  private bool CanTakeDamage
+  {
+    get => _canTakeDamage;
+    set
+    {
+      _canTakeDamage = value;
+      ApplyInvincibilityShader(!_canTakeDamage);
+    }
+  }
 
   /// <summary>
   ///   A player exits if they are alive and not frozen.
@@ -72,9 +72,7 @@ public partial class Player : CharacterBody2D
       }
       else
       {
-        AddChild(
-          TimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true)
-        );
+        AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true));
       }
 
       // Disable collisions
