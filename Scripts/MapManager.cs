@@ -20,7 +20,7 @@ public partial class MapManager : Node2D
   public Node2D DarkSpawn => CurrentMap.DarkSpawn;
   public Node2D LightSpawn => CurrentMap.LightSpawn;
   public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
-  private Map CurrentMap => GetChild<Map>(0);
+  private Map CurrentMap => GetChildOrNull<Map>(0);
 
   /// <summary>
   ///   Spawns the next map but does not enable map specific logic. See <see cref="StartNextMap" />.

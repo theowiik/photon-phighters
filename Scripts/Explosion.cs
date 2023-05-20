@@ -29,6 +29,7 @@ public partial class Explosion : Node2D
   public override void _Ready()
   {
     this.AutoWire();
+    Explode();
   }
 
   public void Explode()
@@ -43,6 +44,7 @@ public partial class Explosion : Node2D
 
   public void SetRadius(ExplosionRadiusEnum radius)
   {
+
     var shape = _area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
     shape.Shape = new CircleShape2D { Radius = (int)radius };
   }

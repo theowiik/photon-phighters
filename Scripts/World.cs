@@ -376,8 +376,8 @@ public partial class World : Node2D
         : _ragdollDarkScene.Instantiate<RigidBody2D>();
     var timer = TimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
     ragdoll.AddChild(timer);
+    CallDeferred("add_child", ragdoll);
 
-    AddChild(ragdoll);
     ragdoll.GlobalPosition = player.GlobalPosition;
     var angleVec = -Vector2.Right.Rotated((float)GD.RandRange(0, Math.PI));
     ragdoll.ApplyCentralImpulse(angleVec * (float)GD.RandRange(1000f, 1500f));
@@ -434,8 +434,6 @@ public partial class World : Node2D
     }
 
     _overlay.RoundScore = results;
-    GD.Print("Round score: " + results.Light + " - " + results.Dark);
-    GD.Print((float)results.Light / (results.Light + results.Dark));
   }
 
   public struct Results
