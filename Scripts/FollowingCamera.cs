@@ -25,8 +25,6 @@ public partial class FollowingCamera : Camera2D
       return;
     }
 
-    HandleZoomInput();
-
     var targetPosition = Vector2.Zero;
     foreach (var target in _targets)
     {
@@ -46,19 +44,6 @@ public partial class FollowingCamera : Camera2D
 
     // Zoom
     FitZoom();
-  }
-
-  private void HandleZoomInput()
-  {
-    if (Input.IsActionJustPressed("camera_zoom_in"))
-    {
-      _zoomFactor += 0.1f;
-    }
-
-    if (Input.IsActionJustPressed("camera_zoom_out"))
-    {
-      _zoomFactor -= 0.1f;
-    }
   }
 
   public void AddTarget(Node2D target)

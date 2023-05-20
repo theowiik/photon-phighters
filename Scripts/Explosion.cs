@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
 
@@ -24,50 +23,49 @@ public partial class Explosion : Node2D
   [GetNode("ExplosionPlayer")]
   private AudioStreamPlayer2D _explosionPlayer;
 
+  private bool _hasExploded;
+
   public Light.LightMode LightMode { get; set; }
+  public ExplosionRadiusEnum Radius { get; set; } = ExplosionRadiusEnum.Medium;
 
   public override void _Ready()
   {
     this.AutoWire();
+
+    var shape = _area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
+    shape.Shape = new CircleShape2D { Radius = (int)Radius };
+  }
+
+  public override async void _PhysicsProcess(double delta)
+  {
+    if (_hasExploded)
+    {
+      return;
+    }
+
+    _hasExploded = true;
+    await ToSignal(GetTree(), "physics_frame");
     Explode();
   }
 
-  public void Explode()
+  private void Explode()
   {
     _explosionParticles.Emitting = true;
     _explosionPlayer.Play();
     ColorLightsInsideRadius();
-    var timer = TimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime);
-    timer.Timeout += QueueFree;
-    AddChild(timer);
+    AddChild(TimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime, () => QueueFree()));
   }
 
-  public void SetRadius(ExplosionRadiusEnum radius)
+  private void ColorLightsInsideRadius()
   {
-
-    var shape = _area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
-    shape.Shape = new CircleShape2D { Radius = (int)radius };
-  }
-
-  private async void ColorLightsInsideRadius()
-  {
-    var lights = await GetAllLightsInsideArea();
-    foreach (var light in lights)
+    foreach (var light in GetAllLightsInsideArea())
     {
       light.SetLight(LightMode);
     }
   }
 
-  private async Task<IEnumerable<Light>> GetAllLightsInsideArea()
+  private IEnumerable<Light> GetAllLightsInsideArea()
   {
-    await ToSignal(GetTree(), "process_frame");
-    await ToSignal(GetTree(), "process_frame");
-    await ToSignal(GetTree(), "process_frame");
-    await ToSignal(GetTree(), "process_frame");
-    await ToSignal(GetTree(), "process_frame");
-    await ToSignal(GetTree(), "process_frame");
-    await ToSignal(GetTree(), "process_frame");
-    var areas = _area.GetOverlappingAreas();
-    return areas.OfType<Light>();
+    return _area.GetOverlappingAreas().OfType<Light>();
   }
 }

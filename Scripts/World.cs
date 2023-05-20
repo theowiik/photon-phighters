@@ -109,9 +109,9 @@ public partial class World : Node2D
       _roundTimer.Start(0.00001);
     }
 
-    if (@event.IsActionPressed("ui_left"))
+    if (@event.IsActionPressed("ui_up"))
     {
-      _mapManager.InitNextMap();
+      SpawnExplosion(_lightPlayer, Light.LightMode.Light, Explosion.ExplosionRadiusEnum.Large);
     }
   }
 
@@ -352,10 +352,9 @@ public partial class World : Node2D
   {
     var explosion = _explosionScene.Instantiate<Explosion>();
     explosion.LightMode = who;
-    AddChild(explosion);
-    explosion.SetRadius(explosionRadius);
+    explosion.Radius = explosionRadius;
+    CallDeferred("add_child", explosion);
     explosion.GlobalPosition = where.GlobalPosition;
-    explosion.Explode();
     _camera.Shake(0.6f, FollowingCamera.ShakeStrength.Strong);
   }
 
