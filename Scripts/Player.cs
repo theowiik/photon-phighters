@@ -61,11 +61,23 @@ public partial class Player : CharacterBody2D
       // TODO: This basically acts as a reset for the player. Maybe refactor?
 
       _frozen = value;
-      CanTakeDamage = !_frozen;
       Gun.Frozen = _frozen;
       Health = MaxHealth;
       PlayerMovementDelegate.Reset();
 
+      // Disable damage or add invincibility to prevent spawn camping
+      if (_frozen)
+      {
+        CanTakeDamage = false;
+      }
+      else
+      {
+        AddChild(
+          TimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true)
+        );
+      }
+
+      // Disable collisions
       var collisionShape = this.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
       collisionShape.Disabled = _frozen;
 
