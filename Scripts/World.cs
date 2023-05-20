@@ -286,7 +286,7 @@ public partial class World : Node2D
       _darkWin.Play();
     }
 
-    _overlay.TotalScore = $"Light: {_score.Light}/{ScoreToWin} - Dark: {_score.Dark}/{ScoreToWin}";
+    _overlay.TotalScore = $"Light vs Dark: {_score.Light} - {_score.Dark}";
     if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
     {
       if (_score.Light > _score.Dark)
@@ -421,7 +421,7 @@ public partial class World : Node2D
 
   private void UpdateRoundTimer()
   {
-    _overlay.Time = $"{_roundTimer.TimeLeft:0.0}s";
+    _overlay.Time = $"{_roundTimer.TimeLeft:0.0}";
   }
 
   private void UpdateScore()
@@ -434,6 +434,8 @@ public partial class World : Node2D
     }
 
     _overlay.RoundScore = results;
+    GD.Print("Round score: " + results.Light + " - " + results.Dark);
+    GD.Print((float)results.Light / (results.Light + results.Dark));
   }
 
   public struct Results
