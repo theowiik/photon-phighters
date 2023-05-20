@@ -20,8 +20,17 @@ public partial class Player : CharacterBody2D
   }
 
   private bool _aimWithMouse = true;
-
   private bool _frozen;
+
+  private bool CanTakeDamage
+  {
+    get => _canTakeDamage;
+    set
+    {
+      _canTakeDamage = value;
+      ApplyInvincibilityShader(!_canTakeDamage);
+    }
+  }
 
   [GetNode("Marker2D")]
   private Marker2D _gunMarker;
@@ -37,6 +46,8 @@ public partial class Player : CharacterBody2D
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
+  private bool _canTakeDamage;
+
   /// <summary>
   ///   A player exits if they are alive and not frozen.
   /// </summary>
@@ -50,6 +61,7 @@ public partial class Player : CharacterBody2D
       // TODO: This basically acts as a reset for the player. Maybe refactor?
 
       _frozen = value;
+      CanTakeDamage = !_frozen;
       Gun.Frozen = _frozen;
       Health = MaxHealth;
       PlayerMovementDelegate.Reset();
@@ -139,9 +151,23 @@ public partial class Player : CharacterBody2D
     Health = MaxHealth;
   }
 
+  private void ApplyInvincibilityShader(bool apply)
+  {
+    if (apply)
+    {
+      var shader = GD.Load<Shader>("res://Shaders/simple_shader.gdshader");
+      var shaderMaterial = new ShaderMaterial { Shader = shader };
+      _sprite2D.Material = shaderMaterial;
+    }
+    else
+    {
+      _sprite2D.Material = null;
+    }
+  }
+
   public void TakeDamage(int damage)
   {
-    if (!Exists)
+    if (!Exists || !CanTakeDamage)
     {
       return;
     }
