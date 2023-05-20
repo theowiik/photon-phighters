@@ -15,7 +15,7 @@ public partial class MapManager : Node2D
   /// <summary>
   ///   A queue of maps to play. When the queue is empty, all maps in the MapsFolder will be added to the queue.
   /// </summary>
-  private Queue<string> _mapsQueue = new Queue<string>();
+  private Queue<string> _mapsQueue = new();
 
   public Node2D DarkSpawn => CurrentMap.DarkSpawn;
   public Node2D LightSpawn => CurrentMap.LightSpawn;

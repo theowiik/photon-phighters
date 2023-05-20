@@ -21,6 +21,7 @@ public partial class Player : CharacterBody2D
 
   private bool _aimWithMouse = true;
 
+  private bool _canTakeDamage;
   private bool _frozen;
 
   [GetNode("Marker2D")]
@@ -36,6 +37,16 @@ public partial class Player : CharacterBody2D
 
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
+
+  private bool CanTakeDamage
+  {
+    get => _canTakeDamage;
+    set
+    {
+      _canTakeDamage = value;
+      ApplyInvincibilityShader(!_canTakeDamage);
+    }
+  }
 
   /// <summary>
   ///   A player exits if they are alive and not frozen.
@@ -54,18 +65,27 @@ public partial class Player : CharacterBody2D
       Health = MaxHealth;
       PlayerMovementDelegate.Reset();
 
+      // Disable damage or add invincibility to prevent spawn camping
+      if (_frozen)
+      {
+        CanTakeDamage = false;
+      }
+      else
+      {
+        AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true));
+      }
+
+      // Disable collisions
       var collisionShape = this.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
       collisionShape.Disabled = _frozen;
 
       if (_frozen)
       {
         PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Disabled;
-        _playerEffectsDelegate.AnimationPlaySpawn();
       }
       else
       {
         PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Inherit;
-        _sprite2D.Modulate = Colors.White;
       }
     }
   }
@@ -141,9 +161,23 @@ public partial class Player : CharacterBody2D
     Health = MaxHealth;
   }
 
+  private void ApplyInvincibilityShader(bool apply)
+  {
+    if (apply)
+    {
+      var shader = GD.Load<Shader>("res://Shaders/simple_shader.gdshader");
+      var shaderMaterial = new ShaderMaterial { Shader = shader };
+      _sprite2D.Material = shaderMaterial;
+    }
+    else
+    {
+      _sprite2D.Material = null;
+    }
+  }
+
   public void TakeDamage(int damage)
   {
-    if (!Exists)
+    if (!Exists || !CanTakeDamage)
     {
       return;
     }
