@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.World;
 
@@ -10,7 +11,7 @@ public partial class Overlay : Control
   private RichTextLabel _logs;
 
   [GetNode("VBox/RoundScoreBar")]
-  private TextureProgressBar _roundScoreBar;
+  private ProgressBar _roundScoreBar;
 
   [GetNode("VBox/RoundTimerLabel")]
   private Label _timerLabel;
@@ -18,9 +19,17 @@ public partial class Overlay : Control
   [GetNode("VBox/TotalScoreLabel")]
   private Label _totalScoreLabel;
 
+  [GetNode("VBox/RoundScoreLabel")]
+  private Label _roundScoreLabel;
+
   public Results RoundScore
   {
-    set => _roundScoreBar.Value = (float)value.Dark / (value.Light + value.Dark);
+    set
+    {
+      var pLight = value.Light / (float)(value.Light + value.Dark);
+      _roundScoreBar.Value = pLight;
+      _roundScoreLabel.Text = $"{Math.Round(pLight * 100)}% - {Math.Round((1 - pLight) * 100)}%";
+    }
   }
 
   public string Time

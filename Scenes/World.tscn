@@ -24,7 +24,7 @@ glow_hdr_scale = 2.12
 script = ExtResource("1_lvc03")
 
 [node name="UIUpdateTimer" type="Timer" parent="."]
-wait_time = 0.1
+wait_time = 0.04
 autostart = true
 
 [node name="RoundTimer" type="Timer" parent="."]

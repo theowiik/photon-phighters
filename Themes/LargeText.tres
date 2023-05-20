@@ -1,4 +1,7 @@
-[gd_resource type="Theme" format=3 uid="uid://byf4lfjyrbtkt"]
+[gd_resource type="Theme" load_steps=2 format=3 uid="uid://byf4lfjyrbtkt"]
+
+[ext_resource type="FontFile" uid="uid://dmjapkgffohxu" path="res://Assets/Fonts/digitalt-font/Digitalt-04no.ttf" id="1_5fbge"]
 
 [resource]
 Label/font_sizes/font_size = 42
+Label/fonts/font = ExtResource("1_5fbge")
