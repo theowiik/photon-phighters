@@ -16,7 +16,7 @@ public partial class FollowingCamera : Camera2D
   private readonly IList<Node2D> _targets = new List<Node2D>();
   private float _remainingShakeTime;
   private ShakeStrength _shakeStrength;
-  private float _zoomFactor = 0.15f;
+  private const float ZoomFactor = 0.15f;
 
   public override void _PhysicsProcess(double delta)
   {
@@ -104,6 +104,6 @@ public partial class FollowingCamera : Camera2D
     var targetZoom = Mathf.Min(screenBounds.X / bounds.Size.X, screenBounds.Y / bounds.Size.Y);
 
     // Smoothly adjust the camera's zoom level and set its offset to the center of the bounding box
-    Zoom = Zoom.Lerp(new Vector2(targetZoom + _zoomFactor, targetZoom + _zoomFactor), 1);
+    Zoom = Zoom.Lerp(new Vector2(targetZoom + ZoomFactor, targetZoom + ZoomFactor), 1);
   }
 }

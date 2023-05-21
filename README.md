@@ -1,18 +1,8 @@
 # Photon Phighters 🥊 🔦 🎮
 
 <center>
-  <img src=".README/gameplay.png" style="width: 70%;"></img>
+    <img src=".README/gameplay.png" style="width: 70%;"></img>
 </center>
-
-## TOC 📚
-
-- [Photon Phighters 🥊 🔦 🎮](#photon-phighters---)
-  - [TOC 📚](#toc-)
-  - [About 📖](#about-)
-  - [Development 💻](#development-)
-    - [Dependencies 📦](#dependencies-)
-    - [Formatting 💾](#formatting-)
-  - [Gameplay 🕹️](#gameplay-️)
 
 ## About 📖
 
@@ -20,7 +10,7 @@ A game by [theowiik](google.com), [erikwessman](https://github.com/erikwessman),
 
 The final state of the game jam can be found in the [game-jam-final](https://github.com/theowiik/project-epicfootsies/tree/game-jam-final) branch.
 
-## Development 💻
+## Development Setup 💻
 
 Dependencies and formatting.
 
