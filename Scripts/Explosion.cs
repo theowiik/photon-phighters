@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
 
@@ -36,7 +37,7 @@ public partial class Explosion : Node2D
     shape.Shape = new CircleShape2D { Radius = (int)Radius };
   }
 
-  public override async void _PhysicsProcess(double delta)
+  public override void _PhysicsProcess(double delta)
   {
     if (_hasExploded)
     {
@@ -44,12 +45,12 @@ public partial class Explosion : Node2D
     }
 
     _hasExploded = true;
-    await ToSignal(GetTree(), "physics_frame");
     Explode();
   }
 
-  private void Explode()
+  private async Task Explode()
   {
+    await ToSignal(GetTree(), "physics_frame");
     _explosionParticles.Emitting = true;
     _explosionPlayer.Play();
     ColorLightsInsideRadius();
