@@ -10,7 +10,7 @@ public partial class PowerUpPicker : Control
 {
   public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
-  public const bool DevMode = false;
+  public static readonly bool DevMode = false;
 
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;

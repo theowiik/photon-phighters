@@ -17,9 +17,9 @@ public static class TimerFactory
   /// <returns>
   ///   The timer.
   /// </returns>
-  public static Timer OneShotSelfDestructingStartedTimer(double waitTime, Action onTimeout = null)
+  public static Timer OneShotSelfDestructingStartedTimer(double waitTime, Action onTimeout)
   {
-    var timer = OneShotStartedTimer(waitTime);
+    var timer = OneShotStartedTimer(waitTime, () => { });
     timer.Timeout += () =>
     {
       onTimeout?.Invoke();
@@ -40,7 +40,7 @@ public static class TimerFactory
   /// <returns>
   ///   The timer.
   /// </returns>
-  public static Timer OneShotStartedTimer(double waitTime, Action onTimeout = null)
+  public static Timer OneShotStartedTimer(double waitTime, Action onTimeout)
   {
     var timer = new Timer
     {
@@ -60,19 +60,19 @@ public static class TimerFactory
   /// <summary>
   ///   Creates a looping timer.
   /// </summary>
-  /// <param name="timeBetweenCapturePoint">
+  /// <param name="waitTime">
   ///   The time between capture points.
   /// </param>
   /// <returns>
   ///   The timer.
   /// </returns>
-  public static Timer StartedTimer(int timeBetweenCapturePoint)
+  public static Timer StartedTimer(int waitTime)
   {
     var timer = new Timer
     {
       Autostart = true,
       OneShot = false,
-      WaitTime = timeBetweenCapturePoint
+      WaitTime = waitTime
     };
 
     return timer;

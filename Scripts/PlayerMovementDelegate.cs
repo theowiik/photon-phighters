@@ -100,8 +100,6 @@ public partial class PlayerMovementDelegate : Node
     WalkAnimationHandler();
   }
 
-  public override void _Ready() { }
-
   public void AddKnockback(Vector2 knockback)
   {
     _knockback += knockback;

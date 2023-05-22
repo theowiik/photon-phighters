@@ -142,10 +142,9 @@ public partial class PlayerEffectsDelegate : Node2D
   private static Node2D GenerateParticles(PackedScene particlesScene)
   {
     var instance = particlesScene.Instantiate<CpuParticles2D>();
-    var timer = TimerFactory.OneShotStartedTimer(instance.Lifetime);
+    var timer = TimerFactory.OneShotStartedTimer(instance.Lifetime, () => instance.QueueFree());
 
     instance.Emitting = true;
-    timer.Timeout += () => instance.QueueFree();
     instance.AddChild(timer);
 
     return instance;
