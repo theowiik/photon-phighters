@@ -441,35 +441,15 @@ public partial class World : Node2D
 
   public struct Results
   {
-    public int Dark;
-    public int Light;
-    public int Neutral;
-
-    public static bool operator !=(Results left, Results right)
-    {
-      return !(left == right);
-    }
-
-    public static bool operator ==(Results left, Results right)
-    {
-      return left.Equals(right);
-    }
-
-    public override bool Equals(object obj)
-    {
-      throw new NotImplementedException();
-    }
-
-    public override int GetHashCode()
-    {
-      throw new NotImplementedException();
-    }
+    public int Dark { get; set; }
+    public int Light { get; set; }
+    public int Neutral { get; set; }
   }
 
   private struct Score
   {
-    public int Dark;
-    public int Light;
-    public int Ties;
+    public int Dark  { get; set; }
+    public int Light { get; set; }
+    public int Ties { get; set; }
   }
 }
