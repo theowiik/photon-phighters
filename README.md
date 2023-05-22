@@ -18,8 +18,8 @@ Dependencies and formatting.
 
 ### Dependencies 📦
 
-  - Godot 4
-  - DOTNET 7
+- Godot 4
+- DOTNET 7
 
 ### Formatting 💾
 
