@@ -181,6 +181,9 @@ public partial class World : Node2D
         case Light.LightMode.None:
           results.Neutral++;
           break;
+
+        default:
+          throw new ArgumentOutOfRangeException("Light state is not a valid state");
       }
     }
 
