@@ -28,13 +28,13 @@ public partial class LightFloor : StaticBody2D
   private void BasicLightPlacement()
   {
     // TODO: Dont hardcode side length
-    var sideLength = 130;
+    const int SideLength = 130;
 
-    var half = sideLength / 2;
-    var lights = 20;
-    var lightsPerSide = lights / 4;
-    var distancePerSide = sideLength / lightsPerSide;
-    var baseSide = BuildSide(new Vector2(half, -half), lightsPerSide, distancePerSide);
+    const int Half = SideLength / 2;
+    const int Lights = 20;
+    const int LightsPerSide = Lights / 4;
+    const int DistancePerSide = SideLength / LightsPerSide;
+    var baseSide = BuildSide(new Vector2(Half, -Half), LightsPerSide, DistancePerSide);
 
     for (var i = 0; i < 4; i++)
     {

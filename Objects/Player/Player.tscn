@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cmxhv53no4cy5"]
+[gd_scene load_steps=23 format=3 uid="uid://cmxhv53no4cy5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
@@ -10,7 +10,6 @@
 [ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Sfx/damage2.wav" id="8_k35ro"]
 [ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Sfx/fall-death.wav" id="9_jshgc"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovementDelegate.cs" id="10_ueqen"]
-[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="11_5ihw1"]
 
 [sub_resource type="Animation" id="Animation_xkv87"]
 length = 0.001
@@ -157,9 +156,6 @@ bg_color = Color(0, 0.709804, 0.490196, 1)
 [sub_resource type="Theme" id="Theme_hil3n"]
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_ctffe")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_wxhag"]
-size = Vector2(16, 69)
-
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 collision_mask = 5
 script = ExtResource("1_be4dv")
@@ -228,17 +224,3 @@ theme = SubResource("Theme_hil3n")
 max_value = 1.0
 value = 0.66
 show_percentage = false
-
-[node name="PinJoint2D" type="PinJoint2D" parent="."]
-
-[node name="Sprite2D" type="Sprite2D" parent="PinJoint2D"]
-position = Vector2(-163, 39)
-scale = Vector2(0.1875, 0.859375)
-texture = ExtResource("11_5ihw1")
-
-[node name="RigidBody2D" type="RigidBody2D" parent="PinJoint2D"]
-position = Vector2(-300, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="PinJoint2D/RigidBody2D"]
-position = Vector2(-120, 42)
-shape = SubResource("RectangleShape2D_wxhag")

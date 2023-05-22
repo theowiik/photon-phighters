@@ -13,14 +13,14 @@ public partial class Overlay : Control
   [GetNode("VBox/RoundScoreBar")]
   private ProgressBar _roundScoreBar;
 
+  [GetNode("VBox/RoundScoreLabel")]
+  private Label _roundScoreLabel;
+
   [GetNode("VBox/RoundTimerLabel")]
   private Label _timerLabel;
 
   [GetNode("VBox/TotalScoreLabel")]
   private Label _totalScoreLabel;
-
-  [GetNode("VBox/RoundScoreLabel")]
-  private Label _roundScoreLabel;
 
   public Results RoundScore
   {

@@ -1,35 +1,31 @@
-# Photon Phighters 🥊 🔦
+# Photon Phighters 🥊 🔦 🎮
 
-- [Photon Phighters 🥊 🔦](#photon-phighters--)
-  - [About](#about)
-  - [Development](#development)
-    - [Requirements](#requirements)
-    - [Formatting](#formatting)
-  - [Gameplay](#gameplay)
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a7cdd8e90c164c07ba1ab313c843a1df)](https://app.codacy.com/gh/theowiik/photon-phighters/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
-## About
+<center>
+    <img src=".README/gameplay.png" style="width: 70%;"></img>
+</center>
+
+## About 📖
 
 A game by [theowiik](google.com), [erikwessman](https://github.com/erikwessman), and [elias-carlson](https://github.com/elias-carlson) for "March Game Jam 23'" https://itch.io/jam/march-game-jam-23.
 
 The final state of the game jam can be found in the [game-jam-final](https://github.com/theowiik/project-epicfootsies/tree/game-jam-final) branch.
 
-## Development
+## Development Setup 💻
 
-How to press keys on the keyboard to make the computer do things.
+Dependencies and formatting.
 
-### Requirements
+### Dependencies 📦
 
 - Godot 4
+- DOTNET 7
 
-### Formatting
+### Formatting 💾
 
-The project must be formated with https://csharpier.com/. Additionaly, it can be formatted with:
+The project must be formated with <https://csharpier.com/>.
 
-1. dotnet-format
-2. Rider / ReSharper
-3. Visual Studio & CodeMaid
-
-## Gameplay
+## Gameplay 🕹️
 
 In Photon Phighters, two teams battle to cover the map with light or darkness by firing their flashlight.
 

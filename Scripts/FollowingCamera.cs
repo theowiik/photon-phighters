@@ -16,7 +16,7 @@ public partial class FollowingCamera : Camera2D
   private readonly IList<Node2D> _targets = new List<Node2D>();
   private float _remainingShakeTime;
   private ShakeStrength _shakeStrength;
-  private float _zoomFactor = 0.15f;
+  private const float ZoomFactor = 0.15f;
 
   public override void _PhysicsProcess(double delta)
   {
@@ -24,8 +24,6 @@ public partial class FollowingCamera : Camera2D
     {
       return;
     }
-
-    HandleZoomInput();
 
     var targetPosition = Vector2.Zero;
     foreach (var target in _targets)
@@ -46,19 +44,6 @@ public partial class FollowingCamera : Camera2D
 
     // Zoom
     FitZoom();
-  }
-
-  private void HandleZoomInput()
-  {
-    if (Input.IsActionJustPressed("camera_zoom_in"))
-    {
-      _zoomFactor += 0.1f;
-    }
-
-    if (Input.IsActionJustPressed("camera_zoom_out"))
-    {
-      _zoomFactor -= 0.1f;
-    }
   }
 
   public void AddTarget(Node2D target)
@@ -119,6 +104,6 @@ public partial class FollowingCamera : Camera2D
     var targetZoom = Mathf.Min(screenBounds.X / bounds.Size.X, screenBounds.Y / bounds.Size.Y);
 
     // Smoothly adjust the camera's zoom level and set its offset to the center of the bounding box
-    Zoom = Zoom.Lerp(new Vector2(targetZoom + _zoomFactor, targetZoom + _zoomFactor), 1);
+    Zoom = Zoom.Lerp(new Vector2(targetZoom + ZoomFactor, targetZoom + ZoomFactor), 1);
   }
 }
