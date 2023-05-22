@@ -77,7 +77,6 @@ public partial class Light : Area2D
       return;
     }
 
-    // _animationPlayer.Play("pulsate");
     LightState = lightMode;
     _lightSprite.Visible = true;
     _lightSprite.Modulate = LightState == LightMode.Light ? _lightColorModulate : _darkColorModulate;

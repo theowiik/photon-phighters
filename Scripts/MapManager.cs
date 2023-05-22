@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -60,7 +61,10 @@ public partial class MapManager : Node2D
     var dir = DirAccess.Open(directory);
     if (dir == null)
     {
-      HandleError("Could not open directory: " + directory);
+      var msg = "Could not open directory: " + directory;
+      GD.PrintErr(msg);
+      GetTree().Quit();
+      throw new FileNotFoundException(msg);
     }
 
     var files = new List<string>();
@@ -91,12 +95,5 @@ public partial class MapManager : Node2D
     var mapName = _mapsQueue.Dequeue();
     var mapScene = GD.Load<PackedScene>(mapName);
     return mapScene.Instantiate<Map>();
-  }
-
-  private void HandleError(string message)
-  {
-    Console.WriteLine(message);
-    GD.PrintErr(message);
-    GetTree().Quit();
   }
 }

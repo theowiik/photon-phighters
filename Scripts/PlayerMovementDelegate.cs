@@ -10,12 +10,12 @@ public partial class PlayerMovementDelegate : Node
   private const int AerodynamicHeatingVelocity = 10_000;
 
   private const float Gravity = 800;
-  private float _acceleration = 12f;
-  private float _deceleration = 12f;
-  private float _glideGravityScale = 0.5f;
+  private const float Acceleration = 12f;
+  private const float Deceleration = 12f;
+  private const float GlideGravityScale = 0.5f;
+  private const float KnockbackDecayRate = 0.04f;
   private int _jumpCount;
   private Vector2 _knockback;
-  private float _knockbackDecayRate = 0.04f;
   private bool _onFloorLastCall;
   private float _speed = 800;
   private Vector2 _velocity;
@@ -41,7 +41,7 @@ public partial class PlayerMovementDelegate : Node
 
     // Walking
     var targetSpeed = inputDirection.X * Speed;
-    var acceleration = inputDirection.X != 0 ? _acceleration : _deceleration;
+    var acceleration = inputDirection.X != 0 ? Acceleration : Deceleration;
     _velocity.X = Mathf.Lerp(_velocity.X, targetSpeed, acceleration * (float)delta);
 
     // Jumping
@@ -66,7 +66,7 @@ public partial class PlayerMovementDelegate : Node
     // Gliding on walls
     if (onWall)
     {
-      _velocity.Y += Gravity * _glideGravityScale * (float)delta;
+      _velocity.Y += Gravity * GlideGravityScale * (float)delta;
     }
     else
     {
@@ -91,7 +91,7 @@ public partial class PlayerMovementDelegate : Node
 
     // Knockback
     _velocity += _knockback;
-    _knockback *= _knockbackDecayRate * (float)delta;
+    _knockback *= KnockbackDecayRate * (float)delta;
 
     // Apply movement
     CharacterBody.Velocity = _velocity;
