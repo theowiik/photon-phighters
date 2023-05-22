@@ -21,7 +21,7 @@ public partial class PowerUpPicker : Control
   [GetNode("Label")]
   private Label _label;
 
-  private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
+  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
 
   public TeamEnum WinningSide
   {
