@@ -1,5 +1,7 @@
 # Photon Phighters 🥊 🔦 🎮
 
+[![Codacy Badge](https://app.codacy.com/project/badge/Grade/a7cdd8e90c164c07ba1ab313c843a1df)](https://app.codacy.com/gh/theowiik/photon-phighters/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
+
 <center>
     <img src=".README/gameplay.png" style="width: 70%;"></img>
 </center>
@@ -16,8 +18,8 @@ Dependencies and formatting.
 
 ### Dependencies 📦
 
-- Godot 4
-- DOTNET 7
+  - Godot 4
+  - DOTNET 7
 
 ### Formatting 💾
 
