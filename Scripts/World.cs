@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
 
@@ -94,7 +95,7 @@ public partial class World : Node2D
 
     if (_lightPlayer == null || _darkPlayer == null)
     {
-      throw new Exception("Could not find players");
+      throw new NodeNotFoundException("Could not find both players");
     }
 
     // Start round
