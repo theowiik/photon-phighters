@@ -22,25 +22,16 @@ public partial class Overlay : Control
   [GetNode("VBox/TotalScoreLabel")]
   private Label _totalScoreLabel;
 
-  public Results RoundScore
+  public void SetRoundScore(Results value)
   {
-    set
-    {
-      var pLight = value.Light / (float)(value.Light + value.Dark);
-      _roundScoreBar.Value = pLight;
-      _roundScoreLabel.Text = $"{Math.Round(pLight * 100)}% - {Math.Round((1 - pLight) * 100)}%";
-    }
+    var pLight = value.Light / (float)(value.Light + value.Dark);
+    _roundScoreBar.Value = pLight;
+    _roundScoreLabel.Text = $"{Math.Round(pLight * 100)}% - {Math.Round((1 - pLight) * 100)}%";
   }
 
-  public string Time
-  {
-    set => _timerLabel.Text = value;
-  }
+  public void SetTime(string value) => _timerLabel.Text = value;
 
-  public string TotalScore
-  {
-    set => _totalScoreLabel.Text = value;
-  }
+  public void SetTotalScore(string value) => _totalScoreLabel.Text = value;
 
   public override void _Ready()
   {

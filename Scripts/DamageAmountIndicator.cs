@@ -10,13 +10,10 @@ public partial class DamageAmountIndicator : Node2D
   private const float Speed = 600;
   private Vector2 _velocity;
 
-  public string Message
+  public void SetMessage(string value)
   {
-    set
-    {
-      var label = this.GetNodeOrExplode<Label>("Label");
-      label.Text = value;
-    }
+    var label = this.GetNodeOrExplode<Label>("Label");
+    label.Text = value;
   }
 
   public override void _PhysicsProcess(double delta)

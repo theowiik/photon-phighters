@@ -289,7 +289,7 @@ public partial class World : Node2D
       _darkWin.Play();
     }
 
-    _overlay.TotalScore = $"Light vs Dark: {_score.Light} - {_score.Dark}";
+    _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
     if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
     {
       if (_score.Light > _score.Dark)
@@ -367,7 +367,7 @@ public partial class World : Node2D
     indicator.AddChild(TimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
     AddChild(indicator);
     indicator.GlobalPosition = player.GlobalPosition;
-    indicator.Message = msg;
+    indicator.SetMessage(msg);
   }
 
   private void SpawnRagdoll(Player player)
@@ -423,7 +423,7 @@ public partial class World : Node2D
 
   private void UpdateRoundTimer()
   {
-    _overlay.Time = $"{_roundTimer.TimeLeft:0.0}";
+    _overlay.SetTime($"{_roundTimer.TimeLeft:0.0}");
   }
 
   private void UpdateScore()
@@ -435,7 +435,7 @@ public partial class World : Node2D
       return;
     }
 
-    _overlay.RoundScore = results;
+    _overlay.SetRoundScore(results);
   }
 
   public struct Results

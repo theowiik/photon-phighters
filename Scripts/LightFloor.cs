@@ -6,7 +6,7 @@ namespace PhotonPhighters.Scripts;
 
 public partial class LightFloor : StaticBody2D
 {
-  private PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
+  private readonly PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
 
   public override void _Ready()
   {

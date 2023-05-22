@@ -37,7 +37,7 @@ public partial class MapManager : Node2D
     // Start new map
     var map = GetNextMap();
     AddChild(map);
-    map.CollisionsEnabled = false;
+    map.SetCollisionsEnabled(false);
     map.OutOfBounds.BodyEntered += body =>
     {
       if (body is Player player)
@@ -52,7 +52,7 @@ public partial class MapManager : Node2D
   /// </summary>
   public void StartNextMap()
   {
-    CurrentMap.CollisionsEnabled = true;
+    CurrentMap.SetCollisionsEnabled(true);
   }
 
   private IEnumerable<string> GetAllFilesInDirectory(string directory, string extension)
