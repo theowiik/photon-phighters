@@ -166,7 +166,7 @@ public partial class World : Node2D
     {
       if (light is not Light lightNode)
       {
-        throw new Exception("Light node is not a Light!!");
+        throw new NodeNotFoundException("Light node is not a Light!!");
       }
 
       switch (lightNode.LightState)
@@ -383,7 +383,7 @@ public partial class World : Node2D
 
   private void StartPowerUpSelection()
   {
-    _powerUpPicker.WinningSide = _lastPlayerToScore.Team;
+    _powerUpPicker.SetWinningSide(_lastPlayerToScore.Team);
     _powerUpPicker.Visible = true;
     _powerUpPicker.GrabFocus();
     _powerUpPicker.Reset();

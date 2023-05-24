@@ -21,27 +21,24 @@ public partial class PowerUpPicker : Control
   [GetNode("Label")]
   private Label _label;
 
-  public TeamEnum WinningSide
+  public void SetWinningSide(TeamEnum value)
   {
-    set
+    switch (value)
     {
-      switch (value)
-      {
-        case TeamEnum.Light:
-          _backgroundRect.Color = new Color(1, 1, 1, 0.5f);
-          _label.Modulate = Colors.Black;
-          _label.Text = "Light team won! Darkness, pick a helping hand";
-          break;
+      case TeamEnum.Light:
+        _backgroundRect.Color = new Color(1, 1, 1, 0.5f);
+        _label.Modulate = Colors.Black;
+        _label.Text = "Light team won! Darkness, pick a helping hand";
+        break;
 
-        case TeamEnum.Dark:
-          _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
-          _label.Modulate = Colors.White;
-          _label.Text = "Dark team won! Lightness, pick a helping hand";
-          break;
+      case TeamEnum.Dark:
+        _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
+        _label.Modulate = Colors.White;
+        _label.Text = "Dark team won! Lightness, pick a helping hand";
+        break;
 
-        default:
-          throw new ArgumentOutOfRangeException(nameof(value), value, null);
-      }
+      default:
+        throw new ArgumentOutOfRangeException(nameof(value), value, null);
     }
   }
 

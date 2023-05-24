@@ -44,7 +44,7 @@ public partial class PlayerEffectsDelegate : Node2D
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
 
-  public PlayerEffectPerformed PlayerEffectAddedListeners;
+  public PlayerEffectPerformed PlayerEffectAddedListeners { get; set; }
 
   public Sprite2D PlayerSprite { get; set; }
 
