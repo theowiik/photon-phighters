@@ -10,8 +10,6 @@ public partial class PowerUpPicker : Control
 {
   public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
-  public const bool DevMode = false;
-
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;
 
@@ -21,7 +19,7 @@ public partial class PowerUpPicker : Control
   [GetNode("Label")]
   private Label _label;
 
-  private PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
+  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
 
   public TeamEnum WinningSide
   {
@@ -71,14 +69,7 @@ public partial class PowerUpPicker : Control
 
   private void Populate()
   {
-    IEnumerable<PowerUpManager.IPowerUp> powerUps;
-
-    if (DevMode)
-    {
-      powerUps = PowerUpManager.GetAllPowerUps();
-    }
-
-    powerUps = PowerUpManager.GetUniquePowerUpsWithRarity(4, 1);
+    var powerUps = PowerUpManager.GetUniquePowerUpsWithRarity(4, 1);
 
     foreach (var powerUp in powerUps)
     {

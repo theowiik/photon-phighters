@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.IO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
@@ -37,7 +38,7 @@ public partial class MapManager : Node2D
     // Start new map
     var map = GetNextMap();
     AddChild(map);
-    map.CollisionsEnabled = false;
+    map.SetCollisionsEnabled(false);
     map.OutOfBounds.BodyEntered += body =>
     {
       if (body is Player player)
@@ -52,7 +53,7 @@ public partial class MapManager : Node2D
   /// </summary>
   public void StartNextMap()
   {
-    CurrentMap.CollisionsEnabled = true;
+    CurrentMap.SetCollisionsEnabled(true);
   }
 
   private IEnumerable<string> GetAllFilesInDirectory(string directory, string extension)
@@ -60,7 +61,10 @@ public partial class MapManager : Node2D
     var dir = DirAccess.Open(directory);
     if (dir == null)
     {
-      HandleError("Could not open directory: " + directory);
+      var msg = "Could not open directory: " + directory;
+      GD.PrintErr(msg);
+      GetTree().Quit();
+      throw new FileNotFoundException(msg);
     }
 
     var files = new List<string>();
@@ -91,12 +95,5 @@ public partial class MapManager : Node2D
     var mapName = _mapsQueue.Dequeue();
     var mapScene = GD.Load<PackedScene>(mapName);
     return mapScene.Instantiate<Map>();
-  }
-
-  private void HandleError(string message)
-  {
-    Console.WriteLine(message);
-    GD.PrintErr(message);
-    GetTree().Quit();
   }
 }

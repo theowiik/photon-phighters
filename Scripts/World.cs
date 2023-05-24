@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
 
@@ -94,7 +95,7 @@ public partial class World : Node2D
 
     if (_lightPlayer == null || _darkPlayer == null)
     {
-      throw new Exception("Could not find players");
+      throw new NodeNotFoundException("Could not find both players");
     }
 
     // Start round
@@ -181,6 +182,9 @@ public partial class World : Node2D
         case Light.LightMode.None:
           results.Neutral++;
           break;
+
+        default:
+          throw new ArgumentOutOfRangeException("Light state is not a valid state");
       }
     }
 
@@ -234,12 +238,6 @@ public partial class World : Node2D
   {
     _powerUpPicker.Visible = false;
 
-    if (PowerUpPicker.DevMode)
-    {
-      powerUp.Apply(_lightPlayer);
-      powerUp.Apply(_darkPlayer);
-    }
-
     var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
     powerUp.Apply(loser);
 
@@ -286,7 +284,7 @@ public partial class World : Node2D
       _darkWin.Play();
     }
 
-    _overlay.TotalScore = $"Light vs Dark: {_score.Light} - {_score.Dark}";
+    _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
     if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
     {
       if (_score.Light > _score.Dark)
@@ -364,7 +362,7 @@ public partial class World : Node2D
     indicator.AddChild(TimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
     AddChild(indicator);
     indicator.GlobalPosition = player.GlobalPosition;
-    indicator.Message = msg;
+    indicator.SetMessage(msg);
   }
 
   private void SpawnRagdoll(Player player)
@@ -420,7 +418,7 @@ public partial class World : Node2D
 
   private void UpdateRoundTimer()
   {
-    _overlay.Time = $"{_roundTimer.TimeLeft:0.0}";
+    _overlay.SetTime($"{_roundTimer.TimeLeft:0.0}");
   }
 
   private void UpdateScore()
@@ -432,40 +430,20 @@ public partial class World : Node2D
       return;
     }
 
-    _overlay.RoundScore = results;
+    _overlay.SetRoundScore(results);
   }
 
   public struct Results
   {
-    public int Dark;
-    public int Light;
-    public int Neutral;
-
-    public static bool operator !=(Results left, Results right)
-    {
-      return !(left == right);
-    }
-
-    public static bool operator ==(Results left, Results right)
-    {
-      return left.Equals(right);
-    }
-
-    public override bool Equals(object obj)
-    {
-      throw new NotImplementedException();
-    }
-
-    public override int GetHashCode()
-    {
-      throw new NotImplementedException();
-    }
+    public int Dark { get; set; }
+    public int Light { get; set; }
+    public int Neutral { get; set; }
   }
 
   private struct Score
   {
-    public int Dark;
-    public int Light;
-    public int Ties;
+    public int Dark { get; set; }
+    public int Light { get; set; }
+    public int Ties { get; set; }
   }
 }

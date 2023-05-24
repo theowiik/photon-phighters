@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -26,9 +27,9 @@ public partial class Light : Area2D
 
   public override void _Draw()
   {
-    const bool debugDraw = false;
+    const bool DebugDraw = false;
 
-    if (!debugDraw)
+    if (!DebugDraw)
     {
       return;
     }
@@ -47,6 +48,9 @@ public partial class Light : Area2D
 
       case LightMode.None:
         break;
+
+      default:
+        throw new ArgumentOutOfRangeException();
     }
 
     DrawCircle(Vector2.Zero, 5, color);
@@ -73,7 +77,6 @@ public partial class Light : Area2D
       return;
     }
 
-    // _animationPlayer.Play("pulsate");
     LightState = lightMode;
     _lightSprite.Visible = true;
     _lightSprite.Modulate = LightState == LightMode.Light ? _lightColorModulate : _darkColorModulate;
