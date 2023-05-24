@@ -7,8 +7,8 @@ public partial class Bullet : Area2D
 {
   private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private Vector2 _velocity;
-  public int Damage { get; set; } = 10;
   public float GravityFactor { get; set; } = 1.0f;
+  public int Damage { get; set; } = 10;
   public Light.LightMode LightMode { get; set; } = Light.LightMode.Dark;
   public float Speed { get; set; }
 

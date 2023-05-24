@@ -13,10 +13,10 @@ public partial class FollowingCamera : Camera2D
     Uber
   }
 
+  private const float ZoomFactor = 0.15f;
   private readonly IList<Node2D> _targets = new List<Node2D>();
   private float _remainingShakeTime;
   private ShakeStrength _shakeStrength;
-  private const float ZoomFactor = 0.15f;
 
   public override void _PhysicsProcess(double delta)
   {
