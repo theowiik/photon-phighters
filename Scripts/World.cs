@@ -238,12 +238,6 @@ public partial class World : Node2D
   {
     _powerUpPicker.Visible = false;
 
-    if (PowerUpPicker.DevMode)
-    {
-      powerUp.Apply(_lightPlayer);
-      powerUp.Apply(_darkPlayer);
-    }
-
     var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
     powerUp.Apply(loser);
 
