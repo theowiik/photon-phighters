@@ -442,7 +442,7 @@ public partial class World : Node2D
 
   private struct Score
   {
-    public int Dark  { get; set; }
+    public int Dark { get; set; }
     public int Light { get; set; }
     public int Ties { get; set; }
   }

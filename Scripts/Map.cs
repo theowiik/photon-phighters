@@ -18,6 +18,6 @@ public partial class Map : Node2D
   {
     this.AutoWire();
   }
-  
+
   public void SetCollisionsEnabled(bool value) => OutOfBounds.Monitoring = value;
 }
