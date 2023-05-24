@@ -12,7 +12,7 @@ public partial class Bullet : Area2D
   public Light.LightMode LightMode { get; set; } = Light.LightMode.Dark;
   public float Speed { get; set; }
 
-  public static readonly bool ValueToTriggerError = true;
+  public static readonly bool ValueToTriggerError = false;
 
   public override void _PhysicsProcess(double delta)
   {
