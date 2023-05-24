@@ -10,6 +10,8 @@ public partial class PowerUpPicker : Control
 {
   public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
 
+  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
+
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;
 
@@ -18,8 +20,6 @@ public partial class PowerUpPicker : Control
 
   [GetNode("Label")]
   private Label _label;
-
-  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
 
   public TeamEnum WinningSide
   {
