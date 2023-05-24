@@ -433,17 +433,67 @@ public partial class World : Node2D
     _overlay.SetRoundScore(results);
   }
 
-  public struct Results
+  public struct Results : IEquatable<Results>
   {
     public int Dark { get; set; }
     public int Light { get; set; }
     public int Neutral { get; set; }
+
+    public bool Equals(Results other)
+    {
+      return Dark == other.Dark && Light == other.Light && Neutral == other.Neutral;
+    }
+
+    public override bool Equals(object obj)
+    {
+      return obj is Results other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(Dark, Light, Neutral);
+    }
+
+    public static bool operator ==(Results left, Results right)
+    {
+      return left.Equals(right);
+    }
+
+    public static bool operator !=(Results left, Results right)
+    {
+      return !left.Equals(right);
+    }
   }
 
-  private struct Score
+  private struct Score : IEquatable<Score>
   {
     public int Dark { get; set; }
     public int Light { get; set; }
     public int Ties { get; set; }
+
+    public bool Equals(Score other)
+    {
+      return Dark == other.Dark && Light == other.Light && Ties == other.Ties;
+    }
+
+    public override bool Equals(object obj)
+    {
+      return obj is Score other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(Dark, Light, Ties);
+    }
+
+    public static bool operator ==(Score left, Score right)
+    {
+      return left.Equals(right);
+    }
+
+    public static bool operator !=(Score left, Score right)
+    {
+      return !left.Equals(right);
+    }
   }
 }
