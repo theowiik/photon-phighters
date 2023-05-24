@@ -40,13 +40,16 @@ public sealed class GetNodeAttribute : Attribute
       throw new ArgumentException($"Node is not a valid type. Expected {expectedType} got {childNode.GetType()}");
     }
 
-    if (memberInfo is FieldInfo)
+    switch (memberInfo)
     {
-      ((FieldInfo)memberInfo).SetValue(node, childNode);
-    }
-    else
-    {
-      ((PropertyInfo)memberInfo).SetValue(node, childNode);
+      case FieldInfo fieldInformation:
+        fieldInformation.SetValue(node, childNode);
+        break;
+      case PropertyInfo propertyInformation:
+        propertyInformation.SetValue(node, childNode);
+        break;
+      default:
+        throw new ArgumentException($"MemberInfo is not a valid type. Expected {nameof(FieldInfo)} or {nameof(PropertyInfo)} got {memberInfo.GetType()}");
     }
   }
 }
