@@ -49,7 +49,9 @@ public sealed class GetNodeAttribute : Attribute
         propertyInformation.SetValue(node, childNode);
         break;
       default:
-        throw new ArgumentException($"MemberInfo is not a valid type. Expected {nameof(FieldInfo)} or {nameof(PropertyInfo)} got {memberInfo.GetType()}");
+        throw new ArgumentException(
+          $"MemberInfo is not a valid type. Expected {nameof(FieldInfo)} or {nameof(PropertyInfo)} got {memberInfo.GetType()}"
+        );
     }
   }
 }
