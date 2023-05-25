@@ -6,27 +6,25 @@ namespace PhotonPhighters.Scripts;
 public partial class PlayerEffectsDelegate : Node2D
 {
   public delegate void PlayerEffectPerformed(Node2D effect);
-
   private const string JumpAnimation = "stretch_jump";
-
   private const string LandAnimation = "squish_land";
-
   private const string RunLeftAnimation = "running_left";
-
   private const string RunRightAnimation = "running_right";
-
   private const string SpawnAnimation = "spawn";
-
   private const string Wall = "squish_wall";
-
   private readonly Color _hurtColor = new(0.8f, 0, 0);
+
+  private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
+    "res://Objects/Player/Particles/HurtParticles.tscn"
+  );
+
+  // TODO: Create a object pool for particles
+  private readonly PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
+    "res://Objects/Player/Particles/JumpParticles.tscn"
+  );
 
   [GetNode("AnimationPlayer")]
   private AnimationPlayer _animationPlayer;
-
-  private readonly PackedScene _deathParticlesScene = ResourceLoader.Load<PackedScene>(
-    "res://Objects/Player/Particles/DeathParticles.tscn"
-  );
 
   [GetNode("Sfx/DeathPlayer")]
   private AudioStreamPlayer2D _deathPlayer;
@@ -37,25 +35,16 @@ public partial class PlayerEffectsDelegate : Node2D
   [GetNode("Sfx/Hurt2Player")]
   private AudioStreamPlayer2D _hurt2Player;
 
-  private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
-    "res://Objects/Player/Particles/HurtParticles.tscn"
-  );
-
   [GetNode("Sfx/HurtPlayer")]
   private AudioStreamPlayer2D _hurtPlayer;
 
   [GetNode("HurtTimer")]
   private Timer _hurtTimer;
 
-  // TODO: Create a object pool for particles
-  private readonly PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
-    "res://Objects/Player/Particles/JumpParticles.tscn"
-  );
-
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
 
-  public PlayerEffectPerformed PlayerEffectAddedListeners;
+  public PlayerEffectPerformed PlayerEffectAddedListeners { get; set; }
 
   public Sprite2D PlayerSprite { get; set; }
 

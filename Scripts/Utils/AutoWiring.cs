@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Godot;
+using PhotonPhighters.Scripts.Exceptions;
 
 namespace PhotonPhighters.Scripts.Utils;
 
@@ -25,7 +26,8 @@ public sealed class GetNodeAttribute : Attribute
 
     if (childNode == null)
     {
-      HandleError($"Cannot find Node for NodePath '{_path}'", node);
+      node.GetTree().Quit();
+      throw new NodeNotFoundException($"Cannot find Node for NodePath '{_path}'");
     }
 
     var expectedType = memberInfo is FieldInfo fieldInfo
@@ -34,28 +36,23 @@ public sealed class GetNodeAttribute : Attribute
 
     if (childNode.GetType() != expectedType && !childNode.GetType().IsSubclassOf(expectedType))
     {
-      HandleError($"Node is not a valid type. Expected {expectedType} got {childNode.GetType()}", node);
-    }
-
-    if (memberInfo is FieldInfo)
-    {
-      ((FieldInfo)memberInfo).SetValue(node, childNode);
-    }
-    else
-    {
-      ((PropertyInfo)memberInfo).SetValue(node, childNode);
-    }
-  }
-
-  private static void HandleError(string err, Node node)
-  {
-    GD.PrintErr(err);
-    if (FailHard)
-    {
       node.GetTree().Quit();
+      throw new ArgumentException($"Node is not a valid type. Expected {expectedType} got {childNode.GetType()}");
     }
 
-    throw new Exception(err);
+    switch (memberInfo)
+    {
+      case FieldInfo fieldInformation:
+        fieldInformation.SetValue(node, childNode);
+        break;
+      case PropertyInfo propertyInformation:
+        propertyInformation.SetValue(node, childNode);
+        break;
+      default:
+        throw new ArgumentException(
+          $"MemberInfo is not a valid type. Expected {nameof(FieldInfo)} or {nameof(PropertyInfo)} got {memberInfo.GetType()}"
+        );
+    }
   }
 }
 
