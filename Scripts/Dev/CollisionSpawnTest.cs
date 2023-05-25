@@ -6,7 +6,7 @@ namespace PhotonPhighters.Scripts.Dev;
 public partial class CollisionSpawnTest : Node2D
 {
   [GetNode("Player")]
-  private RigidBody2D _player;
+  private CharacterBody2D _player;
 
   [GetNode("Area2D")]
   private Area2D _area2D;
@@ -16,6 +16,18 @@ public partial class CollisionSpawnTest : Node2D
     this.AutoWire();
     _area2D.BodyEntered += OnBodyEntered;
     _area2D.BodyExited += OnBodyExited;
+  }
+
+  public override void _PhysicsProcess(double delta)
+  {
+    if (Input.IsActionJustPressed("ui_up"))
+    {
+    }
+
+    if (Input.IsActionJustPressed("ui_down"))
+    {
+      _player.Position = GetGlobalMousePosition();
+    }
   }
 
   private void OnBodyExited(Node2D body)
@@ -28,25 +40,4 @@ public partial class CollisionSpawnTest : Node2D
     GD.Print("body entered");
   }
 
-  public override void _Process(double delta)
-  {
-    HandleInput(delta);
-  }
-
-  private void HandleInput(double delta)
-  {
-    var velocity = new Vector2();
-
-    if (Input.IsActionPressed("ui_right"))
-    {
-      velocity.X++;
-    }
-
-    if (Input.IsActionPressed("ui_left"))
-    {
-      velocity.X--;
-    }
-
-    _player.Position += velocity * 100 * (float)delta;
-  }
 }

@@ -17,7 +17,7 @@ position = Vector2(273, 387)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 shape = SubResource("CircleShape2D_sv4rp")
 
-[node name="Player" type="RigidBody2D" parent="."]
+[node name="Player" type="CharacterBody2D" parent="."]
 position = Vector2(273, 79)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
