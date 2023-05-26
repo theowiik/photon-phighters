@@ -106,7 +106,11 @@ public static class PowerUpManager
 
     foreach (var tuple in tupleList)
     {
-      writer.WriteLine("{0}, {1}%", tuple.Item1, Math.Round(tuple.Item2, 2));
+      writer.WriteLine(
+        "{0}, {1}%",
+        tuple.Item1,
+        tuple.Item2.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)
+      );
     }
   }
 }
