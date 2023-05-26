@@ -31,7 +31,8 @@ public static class PowerUpManager
       new PowerUps.AirWalker(),
       new PowerUps.GeneratorEngine(),
       new PowerUps.MiniGun(),
-      new PowerUps.Sniper()
+      new PowerUps.Sniper(),
+      new PowerUps.SteelBootsCurse(),
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUp>();
