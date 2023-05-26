@@ -113,7 +113,6 @@ public partial class World : Node2D
     if (@event.IsActionPressed("ui_up"))
     {
       SpawnExplosion(_lightPlayer, Light.LightMode.Light, Explosion.ExplosionRadiusEnum.Large);
-
     }
   }
 
@@ -208,7 +207,8 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, GetRandomDeathMessage());
 
     player.Frozen = true;
-    player.GlobalPosition = player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
+    player.GlobalPosition =
+      player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
 
     var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(
       3.5f,

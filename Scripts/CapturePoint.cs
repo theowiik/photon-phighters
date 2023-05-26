@@ -131,7 +131,8 @@ public partial class CapturePoint : Node2D
   {
     if (body is Player player)
     {
-      _playersInside.Add(player);}
+      _playersInside.Add(player);
+    }
   }
 
   private void OnBodyExited(Node2D body)

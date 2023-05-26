@@ -5,11 +5,11 @@ namespace PhotonPhighters.Scripts.Dev;
 
 public partial class CollisionSpawnTest : Node2D
 {
-  [GetNode("Player")]
-  private CharacterBody2D _player;
-
   [GetNode("Area2D")]
   private Area2D _area2D;
+
+  [GetNode("Player")]
+  private CharacterBody2D _player;
 
   public override void _Ready()
   {
@@ -43,5 +43,4 @@ public partial class CollisionSpawnTest : Node2D
   {
     GD.Print("body entered");
   }
-
 }
