@@ -103,7 +103,7 @@ public static class PowerUpManager
   {
     using var writer = new StreamWriter(filename);
 
-    writer.WriteLine("Item, Probability");
+    writer.WriteLine("Power Up, Probability");
 
     foreach (var tuple in tupleList)
     {
