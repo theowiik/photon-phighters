@@ -1,17 +1,3 @@
 [remap]
 
-importer="csv_translation"
-type="Translation"
-uid="uid://bwi7s1mcjfwh"
-
-[deps]
-
-files=["res://probabilities. Probability.translation"]
-
-source_file="res://probabilities.csv"
-dest_files=["res://probabilities. Probability.translation"]
-
-[params]
-
-compress=true
-delimiter=0
+importer="keep"
