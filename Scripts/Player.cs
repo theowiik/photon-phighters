@@ -77,7 +77,7 @@ public partial class Player : CharacterBody2D
 
       // Disable collisions
       var collisionShape = this.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
-      collisionShape.Disabled = _frozen;
+      collisionShape.CallDeferred("set_disabled", _frozen);
 
       if (_frozen)
       {

@@ -20,14 +20,18 @@ public partial class CollisionSpawnTest : Node2D
 
   public override void _PhysicsProcess(double delta)
   {
-    if (Input.IsActionJustPressed("ui_up"))
-    {
-    }
-
     if (Input.IsActionJustPressed("ui_down"))
     {
+      SetCollisionEnabled(true);
       _player.Position = GetGlobalMousePosition();
     }
+  }
+
+  private void SetCollisionEnabled(bool enabled)
+  {
+    var shape = _player.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
+    shape.Disabled = !enabled;
+    GD.Print("shape disabled: " + shape.Disabled);
   }
 
   private void OnBodyExited(Node2D body)

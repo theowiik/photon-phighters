@@ -12,7 +12,7 @@ public partial class World : Node2D
 {
   private const int RoundTime = 40;
   private const int ScoreToWin = 4;
-  private const int TimeBetweenCapturePoint = 10;
+  private const int TimeBetweenCapturePoint = 5;
 
   private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
 
@@ -113,6 +113,7 @@ public partial class World : Node2D
     if (@event.IsActionPressed("ui_up"))
     {
       SpawnExplosion(_lightPlayer, Light.LightMode.Light, Explosion.ExplosionRadiusEnum.Large);
+
     }
   }
 
@@ -198,7 +199,7 @@ public partial class World : Node2D
     which.QueueFree();
   }
 
-  private void OnPlayerDied(Player player)
+  private async void OnPlayerDied(Player player)
   {
     var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
 
@@ -207,8 +208,8 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, GetRandomDeathMessage());
 
     player.Frozen = true;
-    player.GlobalPosition =
-      player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
+    await ToSignal(GetTree(), "physics_frame");
+    player.GlobalPosition = player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
 
     var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(
       3.5f,
