@@ -13,6 +13,8 @@ public partial class StartScreen : Node2D
 
     startButton.Pressed += StartGame;
     quitButton.Pressed += QuitGame;
+
+    startButton.GrabFocus();
   }
 
   private void QuitGame()

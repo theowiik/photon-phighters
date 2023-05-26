@@ -66,9 +66,7 @@ public partial class PowerUpPicker : Control
 
   private void Populate()
   {
-    var powerUps = PowerUpManager.GetUniquePowerUpsWithRarity(4, 1);
-
-    foreach (var powerUp in powerUps)
+    foreach (var powerUp in PowerUpManager.GetUniquePowerUpsWithRarity(4, 1))
     {
       var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
 
@@ -88,6 +86,7 @@ public partial class PowerUpPicker : Control
       AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(2, () => powerUpButton.Disabled = false));
 
       _gridContainer.AddChild(powerUpButton);
+      powerUpButton.GrabFocus();
     }
   }
 }
