@@ -7,8 +7,8 @@ public static class PowerUps
   public enum Rarity
   {
     Legendary = 1,
-    Rare = 2,
-    Common = 4
+    Rare = 3,
+    Common = 5
   }
 
   public interface IPowerUp
