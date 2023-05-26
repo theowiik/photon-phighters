@@ -105,14 +105,9 @@ public partial class World : Node2D
 
   public override void _UnhandledInput(InputEvent @event)
   {
-    if (@event.IsActionPressed("ui_down"))
+    if (@event.IsActionPressed("dev_finish_round"))
     {
       _roundTimer.Start(0.00001);
-    }
-
-    if (@event.IsActionPressed("ui_up"))
-    {
-      SpawnExplosion(_lightPlayer, Light.LightMode.Light, Explosion.ExplosionRadiusEnum.Large);
     }
   }
 

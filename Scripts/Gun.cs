@@ -89,7 +89,7 @@ public partial class Gun : Node2D
 
   public override void _UnhandledInput(InputEvent @event)
   {
-    if (@event.IsActionPressed("ui_right"))
+    if (@event.IsActionPressed("dev_switch_light_mode"))
     {
       LightMode = LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
     }
