@@ -36,11 +36,11 @@ public partial class CollisionSpawnTest : Node2D
 
   private void OnBodyExited(Node2D body)
   {
-    GD.Print("body exited");
+    GD.Print("body exited: " + body.Name);
   }
 
   private void OnBodyEntered(Node2D body)
   {
-    GD.Print("body entered");
+    GD.Print("body entered: " + body.Name);
   }
 }
