@@ -1,9 +1,7 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -32,7 +30,7 @@ public static class PowerUpManager
       new PowerUps.GeneratorEngine(),
       new PowerUps.MiniGun(),
       new PowerUps.Sniper(),
-      new PowerUps.SteelBootsCurse(),
+      new PowerUps.SteelBootsCurse()
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUp>();
@@ -95,7 +93,9 @@ public static class PowerUpManager
       let count = powerUps.Count(p => p == powerUp)
       let percent = (float)count / total * 100
       select new Tuple<string, float>($"({powerUp.Rarity}) - {powerUp.Name}", percent)
-    ).OrderBy(item => item.Item2).ToList();
+    )
+      .OrderBy(item => item.Item2)
+      .ToList();
 
     WriteTupleListToFile(things, "probabilities.csv");
   }
