@@ -8,14 +8,12 @@ namespace PhotonPhighters.Scripts;
 
 public static class PowerUpManager
 {
-  private static readonly IList<PowerUps.IPowerUp> s_allPowerUps;
-
   // List of power ups, with duplicates to represent the rarity
   private static readonly IList<PowerUps.IPowerUp> s_powerUpsRarity;
 
   static PowerUpManager()
   {
-    s_allPowerUps = new List<PowerUps.IPowerUp>
+    var allPowerUps = new List<PowerUps.IPowerUp>
     {
       new PowerUps.PhotonBoost(),
       new PowerUps.HealthBoost(),
@@ -34,7 +32,7 @@ public static class PowerUpManager
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUp>();
-    foreach (var powerUp in s_allPowerUps)
+    foreach (var powerUp in allPowerUps)
     {
       for (var i = 0; i < (int)powerUp.Rarity; i++)
       {
