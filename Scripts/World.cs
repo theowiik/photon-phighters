@@ -199,7 +199,7 @@ public partial class World : Node2D
     which.QueueFree();
   }
 
-  private async void OnPlayerDied(Player player)
+  private void OnPlayerDied(Player player)
   {
     var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
 
@@ -208,7 +208,6 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, GetRandomDeathMessage());
 
     player.Frozen = true;
-    await ToSignal(GetTree(), "physics_frame");
     player.GlobalPosition = player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
 
     var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(
