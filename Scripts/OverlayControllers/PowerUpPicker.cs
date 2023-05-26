@@ -8,7 +8,7 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpPicker : Control
 {
-  public delegate void PowerUpPicked(PowerUpManager.IPowerUp powerUp);
+  public delegate void PowerUpPicked(PowerUps.IPowerUp powerUp);
 
   private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
 
@@ -74,9 +74,9 @@ public partial class PowerUpPicker : Control
 
       var rarityText = powerUp.Rarity switch
       {
-        PowerUpManager.Rarity.Common => "",
-        PowerUpManager.Rarity.Rare => "(Rare) ",
-        PowerUpManager.Rarity.Legendary => "(LEGENDARY) ",
+        PowerUps.Rarity.Common => "",
+        PowerUps.Rarity.Rare => "(Rare) ",
+        PowerUps.Rarity.Legendary => "(LEGENDARY) ",
         _ => throw new KeyNotFoundException("Rarity not supported")
       };
 
