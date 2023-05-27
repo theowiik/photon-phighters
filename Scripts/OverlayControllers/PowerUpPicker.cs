@@ -66,7 +66,7 @@ public partial class PowerUpPicker : Control
 
   private void Populate()
   {
-    foreach (var powerUp in PowerUpManager.GetUniquePowerUpsWithRarity(4, 1))
+    foreach (var powerUp in PowerUpManager.GetUniquePowerUpsWithRarity(4, 0))
     {
       var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
 

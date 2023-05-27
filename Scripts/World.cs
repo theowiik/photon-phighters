@@ -11,7 +11,8 @@ namespace PhotonPhighters.Scripts;
 public partial class World : Node2D
 {
   private const int RoundTime = 40;
-  private const int ScoreToWin = 4;
+  private const int ScoreToWin = 8;
+  private const float RespawnTime = 3f;
   private const int TimeBetweenCapturePoint = 10;
 
   private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
@@ -206,7 +207,7 @@ public partial class World : Node2D
       player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
 
     var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(
-      3.5f,
+      RespawnTime,
       () =>
       {
         player.Frozen = false;

@@ -10,7 +10,7 @@ public partial class PlayerMovementDelegate : Node
   private const int AerodynamicHeatingVelocity = 10_000;
 
   private const float Gravity = 800;
-  private const float Acceleration = 12f;
+  public float Acceleration { get; set; } = 12f;
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;

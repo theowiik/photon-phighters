@@ -28,7 +28,8 @@ public static class PowerUpManager
       new PowerUps.GeneratorEngine(),
       new PowerUps.MiniGun(),
       new PowerUps.Sniper(),
-      new PowerUps.SteelBootsCurse()
+      new PowerUps.SteelBootsCurse(),
+      new PowerUps.StickyThickyCurse()
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUp>();
@@ -46,9 +47,9 @@ public static class PowerUpManager
   // Gets n power ups. At least nRare should be rare or better (legendary)
   public static IEnumerable<PowerUps.IPowerUp> GetUniquePowerUpsWithRarity(int n, int nRare)
   {
-    if (n <= 0 || nRare <= 0)
+    if (n <= 0)
     {
-      throw new ArgumentException("n and nRare must be greater than 0");
+      throw new ArgumentException("n must be greater than 0");
     }
 
     if (nRare > n)

@@ -7,8 +7,8 @@ public static class PowerUps
   public enum Rarity
   {
     Legendary = 1,
-    Rare = 3,
-    Common = 5
+    Rare = 5,
+    Common = 9
   }
 
   public interface IPowerUp
@@ -51,8 +51,8 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      playerWhoSelected.Gun.FireRate -= 0.7f;
-      playerWhoSelected.Gun.BulletSpread *= 1.05f;
+      playerWhoSelected.Gun.FireRate += 1.6f;
+      playerWhoSelected.Gun.BulletSpread *= 1.06f;
     }
   }
 
@@ -169,10 +169,11 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      playerWhoSelected.Gun.BulletCount += 8;
+      playerWhoSelected.Gun.BulletCount += 7;
       playerWhoSelected.Gun.BulletDamage = 1;
       playerWhoSelected.Gun.BulletSpread += 0.3f;
-      playerWhoSelected.Gun.FireRate += 3;
+      playerWhoSelected.Gun.BulletSpeed /= 1.4f;
+      playerWhoSelected.Gun.FireRate += 2.5f;
     }
   }
 
@@ -185,9 +186,10 @@ public static class PowerUps
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletCount = 1;
-      playerWhoSelected.Gun.BulletDamage = 50;
-      playerWhoSelected.Gun.BulletSpread = 0.01f;
-      playerWhoSelected.Gun.FireRate -= 3;
+      playerWhoSelected.Gun.BulletDamage = 100;
+      playerWhoSelected.Gun.BulletSpread = 0.00001f;
+      playerWhoSelected.Gun.BulletSpeed = 3000;
+      playerWhoSelected.Gun.FireRate = 1;
     }
   }
 
@@ -198,7 +200,23 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      otherPlayer.PlayerMovementDelegate.JumpForce -= 500;
+      otherPlayer.PlayerMovementDelegate.JumpForce /= 1.5f;
+    }
+  }
+
+  // TODO: Make the player thicc
+  // TODO: Add sticky sound effect when walking
+  // TODO: Sticky shoot sounds
+  public class StickyThickyCurse : IPowerUp
+  {
+    public string Name => "Sticky Thicky Curse";
+    public Rarity Rarity => Rarity.Legendary;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      otherPlayer.PlayerMovementDelegate.Speed /= 2;
+      otherPlayer.PlayerMovementDelegate.Acceleration /= 3;
+      otherPlayer.MaxHealth += 50; // TODO: Possibly make it relative to the player's max health
     }
   }
 }
