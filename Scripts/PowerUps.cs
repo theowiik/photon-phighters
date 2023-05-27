@@ -51,7 +51,7 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      playerWhoSelected.Gun.FireRate += 1.6f;
+      playerWhoSelected.Gun.FireRate += 0.9f;
       playerWhoSelected.Gun.BulletSpread *= 1.06f;
     }
   }
@@ -65,7 +65,7 @@ public static class PowerUps
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.MaxHealth /= 2;
-      playerWhoSelected.Gun.BulletDamage *= 3;
+      playerWhoSelected.Gun.BulletDamage *= 2;
       playerWhoSelected.Gun.BulletSpread *= 1.15f;
     }
   }
@@ -189,7 +189,7 @@ public static class PowerUps
       playerWhoSelected.Gun.BulletDamage = 100;
       playerWhoSelected.Gun.BulletSpread = 0.00001f;
       playerWhoSelected.Gun.BulletSpeed = 3000;
-      playerWhoSelected.Gun.FireRate = 1;
+      playerWhoSelected.Gun.FireRate = 1.6f;
     }
   }
 

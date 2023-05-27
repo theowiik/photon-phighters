@@ -11,7 +11,7 @@ namespace PhotonPhighters.Scripts;
 public partial class World : Node2D
 {
   private const int RoundTime = 40;
-  private const int ScoreToWin = 8;
+  private const int ScoreToWin = 5;
   private const float RespawnTime = 3f;
   private const int TimeBetweenCapturePoint = 10;
 

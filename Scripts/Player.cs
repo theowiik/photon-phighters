@@ -220,7 +220,7 @@ public partial class Player : CharacterBody2D
   private void ApplyBulletKnockback(Bullet bullet)
   {
     var pushDirection = bullet.GlobalPosition.DirectionTo(GlobalPosition);
-    var knockback = pushDirection.Normalized() * bullet.Speed;
+    var knockback = pushDirection.Normalized() * bullet.Speed * 0.65f;
     PlayerMovementDelegate.AddKnockback(knockback);
   }
 
