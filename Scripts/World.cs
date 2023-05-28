@@ -11,8 +11,8 @@ namespace PhotonPhighters.Scripts;
 public partial class World : Node2D
 {
   private const int RoundTime = 40;
-  private const int ScoreToWin = 5;
-  private const float RespawnTime = 3f;
+  private const int ScoreToWin = 10;
+  private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
 
   private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");

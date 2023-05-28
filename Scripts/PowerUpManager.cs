@@ -22,7 +22,6 @@ public static class PowerUpManager
       new PowerUps.PhotonMultiplier(),
       new PowerUps.PhotonEnlarger(),
       new PowerUps.PhotonAccelerator(),
-      new PowerUps.GlassCannon(),
       new PowerUps.Gravitronizer(),
       new PowerUps.PhotonMuncher(),
       new PowerUps.AirWalker(),
@@ -30,7 +29,9 @@ public static class PowerUpManager
       new PowerUps.MiniGun(),
       new PowerUps.Sniper(),
       new PowerUps.SteelBootsCurse(),
-      new PowerUps.StickyThickyCurse()
+      new PowerUps.StickyThickyCurse(),
+      new PowerUps.BulletRain(),
+      new PowerUps.MomentumMaster()
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUp>();

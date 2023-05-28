@@ -1,4 +1,5 @@
 ﻿using System;
+using Godot;
 
 namespace PhotonPhighters.Scripts;
 
@@ -7,8 +8,8 @@ public static class PowerUps
   public enum Rarity
   {
     Legendary = 1,
-    Rare = 5,
-    Common = 9
+    Rare = 6,
+    Common = 11
   }
 
   public interface IPowerUp
@@ -53,20 +54,6 @@ public static class PowerUps
     {
       playerWhoSelected.Gun.FireRate += 0.9f;
       playerWhoSelected.Gun.BulletSpread *= 1.06f;
-    }
-  }
-
-  public class GlassCannon : IPowerUp
-  {
-    public string Name => "Glass Cannon";
-
-    public Rarity Rarity => Rarity.Rare;
-
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
-    {
-      playerWhoSelected.MaxHealth /= 2;
-      playerWhoSelected.Gun.BulletDamage *= 2;
-      playerWhoSelected.Gun.BulletSpread *= 1.15f;
     }
   }
 
@@ -128,7 +115,7 @@ public static class PowerUps
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletSizeFactor += 1.5f;
-      playerWhoSelected.Gun.BulletDamage += 10;
+      playerWhoSelected.Gun.BulletDamage = Mathf.RoundToInt(playerWhoSelected.Gun.BulletDamage * 1.333f);
       playerWhoSelected.Gun.BulletSpeed -= 150.0f;
       playerWhoSelected.Gun.BulletSpread *= 1.25f;
     }
@@ -155,7 +142,7 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      playerWhoSelected.MaxHealth *= 2;
+      playerWhoSelected.MaxHealth = Mathf.RoundToInt(playerWhoSelected.MaxHealth * 1.42f);
       playerWhoSelected.PlayerMovementDelegate.Speed -= -200.0f;
       playerWhoSelected.Gun.BulletSpread *= 1.2f;
     }
@@ -200,7 +187,7 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      otherPlayer.PlayerMovementDelegate.JumpForce /= 1.5f;
+      otherPlayer.PlayerMovementDelegate.JumpForce /= 1.33f;
     }
   }
 
@@ -217,6 +204,32 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.Speed /= 2;
       otherPlayer.PlayerMovementDelegate.Acceleration /= 3;
       otherPlayer.MaxHealth += 50; // TODO: Possibly make it relative to the player's max health
+    }
+  }
+
+  public class MomentumMaster : IPowerUp
+  {
+    public string Name => "Momentum Master";
+
+    public Rarity Rarity => Rarity.Rare;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.PlayerMovementDelegate.Speed += 300;
+      playerWhoSelected.PlayerMovementDelegate.Acceleration += 6;
+    }
+  }
+
+  public class BulletRain : IPowerUp
+  {
+    public string Name => "Bullet Rain";
+
+    public Rarity Rarity => Rarity.Rare;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.Gun.BulletCount *= 2; // Double the bullets
+      playerWhoSelected.Gun.BulletGravity *= 2; // Bullets drop faster
     }
   }
 }

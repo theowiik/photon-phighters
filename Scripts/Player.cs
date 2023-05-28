@@ -94,7 +94,7 @@ public partial class Player : CharacterBody2D
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
-  public int MaxHealth { get; set; } = 50;
+  public int MaxHealth { get; set; } = 60;
   public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
 
   [GetNode("Movement")]
