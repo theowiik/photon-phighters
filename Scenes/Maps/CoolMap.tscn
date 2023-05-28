@@ -24,12 +24,6 @@ offset_right = 18799.0
 offset_bottom = 11497.0
 color = Color(0.443137, 0.533333, 0.470588, 1)
 
-[node name="DarkSpawn" parent="." index="1"]
-position = Vector2(860, -682)
-
-[node name="LightSpawn" parent="." index="2"]
-position = Vector2(1133, -191)
-
 [node name="Floor" parent="Floors" index="0" instance=ExtResource("2_1atno")]
 position = Vector2(1677, -31)
 rotation = -0.746087
@@ -138,3 +132,19 @@ shape = SubResource("RectangleShape2D_sdkqt")
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
 position = Vector2(3805, -4481.25)
 shape = SubResource("RectangleShape2D_slaa7")
+
+[node name="SpawnPoints@Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
+position = Vector2(540, -186)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
+position = Vector2(1121, -191)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D3" type="Marker2D" parent="SpawnPointsContainer" index="2"]
+position = Vector2(839, -695)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D4" type="Marker2D" parent="SpawnPointsContainer" index="3"]
+position = Vector2(200, 105)
+gizmo_extents = 100.0

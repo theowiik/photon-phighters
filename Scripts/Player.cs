@@ -94,7 +94,7 @@ public partial class Player : CharacterBody2D
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
-  public int MaxHealth { get; set; } = 50;
+  public int MaxHealth { get; set; } = 60;
   public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
 
   [GetNode("Movement")]
@@ -220,7 +220,7 @@ public partial class Player : CharacterBody2D
   private void ApplyBulletKnockback(Bullet bullet)
   {
     var pushDirection = bullet.GlobalPosition.DirectionTo(GlobalPosition);
-    var knockback = pushDirection.Normalized() * bullet.Speed;
+    var knockback = pushDirection.Normalized() * bullet.Speed * 0.65f;
     PlayerMovementDelegate.AddKnockback(knockback);
   }
 

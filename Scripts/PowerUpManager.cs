@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using PhotonPhighters.Scripts.Utils;
@@ -21,14 +22,16 @@ public static class PowerUpManager
       new PowerUps.PhotonMultiplier(),
       new PowerUps.PhotonEnlarger(),
       new PowerUps.PhotonAccelerator(),
-      new PowerUps.GlassCannon(),
       new PowerUps.Gravitronizer(),
       new PowerUps.PhotonMuncher(),
       new PowerUps.AirWalker(),
       new PowerUps.GeneratorEngine(),
       new PowerUps.MiniGun(),
       new PowerUps.Sniper(),
-      new PowerUps.SteelBootsCurse()
+      new PowerUps.SteelBootsCurse(),
+      new PowerUps.StickyThickyCurse(),
+      new PowerUps.BulletRain(),
+      new PowerUps.MomentumMaster()
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUp>();
@@ -46,9 +49,9 @@ public static class PowerUpManager
   // Gets n power ups. At least nRare should be rare or better (legendary)
   public static IEnumerable<PowerUps.IPowerUp> GetUniquePowerUpsWithRarity(int n, int nRare)
   {
-    if (n <= 0 || nRare <= 0)
+    if (n <= 0)
     {
-      throw new ArgumentException("n and nRare must be greater than 0");
+      throw new ArgumentException("n must be greater than 0");
     }
 
     if (nRare > n)
@@ -106,11 +109,7 @@ public static class PowerUpManager
 
     foreach (var tuple in tupleList)
     {
-      writer.WriteLine(
-        "{0}, {1}%",
-        tuple.Item1,
-        tuple.Item2.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)
-      );
+      writer.WriteLine("{0}, {1}%", tuple.Item1, tuple.Item2.ToString("0.00", CultureInfo.InvariantCulture));
     }
   }
 }

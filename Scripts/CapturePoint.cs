@@ -9,7 +9,7 @@ public partial class CapturePoint : Node2D
 {
   public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
 
-  private const float TimeToCapture = 4f;
+  private const float TimeToCapture = 6f;
 
   private readonly ICollection<Player> _playersInside = new List<Player>();
 

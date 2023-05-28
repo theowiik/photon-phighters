@@ -17,8 +17,6 @@ public partial class MapManager : Node2D
   /// </summary>
   private Queue<string> _mapsQueue = new();
 
-  public Node2D DarkSpawn => CurrentMap.DarkSpawn;
-  public Node2D LightSpawn => CurrentMap.LightSpawn;
   public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
   private Map CurrentMap => GetChildOrNull<Map>(0);
 
@@ -94,5 +92,10 @@ public partial class MapManager : Node2D
     var mapName = _mapsQueue.Dequeue();
     var mapScene = GD.Load<PackedScene>(mapName);
     return mapScene.Instantiate<Map>();
+  }
+
+  public Node2D GetRandomSpawnPoint()
+  {
+    return CurrentMap.GetRandomSpawnPoint();
   }
 }

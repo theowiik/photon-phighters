@@ -58,7 +58,7 @@ public partial class PowerUpPicker : Control
 
   private void Clear()
   {
-    foreach (var powerUpButton in _gridContainer.GetNodes<Button>())
+    foreach (var powerUpButton in _gridContainer.GetNodesOfType<Button>())
     {
       powerUpButton.QueueFree();
     }
@@ -66,7 +66,7 @@ public partial class PowerUpPicker : Control
 
   private void Populate()
   {
-    foreach (var powerUp in PowerUpManager.GetUniquePowerUpsWithRarity(4, 1))
+    foreach (var powerUp in PowerUpManager.GetUniquePowerUpsWithRarity(4, 0))
     {
       var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
 

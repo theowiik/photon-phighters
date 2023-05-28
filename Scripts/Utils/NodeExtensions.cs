@@ -29,7 +29,7 @@ public static class NodeExtensions
     return n;
   }
 
-  public static IEnumerable<T> GetNodes<T>(this Node node)
+  public static IEnumerable<T> GetNodesOfType<T>(this Node node)
     where T : Node
   {
     var output = new List<T>();

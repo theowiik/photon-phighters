@@ -6,6 +6,7 @@ namespace PhotonPhighters.Scripts;
 public partial class PlayerEffectsDelegate : Node2D
 {
   public delegate void PlayerEffectPerformed(Node2D effect);
+
   private const string JumpAnimation = "stretch_jump";
   private const string LandAnimation = "squish_land";
   private const string RunLeftAnimation = "running_left";
