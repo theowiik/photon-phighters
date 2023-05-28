@@ -20,12 +20,6 @@ size = Vector2(5961, 212)
 [node name="ColorRect" parent="." index="0"]
 color = Color(0.541176, 0.466667, 0.403922, 1)
 
-[node name="DarkSpawn" parent="." index="1"]
-position = Vector2(379, 467)
-
-[node name="LightSpawn" parent="." index="2"]
-position = Vector2(654, -195)
-
 [node name="WrapperThing" type="Node2D" parent="Floors" index="0"]
 position = Vector2(59, 25)
 rotation = 0.656861
@@ -118,3 +112,27 @@ shape = SubResource("RectangleShape2D_fm2j0")
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
 position = Vector2(940, 2433)
 shape = SubResource("RectangleShape2D_eu2gs")
+
+[node name="SpawnPoints@Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
+position = Vector2(649, -250)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
+position = Vector2(366, 484)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D3" type="Marker2D" parent="SpawnPointsContainer" index="2"]
+position = Vector2(991, 457)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D4" type="Marker2D" parent="SpawnPointsContainer" index="3"]
+position = Vector2(1183, 1127)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D5" type="Marker2D" parent="SpawnPointsContainer" index="4"]
+position = Vector2(1170, -71)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D6" type="Marker2D" parent="SpawnPointsContainer" index="5"]
+position = Vector2(260, -360)
+gizmo_extents = 100.0

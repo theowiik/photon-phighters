@@ -18,17 +18,11 @@ size = Vector2(557, 13015.5)
 [node name="TallMap" instance=ExtResource("1_8jdpi")]
 
 [node name="ColorRect" parent="." index="0"]
-offset_left = -15193.0
-offset_top = -15331.0
-offset_right = 16120.0
-offset_bottom = 6616.0
+offset_left = -14761.0
+offset_top = -15227.0
+offset_right = 16552.0
+offset_bottom = 6720.0
 color = Color(0.384314, 0.45098, 0.588235, 1)
-
-[node name="DarkSpawn" parent="." index="1"]
-position = Vector2(546, -183)
-
-[node name="LightSpawn" parent="." index="2"]
-position = Vector2(1119, -191)
 
 [node name="Floor" parent="Floors" index="0" instance=ExtResource("2_wh0w3")]
 position = Vector2(548, 97)
@@ -63,3 +57,19 @@ shape = SubResource("RectangleShape2D_m3gne")
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="OB" index="3"]
 position = Vector2(3924, -4481)
 shape = SubResource("RectangleShape2D_278n2")
+
+[node name="SpawnPoints@Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
+position = Vector2(546, -144)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
+position = Vector2(1127, -161)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D3" type="Marker2D" parent="SpawnPointsContainer" index="2"]
+position = Vector2(25, -490)
+gizmo_extents = 100.0
+
+[node name="SpawnPoints@Marker2D4" type="Marker2D" parent="SpawnPointsContainer" index="3"]
+position = Vector2(1518, -430)
+gizmo_extents = 100.0

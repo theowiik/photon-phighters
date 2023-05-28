@@ -12,11 +12,9 @@ offset_right = 5882.0
 offset_bottom = 4039.0
 color = Color(0.337255, 0.305882, 0.341176, 1)
 
-[node name="DarkSpawn" type="Marker2D" parent="."]
-
-[node name="LightSpawn" type="Marker2D" parent="."]
-
 [node name="Floors" type="Node2D" parent="."]
 
 [node name="OB" type="Area2D" parent="."]
 monitoring = false
+
+[node name="SpawnPointsContainer" type="Node2D" parent="."]

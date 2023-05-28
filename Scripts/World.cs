@@ -203,8 +203,7 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, GetRandomDeathMessage());
 
     player.Frozen = true;
-    player.GlobalPosition =
-      player.PlayerNumber == 1 ? _mapManager.LightSpawn.GlobalPosition : _mapManager.DarkSpawn.GlobalPosition;
+    player.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition;
 
     var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(
       RespawnTime,
@@ -331,16 +330,29 @@ public partial class World : Node2D
         return;
       }
 
-      var res = GetResults();
-      var losingPlayer = res.Light > res.Dark ? _darkPlayer : _lightPlayer;
-
-      var capturePoint = _capturePointScene.Instantiate<CapturePoint>();
-      AddChild(capturePoint);
-      capturePoint.CapturedListeners += OnCapturePointCaptured;
-
-      var offset = new Vector2(GD.RandRange(-100, 100), GD.RandRange(-100, 100));
-      capturePoint.GlobalPosition = losingPlayer.GlobalPosition + offset;
+      SpawnRandomCapturePoint();
     };
+  }
+
+  private void SpawnRandomCapturePoint()
+  {
+    var capturePoint = _capturePointScene.Instantiate<CapturePoint>();
+    AddChild(capturePoint);
+    capturePoint.CapturedListeners += OnCapturePointCaptured;
+
+    var offset = new Vector2(GD.RandRange(-100, 100), GD.RandRange(-100, 100));
+    capturePoint.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition + offset;
+
+    // De-spawn after a while
+    var timer = TimerFactory.OneShotStartedTimer(
+      30,
+      () =>
+      {
+        capturePoint.QueueFree();
+      }
+    );
+
+    capturePoint.AddChild(timer);
   }
 
   private void SpawnExplosion(Node2D where, Light.LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
@@ -391,8 +403,8 @@ public partial class World : Node2D
     _mapManager.InitNextMap();
     ResetLights();
 
-    _lightPlayer.GlobalPosition = _mapManager.LightSpawn.GlobalPosition;
-    _darkPlayer.GlobalPosition = _mapManager.DarkSpawn.GlobalPosition;
+    _lightPlayer.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition;
+    _darkPlayer.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition;
     ForceUpdateTransform();
 
     foreach (var player in _players)
