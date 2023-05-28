@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using PhotonPhighters.Scripts.Utils;
@@ -107,11 +108,7 @@ public static class PowerUpManager
 
     foreach (var tuple in tupleList)
     {
-      writer.WriteLine(
-        "{0}, {1}%",
-        tuple.Item1,
-        tuple.Item2.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)
-      );
+      writer.WriteLine("{0}, {1}%", tuple.Item1, tuple.Item2.ToString("0.00", CultureInfo.InvariantCulture));
     }
   }
 }

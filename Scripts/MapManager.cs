@@ -94,5 +94,8 @@ public partial class MapManager : Node2D
     return mapScene.Instantiate<Map>();
   }
 
-  public Node2D GetRandomSpawnPoint() => CurrentMap.GetRandomSpawnPoint();
+  public Node2D GetRandomSpawnPoint()
+  {
+    return CurrentMap.GetRandomSpawnPoint();
+  }
 }

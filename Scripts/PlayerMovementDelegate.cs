@@ -10,7 +10,6 @@ public partial class PlayerMovementDelegate : Node
   private const int AerodynamicHeatingVelocity = 10_000;
 
   private const float Gravity = 800;
-  public float Acceleration { get; set; } = 12f;
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
@@ -19,6 +18,7 @@ public partial class PlayerMovementDelegate : Node
   private bool _onFloorLastCall;
   private float _speed = 800;
   private Vector2 _velocity;
+  public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
   public float JumpForce { get; set; } = 700;

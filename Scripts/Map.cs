@@ -5,13 +5,13 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Map : Node2D
 {
+  private Node2D _lastSpawnPoint;
+
   [GetNode("OB")]
   public Area2D OutOfBounds { get; private set; }
 
   [GetNode("SpawnPointsContainer")]
   private Node2D SpawnPointsContainer { get; set; }
-
-  private Node2D _lastSpawnPoint;
 
   public override void _Ready()
   {
@@ -28,7 +28,7 @@ public partial class Map : Node2D
   ///   The same spawn point will not be returned twice in a row.
   /// </summary>
   /// <returns>
-  ///  A spawn point from the SpawnPointsContainer.
+  ///   A spawn point from the SpawnPointsContainer.
   /// </returns>
   public Node2D GetRandomSpawnPoint()
   {
