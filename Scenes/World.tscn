@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://cxt0fjve8r5yw"]
+[gd_scene load_steps=14 format=3 uid="uid://cxt0fjve8r5yw"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="4_g4vs6"]
+[ext_resource type="Script" path="res://Scripts/MusicPlayer.cs" id="4_kl11m"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Music/Logical_Sequence_of_Events.mp3" id="5_tu48r"]
 [ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://Objects/UI/Overlay.tscn" id="6_ukett"]
 [ext_resource type="PackedScene" uid="uid://21mvhckupcnw" path="res://Objects/UI/PowerUpPicker.tscn" id="7_mepvd"]
@@ -24,7 +25,7 @@ glow_hdr_scale = 2.12
 script = ExtResource("1_lvc03")
 
 [node name="UIUpdateTimer" type="Timer" parent="."]
-wait_time = 0.04
+wait_time = 0.05
 autostart = true
 
 [node name="RoundTimer" type="Timer" parent="."]
@@ -34,10 +35,11 @@ one_shot = true
 [node name="FollowingCamera" type="Camera2D" parent="."]
 script = ExtResource("4_g4vs6")
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+[node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_tu48r")
 volume_db = -11.946
 autoplay = true
+script = ExtResource("4_kl11m")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
