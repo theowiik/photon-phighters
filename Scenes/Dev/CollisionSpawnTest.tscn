@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cuu1vb3i4qw3v"]
+[gd_scene load_steps=4 format=3 uid="uid://cx8swherigmpq"]
 
 [ext_resource type="Script" path="res://Scripts/Dev/CollisionSpawnTest.cs" id="1_dudxh"]
 
