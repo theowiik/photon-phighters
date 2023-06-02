@@ -1,8 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://nlos0lgshron"]
 
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/Overlay.cs" id="1_kdjc8"]
-[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Themes/LargeText.tres" id="2_l63ws"]
-[ext_resource type="Theme" uid="uid://d0fyytvgt3ft3" path="res://Themes/MonoFont.tres" id="2_mcffg"]
+[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_l63ws"]
+[ext_resource type="Theme" uid="uid://d0fyytvgt3ft3" path="res://Assets/Themes/MonoFont.tres" id="2_mcffg"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5kujl"]
 bg_color = Color(0, 0, 0, 1)

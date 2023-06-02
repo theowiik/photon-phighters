@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://bn0wr2va7peql"]
 
 [ext_resource type="Script" path="res://Scripts/LightFloor.cs" id="1_0tmb8"]
-[ext_resource type="Texture2D" uid="uid://y4jqk2yry65x" path="res://Assets/Platforms/floor2.svg" id="2_j16co"]
+[ext_resource type="Texture2D" uid="uid://y4jqk2yry65x" path="res://Assets/Sprites/Platforms/floor2.svg" id="2_j16co"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_a12tr"]
 size = Vector2(128, 128)

@@ -1,9 +1,9 @@
 [gd_scene load_steps=7 format=3 uid="uid://dllcyg3hqhkq6"]
 
 [ext_resource type="PackedScene" uid="uid://cmxhv53no4cy5" path="res://Objects/Player/Player.tscn" id="1_8165v"]
-[ext_resource type="Shader" path="res://Shaders/dithering.gdshader" id="1_uic1f"]
+[ext_resource type="Shader" path="res://Assets/Shaders/dithering.gdshader" id="1_uic1f"]
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="2_3srnm"]
-[ext_resource type="Texture2D" uid="uid://bq5k3s78o1sj3" path="res://Assets/Shader/dither.png" id="2_f0rnn"]
+[ext_resource type="Texture2D" uid="uid://bq5k3s78o1sj3" path="res://Assets/Sprites/ShaderDither/dither.png" id="2_f0rnn"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qs4q2"]
 shader = ExtResource("1_uic1f")

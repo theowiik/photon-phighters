@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_782k1"]
 [ext_resource type="Script" path="res://Scripts/CapturePoint.cs" id="1_no0dn"]
-[ext_resource type="AudioStream" uid="uid://bl6qdi2p2tdy3" path="res://Sfx/WorldSounds/charging_loop.wav" id="3_1uela"]
+[ext_resource type="AudioStream" uid="uid://bl6qdi2p2tdy3" path="res://Assets/Sfx/WorldSounds/charging_loop.wav" id="3_1uela"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_grmef"]
 radius = 300.0

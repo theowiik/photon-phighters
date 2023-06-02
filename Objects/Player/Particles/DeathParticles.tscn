@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://da0volva4r1o6"]
 
-[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="1_7e6ke"]
+[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Sprites/bullet2.svg" id="1_7e6ke"]
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="2_5qb5m"]
 
 [sub_resource type="Gradient" id="Gradient_15x4y"]

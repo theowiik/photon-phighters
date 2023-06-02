@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://exgdjp4xmp05"]
 
-[ext_resource type="Texture2D" uid="uid://bgmot52xbfo3v" path="res://Assets/Screens/darkness-wins.png" id="2_laqeo"]
-[ext_resource type="AudioStream" uid="uid://cpwmy346ngw2i" path="res://Music/DarkWin/Metal Music - Dar Golan - 90bpm - 02-29.mp3" id="3_662tf"]
-[ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Sfx/Win/darkness.mp3" id="3_latrc"]
+[ext_resource type="Texture2D" uid="uid://bgmot52xbfo3v" path="res://Assets/Sprites/Screens/darkness-wins.png" id="2_laqeo"]
+[ext_resource type="AudioStream" uid="uid://cpwmy346ngw2i" path="res://Assets/Music/DarkWin/Metal Music - Dar Golan - 90bpm - 02-29.mp3" id="3_662tf"]
+[ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Assets/Sfx/Win/darkness.mp3" id="3_latrc"]
 
 [node name="EndScreenDarkness" type="Node2D"]
 
