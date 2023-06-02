@@ -1,0 +1,68 @@
+[gd_scene load_steps=4 format=3 uid="uid://21mvhckupcnw"]
+
+[ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpPicker.cs" id="1_2nnk8"]
+[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_4bdkx"]
+[ext_resource type="PackedScene" uid="uid://dymlsgg4ejjhs" path="res://UI/PowerUpButton.tscn" id="2_5qjoj"]
+
+[node name="PowerUpPicker" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_2nnk8")
+
+[node name="BackgroundRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.0313726, 0.0313726, 0.0313726, 0.47451)
+
+[node name="Label" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -279.0
+offset_top = -136.0
+offset_right = 279.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_4bdkx")
+text = "some text here"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -332.0
+offset_top = -193.0
+offset_right = 332.0
+offset_bottom = 193.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 32
+theme_override_constants/v_separation = 32
+columns = 2
+
+[node name="PowerUpButton" parent="GridContainer" instance=ExtResource("2_5qjoj")]
+layout_mode = 2
+
+[node name="PowerUpButton2" parent="GridContainer" instance=ExtResource("2_5qjoj")]
+layout_mode = 2
+
+[node name="PowerUpButton3" parent="GridContainer" instance=ExtResource("2_5qjoj")]
+layout_mode = 2
+
+[node name="PowerUpButton4" parent="GridContainer" instance=ExtResource("2_5qjoj")]
+layout_mode = 2

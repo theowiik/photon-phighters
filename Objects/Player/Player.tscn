@@ -1,15 +1,16 @@
-[gd_scene load_steps=23 format=3 uid="uid://cmxhv53no4cy5"]
+[gd_scene load_steps=25 format=3 uid="uid://cmxhv53no4cy5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
-[ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Player/darkness-player.svg" id="2_ykldl"]
+[ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Sprites/Player/darkness-player.svg" id="2_ykldl"]
 [ext_resource type="PackedScene" uid="uid://dpatm74iofg13" path="res://Objects/Player/Gun.tscn" id="3_g1rr3"]
-[ext_resource type="AudioStream" uid="uid://cu4yecucyw8l1" path="res://Sfx/PlayerEffects/punch.mp3" id="4_kgptp"]
+[ext_resource type="AudioStream" uid="uid://cu4yecucyw8l1" path="res://Assets/Sfx/PlayerEffects/punch.mp3" id="4_kgptp"]
 [ext_resource type="Script" path="res://Scripts/PlayerEffectsDelegate.cs" id="5_gj8sb"]
-[ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Sfx/jump-sfx.wav" id="5_iig84"]
-[ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Sfx/death.wav" id="6_km5ul"]
-[ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Sfx/damage2.wav" id="8_k35ro"]
-[ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Sfx/fall-death.wav" id="9_jshgc"]
+[ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Assets/Sfx/PlayerEffects/jump-sfx.wav" id="5_iig84"]
+[ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Assets/Sfx/PlayerEffects/death.wav" id="6_km5ul"]
+[ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Assets/Sfx/PlayerEffects/damage2.wav" id="8_k35ro"]
+[ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Assets/Sfx/PlayerEffects/fall-death.wav" id="9_jshgc"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovementDelegate.cs" id="10_ueqen"]
+[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="11_ubx5m"]
 
 [sub_resource type="Animation" id="Animation_xkv87"]
 length = 0.001
@@ -156,6 +157,9 @@ bg_color = Color(0, 0.709804, 0.490196, 1)
 [sub_resource type="Theme" id="Theme_hil3n"]
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_ctffe")
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpgcg"]
+size = Vector2(80.5, 32)
+
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 collision_mask = 5
 script = ExtResource("1_be4dv")
@@ -224,3 +228,23 @@ theme = SubResource("Theme_hil3n")
 max_value = 1.0
 value = 0.66
 show_percentage = false
+
+[node name="ArmWip" type="Node2D" parent="."]
+visible = false
+
+[node name="PinJoint2D" type="PinJoint2D" parent="ArmWip"]
+position = Vector2(-29, -7)
+node_a = NodePath("../..")
+node_b = NodePath("../RigidBody2D")
+
+[node name="RigidBody2D" type="RigidBody2D" parent="ArmWip"]
+mass = 100.0
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="ArmWip/RigidBody2D"]
+position = Vector2(-64.75, -7)
+shape = SubResource("RectangleShape2D_hpgcg")
+
+[node name="Sprite2D" type="Sprite2D" parent="ArmWip/RigidBody2D"]
+position = Vector2(-65, -7)
+scale = Vector2(0.649186, 0.209358)
+texture = ExtResource("11_ubx5m")

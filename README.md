@@ -2,13 +2,20 @@
 
 [![Codacy Badge](https://app.codacy.com/project/badge/Grade/a7cdd8e90c164c07ba1ab313c843a1df)](https://app.codacy.com/gh/theowiik/photon-phighters/dashboard?utm_source=gh&utm_medium=referral&utm_content=&utm_campaign=Badge_grade)
 
+- [Photon Phighters 🥊 🔦 🎮](#photon-phighters---)
+  - [About 📖](#about-)
+  - [Development Setup 💻](#development-setup-)
+    - [Dependencies 📦](#dependencies-)
+    - [Formatting 💾](#formatting-)
+  - [Gameplay 🕹️](#gameplay-️)
+
+## About 📖
+
 <center>
     <img src=".README/gameplay.png" style="width: 70%;"></img>
 </center>
 
-## About 📖
-
-A game by [theowiik](google.com), [erikwessman](https://github.com/erikwessman), and [elias-carlson](https://github.com/elias-carlson) for "March Game Jam 23'" https://itch.io/jam/march-game-jam-23.
+A game by [theowiik](https://github.com/theowiik), [erikwessman](https://github.com/erikwessman), and [elias-carlson](https://github.com/elias-carlson) for "March Game Jam 23'" https://itch.io/jam/march-game-jam-23.
 
 The final state of the game jam can be found in the [game-jam-final](https://github.com/theowiik/project-epicfootsies/tree/game-jam-final) branch.
 

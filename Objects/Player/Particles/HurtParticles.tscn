@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://b8n06kh7te5bk"]
 
-[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="1_qt2e0"]
+[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Sprites/bullet2.svg" id="1_qt2e0"]
 
 [node name="DeathParticles" type="CPUParticles2D"]
 emitting = false

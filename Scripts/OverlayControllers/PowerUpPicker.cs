@@ -10,7 +10,7 @@ public partial class PowerUpPicker : Control
 {
   public delegate void PowerUpPicked(PowerUps.IPowerUp powerUp);
 
-  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://Objects/UI/PowerUpButton.tscn");
+  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://UI/PowerUpButton.tscn");
 
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;

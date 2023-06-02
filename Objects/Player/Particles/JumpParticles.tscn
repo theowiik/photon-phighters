@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://chwytr41twq7s"]
 
-[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Player/bullet2.svg" id="1_5fjsr"]
+[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Sprites/bullet2.svg" id="1_5fjsr"]
 
 [sub_resource type="Gradient" id="Gradient_q6obx"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
