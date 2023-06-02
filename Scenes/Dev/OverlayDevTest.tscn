@@ -1,7 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://bulnplkxcdulo"]
-
-[ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://Objects/UI/Overlay.tscn" id="1_s2htq"]
-
-[node name="OverlayDevTest" type="Node2D"]
-
-[node name="Overlay" parent="." instance=ExtResource("1_s2htq")]

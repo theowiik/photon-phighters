@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpPicker.cs" id="1_2nnk8"]
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_4bdkx"]
-[ext_resource type="PackedScene" uid="uid://dymlsgg4ejjhs" path="res://Objects/UI/PowerUpButton.tscn" id="2_5qjoj"]
+[ext_resource type="PackedScene" uid="uid://dymlsgg4ejjhs" path="res://UI/PowerUpButton.tscn" id="2_5qjoj"]
 
 [node name="PowerUpPicker" type="Control"]
 layout_mode = 3
