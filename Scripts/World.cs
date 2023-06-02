@@ -46,6 +46,9 @@ public partial class World : Node2D
   [GetNode("MapManager")]
   private MapManager _mapManager;
 
+  [GetNode("MusicPlayer")]
+  private MusicPlayer _musicPlayer;
+
   [GetNode("CanvasLayer/Overlay")]
   private Overlay _overlay;
 
@@ -59,9 +62,6 @@ public partial class World : Node2D
 
   [GetNode("RoundTimer")]
   private Timer _roundTimer;
-
-  [GetNode("MusicPlayer")]
-  private MusicPlayer _musicPlayer;
 
   private Score _score;
 
