@@ -60,6 +60,9 @@ public partial class World : Node2D
   [GetNode("RoundTimer")]
   private Timer _roundTimer;
 
+  [GetNode("MusicPlayer")]
+  private MusicPlayer _musicPlayer;
+
   private Score _score;
 
   public override void _Ready()
@@ -293,6 +296,7 @@ public partial class World : Node2D
       }
     }
 
+    _musicPlayer.SetPitch(_score.Light, _score.Dark, ScoreToWin);
     StartPowerUpSelection();
   }
 
@@ -303,9 +307,7 @@ public partial class World : Node2D
 
   private void ResetLights()
   {
-    var lights = GetTree().GetNodesInGroup("lights");
-
-    foreach (var light in lights)
+    foreach (var light in GetTree().GetNodesInGroup("lights"))
     {
       if (light is not Light lightNode)
       {
