@@ -10,8 +10,10 @@ public partial class PlayerMovementDelegate : Node
 
   [Signal]
   public delegate void PlayerMovementEventHandler(Events.PlayerMovementEvent playerMovementEvent);
+
   [Signal]
   public delegate void PlayerJumpedEventHandler(Events.PlayerMovementEvent playerMovementEvent);
+
   [Signal]
   public delegate void PlayerWallJumpedEventHandler(Events.PlayerMovementEvent playerMovementEvent);
 

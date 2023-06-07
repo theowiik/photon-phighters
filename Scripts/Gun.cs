@@ -7,8 +7,10 @@ public partial class Gun : Node2D
 {
   [Signal]
   public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletCollideFloorEvent bulletCollidePlayerEvent);
+
   [Signal]
   public delegate void BulletFlyingDelegateEventHandler(Events.BulletFlyingEvent bulletFlyingEvent);
+
   [Signal]
   public delegate void ShootDelegateEventHandler(Node2D bullet);
 

@@ -17,7 +17,6 @@ public static class Events
       this.MaxJumps = MaxJumps;
       this.Speed = Speed;
     }
-
   }
 
   public class BulletCollideFloorEvent : Node
@@ -36,6 +35,7 @@ public static class Events
   {
     public Bullet bullet;
     public Player player;
+
     public BulletCollidePlayerEvent(Bullet bullet, Player player)
     {
       this.bullet = bullet;

@@ -7,6 +7,7 @@ public partial class Player : CharacterBody2D
 {
   [Signal]
   public delegate void BulletCollidePlayerEventHandler(Events.BulletCollidePlayerEvent bulletCollidePlayerEvent);
+
   [Signal]
   public delegate void PlayerDiedEventHandler(Player player);
 
@@ -249,7 +250,7 @@ public partial class Player : CharacterBody2D
 
     if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
     {
-      var bulletCollidePlayerEvent = new Events.BulletCollidePlayerEvent((Bullet) area, this);
+      var bulletCollidePlayerEvent = new Events.BulletCollidePlayerEvent((Bullet)area, this);
       EmitSignal(SignalName.BulletCollidePlayer, bulletCollidePlayerEvent);
       TakeDamage(bulletCollidePlayerEvent.bullet.Damage);
       ApplyBulletKnockback(bulletCollidePlayerEvent.bullet);

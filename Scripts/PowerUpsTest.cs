@@ -12,6 +12,7 @@ public static class PowerUpsTest
     Rare = 6,
     Common = 11
   }
+
   public interface IPowerUpTest
   {
     string Name { get; }
@@ -79,6 +80,7 @@ public static class PowerUpsTest
     public string Name => "Rayleigh Scattering";
     public string Description => "Photons scatter when hitting surfaces";
     public RarityTest RarityTest => RarityTest.Rare;
+
     public void Apply(Player player, Player otherPlayer)
     {
       player.Gun.BulletCollideFloorDelegate += ScatterPhotons;
@@ -95,6 +97,7 @@ public static class PowerUpsTest
     public string Name => "Brownian Motion Curse";
     public string Description => "Opponent's photons move erratically";
     public RarityTest RarityTest => RarityTest.Curse;
+
     public void Apply(Player player, Player otherPlayer)
     {
       player.Gun.BulletFlyingDelegate += RandomizeDirection;
