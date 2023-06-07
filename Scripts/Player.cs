@@ -6,6 +6,8 @@ namespace PhotonPhighters.Scripts;
 public partial class Player : CharacterBody2D
 {
   [Signal]
+  public delegate void BulletCollidePlayerEventHandler(Events.BulletCollidePlayerEvent bulletCollidePlayerEvent);
+  [Signal]
   public delegate void PlayerDiedEventHandler(Player player);
 
   public delegate void PlayerEffectAdded(Node2D effect, Player who);
@@ -247,8 +249,10 @@ public partial class Player : CharacterBody2D
 
     if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
     {
-      TakeDamage(bullet.Damage);
-      ApplyBulletKnockback(bullet);
+      var bulletCollidePlayerEvent = new Events.BulletCollidePlayerEvent((Bullet) area, this);
+      EmitSignal(SignalName.BulletCollidePlayer, bulletCollidePlayerEvent);
+      TakeDamage(bulletCollidePlayerEvent.bullet.Damage);
+      ApplyBulletKnockback(bulletCollidePlayerEvent.bullet);
       bullet.QueueFree();
     }
   }

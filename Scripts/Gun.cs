@@ -6,6 +6,10 @@ namespace PhotonPhighters.Scripts;
 public partial class Gun : Node2D
 {
   [Signal]
+  public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletCollideFloorEvent bulletCollidePlayerEvent);
+  [Signal]
+  public delegate void BulletFlyingDelegateEventHandler(Events.BulletFlyingEvent bulletFlyingEvent);
+  [Signal]
   public delegate void ShootDelegateEventHandler(Node2D bullet);
 
   private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
@@ -113,6 +117,9 @@ public partial class Gun : Node2D
     for (var i = 0; i < BulletCount; i++)
     {
       var bullet = _bulletScene.Instantiate<Bullet>();
+      bullet.BulletCollideFloor += BulletCollideFloorDelegate;
+      bullet.BulletFlying += BulletFlyingDelegate;
+
       var shotSpread = (float)GD.RandRange(-BulletSpread, BulletSpread);
 
       bullet.GlobalPosition = GlobalPosition;
@@ -128,5 +135,15 @@ public partial class Gun : Node2D
 
     Loading = true;
     _shootTimer.Start();
+  }
+
+  private void BulletCollideFloorDelegate(Events.BulletCollideFloorEvent bulletEvent)
+  {
+    EmitSignal(SignalName.BulletCollideFloorDelegate, bulletEvent);
+  }
+
+  private void BulletFlyingDelegate(Events.BulletFlyingEvent bulletEvent)
+  {
+    EmitSignal(SignalName.BulletFlyingDelegate, bulletEvent);
   }
 }

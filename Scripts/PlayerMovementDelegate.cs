@@ -7,8 +7,15 @@ public partial class PlayerMovementDelegate : Node
   /// <summary>
   ///   The speed of which the player start taking damage from aerodynamic heating
   /// </summary>
-  private const int AerodynamicHeatingVelocity = 10_000;
 
+  [Signal]
+  public delegate void PlayerMovementEventHandler(Events.PlayerMovementEvent playerMovementEvent);
+  [Signal]
+  public delegate void PlayerJumpedEventHandler(Events.PlayerMovementEvent playerMovementEvent);
+  [Signal]
+  public delegate void PlayerWallJumpedEventHandler(Events.PlayerMovementEvent playerMovementEvent);
+
+  private const int AerodynamicHeatingVelocity = 10_000;
   private const float Gravity = 800;
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
@@ -34,13 +41,20 @@ public partial class PlayerMovementDelegate : Node
 
   public override void _PhysicsProcess(double delta)
   {
+    var movementEvent = new Events.PlayerMovementEvent(Gravity, MaxJumps, _speed);
+
     var inputDirection = new Vector2(
       Input.GetActionStrength($"p{PlayerNumber}_right") - Input.GetActionStrength($"p{PlayerNumber}_left"),
       0
     );
 
+    if (inputDirection.X != 0)
+    {
+      EmitSignal(SignalName.PlayerMovement, movementEvent);
+    }
+
     // Walking
-    var targetSpeed = inputDirection.X * Speed;
+    var targetSpeed = inputDirection.X * movementEvent.Speed;
     var acceleration = inputDirection.X != 0 ? Acceleration : Deceleration;
     _velocity.X = Mathf.Lerp(_velocity.X, targetSpeed, acceleration * (float)delta);
 
@@ -75,7 +89,8 @@ public partial class PlayerMovementDelegate : Node
 
     if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
     {
-      if (onFloor || _jumpCount < MaxJumps)
+      EmitSignal(SignalName.PlayerJumped, movementEvent);
+      if ((onFloor && movementEvent.MaxJumps != 0) || _jumpCount < movementEvent.MaxJumps)
       {
         _velocity.Y = -JumpForce;
         _jumpCount++;
@@ -83,6 +98,7 @@ public partial class PlayerMovementDelegate : Node
       }
       else if (onWall)
       {
+        EmitSignal(SignalName.PlayerWallJumped, movementEvent);
         _velocity.Y = -JumpForce;
         _velocity.X = -Mathf.Sign(_velocity.X) * JumpForce * 0.75f;
         JumpEffectsHandler();
