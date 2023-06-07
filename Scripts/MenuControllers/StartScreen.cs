@@ -5,11 +5,8 @@ namespace PhotonPhighters.Scripts.MenuControllers;
 
 public partial class StartScreen : Node2D
 {
-  [GetNode("CanvasLayer/VBoxContainer/RoundTimeSpinBox")]
-  private SpinBox _roundTimeLineEdit;
-
-  [GetNode("CanvasLayer/VBoxContainer/RoundsToWinSpinBox")]
   private SpinBox _roundsToWinLineEdit;
+  private SpinBox _roundTimeLineEdit;
 
   public override void _Ready()
   {
@@ -18,6 +15,8 @@ public partial class StartScreen : Node2D
     const string ButtonsRoot = "CanvasLayer/VBoxContainer/";
     var startButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "StartButton");
     var quitButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "QuitButton");
+    _roundTimeLineEdit = this.GetNodeOrExplode<SpinBox>(ButtonsRoot + "RoundTimeSpinBox");
+    _roundsToWinLineEdit = this.GetNodeOrExplode<SpinBox>(ButtonsRoot + "RoundsToWinSpinBox");
 
     startButton.Pressed += StartGame;
     quitButton.Pressed += QuitGame;

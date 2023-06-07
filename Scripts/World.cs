@@ -10,8 +10,6 @@ namespace PhotonPhighters.Scripts;
 
 public partial class World : Node2D
 {
-  private int _roundTime = 40;
-  private int _roundsToWin = 10;
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
 
@@ -59,6 +57,9 @@ public partial class World : Node2D
 
   [GetNode("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
+
+  private int _roundsToWin = 10;
+  private int _roundTime = 40;
 
   [GetNode("RoundTimer")]
   private Timer _roundTimer;
