@@ -251,4 +251,5 @@ scale = Vector2(0.649186, 0.209358)
 texture = ExtResource("11_ubx5m")
 
 [node name="ScaleReference" parent="." instance=ExtResource("12_2whjw")]
+visible = false
 position = Vector2(127, -89)

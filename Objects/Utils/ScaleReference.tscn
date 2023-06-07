@@ -12,3 +12,11 @@ text = "normal label for reference"
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(98, 97)
 texture = ExtResource("1_sx8p4")
+
+[node name="Label2" type="Label" parent="."]
+offset_left = 190.0
+offset_top = 75.0
+offset_right = 549.0
+offset_bottom = 127.0
+text = "<- this is roughly how big the player should be.
+why? because : - )"
