@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://uc47m72vtwou"]
+
+[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_sx8p4"]
+
+[node name="ScaleReference" type="Node2D"]
+
+[node name="Label" type="Label" parent="."]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "normal label for reference"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(98, 97)
+texture = ExtResource("1_sx8p4")

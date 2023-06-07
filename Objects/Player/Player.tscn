@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://cmxhv53no4cy5"]
+[gd_scene load_steps=26 format=3 uid="uid://cmxhv53no4cy5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Sprites/Player/darkness-player.svg" id="2_ykldl"]
@@ -11,6 +11,7 @@
 [ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Assets/Sfx/PlayerEffects/fall-death.wav" id="9_jshgc"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovementDelegate.cs" id="10_ueqen"]
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="11_ubx5m"]
+[ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="12_2whjw"]
 
 [sub_resource type="Animation" id="Animation_xkv87"]
 length = 0.001
@@ -248,3 +249,6 @@ shape = SubResource("RectangleShape2D_hpgcg")
 position = Vector2(-65, -7)
 scale = Vector2(0.649186, 0.209358)
 texture = ExtResource("11_ubx5m")
+
+[node name="ScaleReference" parent="." instance=ExtResource("12_2whjw")]
+position = Vector2(127, -89)
