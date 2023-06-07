@@ -10,8 +10,8 @@ namespace PhotonPhighters.Scripts;
 
 public partial class World : Node2D
 {
-  private const int RoundTime = 40;
-  private const int ScoreToWin = 10;
+  private int _roundTime = 40;
+  private int _roundsToWin = 10;
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
 
@@ -69,6 +69,16 @@ public partial class World : Node2D
   {
     this.AutoWire();
     _score = new Score();
+
+    if (GlobalGameState.RoundTime > 0)
+    {
+      _roundTime = GlobalGameState.RoundTime;
+    }
+
+    if (GlobalGameState.RoundsToWin > 0)
+    {
+      _roundsToWin = GlobalGameState.RoundsToWin;
+    }
 
     // UI
     var uiUpdateTimer = this.GetNodeOrExplode<Timer>("UIUpdateTimer");
@@ -284,7 +294,7 @@ public partial class World : Node2D
     }
 
     _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
-    if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
+    if (_score.Dark >= _roundsToWin || _score.Light >= _roundsToWin)
     {
       if (_score.Light > _score.Dark)
       {
@@ -296,7 +306,7 @@ public partial class World : Node2D
       }
     }
 
-    _musicPlayer.SetPitch(_score.Light, _score.Dark, ScoreToWin);
+    _musicPlayer.SetPitch(_score.Light, _score.Dark, _roundsToWin);
     StartPowerUpSelection();
   }
 
@@ -417,7 +427,7 @@ public partial class World : Node2D
     // TODO: Hack to ensure players are moved before activating the map
     AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
     // _mapManager.StartNextMap(); // <- Should be done similar to this
-    _roundTimer.Start(RoundTime);
+    _roundTimer.Start(_roundTime);
   }
 
   private void TogglePause()
