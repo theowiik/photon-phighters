@@ -1,6 +1,65 @@
-[gd_scene load_steps=2 format=3 uid="uid://bb2vib63bh7gn"]
+[gd_scene load_steps=5 format=3 uid="uid://bb2vib63bh7gn"]
 
 [ext_resource type="Script" path="res://Scripts/Map.cs" id="1_jnf5b"]
+[ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/NewSprites/pp_spritesheet.png" id="2_txn61"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbgy4"]
+texture = ExtResource("2_txn61")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0 = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+3:0/0 = 0
+3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:0/0/physics_layer_0/angular_velocity = 0.0
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0 = 0
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:1/0 = 0
+2:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:1/0/physics_layer_0/angular_velocity = 0.0
+3:1/0 = 0
+3:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:1/0/physics_layer_0/angular_velocity = 0.0
+0:2/0 = 0
+0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:2/0/physics_layer_0/angular_velocity = 0.0
+1:2/0 = 0
+1:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:2/0/physics_layer_0/angular_velocity = 0.0
+2:2/0 = 0
+2:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:2/0/physics_layer_0/angular_velocity = 0.0
+3:2/0 = 0
+3:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:2/0/physics_layer_0/angular_velocity = 0.0
+0:3/0 = 0
+0:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:3/0/physics_layer_0/angular_velocity = 0.0
+1:3/0 = 0
+1:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:3/0/physics_layer_0/angular_velocity = 0.0
+2:3/0 = 0
+2:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:3/0/physics_layer_0/angular_velocity = 0.0
+3:3/0 = 0
+3:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:3/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSet" id="TileSet_60hpj"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_lbgy4")
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_jnf5b")
@@ -18,3 +77,9 @@ color = Color(0.337255, 0.305882, 0.341176, 1)
 monitoring = false
 
 [node name="SpawnPointsContainer" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_60hpj")
+cell_quadrant_size = 32
+format = 2
+layer_0/tile_data = PackedInt32Array(0, 0, 0, 1, 65536, 0, 2, 65536, 0, 3, 65536, 0, 4, 65536, 0, 5, 131072, 0, 65541, 131072, 1, 131077, 131072, 1, 196613, 131072, 2, 196612, 65536, 2, 196611, 65536, 2, 196610, 65536, 2, 196609, 65536, 2, 196608, 0, 2, 131072, 0, 1, 65536, 0, 1, 65537, 65536, 1, 131073, 65536, 1, 131074, 65536, 1, 131075, 65536, 1, 65539, 65536, 1, 65538, 65536, 1, 65540, 65536, 1, 131076, 65536, 1, 393217, 65536, 1, 458753, 65536, 1, 524289, 65536, 1, 589825, 65536, 1, 655361, 65536, 1, 720897, 65536, 1, 786433, 65536, 1, 851969, 65536, 1, 917505, 65536, 1, 983041, 65536, 1, 1048577, 65536, 1, 1114113, 65536, 1, 1114114, 65536, 1, 1114115, 65536, 1, 1114116, 65536, 1, 1114117, 65536, 1, 1114118, 65536, 1, 1114119, 65536, 1, 1179655, 65536, 1, 1179656, 65536, 1, 1179657, 65536, 1, 1179658, 65536, 1, 1179659, 65536, 1, 1179660, 65536, 1, 1179661, 65536, 1, 1179662, 65536, 1, 1179663, 65536, 1, 1179664, 65536, 1, 1179665, 65536, 1, 1179666, 65536, 1, 1179667, 65536, 1, 1179668, 65536, 1, 1179669, 65536, 1, 1179670, 65536, 1, 1179671, 65536, 1, 1179672, 65536, 1, 1179673, 65536, 1, 1179674, 65536, 1, 1179675, 65536, 1, 1179676, 65536, 1, 1179677, 65536, 1, 1179678, 65536, 1, 1114143, 65536, 1, 1048607, 65536, 1, 983071, 65536, 1, 917535, 65536, 1, 851999, 65536, 1, 786463, 65536, 1, 786464, 65536, 1, 720928, 65536, 1, 655392, 65536, 1)

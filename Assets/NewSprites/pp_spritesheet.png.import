@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bjs8cvjni8jo3"
-path="res://.godot/imported/wasd.png-9a8e90fa54815a3b04e017b3db1ff2ce.ctex"
+path="res://.godot/imported/pp_spritesheet.png-2f931e0c44c5b9443b4b82b889f97bcf.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/NewSprites/wasd.png"
-dest_files=["res://.godot/imported/wasd.png-9a8e90fa54815a3b04e017b3db1ff2ce.ctex"]
+source_file="res://Assets/NewSprites/pp_spritesheet.png"
+dest_files=["res://.godot/imported/pp_spritesheet.png-2f931e0c44c5b9443b4b82b889f97bcf.ctex"]
 
 [params]
 
@@ -31,4 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
+detect_3d/compress_to=0
