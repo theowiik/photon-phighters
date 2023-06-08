@@ -21,31 +21,48 @@ public static class PowerUpsTest
     void Apply(Player player, Player otherPlayer);
   }
 
-  public class SpeedyGonzales : IPowerUpTest
+  public class WallSpider : IPowerUpTest
   {
-    public string Name => "Speedy Gonzales";
+    public string Name => "Wall Spider";
     public string Description => "Walljumping briefly increases movement speed";
     public RarityTest RarityTest => RarityTest.Common;
     private ulong MsecSinceLastWallJump = 0;
 
     public void Apply(Player player, Player otherPlayer)
     {
-      player.PlayerMovementDelegate.PlayerMovement += GiveSpeedBoost;
-      player.PlayerMovementDelegate.PlayerWallJumped += RecordTimeSinceWallJump;
+      player.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
+      player.PlayerMovementDelegate.PlayerWallJump += RecordTimeSinceWallJump;
     }
 
-    public void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
+    public void GiveSpeedBoost(Events.PlayerMoveEvent playerMovementEvent)
     {
       ulong CurrentTimeMsec = Time.GetTicksMsec();
       if (CurrentTimeMsec - MsecSinceLastWallJump < 5000)
       {
-        playerMovementEvent.Speed *= 2;
+        playerMovementEvent.Speed *= 1.25f;
       }
     }
 
-    public void RecordTimeSinceWallJump(Events.PlayerMovementEvent playerMovementEvent)
+    public void RecordTimeSinceWallJump(Events.PlayerMoveEvent playerMovedEvent)
     {
       MsecSinceLastWallJump = Time.GetTicksMsec();
+    }
+  }
+
+  public class OingoBoingoCurse : IPowerUpTest
+  {
+    public string Name => "Oingo Boingo Curse";
+    public string Description => "Opponent is always bouncing";
+    public RarityTest RarityTest => RarityTest.Curse;
+
+    public void Apply(Player player, Player otherPlayer)
+    {
+      player.PlayerMovementDelegate.PlayerLand += ApplyBounce;
+    }
+
+    public void ApplyBounce(Events.PlayerMoveEvent playerMoveEvent)
+    {
+      playerMoveEvent.Velocity.Y -= 1000;
     }
   }
 
@@ -58,15 +75,15 @@ public static class PowerUpsTest
 
     public void Apply(Player player, Player otherPlayer)
     {
-      player.PlayerMovementDelegate.PlayerJumped += DelayJump;
+      player.PlayerMovementDelegate.PlayerJump += DelayJump;
     }
 
-    public void DelayJump(Events.PlayerMovementEvent playerMovementEvent)
+    public void DelayJump(Events.PlayerMoveEvent playerMovementEvent)
     {
       ulong CurrentTimeMsec = Time.GetTicksMsec();
       if (CurrentTimeMsec - MsecSinceLastJump < 2000)
       {
-        playerMovementEvent.MaxJumps = 0;
+        playerMovementEvent.CanJump = false;
       }
       else
       {
@@ -83,7 +100,7 @@ public static class PowerUpsTest
 
     public void Apply(Player player, Player otherPlayer)
     {
-      player.Gun.BulletCollideFloorDelegate += ScatterPhotons;
+      player.Gun.BulletCollideFloor += ScatterPhotons;
     }
 
     public void ScatterPhotons(Events.BulletCollideFloorEvent bulletCollidePlayerEvent)
@@ -97,16 +114,26 @@ public static class PowerUpsTest
     public string Name => "Brownian Motion Curse";
     public string Description => "Opponent's photons move erratically";
     public RarityTest RarityTest => RarityTest.Curse;
+    private ulong MsecSinceRandomization = 0;
+    private Random rnd = new Random();
 
     public void Apply(Player player, Player otherPlayer)
     {
-      player.Gun.BulletFlyingDelegate += RandomizeDirection;
+      player.Gun.BulletFlying += RandomizeDirection;
     }
 
-    public void RandomizeDirection(Events.BulletFlyingEvent bulletFlyingEvent)
+    public void RandomizeDirection(Events.BulletEvent bulletFlyingEvent)
     {
-      // TODO, get velocity and stuff into bullet event
-      // And randomize direction every so often
+      ulong CurrentTimeMsec = Time.GetTicksMsec();
+      if (CurrentTimeMsec - MsecSinceRandomization > 100)
+      {
+        bulletFlyingEvent.Velocity.X += rnd.Next(-200, 200);
+        bulletFlyingEvent.Velocity.Y += rnd.Next(-200, 200);
+      }
+      else
+      {
+        MsecSinceRandomization = CurrentTimeMsec;
+      }
     }
   }
 }

@@ -6,10 +6,9 @@ namespace PhotonPhighters.Scripts;
 public partial class Bullet : Area2D
 {
   [Signal]
-  public delegate void BulletCollideFloorEventHandler(Events.BulletCollideFloorEvent bulletCollideFloorEvent);
-
+  public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletCollideFloorEvent bulletCollideFloorEvent);
   [Signal]
-  public delegate void BulletFlyingEventHandler(Events.BulletFlyingEvent bulletFlyingEvent);
+  public delegate void BulletFlyingDelegateEventHandler(Events.BulletEvent bulletEvent);
   private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private Vector2 _velocity;
   public float GravityFactor { get; set; } = 1.0f;
@@ -19,9 +18,10 @@ public partial class Bullet : Area2D
 
   public override void _PhysicsProcess(double delta)
   {
-    var bulletFlyingEvent = new Events.BulletFlyingEvent(this);
-    EmitSignal(SignalName.BulletFlying, bulletFlyingEvent);
-    _velocity.Y += _gravity * GravityFactor * (float)delta;
+    var bulletFlyingEvent = new Events.BulletEvent(_velocity, Damage, Speed);
+    EmitSignal(SignalName.BulletFlyingDelegate, bulletFlyingEvent);
+    bulletFlyingEvent.Velocity.Y += _gravity * GravityFactor * (float)delta;
+    _velocity = bulletFlyingEvent.Velocity;
     Translate(_velocity * (float)delta);
   }
 
@@ -30,7 +30,7 @@ public partial class Bullet : Area2D
     _velocity = Vector2.FromAngle(Rotation) * Speed;
     var lifeTimeTimer = this.GetNodeOrExplode<Timer>("Timer");
     lifeTimeTimer.Timeout += OnTimerTimeout;
-    lifeTimeTimer.Start(5);
+    lifeTimeTimer.Start(3);
     AreaEntered += OnAreaEntered;
     BodyEntered += OnBodyEntered;
 
@@ -54,7 +54,7 @@ public partial class Bullet : Area2D
   {
     if (body.IsInGroup("floors"))
     {
-      EmitSignal(SignalName.BulletCollideFloor, new Events.BulletCollideFloorEvent(this, body));
+      EmitSignal(SignalName.BulletCollideFloorDelegate, new Events.BulletCollideFloorEvent(_velocity, Damage, Speed, body));
       QueueFree();
     }
   }

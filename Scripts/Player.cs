@@ -250,10 +250,8 @@ public partial class Player : CharacterBody2D
 
     if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
     {
-      var bulletCollidePlayerEvent = new Events.BulletCollidePlayerEvent((Bullet)area, this);
-      EmitSignal(SignalName.BulletCollidePlayer, bulletCollidePlayerEvent);
-      TakeDamage(bulletCollidePlayerEvent.bullet.Damage);
-      ApplyBulletKnockback(bulletCollidePlayerEvent.bullet);
+      TakeDamage(bullet.Damage);
+      ApplyBulletKnockback(bullet);
       bullet.QueueFree();
     }
   }

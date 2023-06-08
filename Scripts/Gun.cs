@@ -6,10 +6,10 @@ namespace PhotonPhighters.Scripts;
 public partial class Gun : Node2D
 {
   [Signal]
-  public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletCollideFloorEvent bulletCollidePlayerEvent);
+  public delegate void BulletCollideFloorEventHandler(Events.BulletCollideFloorEvent bulletCollidePlayerEvent);
 
   [Signal]
-  public delegate void BulletFlyingDelegateEventHandler(Events.BulletFlyingEvent bulletFlyingEvent);
+  public delegate void BulletFlyingEventHandler(Events.BulletEvent bulletEvent);
 
   [Signal]
   public delegate void ShootDelegateEventHandler(Node2D bullet);
@@ -119,8 +119,9 @@ public partial class Gun : Node2D
     for (var i = 0; i < BulletCount; i++)
     {
       var bullet = _bulletScene.Instantiate<Bullet>();
-      bullet.BulletCollideFloor += BulletCollideFloorDelegate;
-      bullet.BulletFlying += BulletFlyingDelegate;
+
+      bullet.BulletCollideFloorDelegate += HandleBulletCollideFloor;
+      bullet.BulletFlyingDelegate += HandleBulletFlying;
 
       var shotSpread = (float)GD.RandRange(-BulletSpread, BulletSpread);
 
@@ -139,13 +140,13 @@ public partial class Gun : Node2D
     _shootTimer.Start();
   }
 
-  private void BulletCollideFloorDelegate(Events.BulletCollideFloorEvent bulletEvent)
+  private void HandleBulletCollideFloor(Events.BulletCollideFloorEvent bulletEvent)
   {
-    EmitSignal(SignalName.BulletCollideFloorDelegate, bulletEvent);
+    EmitSignal(SignalName.BulletCollideFloor, bulletEvent);
   }
 
-  private void BulletFlyingDelegate(Events.BulletFlyingEvent bulletEvent)
+  private void HandleBulletFlying(Events.BulletEvent bulletEvent)
   {
-    EmitSignal(SignalName.BulletFlyingDelegate, bulletEvent);
+    EmitSignal(SignalName.BulletFlying, bulletEvent);
   }
 }

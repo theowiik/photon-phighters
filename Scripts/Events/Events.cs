@@ -3,53 +3,59 @@ using Godot;
 
 namespace PhotonPhighters.Scripts;
 
-public static class Events
+public partial class Events
 {
-  public class PlayerMovementEvent : Node
+  public partial class PlayerMoveEvent : Node
   {
     public float Gravity;
-    public int MaxJumps;
     public float Speed;
+    public Vector2 Velocity;
+    public bool CanJump;
+    public float JumpForce;
+    public int MaxJumps;
 
-    public PlayerMovementEvent(float Gravity, int MaxJumps, float Speed)
+    public PlayerMoveEvent(float Gravity, float Speed, Vector2 Velocity, bool CanJump, float JumpForce, int MaxJumps)
     {
       this.Gravity = Gravity;
+      this.Speed = Speed;
+      this.Velocity = Velocity;
+      this.CanJump = CanJump;
+      this.JumpForce = JumpForce;
       this.MaxJumps = MaxJumps;
+    }
+  }
+
+  public partial class BulletEvent : Node
+  {
+    public Vector2 Velocity;
+    public int Damage;
+    public float Speed;
+
+    public BulletEvent(Vector2 Velocity, int Damage, float Speed)
+    {
+      this.Velocity = Velocity;
+      this.Damage = Damage;
       this.Speed = Speed;
     }
   }
 
-  public class BulletCollideFloorEvent : Node
+  public partial class BulletCollideFloorEvent : BulletEvent
   {
-    public Bullet bullet;
     public Node2D floor;
 
-    public BulletCollideFloorEvent(Bullet bullet, Node2D floor)
+    public BulletCollideFloorEvent(Vector2 Velocity, int Damage, float Speed, Node2D floor) : base(Velocity, Damage, Speed)
     {
-      this.bullet = bullet;
       this.floor = floor;
     }
   }
 
-  public class BulletCollidePlayerEvent : Node
+  public partial class BulletCollidePlayerEvent : BulletEvent
   {
-    public Bullet bullet;
     public Player player;
 
-    public BulletCollidePlayerEvent(Bullet bullet, Player player)
+    public BulletCollidePlayerEvent(Vector2 Velocity, int Damage, float Speed, Player player) : base(Velocity, Damage, Speed)
     {
-      this.bullet = bullet;
       this.player = player;
-    }
-  }
-
-  public class BulletFlyingEvent : Node
-  {
-    public Bullet bullet;
-
-    public BulletFlyingEvent(Bullet bullet)
-    {
-      this.bullet = bullet;
     }
   }
 }
