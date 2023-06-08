@@ -9,7 +9,7 @@ public partial class PlayerEffectsDelegate : Node2D
 
   private const string JumpAnimation = "jump";
   private const string LandAnimation = "land";
-  private const string RunLeftAnimation = "x";
+  private const string RunLeftAnimation = "run_left";
   private const string RunRightAnimation = "x";
   private const string SpawnAnimation = "x";
   private const string Wall = "x";
@@ -75,12 +75,12 @@ public partial class PlayerEffectsDelegate : Node2D
 
   public void AnimationPlayRunLeft()
   {
-    // _animationPlayer.Play(RunLeftAnimation);
+    _animationPlayer.Play(RunLeftAnimation);
   }
 
   public void AnimationPlayRunRight()
   {
-    // _animationPlayer.Play(RunRightAnimation);
+    _animationPlayer.Play(RunLeftAnimation);
   }
 
   public void AnimationPlaySpawn()
