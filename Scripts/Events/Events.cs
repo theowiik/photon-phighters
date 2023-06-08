@@ -43,7 +43,8 @@ public partial class Events
   {
     public Node2D floor;
 
-    public BulletCollideFloorEvent(Vector2 Velocity, int Damage, float Speed, Node2D floor) : base(Velocity, Damage, Speed)
+    public BulletCollideFloorEvent(Vector2 Velocity, int Damage, float Speed, Node2D floor)
+      : base(Velocity, Damage, Speed)
     {
       this.floor = floor;
     }
@@ -53,7 +54,8 @@ public partial class Events
   {
     public Player player;
 
-    public BulletCollidePlayerEvent(Vector2 Velocity, int Damage, float Speed, Player player) : base(Velocity, Damage, Speed)
+    public BulletCollidePlayerEvent(Vector2 Velocity, int Damage, float Speed, Player player)
+      : base(Velocity, Damage, Speed)
     {
       this.player = player;
     }

@@ -7,6 +7,7 @@ public partial class Bullet : Area2D
 {
   [Signal]
   public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletCollideFloorEvent bulletCollideFloorEvent);
+
   [Signal]
   public delegate void BulletFlyingDelegateEventHandler(Events.BulletEvent bulletEvent);
   private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
@@ -54,7 +55,10 @@ public partial class Bullet : Area2D
   {
     if (body.IsInGroup("floors"))
     {
-      EmitSignal(SignalName.BulletCollideFloorDelegate, new Events.BulletCollideFloorEvent(_velocity, Damage, Speed, body));
+      EmitSignal(
+        SignalName.BulletCollideFloorDelegate,
+        new Events.BulletCollideFloorEvent(_velocity, Damage, Speed, body)
+      );
       QueueFree();
     }
   }
