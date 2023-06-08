@@ -32,7 +32,7 @@ public partial class Gun : Node2D
 
   public float BulletSizeFactor { get; set; } = 1.0f;
 
-  public float BulletSpeed { get; set; } = 1000;
+  public float BulletSpeed { get; set; } = 500;
 
   /// <summary>
   ///   The spread of the bullets in radians.

@@ -83,10 +83,10 @@ public partial class FollowingCamera : Camera2D
   {
     return strength switch
     {
-      ShakeStrength.Weak => 5,
-      ShakeStrength.Medium => 10,
-      ShakeStrength.Strong => 30,
-      ShakeStrength.Uber => 150,
+      ShakeStrength.Weak => 2,
+      ShakeStrength.Medium => 5,
+      ShakeStrength.Strong => 15,
+      ShakeStrength.Uber => 75,
       _ => 0
     };
   }

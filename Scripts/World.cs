@@ -18,11 +18,11 @@ public partial class World : Node2D
   private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
 
   private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(
-    "res://Objects/Player/Ragdolls/RagdollDark.tscn"
+    "res://Objects/Player/Ragdolls/DarkRagdoll.tscn"
   );
 
   private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(
-    "res://Objects/Player/Ragdolls/RagdollLight.tscn"
+    "res://Objects/Player/Ragdolls/LightRagdoll.tscn"
   );
 
   private readonly PackedScene _scene = GD.Load<PackedScene>("res://UI/DamageAmountIndicator.tscn");
@@ -399,7 +399,7 @@ public partial class World : Node2D
 
     ragdoll.GlobalPosition = player.GlobalPosition;
     var angleVec = -Vector2.Right.Rotated((float)GD.RandRange(0, Math.PI));
-    ragdoll.ApplyCentralImpulse(angleVec * (float)GD.RandRange(1000f, 1500f));
+    ragdoll.ApplyCentralImpulse(angleVec * (float)GD.RandRange(600f, 900f));
     ragdoll.AngularVelocity = GD.RandRange(-50, 50);
   }
 

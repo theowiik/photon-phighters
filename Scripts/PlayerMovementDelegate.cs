@@ -9,7 +9,7 @@ public partial class PlayerMovementDelegate : Node
   /// </summary>
   private const int AerodynamicHeatingVelocity = 10_000;
 
-  private const float Gravity = 800;
+  private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
@@ -18,10 +18,10 @@ public partial class PlayerMovementDelegate : Node
   private bool _onFloorLastCall;
   private float _speed = 300;
   private Vector2 _velocity;
-  public float Acceleration { get; set; } = 5f;
+  public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
-  public float JumpForce { get; set; } = 700;
+  public float JumpForce { get; set; } = 500;
   public int MaxJumps { get; set; } = 2;
   public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
   public int PlayerNumber { get; set; }
@@ -61,16 +61,16 @@ public partial class PlayerMovementDelegate : Node
 
     // Gravity
     var onWall = CharacterBody.IsOnWall() && !onFloor && inputDirection.X != 0;
-    _velocity.Y += Gravity * (float)delta;
+    _velocity.Y += _gravity * (float)delta;
 
     // Gliding on walls
     if (onWall)
     {
-      _velocity.Y += Gravity * GlideGravityScale * (float)delta;
+      _velocity.Y += _gravity * GlideGravityScale * (float)delta;
     }
     else
     {
-      _velocity.Y += Gravity * (float)delta;
+      _velocity.Y += _gravity * (float)delta;
     }
 
     if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
