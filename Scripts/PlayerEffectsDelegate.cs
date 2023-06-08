@@ -7,12 +7,12 @@ public partial class PlayerEffectsDelegate : Node2D
 {
   public delegate void PlayerEffectPerformed(Node2D effect);
 
-  private const string JumpAnimation = "stretch_jump";
-  private const string LandAnimation = "squish_land";
-  private const string RunLeftAnimation = "running_left";
-  private const string RunRightAnimation = "running_right";
-  private const string SpawnAnimation = "spawn";
-  private const string Wall = "squish_wall";
+  private const string JumpAnimation = "jump";
+  private const string LandAnimation = "land";
+  private const string RunLeftAnimation = "x";
+  private const string RunRightAnimation = "x";
+  private const string SpawnAnimation = "x";
+  private const string Wall = "x";
   private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
@@ -42,6 +42,9 @@ public partial class PlayerEffectsDelegate : Node2D
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
 
+  [GetNode("AnimationPlayer")]
+  private AnimationPlayer _animationPlayer;
+
   public PlayerEffectPerformed PlayerEffectAddedListeners { get; set; }
 
   public Sprite2D PlayerSprite { get; set; }
@@ -60,7 +63,8 @@ public partial class PlayerEffectsDelegate : Node2D
 
   public void AnimationPlayJump()
   {
-    // _animationPlayer.Play(JumpAnimation);
+    _animationPlayer.Stop();
+    _animationPlayer.Play(JumpAnimation);
   }
 
   public void AnimationPlayLand()
