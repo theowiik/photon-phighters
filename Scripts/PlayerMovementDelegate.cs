@@ -16,9 +16,9 @@ public partial class PlayerMovementDelegate : Node
   private int _jumpCount;
   private Vector2 _knockback;
   private bool _onFloorLastCall;
-  private float _speed = 800;
+  private float _speed = 300;
   private Vector2 _velocity;
-  public float Acceleration { get; set; } = 12f;
+  public float Acceleration { get; set; } = 5f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
   public float JumpForce { get; set; } = 700;

@@ -149,4 +149,4 @@ dev_switch_light_mode={
 
 [rendering]
 
-textures/canvas_textures/default_texture_filter=2
+textures/canvas_textures/default_texture_filter=0

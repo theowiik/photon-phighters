@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://dpatm74iofg13"]
 
 [ext_resource type="Script" path="res://Scripts/Gun.cs" id="1_va0s7"]
-[ext_resource type="Texture2D" uid="uid://bihiracvmrnay" path="res://Assets/Sprites/gun2.svg" id="2_mrjcj"]
+[ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/NewSprites/pp_spritesheet.png" id="2_grco1"]
 [ext_resource type="AudioStream" uid="uid://bymdsj7cdepay" path="res://Assets/Sfx/PlayerEffects/shoot.wav" id="3_5tc0c"]
 
 [node name="Gun" type="Node2D"]
@@ -9,9 +9,10 @@ position = Vector2(2.08165e-12, 2.08165e-12)
 script = ExtResource("1_va0s7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(1, -1.90735e-06)
-scale = Vector2(0.117593, 0.117593)
-texture = ExtResource("2_mrjcj")
+texture = ExtResource("2_grco1")
+hframes = 4
+vframes = 4
+frame = 14
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

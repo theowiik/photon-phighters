@@ -11,7 +11,10 @@ public partial class Map : Node2D
   public Area2D OutOfBounds { get; private set; }
 
   [GetNode("SpawnPointsContainer")]
-  private Node2D SpawnPointsContainer { get; set; }
+  private Node2D _spawnPointsContainer;
+
+  [GetNode("TileMap")]
+  public TileMap _tileMap;
 
   public override void _Ready()
   {
@@ -33,7 +36,7 @@ public partial class Map : Node2D
   public Node2D GetRandomSpawnPoint()
   {
     Node2D nextSpawn = null;
-    var spawnPoints = SpawnPointsContainer.GetNodesOfType<Node2D>();
+    var spawnPoints = _spawnPointsContainer.GetNodesOfType<Node2D>();
 
     while (nextSpawn == null || nextSpawn == _lastSpawnPoint)
     {

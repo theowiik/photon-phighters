@@ -1,165 +1,27 @@
-[gd_scene load_steps=26 format=3 uid="uid://cmxhv53no4cy5"]
+[gd_scene load_steps=15 format=3 uid="uid://cmxhv53no4cy5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
-[ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Sprites/Player/darkness-player.svg" id="2_ykldl"]
 [ext_resource type="PackedScene" uid="uid://dpatm74iofg13" path="res://Objects/Player/Gun.tscn" id="3_g1rr3"]
 [ext_resource type="AudioStream" uid="uid://cu4yecucyw8l1" path="res://Assets/Sfx/PlayerEffects/punch.mp3" id="4_kgptp"]
 [ext_resource type="Script" path="res://Scripts/PlayerEffectsDelegate.cs" id="5_gj8sb"]
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Assets/Sfx/PlayerEffects/jump-sfx.wav" id="5_iig84"]
 [ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Assets/Sfx/PlayerEffects/death.wav" id="6_km5ul"]
 [ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Assets/Sfx/PlayerEffects/damage2.wav" id="8_k35ro"]
+[ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/NewSprites/pp_spritesheet.png" id="8_v52hp"]
 [ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Assets/Sfx/PlayerEffects/fall-death.wav" id="9_jshgc"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovementDelegate.cs" id="10_ueqen"]
-[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="11_ubx5m"]
-[ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="12_2whjw"]
-
-[sub_resource type="Animation" id="Animation_xkv87"]
-length = 0.001
-
-[sub_resource type="Animation" id="Animation_ignui"]
-resource_name = "running_left"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [0.174533]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
-}
-
-[sub_resource type="Animation" id="Animation_nk06g"]
-resource_name = "running_right"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [-0.174533]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath(".:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0.5, -9.83477e-06), Vector2(0.5, -5), Vector2(0.5, -9.83477e-06)]
-}
-
-[sub_resource type="Animation" id="Animation_5marj"]
-resource_name = "spawn"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0.188235)]
-}
-
-[sub_resource type="Animation" id="Animation_vdp7y"]
-resource_name = "squish_land"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.3),
-"transitions": PackedFloat32Array(1, 0.34151, 1),
-"update": 0,
-"values": [Vector2(0.131, 0.131), Vector2(0.16, 0.12), Vector2(0.131, 0.131)]
-}
-
-[sub_resource type="Animation" id="Animation_7ly8p"]
-resource_name = "squish_wall"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Vector2(0.131, 0.131), Vector2(0.1, 0.15), Vector2(0.131, 0.131)]
-}
-
-[sub_resource type="Animation" id="Animation_qj5pb"]
-resource_name = "stretch_jump"
-length = 0.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:scale")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.125, 0.3),
-"transitions": PackedFloat32Array(1, 3.36358, 1),
-"update": 0,
-"values": [Vector2(0.131, 0.13), Vector2(0.1, 0.175), Vector2(0.131, 0.13)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_1me7g"]
-_data = {
-"RESET": SubResource("Animation_xkv87"),
-"running_left": SubResource("Animation_ignui"),
-"running_right": SubResource("Animation_nk06g"),
-"spawn": SubResource("Animation_5marj"),
-"squish_land": SubResource("Animation_vdp7y"),
-"squish_wall": SubResource("Animation_7ly8p"),
-"stretch_jump": SubResource("Animation_qj5pb")
-}
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_k4h85"]
-radius = 67.0075
+radius = 17.1172
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
-size = Vector2(119, 122.5)
+size = Vector2(28, 29)
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctffe"]
 bg_color = Color(0, 0.709804, 0.490196, 1)
 
 [sub_resource type="Theme" id="Theme_hil3n"]
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_ctffe")
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hpgcg"]
-size = Vector2(80.5, 32)
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
 collision_mask = 5
@@ -186,12 +48,6 @@ stream = ExtResource("9_jshgc")
 stream = ExtResource("5_iig84")
 volume_db = 14.497
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="PlayerEffectsDelegate"]
-root_node = NodePath("../../Sprite2D")
-libraries = {
-"": SubResource("AnimationLibrary_1me7g")
-}
-
 [node name="HurtTimer" type="Timer" parent="PlayerEffectsDelegate"]
 wait_time = 0.1
 one_shot = true
@@ -201,55 +57,31 @@ shape = SubResource("CircleShape2D_k4h85")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0.5, -9.83477e-06)
-rotation = 0.174533
-scale = Vector2(0.131, 0.131)
-texture = ExtResource("2_ykldl")
+texture = ExtResource("8_v52hp")
+hframes = 4
+vframes = 4
+frame = 12
 
 [node name="Marker2D" type="Marker2D" parent="."]
 
 [node name="Gun" parent="Marker2D" instance=ExtResource("3_g1rr3")]
-position = Vector2(97, 1)
-scale = Vector2(0.5, 0.5)
+position = Vector2(17, 1)
 
 [node name="BulletDetectionArea" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="BulletDetectionArea"]
-position = Vector2(-0.5, -0.25)
+position = Vector2(0, 0.5)
 shape = SubResource("RectangleShape2D_d4oxs")
 
 [node name="Movement" type="Node" parent="."]
 script = ExtResource("10_ueqen")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
-offset_left = -45.0
-offset_top = -105.0
-offset_right = 45.0
-offset_bottom = -91.0
+offset_left = -12.0
+offset_top = -27.0
+offset_right = 12.0
+offset_bottom = -22.0
 theme = SubResource("Theme_hil3n")
 max_value = 1.0
 value = 0.66
 show_percentage = false
-
-[node name="ArmWip" type="Node2D" parent="."]
-visible = false
-
-[node name="PinJoint2D" type="PinJoint2D" parent="ArmWip"]
-position = Vector2(-29, -7)
-node_a = NodePath("../..")
-node_b = NodePath("../RigidBody2D")
-
-[node name="RigidBody2D" type="RigidBody2D" parent="ArmWip"]
-mass = 100.0
-
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="ArmWip/RigidBody2D"]
-position = Vector2(-64.75, -7)
-shape = SubResource("RectangleShape2D_hpgcg")
-
-[node name="Sprite2D" type="Sprite2D" parent="ArmWip/RigidBody2D"]
-position = Vector2(-65, -7)
-scale = Vector2(0.649186, 0.209358)
-texture = ExtResource("11_ubx5m")
-
-[node name="ScaleReference" parent="." instance=ExtResource("12_2whjw")]
-visible = false
-position = Vector2(127, -89)

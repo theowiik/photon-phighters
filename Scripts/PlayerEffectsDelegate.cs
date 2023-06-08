@@ -24,9 +24,6 @@ public partial class PlayerEffectsDelegate : Node2D
     "res://Objects/Player/Particles/JumpParticles.tscn"
   );
 
-  [GetNode("AnimationPlayer")]
-  private AnimationPlayer _animationPlayer;
-
   [GetNode("Sfx/DeathPlayer")]
   private AudioStreamPlayer2D _deathPlayer;
 
@@ -63,32 +60,32 @@ public partial class PlayerEffectsDelegate : Node2D
 
   public void AnimationPlayJump()
   {
-    _animationPlayer.Play(JumpAnimation);
+    // _animationPlayer.Play(JumpAnimation);
   }
 
   public void AnimationPlayLand()
   {
-    _animationPlayer.Play(LandAnimation);
+    // _animationPlayer.Play(LandAnimation);
   }
 
   public void AnimationPlayRunLeft()
   {
-    _animationPlayer.Play(RunLeftAnimation);
+    // _animationPlayer.Play(RunLeftAnimation);
   }
 
   public void AnimationPlayRunRight()
   {
-    _animationPlayer.Play(RunRightAnimation);
+    // _animationPlayer.Play(RunRightAnimation);
   }
 
   public void AnimationPlaySpawn()
   {
-    _animationPlayer.Play(SpawnAnimation);
+    // _animationPlayer.Play(SpawnAnimation);
   }
 
   public void AnimationPlayWall()
   {
-    _animationPlayer.Play(Wall);
+    // _animationPlayer.Play(Wall);
   }
 
   public void EmitHurtParticles()
