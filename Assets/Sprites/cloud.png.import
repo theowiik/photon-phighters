@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bihiracvmrnay"
-path="res://.godot/imported/gun2.svg-8bf87340dfec92bd6f14b7caf69c0cd1.ctex"
+uid="uid://rqchpfitai2e"
+path="res://.godot/imported/cloud.png-aecc2103c9581e74fadbafbbc341f790.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/gun2.svg"
-dest_files=["res://.godot/imported/gun2.svg-8bf87340dfec92bd6f14b7caf69c0cd1.ctex"]
+source_file="res://Assets/Sprites/cloud.png"
+dest_files=["res://.godot/imported/cloud.png-aecc2103c9581e74fadbafbbc341f790.ctex"]
 
 [params]
 
@@ -32,6 +32,3 @@ process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
 detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false

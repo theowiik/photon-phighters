@@ -7,7 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Assets/Sfx/PlayerEffects/jump-sfx.wav" id="5_iig84"]
 [ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Assets/Sfx/PlayerEffects/death.wav" id="6_km5ul"]
 [ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Assets/Sfx/PlayerEffects/damage2.wav" id="8_k35ro"]
-[ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/NewSprites/pp_spritesheet.png" id="8_v52hp"]
+[ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/Sprites/pp_spritesheet.png" id="8_v52hp"]
 [ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Assets/Sfx/PlayerEffects/fall-death.wav" id="9_jshgc"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovementDelegate.cs" id="10_ueqen"]
 
