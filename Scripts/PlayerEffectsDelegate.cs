@@ -69,7 +69,8 @@ public partial class PlayerEffectsDelegate : Node2D
 
   public void AnimationPlayLand()
   {
-    // _animationPlayer.Play(LandAnimation);
+    _animationPlayer.Stop();
+    _animationPlayer.Play(LandAnimation);
   }
 
   public void AnimationPlayRunLeft()
