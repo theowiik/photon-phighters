@@ -9,17 +9,13 @@ public partial class PlayerEffectsDelegate : Node2D
 
   private const string JumpAnimation = "jump";
   private const string LandAnimation = "land";
-  private const string RunLeftAnimation = "run_left";
-  private const string RunRightAnimation = "x";
-  private const string SpawnAnimation = "x";
-  private const string Wall = "x";
+  private const string RunAnimation = "run";
   private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
     "res://Objects/Player/Particles/HurtParticles.tscn"
   );
 
-  // TODO: Create a object pool for particles
   private readonly PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
     "res://Objects/Player/Particles/JumpParticles.tscn"
   );
@@ -75,22 +71,14 @@ public partial class PlayerEffectsDelegate : Node2D
 
   public void AnimationPlayRunLeft()
   {
-    _animationPlayer.Play(RunLeftAnimation);
+    PlayerSprite.FlipH = true;
+    _animationPlayer.Play(RunAnimation);
   }
 
   public void AnimationPlayRunRight()
   {
-    _animationPlayer.Play(RunLeftAnimation);
-  }
-
-  public void AnimationPlaySpawn()
-  {
-    // _animationPlayer.Play(SpawnAnimation);
-  }
-
-  public void AnimationPlayWall()
-  {
-    // _animationPlayer.Play(Wall);
+    PlayerSprite.FlipH = false;
+    _animationPlayer.Play(RunAnimation);
   }
 
   public void EmitHurtParticles()
