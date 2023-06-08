@@ -77,11 +77,10 @@ monitoring = false
 
 [node name="SpawnPointsContainer" type="Node2D" parent="."]
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="TileMap" type="TileMap" parent="." groups=["floors"]]
 tile_set = SubResource("TileSet_60hpj")
 cell_quadrant_size = 32
 format = 2
-layer_0/tile_data = PackedInt32Array(851972, 0, 0, 851973, 131072, 0, 917508, 0, 2, 917509, 131072, 2, 1179656, 65536, 1, 1245192, 65536, 1, 1310728, 65536, 1, 1310729, 65536, 1, 1310730, 65536, 1, 1310731, 65536, 1, 1310732, 65536, 1, 1245196, 65536, 1, 1179660, 65536, 1, 983048, 65536, 1, 983049, 65536, 1, 983050, 65536, 1, 983051, 65536, 1, 983052, 65536, 1, 1114127, 65536, 1, 1114129, 65536, 1, 1114128, 65536, 1, 1114130, 65536, 1, 1114117, 65536, 1, 1114116, 65536, 1, 1114115, 65536, 1, 1114114, 65536, 1, 1114113, 65536, 1, 786447, 65536, 1, 786448, 65536, 1, 786449, 65536, 1, 786450, 65536, 1, 786451, 65536, 1, 786452, 65536, 1)
 
 [node name="ScaleReference" parent="." instance=ExtResource("3_4spj6")]
 visible = false

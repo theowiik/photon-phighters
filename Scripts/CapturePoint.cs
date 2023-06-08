@@ -8,10 +8,9 @@ namespace PhotonPhighters.Scripts;
 public partial class CapturePoint : Node2D
 {
   public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
-
   private const float TimeToCapture = 6f;
-
   private readonly ICollection<Player> _playersInside = new List<Player>();
+  private float _radius;
 
   private bool _captured;
 
@@ -52,7 +51,6 @@ public partial class CapturePoint : Node2D
 
   public override void _Draw()
   {
-    const int radius = 300;
     var noneColor = new Color(0, 1, 0.2f, 0.3f);
     var lightColor = new Color(1, 1, 1, 0.3f);
     var darkColor = new Color(0, 0, 0, 0.3f);
@@ -75,7 +73,7 @@ public partial class CapturePoint : Node2D
       };
     }
 
-    DrawCircle(Vector2.Zero, radius, color);
+    DrawCircle(Vector2.Zero, _radius, color);
   }
 
   public override void _Process(double delta)
@@ -118,6 +116,8 @@ public partial class CapturePoint : Node2D
     var area = this.GetNodeOrExplode<Area2D>("Area2D");
     area.BodyEntered += OnBodyEntered;
     area.BodyExited += OnBodyExited;
+    var circle = area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D").Shape as CircleShape2D;
+    _radius = circle.Radius;
   }
 
   private int CalcActiveCaptureDiff()

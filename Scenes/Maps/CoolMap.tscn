@@ -40,7 +40,22 @@ position = Vector2(3805, -4481.25)
 shape = SubResource("RectangleShape2D_slaa7")
 
 [node name="SpawnPoints@Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
-position = Vector2(111, 512)
+position = Vector2(27, 156)
 
 [node name="SpawnPoints@Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
-position = Vector2(544, 505)
+position = Vector2(623, 155)
+
+[node name="SpawnPointsMarker2D2" type="Marker2D" parent="SpawnPointsContainer" index="2"]
+position = Vector2(69, 320)
+
+[node name="SpawnPointsMarker2D3" type="Marker2D" parent="SpawnPointsContainer" index="3"]
+position = Vector2(585, 321)
+
+[node name="SpawnPointsMarker2D4" type="Marker2D" parent="SpawnPointsContainer" index="4"]
+position = Vector2(317, 365)
+
+[node name="SpawnPointsMarker2D5" type="Marker2D" parent="SpawnPointsContainer" index="5"]
+position = Vector2(312, 119)
+
+[node name="TileMap" parent="." index="3"]
+layer_0/tile_data = PackedInt32Array(589829, 65536, 1, 589830, 65536, 1, 589831, 65536, 1, 589832, 65536, 1, 589835, 65536, 1, 589836, 65536, 1, 589837, 65536, 1, 589838, 65536, 1, 524300, 196608, 1, 458764, 196608, 0, 393228, 196608, 0, 524295, 196608, 1, 458759, 196608, 0, 393223, 196608, 0, 196625, 196608, 2, 131087, 196608, 2, 262148, 196608, 2, 196610, 196608, 2, 65541, 196608, 2, 65545, 196608, 2, 65535, 196608, 2, 262164, 196608, 2, 65556, 196608, 2, 21, 196608, 2, 786438, 65536, 1, 851975, 65536, 1, 851976, 65536, 1, 851974, 65536, 1, 851977, 65536, 1, 851978, 65536, 1, 851979, 65536, 1, 851980, 65536, 1, 786445, 65536, 1, 851981, 65536, 1, 720912, 65536, 1, 720913, 65536, 1, 720914, 65536, 1, 720915, 65536, 1, 720899, 65536, 1, 720898, 65536, 1, 720897, 65536, 1, 720896, 65536, 1, 327687, 65536, 1, 327688, 65536, 1, 327689, 65536, 1, 327690, 65536, 1, 327691, 65536, 1, 327692, 65536, 1, 393217, 65536, 1, 393216, 65536, 1, 458751, 65536, 1, 458750, 65536, 1, 458749, 65536, 1, 458748, 65536, 1, 393234, 65536, 1, 393235, 65536, 1, 393236, 65536, 1, 393237, 65536, 1, 393238, 65536, 1, 393239, 65536, 1)
