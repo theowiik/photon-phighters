@@ -118,12 +118,11 @@ public partial class MapManager : Node2D
       }
 
       var light = _lightScene.Instantiate<Light>();
-      AddChild(light);
+      CurrentMap.AddChild(light);
       light.GlobalPosition = globalPos;
     };
 
-    var positions = CurrentMap.GetCellsToCheckLights();
-    foreach (var p in positions)
+    foreach (var p in CurrentMap.GetCellsToCheckLights())
     {
       await ToSignal(GetTree(), "physics_frame");
       CurrentMap.LightPlacingAutomata.GlobalPosition = p;
