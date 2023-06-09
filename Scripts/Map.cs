@@ -52,8 +52,33 @@ public partial class Map : Node2D
     return nextSpawn;
   }
 
-  public IEnumerable<Vector2> GetAllTileGlobalPositions()
+  /// <summary>
+  ///   Possible cells to check for light placements.
+  /// </summary>
+  /// <returns>
+  ///  A list of possible cells to check for light placements.
+  /// </returns>
+  public IEnumerable<Vector2> GetCellsToCheckLights()
   {
-    return _tileMap.GetUsedCells(0).Select(_tileMap.MapToLocal);
+    var positions = new List<Vector2>();
+    var offsets = new List<Vector2>
+    {
+      new(0, 0),
+      new(0, -1),
+      new(0, 1),
+      new(-1, 0),
+      new(1, 0)
+    };
+
+    foreach (var cellCoordinate in _tileMap.GetUsedCells(0))
+    {
+      foreach (var (x, y) in offsets)
+      {
+        var c = cellCoordinate + new Vector2I((int)x, (int)y);
+        positions.Add(ToGlobal(_tileMap.MapToLocal(c)));
+      }
+    }
+
+    return positions.Distinct().ToList();
   }
 }

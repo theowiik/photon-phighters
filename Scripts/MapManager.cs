@@ -109,7 +109,7 @@ public partial class MapManager : Node2D
 
       foreach (var existingLight in GetTree().GetNodesInGroup("lights").Cast<Light>())
       {
-        const int RadiusToNotPlace = 20;
+        const int RadiusToNotPlace = 5;
         var distance = globalPos.DistanceTo(existingLight.GlobalPosition);
         if (distance < RadiusToNotPlace)
         {
@@ -124,10 +124,9 @@ public partial class MapManager : Node2D
       light.GlobalPosition = globalPos;
     };
 
-    var positions = CurrentMap.GetAllTileGlobalPositions();
+    var positions = CurrentMap.GetCellsToCheckLights();
     foreach (var p in positions)
     {
-      GD.Print("Placing light at " + p);
       await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
       CurrentMap.LightPlacingAutomata.GlobalPosition = p;
     }

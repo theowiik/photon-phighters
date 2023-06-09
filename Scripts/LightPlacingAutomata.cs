@@ -15,6 +15,11 @@ public partial class LightPlacingAutomata : Node2D
     PlaceRaysInCircle();
   }
 
+  public override void _Process(double delta)
+  {
+    CheckRays();
+  }
+
   private void PlaceRaysInCircle()
   {
     const int NRays = 5;
@@ -30,20 +35,15 @@ public partial class LightPlacingAutomata : Node2D
     }
   }
 
-  public override void _Process(double delta)
+  private void CheckRays()
   {
-    // GlobalPosition = GetGlobalMousePosition();
-
     foreach (var ray in _rayCasts)
     {
       var hit = ray.GetCollider();
-      GD.Print(hit);
 
       if (hit is Node2D node2D && node2D.IsInGroup("floors"))
       {
         var intersection = ray.GetCollisionPoint();
-        GD.Print(intersection);
-
         EmitSignal(SignalName.PossibleLightPositionFound, intersection);
       }
     }
