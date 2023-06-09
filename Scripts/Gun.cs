@@ -23,6 +23,9 @@ public partial class Gun : Node2D
 
   [GetNode("Timer")]
   private Timer _shootTimer;
+  
+  [GetNode("Sprite2D")]
+  private Sprite2D _sprite;
 
   public int BulletCount { get; set; } = 3;
 
@@ -128,5 +131,10 @@ public partial class Gun : Node2D
 
     Loading = true;
     _shootTimer.Start();
+  }
+
+  public void FlipTexture(bool flip)
+  {
+    _sprite.FlipV = flip;
   }
 }
