@@ -127,5 +127,7 @@ public partial class MapManager : Node2D
       await ToSignal(GetTree(), "physics_frame");
       CurrentMap.LightPlacingAutomata.GlobalPosition = p;
     }
+
+    CurrentMap.LightPlacingAutomata.Enabled = false;
   }
 }

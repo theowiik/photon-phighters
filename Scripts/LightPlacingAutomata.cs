@@ -8,6 +8,20 @@ public partial class LightPlacingAutomata : Node2D
   public delegate void PossibleLightPositionFoundEventHandler(Vector2 globalPosition);
 
   private readonly IList<RayCast2D> _rayCasts = new List<RayCast2D>();
+  private bool _enabled;
+
+  public bool Enabled
+  {
+    get => _enabled;
+    set
+    {
+      _enabled = value;
+      foreach (var ray in _rayCasts)
+      {
+        ray.Enabled = _enabled;
+      }
+    }
+  }
 
   public override void _Ready()
   {
@@ -17,7 +31,10 @@ public partial class LightPlacingAutomata : Node2D
 
   public override void _Process(double delta)
   {
-    CheckRays();
+    if (Enabled)
+    {
+      CheckRays();
+    }
   }
 
   private void PlaceRaysInCircle()
