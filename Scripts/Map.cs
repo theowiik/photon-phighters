@@ -61,13 +61,7 @@ public partial class Map : Node2D
   public IEnumerable<Vector2> GetCellsToCheckLights()
   {
     var positions = new List<Vector2>();
-    var offsets = new List<Vector2>
-    {
-      new(0, -1),
-      new(0, 1),
-      new(-1, 0),
-      new(1, 0)
-    };
+    var offsets = new List<Vector2> { new(0, -1), new(0, 1), new(-1, 0), new(1, 0) };
 
     foreach (var cellCoordinate in _tileMap.GetUsedCells(0))
     {

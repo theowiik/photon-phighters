@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
 
@@ -102,7 +103,7 @@ public partial class MapManager : Node2D
     return CurrentMap.GetRandomSpawnPoint();
   }
 
-  private async void PlaceLights()
+  private async Task PlaceLights()
   {
     CurrentMap.LightPlacingAutomata.PossibleLightPositionFound += globalPos =>
     {
@@ -115,7 +116,7 @@ public partial class MapManager : Node2D
           return;
         }
       }
-      
+
       var light = _lightScene.Instantiate<Light>();
       AddChild(light);
       light.GlobalPosition = globalPos;

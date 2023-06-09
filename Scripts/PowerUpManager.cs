@@ -90,11 +90,11 @@ public static class PowerUpManager
     var uniquePowerUps = powerUps.Distinct();
 
     var things = (
-        from powerUp in uniquePowerUps
-        let count = powerUps.Count(p => p == powerUp)
-        let percent = (float)count / total * 100
-        select new Tuple<string, float>($"({powerUp.Rarity}) - {powerUp.Name}", percent)
-      )
+      from powerUp in uniquePowerUps
+      let count = powerUps.Count(p => p == powerUp)
+      let percent = (float)count / total * 100
+      select new Tuple<string, float>($"({powerUp.Rarity}) - {powerUp.Name}", percent)
+    )
       .OrderBy(item => item.Item2)
       .ToList();
 
