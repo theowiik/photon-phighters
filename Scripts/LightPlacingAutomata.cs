@@ -4,10 +4,10 @@ using PhotonPhighters.Scripts.Utils;
 
 public partial class LightPlacingAutomata : Node2D
 {
-  private readonly IList<RayCast2D> _rayCasts = new List<RayCast2D>();
-
   [Signal]
   public delegate void PossibleLightPositionFoundEventHandler(Vector2 globalPosition);
+
+  private readonly IList<RayCast2D> _rayCasts = new List<RayCast2D>();
 
   public override void _Ready()
   {
@@ -22,7 +22,7 @@ public partial class LightPlacingAutomata : Node2D
 
   private void PlaceRaysInCircle()
   {
-    const int NRays = 5;
+    const int NRays = 64;
     const int Length = 300;
 
     for (var i = 0; i < NRays; i++)

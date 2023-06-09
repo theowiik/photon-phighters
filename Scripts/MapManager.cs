@@ -11,6 +11,7 @@ public partial class MapManager : Node2D
   public delegate void OutOfBoundsEvent(Player player);
 
   private const string MapsFolder = "res://Scenes/Maps";
+  private readonly PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
 
   /// <summary>
   ///   A queue of maps to play. When the queue is empty, all maps in the MapsFolder will be added to the queue.
@@ -103,23 +104,19 @@ public partial class MapManager : Node2D
 
   private async void PlaceLights()
   {
-    CurrentMap.LightPlacingAutomata.PossibleLightPositionFound += (globalPos) =>
+    CurrentMap.LightPlacingAutomata.PossibleLightPositionFound += globalPos =>
     {
-      GD.Print("Light placed at " + globalPos);
-
       foreach (var existingLight in GetTree().GetNodesInGroup("lights").Cast<Light>())
       {
-        const int RadiusToNotPlace = 5;
+        const int RadiusToNotPlace = 10;
         var distance = globalPos.DistanceTo(existingLight.GlobalPosition);
         if (distance < RadiusToNotPlace)
         {
-          GD.Print("Light too close to existing light");
           return;
         }
       }
-
-      var lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
-      var light = lightScene.Instantiate<Light>();
+      
+      var light = _lightScene.Instantiate<Light>();
       AddChild(light);
       light.GlobalPosition = globalPos;
     };
@@ -127,7 +124,7 @@ public partial class MapManager : Node2D
     var positions = CurrentMap.GetCellsToCheckLights();
     foreach (var p in positions)
     {
-      await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+      await ToSignal(GetTree(), "physics_frame");
       CurrentMap.LightPlacingAutomata.GlobalPosition = p;
     }
   }

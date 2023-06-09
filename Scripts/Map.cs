@@ -56,14 +56,13 @@ public partial class Map : Node2D
   ///   Possible cells to check for light placements.
   /// </summary>
   /// <returns>
-  ///  A list of possible cells to check for light placements.
+  ///   A list of possible cells to check for light placements.
   /// </returns>
   public IEnumerable<Vector2> GetCellsToCheckLights()
   {
     var positions = new List<Vector2>();
     var offsets = new List<Vector2>
     {
-      new(0, 0),
       new(0, -1),
       new(0, 1),
       new(-1, 0),
@@ -79,6 +78,6 @@ public partial class Map : Node2D
       }
     }
 
-    return positions.Distinct().ToList();
+    return positions.Distinct().ToList().Shuffled();
   }
 }
