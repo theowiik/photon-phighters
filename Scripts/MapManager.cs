@@ -43,6 +43,8 @@ public partial class MapManager : Node2D
         OutOfBoundsEventListeners?.Invoke(player);
       }
     };
+    
+    PlaceLights();
   }
 
   /// <summary>
@@ -97,5 +99,36 @@ public partial class MapManager : Node2D
   public Node2D GetRandomSpawnPoint()
   {
     return CurrentMap.GetRandomSpawnPoint();
+  }
+
+  private void PlaceLights()
+  {
+    var positions = CurrentMap.GetAllTilePositions();
+
+
+
+
+    CurrentMap.LightPlacingAutomata.LightPlaced += (globalPos) =>
+    {
+      GD.Print("Light placed at " + globalPos);
+
+      var existingLights = GetTree().GetNodesInGroup("lights").Cast<Light>();
+
+      foreach (var existingLight in existingLights)
+      {
+        const int RadiusToNotPlace = 20;
+        var distance = globalPos.DistanceTo(existingLight.GlobalPosition);
+        if (distance < RadiusToNotPlace)
+        {
+          GD.Print("Light too close to existing light");
+          return;
+        }
+      }
+
+      var lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
+      var light = lightScene.Instantiate<Light>();
+      AddChild(light);
+      light.GlobalPosition = globalPos;
+    };
   }
 }

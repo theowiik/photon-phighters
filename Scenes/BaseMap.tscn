@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://bb2vib63bh7gn"]
+[gd_scene load_steps=7 format=3 uid="uid://bb2vib63bh7gn"]
 
 [ext_resource type="Script" path="res://Scripts/Map.cs" id="1_jnf5b"]
 [ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/Sprites/pp_spritesheet.png" id="2_txn61"]
 [ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="3_4spj6"]
+[ext_resource type="PackedScene" uid="uid://lecsl8dep8yo" path="res://Objects/Utils/LightPlacingAutomata.tscn" id="4_gbb0j"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbgy4"]
 texture = ExtResource("2_txn61")
@@ -85,3 +86,5 @@ format = 2
 [node name="ScaleReference" parent="." instance=ExtResource("3_4spj6")]
 visible = false
 position = Vector2(384, 100)
+
+[node name="LightPlacingAutomata" parent="." instance=ExtResource("4_gbb0j")]

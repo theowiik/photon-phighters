@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://cxt0fjve8r5yw"]
+[gd_scene load_steps=14 format=3 uid="uid://cxt0fjve8r5yw"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="4_g4vs6"]
@@ -12,7 +12,6 @@
 [ext_resource type="Script" path="res://Scripts/MapManager.cs" id="11_624e5"]
 [ext_resource type="PackedScene" uid="uid://bg2qjbajwiqdv" path="res://Objects/Player/LightPlayer.tscn" id="11_c62ed"]
 [ext_resource type="PackedScene" uid="uid://bbhvewoycl65d" path="res://Objects/Player/DarkPlayer.tscn" id="12_y8lsb"]
-[ext_resource type="PackedScene" uid="uid://lecsl8dep8yo" path="res://Objects/Utils/LightPlacingAutomata.tscn" id="13_6vpmf"]
 
 [sub_resource type="Environment" id="Environment_1kha7"]
 background_mode = 3
@@ -75,5 +74,3 @@ environment = SubResource("Environment_1kha7")
 
 [node name="MapManager" type="Node2D" parent="."]
 script = ExtResource("11_624e5")
-
-[node name="LightPlacingAutomata" parent="." instance=ExtResource("13_6vpmf")]

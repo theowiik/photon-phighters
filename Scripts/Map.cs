@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System.Collections.Generic;
+using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -15,6 +16,9 @@ public partial class Map : Node2D
 
   [GetNode("OB")]
   public Area2D OutOfBounds { get; private set; }
+
+  [GetNode("LightPlacingAutomata")]
+  public LightPlacingAutomata LightPlacingAutomata { get; private set; }
 
   public override void _Ready()
   {
@@ -45,5 +49,13 @@ public partial class Map : Node2D
 
     _lastSpawnPoint = nextSpawn;
     return nextSpawn;
+  }
+  
+  public IEnumerable<Vector2> GetAllTilePositions()
+  {
+    foreach (var cell in _tileMap.GetUsedCells(0))
+    {
+      yield return cell;
+    }
   }
 }
