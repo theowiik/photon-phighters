@@ -58,6 +58,9 @@ public partial class World : Node2D
   [GetNode("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
 
+  [GetNode("LightPlacingAutomata")]
+  private LightPlacingAutomata _lightPlacingAutomata;
+
   private int _roundsToWin = 10;
   private int _roundTime = 40;
 
@@ -70,6 +73,29 @@ public partial class World : Node2D
   {
     this.AutoWire();
     _score = new Score();
+
+    _lightPlacingAutomata.LightPlaced += (globalPos) =>
+    {
+      GD.Print("Light placed at " + globalPos);
+
+      var existingLights = GetTree().GetNodesInGroup("lights").Cast<Light>();
+
+      foreach (var existingLight in existingLights)
+      {
+        var radiusToNotPlace = 20;
+        var distance = globalPos.DistanceTo(existingLight.GlobalPosition);
+        if (distance < radiusToNotPlace)
+        {
+          GD.Print("Light too close to existing light");
+          return;
+        }
+      }
+
+      var lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
+      var light = lightScene.Instantiate<Light>();
+      AddChild(light);
+      light.GlobalPosition = globalPos;
+    };
 
     if (GlobalGameState.RoundTime > 0)
     {
