@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
 
@@ -50,12 +51,9 @@ public partial class Map : Node2D
     _lastSpawnPoint = nextSpawn;
     return nextSpawn;
   }
-  
-  public IEnumerable<Vector2> GetAllTilePositions()
+
+  public IEnumerable<Vector2> GetAllTileGlobalPositions()
   {
-    foreach (var cell in _tileMap.GetUsedCells(0))
-    {
-      yield return cell;
-    }
+    return _tileMap.GetUsedCells(0).Select(_tileMap.MapToLocal);
   }
 }

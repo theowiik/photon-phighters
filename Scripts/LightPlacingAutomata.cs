@@ -7,7 +7,7 @@ public partial class LightPlacingAutomata : Node2D
   private RayCast2D _rayCast2D;
 
   [Signal]
-  public delegate void LightPlacedEventHandler(Vector2 globalPosition);
+  public delegate void PossibleLightPositionFoundEventHandler(Vector2 globalPosition);
 
   public override void _Ready()
   {
@@ -16,7 +16,7 @@ public partial class LightPlacingAutomata : Node2D
 
   public override void _Process(double delta)
   {
-    GlobalPosition = GetGlobalMousePosition();
+    // GlobalPosition = GetGlobalMousePosition();
 
     var hit = _rayCast2D.GetCollider();
     GD.Print(hit);
@@ -26,7 +26,7 @@ public partial class LightPlacingAutomata : Node2D
       var intersection = _rayCast2D.GetCollisionPoint();
       GD.Print(intersection);
 
-      EmitSignal(SignalName.LightPlaced, intersection);
+      EmitSignal(SignalName.PossibleLightPositionFound, intersection);
     }
   }
 }

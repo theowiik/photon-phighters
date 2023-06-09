@@ -43,7 +43,7 @@ public partial class MapManager : Node2D
         OutOfBoundsEventListeners?.Invoke(player);
       }
     };
-    
+
     PlaceLights();
   }
 
@@ -101,20 +101,13 @@ public partial class MapManager : Node2D
     return CurrentMap.GetRandomSpawnPoint();
   }
 
-  private void PlaceLights()
+  private async void PlaceLights()
   {
-    var positions = CurrentMap.GetAllTilePositions();
-
-
-
-
-    CurrentMap.LightPlacingAutomata.LightPlaced += (globalPos) =>
+    CurrentMap.LightPlacingAutomata.PossibleLightPositionFound += (globalPos) =>
     {
       GD.Print("Light placed at " + globalPos);
 
-      var existingLights = GetTree().GetNodesInGroup("lights").Cast<Light>();
-
-      foreach (var existingLight in existingLights)
+      foreach (var existingLight in GetTree().GetNodesInGroup("lights").Cast<Light>())
       {
         const int RadiusToNotPlace = 20;
         var distance = globalPos.DistanceTo(existingLight.GlobalPosition);
@@ -130,5 +123,13 @@ public partial class MapManager : Node2D
       AddChild(light);
       light.GlobalPosition = globalPos;
     };
+
+    var positions = CurrentMap.GetAllTileGlobalPositions();
+    foreach (var p in positions)
+    {
+      GD.Print("Placing light at " + p);
+      await ToSignal(GetTree().CreateTimer(0.5f), "timeout");
+      CurrentMap.LightPlacingAutomata.GlobalPosition = p;
+    }
   }
 }
