@@ -23,7 +23,7 @@ public partial class Gun : Node2D
 
   [GetNode("Timer")]
   private Timer _shootTimer;
-  
+
   [GetNode("Sprite2D")]
   private Sprite2D _sprite;
 

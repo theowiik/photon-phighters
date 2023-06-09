@@ -9,10 +9,11 @@ public partial class PlayerMovementDelegate : Node
   /// </summary>
   private const int AerodynamicHeatingVelocity = 10_000;
 
-  private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
+
+  private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private int _jumpCount;
   private Vector2 _knockback;
   private bool _onFloorLastCall;

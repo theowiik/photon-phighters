@@ -20,6 +20,9 @@ public partial class PlayerEffectsDelegate : Node2D
     "res://Objects/Player/Particles/JumpParticles.tscn"
   );
 
+  [GetNode("AnimationPlayer")]
+  private AnimationPlayer _animationPlayer;
+
   [GetNode("Sfx/DeathPlayer")]
   private AudioStreamPlayer2D _deathPlayer;
 
@@ -37,9 +40,6 @@ public partial class PlayerEffectsDelegate : Node2D
 
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
-
-  [GetNode("AnimationPlayer")]
-  private AnimationPlayer _animationPlayer;
 
   public PlayerEffectPerformed PlayerEffectAddedListeners { get; set; }
 

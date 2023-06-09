@@ -7,14 +7,14 @@ public partial class Map : Node2D
 {
   private Node2D _lastSpawnPoint;
 
-  [GetNode("OB")]
-  public Area2D OutOfBounds { get; private set; }
-
   [GetNode("SpawnPointsContainer")]
   private Node2D _spawnPointsContainer;
 
   [GetNode("TileMap")]
   public TileMap _tileMap;
+
+  [GetNode("OB")]
+  public Area2D OutOfBounds { get; private set; }
 
   public override void _Ready()
   {
