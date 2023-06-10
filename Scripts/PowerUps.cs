@@ -265,7 +265,7 @@ public static class PowerUps
   {
     // Opponent is always bouncing
     public string Name => "Oingo Boingo Curse";
-    public Rarity Rarity => Rarity.Common;
+    public Rarity Rarity => Rarity.Rare;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -274,7 +274,7 @@ public static class PowerUps
 
     public static void ApplyBounce(Events.PlayerMovementEvent playerMovementEvent)
     {
-      playerMovementEvent._velocity.Y -= 1000;
+      playerMovementEvent._velocity.Y -= 250;
     }
   }
 

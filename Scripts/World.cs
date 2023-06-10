@@ -353,7 +353,7 @@ public partial class World : Node2D
     AddChild(capturePoint);
     capturePoint.CapturedListeners += OnCapturePointCaptured;
 
-    var offset = new Vector2(GD.RandRange(-100, 100), GD.RandRange(-100, 100));
+    var offset = new Vector2(GD.RandRange(-25, 25), GD.RandRange(-25, 25));
     capturePoint.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition + offset;
 
     // De-spawn after a while

@@ -10,9 +10,9 @@ public partial class Explosion : Node2D
 {
   public enum ExplosionRadiusEnum
   {
-    Small = 80,
-    Medium = 200,
-    Large = 400
+    Small = 20,
+    Medium = 50,
+    Large = 100
   }
 
   [GetNode("Area2D")]

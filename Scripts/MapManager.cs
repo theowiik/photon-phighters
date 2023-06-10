@@ -115,7 +115,7 @@ public partial class MapManager : Node2D
     {
       foreach (var existingLight in GetTree().GetNodesInGroup("lights").Cast<Light>())
       {
-        const int RadiusToNotPlace = 10;
+        const int RadiusToNotPlace = 20;
         var distance = globalPos.DistanceTo(existingLight.GlobalPosition);
         if (distance < RadiusToNotPlace)
         {
