@@ -177,7 +177,7 @@ public static class PowerUpsTest
     public void Apply(Player player, Player otherPlayer)
     {
       player.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
-      otherPlayer.PlayerHurt += RecordTimeSinceHurt;
+      player.PlayerHurt += RecordTimeSinceHurt;
     }
 
     public void GiveSpeedBoost(MovementEvents.PlayerMovementEvent playerMovementEvent)
