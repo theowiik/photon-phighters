@@ -215,6 +215,10 @@ public partial class Player : CharacterBody2D
       var direction = GetGlobalMousePosition() - GlobalPosition;
       _gunMarker.Rotation = direction.Angle();
     }
+
+    var flip = _gunMarker.RotationDegrees is > 90 or < -90;
+    _sprite2D.FlipH = flip;
+    Gun.FlipTexture(flip);
   }
 
   private void ApplyBulletKnockback(Bullet bullet)

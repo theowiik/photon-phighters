@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b746vcsacknmv"
-path="res://.godot/imported/light-player.svg-a27ed2a579f3be6440c61d1e0c974293.ctex"
+uid="uid://bjs8cvjni8jo3"
+path="res://.godot/imported/pp_spritesheet.png-dba67d0cb7947f926c0a2152b4626a7b.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Player/light-player.svg"
-dest_files=["res://.godot/imported/light-player.svg-a27ed2a579f3be6440c61d1e0c974293.ctex"]
+source_file="res://Assets/Sprites/pp_spritesheet.png"
+dest_files=["res://.godot/imported/pp_spritesheet.png-dba67d0cb7947f926c0a2152b4626a7b.ctex"]
 
 [params]
 
@@ -31,7 +31,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
+detect_3d/compress_to=0

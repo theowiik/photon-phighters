@@ -1,6 +1,67 @@
-[gd_scene load_steps=2 format=3 uid="uid://bb2vib63bh7gn"]
+[gd_scene load_steps=7 format=3 uid="uid://bb2vib63bh7gn"]
 
 [ext_resource type="Script" path="res://Scripts/Map.cs" id="1_jnf5b"]
+[ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/Sprites/pp_spritesheet.png" id="2_txn61"]
+[ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="3_4spj6"]
+[ext_resource type="PackedScene" uid="uid://lecsl8dep8yo" path="res://Objects/Utils/LightPlacingAutomata.tscn" id="4_gbb0j"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lbgy4"]
+texture = ExtResource("2_txn61")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+0:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:0/0/physics_layer_0/angular_velocity = 0.0
+1:0/0 = 0
+1:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:0/0/physics_layer_0/angular_velocity = 0.0
+2:0/0 = 0
+2:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:0/0/physics_layer_0/angular_velocity = 0.0
+3:0/0 = 0
+3:0/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:0/0/physics_layer_0/angular_velocity = 0.0
+0:1/0 = 0
+0:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0 = 0
+1:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:1/0/physics_layer_0/angular_velocity = 0.0
+1:1/0/physics_layer_0/polygon_0/points = PackedVector2Array(-16, -16, 16, -16, 16, 16, -16, 16)
+2:1/0 = 0
+2:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:1/0/physics_layer_0/angular_velocity = 0.0
+3:1/0 = 0
+3:1/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:1/0/physics_layer_0/angular_velocity = 0.0
+0:2/0 = 0
+0:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:2/0/physics_layer_0/angular_velocity = 0.0
+1:2/0 = 0
+1:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:2/0/physics_layer_0/angular_velocity = 0.0
+2:2/0 = 0
+2:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:2/0/physics_layer_0/angular_velocity = 0.0
+3:2/0 = 0
+3:2/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:2/0/physics_layer_0/angular_velocity = 0.0
+0:3/0 = 0
+0:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+0:3/0/physics_layer_0/angular_velocity = 0.0
+1:3/0 = 0
+1:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+1:3/0/physics_layer_0/angular_velocity = 0.0
+2:3/0 = 0
+2:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+2:3/0/physics_layer_0/angular_velocity = 0.0
+3:3/0 = 0
+3:3/0/physics_layer_0/linear_velocity = Vector2(0, 0)
+3:3/0/physics_layer_0/angular_velocity = 0.0
+
+[sub_resource type="TileSet" id="TileSet_60hpj"]
+tile_size = Vector2i(32, 32)
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_lbgy4")
 
 [node name="Map" type="Node2D"]
 script = ExtResource("1_jnf5b")
@@ -12,9 +73,18 @@ offset_right = 5882.0
 offset_bottom = 4039.0
 color = Color(0.337255, 0.305882, 0.341176, 1)
 
-[node name="Floors" type="Node2D" parent="."]
-
 [node name="OB" type="Area2D" parent="."]
 monitoring = false
 
 [node name="SpawnPointsContainer" type="Node2D" parent="."]
+
+[node name="TileMap" type="TileMap" parent="." groups=["floors"]]
+tile_set = SubResource("TileSet_60hpj")
+cell_quadrant_size = 32
+format = 2
+
+[node name="ScaleReference" parent="." instance=ExtResource("3_4spj6")]
+visible = false
+position = Vector2(384, 100)
+
+[node name="LightPlacingAutomata" parent="." instance=ExtResource("4_gbb0j")]

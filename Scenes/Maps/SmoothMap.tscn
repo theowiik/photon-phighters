@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://dpwn43a6hi6ch"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_nywif"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fweah"]
+size = Vector2(6800.5, 364.938)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6l20a"]
+size = Vector2(452, 13005)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7d2sx"]
+size = Vector2(6856, 505)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hvdb2"]
+size = Vector2(557, 13015.5)
+
+[node name="SmoothMap" instance=ExtResource("1_nywif")]
+
+[node name="ColorRect" parent="." index="0"]
+color = Color(0.211765, 0.341176, 0.384314, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(686, 1501)
+shape = SubResource("RectangleShape2D_fweah")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="1"]
+position = Vector2(-2433, -4486.5)
+shape = SubResource("RectangleShape2D_6l20a")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="2"]
+position = Vector2(713, -11369.5)
+shape = SubResource("RectangleShape2D_7d2sx")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
+position = Vector2(3805, -4481.25)
+shape = SubResource("RectangleShape2D_hvdb2")
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
+position = Vector2(568, 315)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
+position = Vector2(161, 337)
+
+[node name="TileMap" parent="." index="3"]
+layer_0/tile_data = PackedInt32Array(917507, 65536, 1, 917508, 65536, 1, 917509, 65536, 1, 917510, 65536, 1, 917511, 65536, 1, 917512, 65536, 1, 917513, 65536, 1, 917514, 65536, 1, 917515, 65536, 1, 917516, 65536, 1, 917517, 65536, 1, 917518, 65536, 1, 917519, 65536, 1, 917520, 65536, 1, 917521, 65536, 1, 917522, 65536, 1, 917523, 65536, 1, 917524, 65536, 1, 917525, 65536, 1, 524290, 196608, 2, 393225, 196608, 2, 589835, 196608, 2, 458772, 196608, 2, 589845, 196608, 2, 524304, 196608, 2)

@@ -146,3 +146,7 @@ dev_switch_light_mode={
 
 2d_physics/layer_2="cardboard"
 2d_physics/layer_3="floor"
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0

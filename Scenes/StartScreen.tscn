@@ -161,6 +161,7 @@ text = "Round Time"
 [node name="RoundTimeSpinBox" type="SpinBox" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 min_value = 1.0
+max_value = 9.22337e+18
 value = 35.0
 
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/VBoxContainer"]
@@ -175,6 +176,7 @@ text = "Rounds to Win"
 [node name="RoundsToWinSpinBox" type="SpinBox" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 min_value = 1.0
+max_value = 9.22337e+18
 value = 5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

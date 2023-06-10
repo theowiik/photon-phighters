@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
 
@@ -11,6 +12,7 @@ public partial class MapManager : Node2D
   public delegate void OutOfBoundsEvent(Player player);
 
   private const string MapsFolder = "res://Scenes/Maps";
+  private readonly PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
 
   /// <summary>
   ///   A queue of maps to play. When the queue is empty, all maps in the MapsFolder will be added to the queue.
@@ -43,6 +45,8 @@ public partial class MapManager : Node2D
         OutOfBoundsEventListeners?.Invoke(player);
       }
     };
+
+    PlaceLights();
   }
 
   /// <summary>
@@ -97,5 +101,33 @@ public partial class MapManager : Node2D
   public Node2D GetRandomSpawnPoint()
   {
     return CurrentMap.GetRandomSpawnPoint();
+  }
+
+  private async Task PlaceLights()
+  {
+    CurrentMap.LightPlacingAutomata.PossibleLightPositionFound += globalPos =>
+    {
+      foreach (var existingLight in GetTree().GetNodesInGroup("lights").Cast<Light>())
+      {
+        const int RadiusToNotPlace = 10;
+        var distance = globalPos.DistanceTo(existingLight.GlobalPosition);
+        if (distance < RadiusToNotPlace)
+        {
+          return;
+        }
+      }
+
+      var light = _lightScene.Instantiate<Light>();
+      CurrentMap.AddChild(light);
+      light.GlobalPosition = globalPos;
+    };
+
+    foreach (var p in CurrentMap.GetCellsToCheckLights())
+    {
+      await ToSignal(GetTree(), "physics_frame");
+      CurrentMap.LightPlacingAutomata.GlobalPosition = p;
+    }
+
+    CurrentMap.LightPlacingAutomata.Enabled = false;
   }
 }

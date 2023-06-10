@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://chwytr41twq7s"]
 
-[ext_resource type="Texture2D" uid="uid://6gciyd15rffc" path="res://Assets/Sprites/bullet2.svg" id="1_5fjsr"]
+[ext_resource type="Texture2D" uid="uid://rqchpfitai2e" path="res://Assets/Sprites/cloud.png" id="1_omqbe"]
 
 [sub_resource type="Gradient" id="Gradient_q6obx"]
 colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 0)
@@ -12,7 +12,7 @@ amount = 5
 lifetime = 0.5
 one_shot = true
 explosiveness = 0.94
-texture = ExtResource("1_5fjsr")
+texture = ExtResource("1_omqbe")
 spread = 180.0
 gravity = Vector2(0, 600)
 initial_velocity_min = 239.94
@@ -25,6 +25,4 @@ linear_accel_min = -100.0
 linear_accel_max = -51.97
 angle_min = -720.0
 angle_max = 720.0
-scale_amount_min = 0.1
-scale_amount_max = 0.2
 color_ramp = SubResource("Gradient_q6obx")
