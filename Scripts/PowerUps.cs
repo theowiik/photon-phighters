@@ -360,7 +360,7 @@ public static class PowerUps
 
     public void Apply(Player player, Player otherPlayer)
     {
-      player.Gun.BulletFlying += RandomizeDirection;
+      otherPlayer.Gun.BulletFlying += RandomizeDirection;
     }
 
     public void RandomizeDirection(BulletEvents.BulletEvent bulletFlyingEvent)
