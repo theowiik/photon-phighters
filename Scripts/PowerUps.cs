@@ -203,6 +203,7 @@ public static class PowerUps
     {
       otherPlayer.PlayerMovementDelegate.Speed /= 2;
       otherPlayer.PlayerMovementDelegate.Acceleration /= 3;
+      otherPlayer.PlayerMovementDelegate.JumpForce /= 2;
       otherPlayer.MaxHealth += 50; // TODO: Possibly make it relative to the player's max health
     }
   }
@@ -249,7 +250,7 @@ public static class PowerUps
     public void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
     {
       var currentTimeMsec = Time.GetTicksMsec();
-      if (currentTimeMsec - _msecSinceLastWallJump < 3000)
+      if (currentTimeMsec - _msecSinceLastWallJump < 6000)
       {
         playerMovementEvent._speed *= 1.5f;
       }
