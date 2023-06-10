@@ -355,7 +355,6 @@ public static class PowerUps
     // Opponent's photons move erratically
     public string Name => "Brownian Motion Curse";
     public Rarity Rarity => Rarity.Rare;
-    private ulong _msecSinceRandomization;
     private readonly Random _rnd = new();
 
     public void Apply(Player player, Player otherPlayer)
@@ -365,16 +364,8 @@ public static class PowerUps
 
     public void RandomizeDirection(Events.BulletEvent bulletFlyingEvent)
     {
-      var currentTimeMsec = Time.GetTicksMsec();
-      if (currentTimeMsec - _msecSinceRandomization > 100)
-      {
-        bulletFlyingEvent._velocity.X += _rnd.Next(-200, 200);
-        bulletFlyingEvent._velocity.Y += _rnd.Next(-200, 200);
-      }
-      else
-      {
-        _msecSinceRandomization = currentTimeMsec;
-      }
+      bulletFlyingEvent._velocity.X += _rnd.Next(-200, 200);
+      bulletFlyingEvent._velocity.Y += _rnd.Next(-200, 200);
     }
   }
 

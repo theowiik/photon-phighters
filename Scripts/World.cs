@@ -113,10 +113,6 @@ public partial class World : Node2D
       throw new NodeNotFoundException("Could not find both players");
     }
 
-    //Test
-    //var d = new PowerUpsTest.Randomizer5000();
-    //d.Apply(_lightPlayer, _darkPlayer);
-
     // Start round
     SetupCapturePoint();
     StartRound();
