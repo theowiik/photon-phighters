@@ -166,9 +166,9 @@ public static class PowerUpsTest
     }
   }
 
-  public class FlourescentBurst : IPowerUpTest
+  public class FluorescentBurst : IPowerUpTest
   {
-    public string Name => "Flourescent Burst";
+    public string Name => "Fluorescent Burst";
     public string Description => "Getting hurt briefly increases movement speed";
     public RarityTest RarityTest => RarityTest.Rare;
 
