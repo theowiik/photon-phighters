@@ -72,7 +72,9 @@ public partial class PlayerMovementDelegate : Node
     EmitSignal(SignalName.PlayerMove, moveEvent);
 
     if (!moveEvent._canMove)
+    {
       moveEvent._inputDirection = new Vector2(0, 0);
+    }
 
     // Stopped
     if (

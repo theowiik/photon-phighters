@@ -238,7 +238,7 @@ public static class PowerUps
     // Walljumping briefly increases movement speed
     public string Name => "Wall Spider";
     public Rarity Rarity => Rarity.Common;
-    private ulong _msecSinceLastWallJump = 0;
+    private ulong _msecSinceLastWallJump;
 
     public void Apply(Player player, Player otherPlayer)
     {
@@ -283,7 +283,7 @@ public static class PowerUps
     // Opponent has to briefly rest between jumps
     public string Name => "Post Leg Day Curse";
     public Rarity Rarity => Rarity.Rare;
-    private ulong _msecSinceLastJump = 0;
+    private ulong _msecSinceLastJump;
 
     public void Apply(Player player, Player otherPlayer)
     {
@@ -309,7 +309,7 @@ public static class PowerUps
     // Photons briefly freeze the opponent
     public string Name => "Chronostasis";
     public Rarity Rarity => Rarity.Legendary;
-    public ulong _msecSinceLastFreeze = 0;
+    public ulong _msecSinceLastFreeze;
 
     public void Apply(Player player, Player otherPlayer)
     {
@@ -355,7 +355,7 @@ public static class PowerUps
     // Opponent's photons move erratically
     public string Name => "Brownian Motion Curse";
     public Rarity Rarity => Rarity.Rare;
-    private ulong _msecSinceRandomization = 0;
+    private ulong _msecSinceRandomization;
     private readonly Random _rnd = new();
 
     public void Apply(Player player, Player otherPlayer)
@@ -384,7 +384,7 @@ public static class PowerUps
     public string Name => "Fluorescent Burst";
     public Rarity Rarity => Rarity.Rare;
 
-    public ulong _msecSinceLastHurt = 0;
+    public ulong _msecSinceLastHurt;
 
     public void Apply(Player player, Player otherPlayer)
     {
@@ -470,8 +470,8 @@ public static class PowerUps
     // Hurting the opponent grows your photons
     public string Name => "Pheeding Phrenzy";
     public Rarity Rarity => Rarity.Legendary;
-    public int _photonDamage = 0;
-    public float _photonSize = 0;
+    public int _photonDamage;
+    public float _photonSize;
 
     public void Apply(Player player, Player otherPlayer)
     {
