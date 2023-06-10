@@ -177,9 +177,9 @@ shape = SubResource("CircleShape2D_k4h85")
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0.5, -9.83477e-06)
 texture = ExtResource("8_v52hp")
-hframes = 4
-vframes = 4
-frame = 12
+hframes = 12
+vframes = 12
+frame = 132
 
 [node name="Marker2D" type="Marker2D" parent="."]
 

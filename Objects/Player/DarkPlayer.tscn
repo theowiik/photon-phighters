@@ -5,4 +5,4 @@
 [node name="DarkPlayer" instance=ExtResource("1_p7pa8")]
 
 [node name="Sprite2D" parent="." index="2"]
-frame = 13
+frame = 133
