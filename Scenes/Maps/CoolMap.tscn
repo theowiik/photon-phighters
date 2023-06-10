@@ -1,19 +1,18 @@
-[gd_scene load_steps=7 format=3 uid="uid://cw0y5b05vfc4n"]
+[gd_scene load_steps=6 format=3 uid="uid://cw0y5b05vfc4n"]
 
 [ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_nynx3"]
-[ext_resource type="PackedScene" uid="uid://bn0wr2va7peql" path="res://Objects/Floor.tscn" id="2_1atno"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_r6sjp"]
-size = Vector2(6800.5, 364.938)
+size = Vector2(4326.13, 393.469)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tejyk"]
-size = Vector2(452, 13005)
+size = Vector2(533, 4776)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_sdkqt"]
-size = Vector2(6856, 505)
+size = Vector2(4294, 444.5)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_slaa7"]
-size = Vector2(557, 13015.5)
+size = Vector2(551, 4642)
 
 [node name="CoolMap" instance=ExtResource("1_nynx3")]
 
@@ -24,127 +23,39 @@ offset_right = 18799.0
 offset_bottom = 11497.0
 color = Color(0.443137, 0.533333, 0.470588, 1)
 
-[node name="Floor" parent="Floors" index="0" instance=ExtResource("2_1atno")]
-position = Vector2(1677, -31)
-rotation = -0.746087
-scale = Vector2(1.90287, 1.7918)
-
-[node name="Floor2" parent="Floors" index="1" instance=ExtResource("2_1atno")]
-position = Vector2(853, -281)
-scale = Vector2(0.835414, 1.82916)
-
-[node name="Floor3" parent="Floors" index="2" instance=ExtResource("2_1atno")]
-position = Vector2(-9.99997, -77)
-rotation = -0.700264
-scale = Vector2(1.73115, 1.79636)
-
-[node name="Floor4" parent="Floors" index="3" instance=ExtResource("2_1atno")]
-position = Vector2(185, 319)
-scale = Vector2(1.64352, 1.54042)
-
-[node name="FloorIsh" type="Node2D" parent="Floors" index="4"]
-
-[node name="Floor5" parent="Floors/FloorIsh" index="0" instance=ExtResource("2_1atno")]
-position = Vector2(571, 73)
-scale = Vector2(0.784924, 0.912396)
-
-[node name="Floor6" parent="Floors/FloorIsh" index="1" instance=ExtResource("2_1atno")]
-position = Vector2(682, 72)
-scale = Vector2(0.831538, 0.932648)
-
-[node name="Floor7" parent="Floors/FloorIsh" index="2" instance=ExtResource("2_1atno")]
-position = Vector2(455, 74)
-scale = Vector2(0.875155, 0.908249)
-
-[node name="Floor8" parent="Floors/FloorIsh" index="3" instance=ExtResource("2_1atno")]
-position = Vector2(802, 71)
-scale = Vector2(0.878702, 0.95893)
-
-[node name="FloorIsh2" type="Node2D" parent="Floors" index="5"]
-position = Vector2(469, -5)
-
-[node name="Floor5" parent="Floors/FloorIsh2" index="0" instance=ExtResource("2_1atno")]
-position = Vector2(571, 73)
-scale = Vector2(0.784924, 0.912396)
-
-[node name="Floor6" parent="Floors/FloorIsh2" index="1" instance=ExtResource("2_1atno")]
-position = Vector2(682, 72)
-scale = Vector2(0.831538, 0.932648)
-
-[node name="Floor7" parent="Floors/FloorIsh2" index="2" instance=ExtResource("2_1atno")]
-position = Vector2(455, 74)
-scale = Vector2(0.875155, 0.908249)
-
-[node name="Floor8" parent="Floors/FloorIsh2" index="3" instance=ExtResource("2_1atno")]
-position = Vector2(802, 71)
-scale = Vector2(0.878702, 0.95893)
-
-[node name="FloorIsh3" type="Node2D" parent="Floors" index="6"]
-position = Vector2(3, -538)
-
-[node name="Floor5" parent="Floors/FloorIsh3" index="0" instance=ExtResource("2_1atno")]
-position = Vector2(571, 73)
-scale = Vector2(0.784924, 0.912396)
-
-[node name="Floor6" parent="Floors/FloorIsh3" index="1" instance=ExtResource("2_1atno")]
-position = Vector2(682, 72)
-scale = Vector2(0.831538, 0.932648)
-
-[node name="Floor7" parent="Floors/FloorIsh3" index="2" instance=ExtResource("2_1atno")]
-position = Vector2(455, 74)
-scale = Vector2(0.875155, 0.908249)
-
-[node name="Floor8" parent="Floors/FloorIsh3" index="3" instance=ExtResource("2_1atno")]
-position = Vector2(802, 71)
-scale = Vector2(0.878702, 0.95893)
-
-[node name="FloorIsh4" type="Node2D" parent="Floors" index="7"]
-position = Vector2(472, -543)
-
-[node name="Floor5" parent="Floors/FloorIsh4" index="0" instance=ExtResource("2_1atno")]
-position = Vector2(571, 73)
-scale = Vector2(0.784924, 0.912396)
-
-[node name="Floor6" parent="Floors/FloorIsh4" index="1" instance=ExtResource("2_1atno")]
-position = Vector2(682, 72)
-scale = Vector2(0.831538, 0.932648)
-
-[node name="Floor7" parent="Floors/FloorIsh4" index="2" instance=ExtResource("2_1atno")]
-position = Vector2(455, 74)
-scale = Vector2(0.875155, 0.908249)
-
-[node name="Floor8" parent="Floors/FloorIsh4" index="3" instance=ExtResource("2_1atno")]
-position = Vector2(802, 71)
-scale = Vector2(0.878702, 0.95893)
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
-position = Vector2(726, 2268)
+position = Vector2(352, 1054)
 shape = SubResource("RectangleShape2D_r6sjp")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="1"]
-position = Vector2(-2433, -4486.5)
+position = Vector2(-1541.5, -1083)
 shape = SubResource("RectangleShape2D_tejyk")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="2"]
-position = Vector2(713, -11369.5)
+position = Vector2(345, -3237.25)
 shape = SubResource("RectangleShape2D_sdkqt")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
-position = Vector2(3805, -4481.25)
+position = Vector2(2197.5, -1093)
 shape = SubResource("RectangleShape2D_slaa7")
 
 [node name="SpawnPoints@Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
-position = Vector2(540, -186)
-gizmo_extents = 100.0
+position = Vector2(27, 156)
 
 [node name="SpawnPoints@Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
-position = Vector2(1121, -191)
-gizmo_extents = 100.0
+position = Vector2(623, 155)
 
-[node name="SpawnPoints@Marker2D3" type="Marker2D" parent="SpawnPointsContainer" index="2"]
-position = Vector2(839, -695)
-gizmo_extents = 100.0
+[node name="SpawnPointsMarker2D2" type="Marker2D" parent="SpawnPointsContainer" index="2"]
+position = Vector2(69, 320)
 
-[node name="SpawnPoints@Marker2D4" type="Marker2D" parent="SpawnPointsContainer" index="3"]
-position = Vector2(200, 105)
-gizmo_extents = 100.0
+[node name="SpawnPointsMarker2D3" type="Marker2D" parent="SpawnPointsContainer" index="3"]
+position = Vector2(585, 321)
+
+[node name="SpawnPointsMarker2D4" type="Marker2D" parent="SpawnPointsContainer" index="4"]
+position = Vector2(317, 365)
+
+[node name="SpawnPointsMarker2D5" type="Marker2D" parent="SpawnPointsContainer" index="5"]
+position = Vector2(312, 119)
+
+[node name="TileMap" parent="." index="3"]
+layer_0/tile_data = PackedInt32Array(786432, 65536, 1, 786433, 65536, 1, 786434, 65536, 1, 786435, 65536, 1, 851976, 65536, 1, 851977, 65536, 1, 851978, 65536, 1, 851979, 65536, 1, 720913, 65536, 1, 720914, 65536, 1, 720915, 65536, 1, 393234, 65536, 1, 393235, 65536, 1, 393236, 65536, 1, 327688, 65536, 1, 327689, 65536, 1, 327690, 65536, 1, 327691, 65536, 1, 458751, 65536, 1, 393216, 65536, 1, 393217, 65536, 1, 393218, 65536, 1, 589830, 65536, 1, 589831, 65536, 1, 589832, 65536, 1, 589833, 65536, 1, 589834, 65536, 1, 589835, 65536, 1, 589836, 65536, 1, 589837, 65536, 1, 524295, 655360, 1, 524300, 655360, 1, 458759, 655360, 0, 393223, 655360, 0, 393228, 655360, 0, 458764, 655360, 0, 327687, 65536, 1, 327692, 65536, 1, 196607, 655360, 2, 65543, 655360, 2, 196624, 655360, 2, 20, 655360, 2, 65549, 655360, 2)

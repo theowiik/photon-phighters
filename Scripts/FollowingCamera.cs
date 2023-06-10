@@ -13,7 +13,7 @@ public partial class FollowingCamera : Camera2D
     Uber
   }
 
-  private const float ZoomFactor = 0.15f;
+  private const float ZoomFactor = 1.4f;
   private readonly IList<Node2D> _targets = new List<Node2D>();
   private float _remainingShakeTime;
   private ShakeStrength _shakeStrength;
@@ -25,6 +25,12 @@ public partial class FollowingCamera : Camera2D
       return;
     }
 
+    MovePosition(delta);
+    FitZoom();
+  }
+
+  private void MovePosition(double delta)
+  {
     var targetPosition = Vector2.Zero;
     foreach (var target in _targets)
     {
@@ -41,9 +47,6 @@ public partial class FollowingCamera : Camera2D
       Position += new Vector2(GD.RandRange(-shakeOffset, shakeOffset), GD.RandRange(-shakeOffset, shakeOffset));
       _remainingShakeTime -= (float)delta;
     }
-
-    // Zoom
-    FitZoom();
   }
 
   public void AddTarget(Node2D target)
@@ -80,10 +83,10 @@ public partial class FollowingCamera : Camera2D
   {
     return strength switch
     {
-      ShakeStrength.Weak => 5,
-      ShakeStrength.Medium => 10,
-      ShakeStrength.Strong => 30,
-      ShakeStrength.Uber => 150,
+      ShakeStrength.Weak => 2,
+      ShakeStrength.Medium => 5,
+      ShakeStrength.Strong => 15,
+      ShakeStrength.Uber => 75,
       _ => 0
     };
   }

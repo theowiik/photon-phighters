@@ -10,8 +10,6 @@ namespace PhotonPhighters.Scripts;
 
 public partial class World : Node2D
 {
-  private const int RoundTime = 40;
-  private const int ScoreToWin = 10;
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
 
@@ -20,11 +18,11 @@ public partial class World : Node2D
   private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
 
   private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(
-    "res://Objects/Player/Ragdolls/RagdollDark.tscn"
+    "res://Objects/Player/Ragdolls/DarkRagdoll.tscn"
   );
 
   private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(
-    "res://Objects/Player/Ragdolls/RagdollLight.tscn"
+    "res://Objects/Player/Ragdolls/LightRagdoll.tscn"
   );
 
   private readonly PackedScene _scene = GD.Load<PackedScene>("res://UI/DamageAmountIndicator.tscn");
@@ -60,6 +58,9 @@ public partial class World : Node2D
   [GetNode("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
 
+  private int _roundsToWin = 10;
+  private int _roundTime = 40;
+
   [GetNode("RoundTimer")]
   private Timer _roundTimer;
 
@@ -69,6 +70,16 @@ public partial class World : Node2D
   {
     this.AutoWire();
     _score = new Score();
+
+    if (GlobalGameState.RoundTime > 0)
+    {
+      _roundTime = GlobalGameState.RoundTime;
+    }
+
+    if (GlobalGameState.RoundsToWin > 0)
+    {
+      _roundsToWin = GlobalGameState.RoundsToWin;
+    }
 
     // UI
     var uiUpdateTimer = this.GetNodeOrExplode<Timer>("UIUpdateTimer");
@@ -288,7 +299,7 @@ public partial class World : Node2D
     }
 
     _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
-    if (_score.Dark >= ScoreToWin || _score.Light >= ScoreToWin)
+    if (_score.Dark >= _roundsToWin || _score.Light >= _roundsToWin)
     {
       if (_score.Light > _score.Dark)
       {
@@ -300,7 +311,7 @@ public partial class World : Node2D
       }
     }
 
-    _musicPlayer.SetPitch(_score.Light, _score.Dark, ScoreToWin);
+    _musicPlayer.SetPitch(_score.Light, _score.Dark, _roundsToWin);
     StartPowerUpSelection();
   }
 
@@ -392,7 +403,7 @@ public partial class World : Node2D
 
     ragdoll.GlobalPosition = player.GlobalPosition;
     var angleVec = -Vector2.Right.Rotated((float)GD.RandRange(0, Math.PI));
-    ragdoll.ApplyCentralImpulse(angleVec * (float)GD.RandRange(1000f, 1500f));
+    ragdoll.ApplyCentralImpulse(angleVec * (float)GD.RandRange(600f, 900f));
     ragdoll.AngularVelocity = GD.RandRange(-50, 50);
   }
 
@@ -421,7 +432,7 @@ public partial class World : Node2D
     // TODO: Hack to ensure players are moved before activating the map
     AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
     // _mapManager.StartNextMap(); // <- Should be done similar to this
-    _roundTimer.Start(RoundTime);
+    _roundTimer.Start(_roundTime);
   }
 
   private void TogglePause()

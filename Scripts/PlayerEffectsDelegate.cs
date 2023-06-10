@@ -7,19 +7,15 @@ public partial class PlayerEffectsDelegate : Node2D
 {
   public delegate void PlayerEffectPerformed(Node2D effect);
 
-  private const string JumpAnimation = "stretch_jump";
-  private const string LandAnimation = "squish_land";
-  private const string RunLeftAnimation = "running_left";
-  private const string RunRightAnimation = "running_right";
-  private const string SpawnAnimation = "spawn";
-  private const string Wall = "squish_wall";
+  private const string JumpAnimation = "jump";
+  private const string LandAnimation = "land";
+  private const string RunAnimation = "run";
   private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
     "res://Objects/Player/Particles/HurtParticles.tscn"
   );
 
-  // TODO: Create a object pool for particles
   private readonly PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
     "res://Objects/Player/Particles/JumpParticles.tscn"
   );
@@ -63,32 +59,26 @@ public partial class PlayerEffectsDelegate : Node2D
 
   public void AnimationPlayJump()
   {
+    _animationPlayer.Stop();
     _animationPlayer.Play(JumpAnimation);
   }
 
   public void AnimationPlayLand()
   {
+    _animationPlayer.Stop();
     _animationPlayer.Play(LandAnimation);
   }
 
   public void AnimationPlayRunLeft()
   {
-    _animationPlayer.Play(RunLeftAnimation);
+    PlayerSprite.FlipH = true;
+    _animationPlayer.Play(RunAnimation);
   }
 
   public void AnimationPlayRunRight()
   {
-    _animationPlayer.Play(RunRightAnimation);
-  }
-
-  public void AnimationPlaySpawn()
-  {
-    _animationPlayer.Play(SpawnAnimation);
-  }
-
-  public void AnimationPlayWall()
-  {
-    _animationPlayer.Play(Wall);
+    PlayerSprite.FlipH = false;
+    _animationPlayer.Play(RunAnimation);
   }
 
   public void EmitHurtParticles()

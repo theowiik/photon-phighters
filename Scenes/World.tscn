@@ -10,8 +10,8 @@
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Assets/Sfx/Win/darkness.mp3" id="9_jmxqj"]
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Assets/Sfx/Win/the light.mp3" id="10_ratws"]
 [ext_resource type="Script" path="res://Scripts/MapManager.cs" id="11_624e5"]
-[ext_resource type="PackedScene" uid="uid://b7qkrkt2lacyf" path="res://Objects/Player/LightPlayer.tscn" id="11_c62ed"]
-[ext_resource type="PackedScene" uid="uid://ca1utwdulasnh" path="res://Objects/Player/DarkPlayer.tscn" id="12_y8lsb"]
+[ext_resource type="PackedScene" uid="uid://bg2qjbajwiqdv" path="res://Objects/Player/LightPlayer.tscn" id="11_c62ed"]
+[ext_resource type="PackedScene" uid="uid://bbhvewoycl65d" path="res://Objects/Player/DarkPlayer.tscn" id="12_y8lsb"]
 
 [sub_resource type="Environment" id="Environment_1kha7"]
 background_mode = 3
@@ -62,10 +62,12 @@ stream = ExtResource("10_ratws")
 [node name="Players" type="Node" parent="."]
 
 [node name="LightPlayer" parent="Players" instance=ExtResource("11_c62ed")]
-position = Vector2(368, 256)
+position = Vector2(352, 520)
+PlayerNumber = 1
 
 [node name="DarkPlayer" parent="Players" instance=ExtResource("12_y8lsb")]
-position = Vector2(912, 268)
+position = Vector2(960, 516)
+PlayerNumber = 2
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_1kha7")

@@ -28,17 +28,19 @@ public partial class PlayerMovementDelegate : Node
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
+
+  private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private int _jumpCount;
   private Vector2 _knockback;
   private bool _onFloorLastCall;
-  private float _speed = 800;
+  private float _speed = 300;
   private Vector2 _velocity;
   private bool _canJump = true;
   private bool _canMove = true;
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
-  public float JumpForce { get; set; } = 700;
+  public float JumpForce { get; set; } = 500;
   public int MaxJumps { get; set; } = 2;
   public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
   public int PlayerNumber { get; set; }

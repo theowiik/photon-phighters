@@ -3,5 +3,6 @@
 
 .idea/
 .vs/
+.ignore/
 
 megalinter-reports/

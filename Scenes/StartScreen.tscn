@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://c3fl8xddmbi74"]
+[gd_scene load_steps=8 format=3 uid="uid://c3fl8xddmbi74"]
 
 [ext_resource type="Script" path="res://Scripts/MenuControllers/StartScreen.cs" id="1_stbcu"]
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_nlhw4"]
+[ext_resource type="FontFile" uid="uid://b87j3hdyqkwse" path="res://Assets/Fonts/disket/Disket-Mono-Bold.ttf" id="3_5odmr"]
 [ext_resource type="AudioStream" uid="uid://dvbvwniowpr0v" path="res://Assets/Music/StartMusic/Free Background Chill Music - Dar Golan - 180bpm - 01-42.mp3" id="3_svkrb"]
 
 [sub_resource type="Animation" id="Animation_dwxtr"]
@@ -148,6 +149,36 @@ text = "Start"
 [node name="QuitButton" type="Button" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 text = "Quit"
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 32)
+layout_mode = 2
+
+[node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_5odmr")
+text = "Round Time"
+
+[node name="RoundTimeSpinBox" type="SpinBox" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 9.22337e+18
+value = 35.0
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
+[node name="Label2" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_5odmr")
+text = "Rounds to Win"
+
+[node name="RoundsToWinSpinBox" type="SpinBox" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+min_value = 1.0
+max_value = 9.22337e+18
+value = 5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "gradient"

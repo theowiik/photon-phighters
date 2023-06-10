@@ -33,6 +33,9 @@ public partial class Gun : Node2D
   [GetNode("Timer")]
   private Timer _shootTimer;
 
+  [GetNode("Sprite2D")]
+  private Sprite2D _sprite;
+
   public int BulletCount { get; set; } = 3;
 
   public int BulletDamage { get; set; } = 5;
@@ -41,7 +44,7 @@ public partial class Gun : Node2D
 
   public float BulletSizeFactor { get; set; } = 1.0f;
 
-  public float BulletSpeed { get; set; } = 1000;
+  public float BulletSpeed { get; set; } = 500;
 
   /// <summary>
   ///   The spread of the bullets in radians.
@@ -161,5 +164,9 @@ public partial class Gun : Node2D
   private void HandleBulletFlying(BulletEvents.BulletEvent bulletEvent)
   {
     EmitSignal(SignalName.BulletFlying, bulletEvent);
+  }
+  public void FlipTexture(bool flip)
+  {
+    _sprite.FlipV = flip;
   }
 }

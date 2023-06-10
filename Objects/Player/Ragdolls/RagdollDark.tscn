@@ -1,9 +1,0 @@
-[gd_scene load_steps=3 format=3 uid="uid://cppn8lxcf4sfq"]
-
-[ext_resource type="PackedScene" uid="uid://d2rg8btxttugm" path="res://Objects/Player/Ragdolls/Ragdoll.tscn" id="1_fm1vr"]
-[ext_resource type="Texture2D" uid="uid://58c2ucus4cer" path="res://Assets/Sprites/Player/darkness-player.svg" id="2_el56m"]
-
-[node name="RagdollDark" instance=ExtResource("1_fm1vr")]
-
-[node name="Sprite2D" parent="." index="0"]
-texture = ExtResource("2_el56m")
