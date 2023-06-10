@@ -125,13 +125,11 @@ public partial class Gun : Node2D
     for (var i = 0; i < BulletCount; i++)
     {
       var shootEvent = new GunEvents.ShootEvent(
-        BulletCount,
         BulletDamage,
         BulletGravity,
         BulletSizeFactor,
         BulletSpeed,
-        BulletSpread,
-        FireRate
+        BulletSpread
       );
       EmitSignal(SignalName.GunShoot, shootEvent);
       var bullet = _bulletScene.Instantiate<Bullet>();

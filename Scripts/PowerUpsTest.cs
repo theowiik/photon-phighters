@@ -279,4 +279,26 @@ public static class PowerUpsTest
       PhotonSize += 0.5f;
     }
   }
+
+  public class Randomizer5000 : IPowerUpTest
+  {
+    public string Name => "Randomizer 5000";
+    public string Description => "Photons are randomized";
+    public RarityTest RarityTest => RarityTest.Rare;
+    private Random rnd = new Random();
+
+    public void Apply(Player player, Player otherPlayer)
+    {
+      player.Gun.GunShoot += ApplyRandomization;
+    }
+
+    public void ApplyRandomization(GunEvents.ShootEvent shootEvent)
+    {
+      shootEvent.BulletDamage += rnd.Next(-2, 2);
+      shootEvent.BulletGravity += (float)rnd.NextDouble();
+      shootEvent.BulletSizeFactor += (float)rnd.NextDouble() * rnd.Next(-1, 2);
+      shootEvent.BulletSpeed += rnd.Next(-100, 100);
+      shootEvent.BulletSpread += (float)rnd.NextDouble();
+    }
+  }
 }

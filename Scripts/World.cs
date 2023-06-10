@@ -114,7 +114,7 @@ public partial class World : Node2D
     }
 
     //Test
-    //var d = new PowerUpsTest.PheedingPhrenzy();
+    //var d = new PowerUpsTest.Randomizer5000();
     //d.Apply(_lightPlayer, _darkPlayer);
 
     // Start round
