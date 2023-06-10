@@ -240,10 +240,10 @@ public static class PowerUps
     public Rarity Rarity => Rarity.Common;
     private ulong _msecSinceLastWallJump;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      player.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
-      player.PlayerMovementDelegate.PlayerWallJump += RecordTimeSinceWallJump;
+      playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
+      playerWhoSelected.PlayerMovementDelegate.PlayerWallJump += RecordTimeSinceWallJump;
     }
 
     public void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
@@ -267,7 +267,7 @@ public static class PowerUps
     public string Name => "Oingo Boingo Curse";
     public Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.PlayerLand += ApplyBounce;
     }
@@ -285,7 +285,7 @@ public static class PowerUps
     public Rarity Rarity => Rarity.Rare;
     private ulong _msecSinceLastJump;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.PlayerJump += DelayJump;
     }
@@ -311,7 +311,7 @@ public static class PowerUps
     public Rarity Rarity => Rarity.Legendary;
     public ulong _msecSinceLastFreeze;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerHurt += RecordTimeSinceFreeze;
       otherPlayer.PlayerMovementDelegate.PlayerMove += FreezePlayer;
@@ -357,7 +357,7 @@ public static class PowerUps
     public Rarity Rarity => Rarity.Rare;
     private readonly Random _rnd = new();
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.Gun.BulletFlying += RandomizeDirection;
     }
@@ -377,10 +377,10 @@ public static class PowerUps
 
     public ulong _msecSinceLastHurt;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      player.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
-      player.PlayerHurt += RecordTimeSinceHurt;
+      playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
+      playerWhoSelected.PlayerHurt += RecordTimeSinceHurt;
     }
 
     public void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
@@ -406,10 +406,10 @@ public static class PowerUps
 
     public Player _otherPlayer;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       this._otherPlayer = otherPlayer;
-      player.Gun.BulletFlying += MoveToOtherPlayer;
+      playerWhoSelected.Gun.BulletFlying += MoveToOtherPlayer;
     }
 
     public void MoveToOtherPlayer(Events.BulletEvent bulletEvent)
@@ -427,7 +427,7 @@ public static class PowerUps
     public string Name => "Luminograviton Flux Curse";
     public Rarity Rarity => Rarity.Legendary;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseGravity;
     }
@@ -445,7 +445,7 @@ public static class PowerUps
     public string Name => "Photon Reversifier Curse";
     public Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseMovement;
     }
@@ -464,10 +464,10 @@ public static class PowerUps
     public int _photonDamage;
     public float _photonSize;
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerHurt += IncreasePhotonSize;
-      player.Gun.GunShoot += ApplyPhotonSize;
+      playerWhoSelected.Gun.GunShoot += ApplyPhotonSize;
     }
 
     public void ApplyPhotonSize(Events.GunFireEvent shootEvent)
@@ -490,9 +490,9 @@ public static class PowerUps
     public Rarity Rarity => Rarity.Common;
     private readonly Random _rnd = new();
 
-    public void Apply(Player player, Player otherPlayer)
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      player.Gun.GunShoot += ApplyRandomization;
+      playerWhoSelected.Gun.GunShoot += ApplyRandomization;
     }
 
     public void ApplyRandomization(Events.GunFireEvent shootEvent)
