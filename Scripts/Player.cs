@@ -6,15 +6,12 @@ namespace PhotonPhighters.Scripts;
 public partial class Player : CharacterBody2D
 {
   [Signal]
-  public delegate void BulletCollidePlayerEventHandler(Events.BulletCollidePlayerEvent bulletCollidePlayerEvent);
-
-  [Signal]
   public delegate void PlayerDiedEventHandler(Player player);
 
   public delegate void PlayerEffectAdded(Node2D effect, Player who);
 
   [Signal]
-  public delegate void PlayerHurtEventHandler(Player player, int damage);
+  public delegate void PlayerHurtEventHandler(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent);
 
   public enum TeamEnum
   {
@@ -184,9 +181,9 @@ public partial class Player : CharacterBody2D
     {
       return;
     }
-
-    Health -= damage;
-    EmitSignal(SignalName.PlayerHurt, this, damage);
+    var playerHurtEvent = new PlayerEvents.PlayerHurtEvent(damage);
+    EmitSignal(SignalName.PlayerHurt, this, damage, playerHurtEvent);
+    Health -= playerHurtEvent.Damage;
     _playerEffectsDelegate.EmitHurtParticles();
     _playerEffectsDelegate.PlayHurtSound();
     _playerEffectsDelegate.AnimationPlayHurt();

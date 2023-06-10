@@ -6,10 +6,13 @@ namespace PhotonPhighters.Scripts;
 public partial class Gun : Node2D
 {
   [Signal]
-  public delegate void BulletCollideFloorEventHandler(Events.BulletCollideFloorEvent bulletCollidePlayerEvent);
+  public delegate void GunShootEventHandler(GunEvents.ShootEvent shootEvent);
 
   [Signal]
-  public delegate void BulletFlyingEventHandler(Events.BulletEvent bulletEvent);
+  public delegate void BulletCollideFloorEventHandler(BulletEvents.BulletEvent bulletEvent);
+
+  [Signal]
+  public delegate void BulletFlyingEventHandler(BulletEvents.BulletEvent bulletEvent);
 
   [Signal]
   public delegate void ShootDelegateEventHandler(Node2D bullet);
@@ -118,19 +121,29 @@ public partial class Gun : Node2D
 
     for (var i = 0; i < BulletCount; i++)
     {
+      var shootEvent = new GunEvents.ShootEvent(
+        BulletCount,
+        BulletDamage,
+        BulletGravity,
+        BulletSizeFactor,
+        BulletSpeed,
+        BulletSpread,
+        FireRate
+      );
+      EmitSignal(SignalName.GunShoot, shootEvent);
       var bullet = _bulletScene.Instantiate<Bullet>();
 
       bullet.BulletCollideFloorDelegate += HandleBulletCollideFloor;
       bullet.BulletFlyingDelegate += HandleBulletFlying;
 
-      var shotSpread = (float)GD.RandRange(-BulletSpread, BulletSpread);
+      var shotSpread = (float)GD.RandRange(-shootEvent.BulletSpread, shootEvent.BulletSpread);
 
       bullet.GlobalPosition = GlobalPosition;
       bullet.Rotation = GetParent<Marker2D>().Rotation + shotSpread;
-      bullet.Speed = (float)GD.RandRange(BulletSpeed * 0.9f, BulletSpeed * 1.1f);
-      bullet.Scale *= BulletSizeFactor;
-      bullet.GravityFactor = BulletGravity;
-      bullet.Damage = BulletDamage;
+      bullet.Speed = (float)GD.RandRange(shootEvent.BulletSpeed * 0.9f, shootEvent.BulletSpeed * 1.1f);
+      bullet.Scale *= shootEvent.BulletSizeFactor;
+      bullet.GravityFactor = shootEvent.BulletGravity;
+      bullet.Damage = shootEvent.BulletDamage;
       bullet.LightMode = LightMode;
 
       EmitSignal(SignalName.ShootDelegate, bullet);
@@ -140,12 +153,12 @@ public partial class Gun : Node2D
     _shootTimer.Start();
   }
 
-  private void HandleBulletCollideFloor(Events.BulletCollideFloorEvent bulletEvent)
+  private void HandleBulletCollideFloor(BulletEvents.BulletEvent bulletEvent)
   {
     EmitSignal(SignalName.BulletCollideFloor, bulletEvent);
   }
 
-  private void HandleBulletFlying(Events.BulletEvent bulletEvent)
+  private void HandleBulletFlying(BulletEvents.BulletEvent bulletEvent)
   {
     EmitSignal(SignalName.BulletFlying, bulletEvent);
   }

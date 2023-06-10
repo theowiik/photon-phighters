@@ -9,16 +9,19 @@ public partial class PlayerMovementDelegate : Node
   /// </summary>
 
   [Signal]
-  public delegate void PlayerMoveEventHandler(Events.PlayerMoveEvent playerMoveEvent);
+  public delegate void PlayerMoveEventHandler(MovementEvents.PlayerMovementEvent playerMoveEvent);
 
   [Signal]
-  public delegate void PlayerJumpEventHandler(Events.PlayerMoveEvent playerMoveEvent);
+  public delegate void PlayerJumpEventHandler(MovementEvents.PlayerMovementEvent playerMoveEvent);
 
   [Signal]
-  public delegate void PlayerLandEventHandler(Events.PlayerMoveEvent playerMovedEvent);
+  public delegate void PlayerLandEventHandler(MovementEvents.PlayerMovementEvent playerMoveEvent);
 
   [Signal]
-  public delegate void PlayerWallJumpEventHandler(Events.PlayerMoveEvent playerMovementEvent);
+  public delegate void PlayerWallJumpEventHandler(MovementEvents.PlayerMovementEvent playerMoveEvent);
+
+  [Signal]
+  public delegate void PlayerStoppedEventHandler(MovementEvents.PlayerMovementEvent playerMoveEvent);
 
   private const int AerodynamicHeatingVelocity = 10_000;
   private const float Gravity = 800;
@@ -31,6 +34,7 @@ public partial class PlayerMovementDelegate : Node
   private float _speed = 800;
   private Vector2 _velocity;
   private bool _canJump = true;
+  private bool _canMove = true;
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
@@ -47,17 +51,39 @@ public partial class PlayerMovementDelegate : Node
 
   public override void _PhysicsProcess(double delta)
   {
-    var moveEvent = new Events.PlayerMoveEvent(Gravity, _speed, _velocity, _canJump, JumpForce, MaxJumps);
-    EmitSignal(SignalName.PlayerMove, moveEvent);
-
     var inputDirection = new Vector2(
       Input.GetActionStrength($"p{PlayerNumber}_right") - Input.GetActionStrength($"p{PlayerNumber}_left"),
       0
     );
 
+    var moveEvent = new MovementEvents.PlayerMovementEvent(
+      Gravity,
+      _speed,
+      _velocity,
+      inputDirection,
+      _canMove,
+      CharacterBody,
+      _canJump,
+      JumpForce,
+      MaxJumps
+    );
+    EmitSignal(SignalName.PlayerMove, moveEvent);
+
+    if (!moveEvent.CanMove)
+      moveEvent.InputDirection = new Vector2(0, 0);
+
+    // Stopped
+    if (
+      Godot.Vector2.Equals(moveEvent.InputDirection, new Vector2(0, 0))
+      && Godot.Vector2.Equals(moveEvent.Velocity, new Vector2(0, 0))
+    )
+    {
+      EmitSignal(SignalName.PlayerStopped, moveEvent);
+    }
+
     // Walking
-    var targetSpeed = inputDirection.X * moveEvent.Speed;
-    var acceleration = inputDirection.X != 0 ? Acceleration : Deceleration;
+    var targetSpeed = moveEvent.InputDirection.X * moveEvent.Speed;
+    var acceleration = moveEvent.InputDirection.X != 0 ? Acceleration : Deceleration;
     moveEvent.Velocity.X = Mathf.Lerp(moveEvent.Velocity.X, targetSpeed, acceleration * (float)delta);
 
     // Jumping
@@ -77,17 +103,17 @@ public partial class PlayerMovementDelegate : Node
     _onFloorLastCall = onFloor;
 
     // Gravity
-    var onWall = CharacterBody.IsOnWall() && !onFloor && inputDirection.X != 0;
-    moveEvent.Velocity.Y += Gravity * (float)delta;
+    var onWall = CharacterBody.IsOnWall() && !onFloor && moveEvent.InputDirection.X != 0;
+    moveEvent.Velocity.Y += moveEvent.Gravity * (float)delta;
 
     // Gliding on walls
     if (onWall)
     {
-      moveEvent.Velocity.Y += Gravity * GlideGravityScale * (float)delta;
+      moveEvent.Velocity.Y += moveEvent.Gravity * GlideGravityScale * (float)delta;
     }
     else
     {
-      moveEvent.Velocity.Y += Gravity * (float)delta;
+      moveEvent.Velocity.Y += moveEvent.Gravity * (float)delta;
     }
 
     if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
@@ -97,15 +123,15 @@ public partial class PlayerMovementDelegate : Node
       {
         if (onFloor || _jumpCount < moveEvent.MaxJumps)
         {
-          moveEvent.Velocity.Y = -JumpForce;
+          moveEvent.Velocity.Y = -moveEvent.JumpForce;
           _jumpCount++;
           JumpEffectsHandler();
         }
         else if (onWall)
         {
           EmitSignal(SignalName.PlayerWallJump, moveEvent);
-          moveEvent.Velocity.Y = -JumpForce;
-          moveEvent.Velocity.X = -Mathf.Sign(moveEvent.Velocity.X) * JumpForce * 0.75f;
+          moveEvent.Velocity.Y = -moveEvent.JumpForce;
+          moveEvent.Velocity.X = -Mathf.Sign(moveEvent.Velocity.X) * moveEvent.JumpForce * 0.75f;
           JumpEffectsHandler();
         }
       }

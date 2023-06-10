@@ -34,16 +34,16 @@ public static class PowerUpsTest
       player.PlayerMovementDelegate.PlayerWallJump += RecordTimeSinceWallJump;
     }
 
-    public void GiveSpeedBoost(Events.PlayerMoveEvent playerMovementEvent)
+    public void GiveSpeedBoost(MovementEvents.PlayerMovementEvent playerMovementEvent)
     {
       ulong CurrentTimeMsec = Time.GetTicksMsec();
-      if (CurrentTimeMsec - MsecSinceLastWallJump < 5000)
+      if (CurrentTimeMsec - MsecSinceLastWallJump < 3000)
       {
-        playerMovementEvent.Speed *= 1.25f;
+        playerMovementEvent.Speed *= 1.5f;
       }
     }
 
-    public void RecordTimeSinceWallJump(Events.PlayerMoveEvent playerMovedEvent)
+    public void RecordTimeSinceWallJump(MovementEvents.PlayerMovementEvent playerMovementEvent)
     {
       MsecSinceLastWallJump = Time.GetTicksMsec();
     }
@@ -57,12 +57,12 @@ public static class PowerUpsTest
 
     public void Apply(Player player, Player otherPlayer)
     {
-      player.PlayerMovementDelegate.PlayerLand += ApplyBounce;
+      otherPlayer.PlayerMovementDelegate.PlayerLand += ApplyBounce;
     }
 
-    public void ApplyBounce(Events.PlayerMoveEvent playerMoveEvent)
+    public void ApplyBounce(MovementEvents.PlayerMovementEvent playerMovementEvent)
     {
-      playerMoveEvent.Velocity.Y -= 1000;
+      playerMovementEvent.Velocity.Y -= 1000;
     }
   }
 
@@ -75,10 +75,10 @@ public static class PowerUpsTest
 
     public void Apply(Player player, Player otherPlayer)
     {
-      player.PlayerMovementDelegate.PlayerJump += DelayJump;
+      otherPlayer.PlayerMovementDelegate.PlayerJump += DelayJump;
     }
 
-    public void DelayJump(Events.PlayerMoveEvent playerMovementEvent)
+    public void DelayJump(MovementEvents.PlayerMovementEvent playerMovementEvent)
     {
       ulong CurrentTimeMsec = Time.GetTicksMsec();
       if (CurrentTimeMsec - MsecSinceLastJump < 2000)
@@ -89,6 +89,35 @@ public static class PowerUpsTest
       {
         MsecSinceLastJump = CurrentTimeMsec;
       }
+    }
+  }
+
+  public class Chronostasis : IPowerUpTest
+  {
+    public string Name => "Chronostasis";
+    public string Description => "Photons briefly freeze the opponent";
+    public RarityTest RarityTest => RarityTest.Legendary;
+    public ulong MsecSinceLastFreeze = 0;
+
+    public void Apply(Player player, Player otherPlayer)
+    {
+      otherPlayer.PlayerHurt += RecordTimeSinceFreeze;
+      otherPlayer.PlayerMovementDelegate.PlayerMove += FreezePlayer;
+    }
+
+    public void FreezePlayer(MovementEvents.PlayerMovementEvent movementEvent)
+    {
+      ulong CurrentTimeMsec = Time.GetTicksMsec();
+      if (CurrentTimeMsec - MsecSinceLastFreeze < 5000)
+      {
+        movementEvent.CanMove = false;
+        movementEvent.CanJump = false;
+      }
+    }
+
+    public void RecordTimeSinceFreeze(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent)
+    {
+      MsecSinceLastFreeze = Time.GetTicksMsec();
     }
   }
 
@@ -103,7 +132,7 @@ public static class PowerUpsTest
       player.Gun.BulletCollideFloor += ScatterPhotons;
     }
 
-    public void ScatterPhotons(Events.BulletCollideFloorEvent bulletCollidePlayerEvent)
+    public void ScatterPhotons(BulletEvents.BulletEvent bulletCollideFloorEvent)
     {
       // TODO: Spawn bullets
     }
@@ -122,7 +151,7 @@ public static class PowerUpsTest
       player.Gun.BulletFlying += RandomizeDirection;
     }
 
-    public void RandomizeDirection(Events.BulletEvent bulletFlyingEvent)
+    public void RandomizeDirection(BulletEvents.BulletEvent bulletFlyingEvent)
     {
       ulong CurrentTimeMsec = Time.GetTicksMsec();
       if (CurrentTimeMsec - MsecSinceRandomization > 100)
@@ -134,6 +163,120 @@ public static class PowerUpsTest
       {
         MsecSinceRandomization = CurrentTimeMsec;
       }
+    }
+  }
+
+  public class FlourescentBurst : IPowerUpTest
+  {
+    public string Name => "Flourescent Burst";
+    public string Description => "Getting hurt briefly increases movement speed";
+    public RarityTest RarityTest => RarityTest.Rare;
+
+    public ulong MsecSinceLastHurt = 0;
+
+    public void Apply(Player player, Player otherPlayer)
+    {
+      player.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
+      otherPlayer.PlayerHurt += RecordTimeSinceHurt;
+    }
+
+    public void GiveSpeedBoost(MovementEvents.PlayerMovementEvent playerMovementEvent)
+    {
+      ulong CurrentTimeMsec = Time.GetTicksMsec();
+      if (CurrentTimeMsec - MsecSinceLastHurt < 1000)
+      {
+        playerMovementEvent.Speed *= 1.5f;
+      }
+    }
+
+    public void RecordTimeSinceHurt(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent)
+    {
+      MsecSinceLastHurt = Time.GetTicksMsec();
+    }
+  }
+
+  public class SimpleTrigonometry : IPowerUpTest
+  {
+    public string Name => "Simple Trigonometry";
+    public string Description => "Photons move toward the other player";
+    public RarityTest RarityTest => RarityTest.Rare;
+
+    public Player otherPlayer;
+
+    public void Apply(Player player, Player otherPlayer)
+    {
+      this.otherPlayer = otherPlayer;
+      player.Gun.BulletFlying += MoveToOtherPlayer;
+    }
+
+    public void MoveToOtherPlayer(BulletEvents.BulletEvent bulletEvent)
+    {
+      var vector = this.otherPlayer.Position - bulletEvent.Area2D.Position;
+      var magnitude = vector.Length();
+      bulletEvent.Velocity.X += vector.X / (magnitude / 20);
+      bulletEvent.Velocity.Y += vector.Y / (magnitude / 20);
+    }
+  }
+
+  public class LuminogravitonFluxCurse : IPowerUpTest
+  {
+    public string Name => "Luminograviton Flux Curse";
+    public string Description => "The opponent's gravity is reversed";
+    public RarityTest RarityTest => RarityTest.Legendary;
+
+    public void Apply(Player player, Player otherPlayer)
+    {
+      otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseGravity;
+    }
+
+    public void ReverseGravity(MovementEvents.PlayerMovementEvent movementEvent)
+    {
+      movementEvent.Gravity *= -1;
+      movementEvent.JumpForce *= -1;
+    }
+  }
+
+  public class PhotonReversifierCurse : IPowerUpTest
+  {
+    public string Name => "Photon Reversifier Curse";
+    public string Description => "The opponent's movement is reversed";
+    public RarityTest RarityTest => RarityTest.Rare;
+
+    public void Apply(Player player, Player otherPlayer)
+    {
+      otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseMovement;
+    }
+
+    public void ReverseMovement(MovementEvents.PlayerMovementEvent movementEvent)
+    {
+      movementEvent.InputDirection.X *= -1;
+    }
+  }
+
+  public class PheedingPhrenzy : IPowerUpTest
+  {
+    public string Name => "Pheeding Phrenzy";
+    public string Description => "Hurting the opponent grows your photons";
+    public RarityTest RarityTest => RarityTest.Legendary;
+    public int PhotonDamage = 0;
+    public float PhotonSize = 0;
+
+    public void Apply(Player player, Player otherPlayer)
+    {
+      otherPlayer.PlayerHurt += IncreasePhotonSize;
+      player.Gun.GunShoot += ApplyPhotonSize;
+    }
+
+    public void ApplyPhotonSize(GunEvents.ShootEvent shootEvent)
+    {
+      shootEvent.BulletDamage += PhotonDamage;
+      shootEvent.BulletSizeFactor += PhotonSize;
+    }
+
+    public void IncreasePhotonSize(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent)
+    {
+      PhotonDamage += 1;
+      PhotonSize += 0.5f;
     }
   }
 }

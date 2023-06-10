@@ -103,8 +103,8 @@ public partial class World : Node2D
     }
 
     //Test
-    var d = new PowerUpsTest.BrownianMotionCurse();
-    d.Apply(_lightPlayer, _darkPlayer);
+    //var d = new PowerUpsTest.PheedingPhrenzy();
+    //d.Apply(_lightPlayer, _darkPlayer);
 
     // Start round
     SetupCapturePoint();
@@ -231,7 +231,7 @@ public partial class World : Node2D
     effect.GlobalPosition = who.GlobalPosition;
   }
 
-  private void OnPlayerHurt(Player player, int damage)
+  private void OnPlayerHurt(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent)
   {
     SpawnHurtIndicator(player, damage.ToString());
   }
