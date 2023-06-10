@@ -165,6 +165,7 @@ public partial class Gun : Node2D
   {
     EmitSignal(SignalName.BulletFlying, bulletEvent);
   }
+
   public void FlipTexture(bool flip)
   {
     _sprite.FlipV = flip;
