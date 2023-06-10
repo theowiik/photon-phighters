@@ -1,43 +1,40 @@
 using System;
 using Godot;
 
-namespace PhotonPhighters.Scripts;
+namespace PhotonPhighters.Scripts.Events;
 
-public partial class MovementEvents
+public partial class PlayerMovementEvent : Node
 {
-  public partial class PlayerMovementEvent : Node
-  {
-    public float Gravity;
-    public float Speed;
-    public Vector2 Velocity;
-    public Vector2 InputDirection;
-    public bool CanMove;
-    public CharacterBody2D CharacterBody;
-    public bool CanJump;
-    public float JumpForce;
-    public int MaxJumps;
+  public float _gravity;
+  public float _speed;
+  public Vector2 _velocity;
+  public Vector2 _inputDirection;
+  public bool _canMove;
+  public CharacterBody2D _characterBody;
+  public bool _canJump;
+  public float _jumpForce;
+  public int _maxJumps;
 
-    public PlayerMovementEvent(
-      float Gravity,
-      float Speed,
-      Vector2 Velocity,
-      Vector2 InputDirection,
-      bool CanMove,
-      CharacterBody2D CharacterBody,
-      bool CanJump,
-      float JumpForce,
-      int MaxJumps
-    )
-    {
-      this.Gravity = Gravity;
-      this.Speed = Speed;
-      this.Velocity = Velocity;
-      this.InputDirection = InputDirection;
-      this.CanMove = CanMove;
-      this.CharacterBody = CharacterBody;
-      this.CanJump = CanJump;
-      this.JumpForce = JumpForce;
-      this.MaxJumps = MaxJumps;
-    }
+  public PlayerMovementEvent(
+    float gravity,
+    float speed,
+    Vector2 velocity,
+    Vector2 inputDirection,
+    bool canMove,
+    CharacterBody2D characterBody,
+    bool canJump,
+    float jumpForce,
+    int maxJumps
+  )
+  {
+    this._gravity = gravity;
+    this._speed = speed;
+    this._velocity = velocity;
+    this._inputDirection = inputDirection;
+    this._canMove = canMove;
+    this._characterBody = characterBody;
+    this._canJump = canJump;
+    this._jumpForce = jumpForce;
+    this._maxJumps = maxJumps;
   }
 }

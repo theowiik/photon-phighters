@@ -1,34 +1,31 @@
 using System;
 using Godot;
 
-namespace PhotonPhighters.Scripts;
+namespace PhotonPhighters.Scripts.Events;
 
-public partial class GunEvents
+public partial class GunFireEvent : Node
 {
-  public partial class ShootEvent : Node
-  {
-    public int BulletCount;
-    public int BulletDamage;
-    public float BulletGravity;
-    public float BulletSizeFactor;
-    public float BulletSpeed;
-    public float BulletSpread;
+  public int _bulletCount;
+  public int _bulletDamage;
+  public float _bulletGravity;
+  public float _bulletSizeFactor;
+  public float _bulletSpeed;
+  public float _bulletSpread;
 
-    public ShootEvent(
-      int BulletCount,
-      int BulletDamage,
-      float BulletGravity,
-      float BulletSizeFactor,
-      float BulletSpeed,
-      float BulletSpread
-    )
-    {
-      this.BulletCount = BulletCount;
-      this.BulletDamage = BulletDamage;
-      this.BulletGravity = BulletGravity;
-      this.BulletSizeFactor = BulletSizeFactor;
-      this.BulletSpeed = BulletSpeed;
-      this.BulletSpread = BulletSpread;
-    }
+  public GunFireEvent(
+    int bulletCount,
+    int bulletDamage,
+    float bulletGravity,
+    float bulletSizeFactor,
+    float bulletSpeed,
+    float bulletSpread
+  )
+  {
+    this._bulletCount = bulletCount;
+    this._bulletDamage = bulletDamage;
+    this._bulletGravity = bulletGravity;
+    this._bulletSizeFactor = bulletSizeFactor;
+    this._bulletSpeed = bulletSpeed;
+    this._bulletSpread = bulletSpread;
   }
 }

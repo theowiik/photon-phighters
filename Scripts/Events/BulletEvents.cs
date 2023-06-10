@@ -1,19 +1,16 @@
 using System;
 using Godot;
 
-namespace PhotonPhighters.Scripts;
+namespace PhotonPhighters.Scripts.Events;
 
-public partial class BulletEvents
+public partial class BulletEvent : Node
 {
-  public partial class BulletEvent : Node
-  {
-    public Area2D Area2D;
-    public Vector2 Velocity;
+  public Area2D _area2D;
+  public Vector2 _velocity;
 
-    public BulletEvent(Area2D Area2D, Vector2 Velocity)
-    {
-      this.Area2D = Area2D;
-      this.Velocity = Velocity;
-    }
+  public BulletEvent(Area2D area2D, Vector2 velocity)
+  {
+    this._area2D = area2D;
+    this._velocity = velocity;
   }
 }

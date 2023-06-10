@@ -238,7 +238,7 @@ public static class PowerUps
     // Walljumping briefly increases movement speed
     public string Name => "Wall Spider";
     public Rarity Rarity => Rarity.Common;
-    private ulong MsecSinceLastWallJump = 0;
+    private ulong _msecSinceLastWallJump = 0;
 
     public void Apply(Player player, Player otherPlayer)
     {
@@ -246,18 +246,18 @@ public static class PowerUps
       player.PlayerMovementDelegate.PlayerWallJump += RecordTimeSinceWallJump;
     }
 
-    public void GiveSpeedBoost(MovementEvents.PlayerMovementEvent playerMovementEvent)
+    public void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
     {
-      ulong CurrentTimeMsec = Time.GetTicksMsec();
-      if (CurrentTimeMsec - MsecSinceLastWallJump < 3000)
+      var currentTimeMsec = Time.GetTicksMsec();
+      if (currentTimeMsec - _msecSinceLastWallJump < 3000)
       {
-        playerMovementEvent.Speed *= 1.5f;
+        playerMovementEvent._speed *= 1.5f;
       }
     }
 
-    public void RecordTimeSinceWallJump(MovementEvents.PlayerMovementEvent playerMovementEvent)
+    public void RecordTimeSinceWallJump(Events.PlayerMovementEvent playerMovementEvent)
     {
-      MsecSinceLastWallJump = Time.GetTicksMsec();
+      _msecSinceLastWallJump = Time.GetTicksMsec();
     }
   }
 
@@ -272,9 +272,9 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerLand += ApplyBounce;
     }
 
-    public void ApplyBounce(MovementEvents.PlayerMovementEvent playerMovementEvent)
+    public static void ApplyBounce(Events.PlayerMovementEvent playerMovementEvent)
     {
-      playerMovementEvent.Velocity.Y -= 1000;
+      playerMovementEvent._velocity.Y -= 1000;
     }
   }
 
@@ -283,23 +283,23 @@ public static class PowerUps
     // Opponent has to briefly rest between jumps
     public string Name => "Post Leg Day Curse";
     public Rarity Rarity => Rarity.Rare;
-    private ulong MsecSinceLastJump = 0;
+    private ulong _msecSinceLastJump = 0;
 
     public void Apply(Player player, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.PlayerJump += DelayJump;
     }
 
-    public void DelayJump(MovementEvents.PlayerMovementEvent playerMovementEvent)
+    public void DelayJump(Events.PlayerMovementEvent playerMovementEvent)
     {
-      ulong CurrentTimeMsec = Time.GetTicksMsec();
-      if (CurrentTimeMsec - MsecSinceLastJump < 2000)
+      var currentTimeMsec = Time.GetTicksMsec();
+      if (currentTimeMsec - _msecSinceLastJump < 2000)
       {
-        playerMovementEvent.CanJump = false;
+        playerMovementEvent._canJump = false;
       }
       else
       {
-        MsecSinceLastJump = CurrentTimeMsec;
+        _msecSinceLastJump = currentTimeMsec;
       }
     }
   }
@@ -309,7 +309,7 @@ public static class PowerUps
     // Photons briefly freeze the opponent
     public string Name => "Chronostasis";
     public Rarity Rarity => Rarity.Legendary;
-    public ulong MsecSinceLastFreeze = 0;
+    public ulong _msecSinceLastFreeze = 0;
 
     public void Apply(Player player, Player otherPlayer)
     {
@@ -317,19 +317,19 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerMove += FreezePlayer;
     }
 
-    public void FreezePlayer(MovementEvents.PlayerMovementEvent movementEvent)
+    public void FreezePlayer(Events.PlayerMovementEvent movementEvent)
     {
-      ulong CurrentTimeMsec = Time.GetTicksMsec();
-      if (CurrentTimeMsec - MsecSinceLastFreeze < 5000)
+      var currentTimeMsec = Time.GetTicksMsec();
+      if (currentTimeMsec - _msecSinceLastFreeze < 5000)
       {
-        movementEvent.CanMove = false;
-        movementEvent.CanJump = false;
+        movementEvent._canMove = false;
+        movementEvent._canJump = false;
       }
     }
 
-    public void RecordTimeSinceFreeze(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent)
+    public void RecordTimeSinceFreeze(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
     {
-      MsecSinceLastFreeze = Time.GetTicksMsec();
+      _msecSinceLastFreeze = Time.GetTicksMsec();
     }
   }
 
@@ -355,25 +355,25 @@ public static class PowerUps
     // Opponent's photons move erratically
     public string Name => "Brownian Motion Curse";
     public Rarity Rarity => Rarity.Rare;
-    private ulong MsecSinceRandomization = 0;
-    private Random rnd = new Random();
+    private ulong _msecSinceRandomization = 0;
+    private readonly Random _rnd = new();
 
     public void Apply(Player player, Player otherPlayer)
     {
       otherPlayer.Gun.BulletFlying += RandomizeDirection;
     }
 
-    public void RandomizeDirection(BulletEvents.BulletEvent bulletFlyingEvent)
+    public void RandomizeDirection(Events.BulletEvent bulletFlyingEvent)
     {
-      ulong CurrentTimeMsec = Time.GetTicksMsec();
-      if (CurrentTimeMsec - MsecSinceRandomization > 100)
+      var currentTimeMsec = Time.GetTicksMsec();
+      if (currentTimeMsec - _msecSinceRandomization > 100)
       {
-        bulletFlyingEvent.Velocity.X += rnd.Next(-200, 200);
-        bulletFlyingEvent.Velocity.Y += rnd.Next(-200, 200);
+        bulletFlyingEvent._velocity.X += _rnd.Next(-200, 200);
+        bulletFlyingEvent._velocity.Y += _rnd.Next(-200, 200);
       }
       else
       {
-        MsecSinceRandomization = CurrentTimeMsec;
+        _msecSinceRandomization = currentTimeMsec;
       }
     }
   }
@@ -384,7 +384,7 @@ public static class PowerUps
     public string Name => "Fluorescent Burst";
     public Rarity Rarity => Rarity.Rare;
 
-    public ulong MsecSinceLastHurt = 0;
+    public ulong _msecSinceLastHurt = 0;
 
     public void Apply(Player player, Player otherPlayer)
     {
@@ -392,18 +392,18 @@ public static class PowerUps
       player.PlayerHurt += RecordTimeSinceHurt;
     }
 
-    public void GiveSpeedBoost(MovementEvents.PlayerMovementEvent playerMovementEvent)
+    public void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
     {
-      ulong CurrentTimeMsec = Time.GetTicksMsec();
-      if (CurrentTimeMsec - MsecSinceLastHurt < 1000)
+      var currentTimeMsec = Time.GetTicksMsec();
+      if (currentTimeMsec - _msecSinceLastHurt < 1000)
       {
-        playerMovementEvent.Speed *= 1.5f;
+        playerMovementEvent._speed *= 1.5f;
       }
     }
 
-    public void RecordTimeSinceHurt(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent)
+    public void RecordTimeSinceHurt(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
     {
-      MsecSinceLastHurt = Time.GetTicksMsec();
+      _msecSinceLastHurt = Time.GetTicksMsec();
     }
   }
 
@@ -413,20 +413,20 @@ public static class PowerUps
     public string Name => "Simple Trigonometry";
     public Rarity Rarity => Rarity.Rare;
 
-    public Player otherPlayer;
+    public Player _otherPlayer;
 
     public void Apply(Player player, Player otherPlayer)
     {
-      this.otherPlayer = otherPlayer;
+      this._otherPlayer = otherPlayer;
       player.Gun.BulletFlying += MoveToOtherPlayer;
     }
 
-    public void MoveToOtherPlayer(BulletEvents.BulletEvent bulletEvent)
+    public void MoveToOtherPlayer(Events.BulletEvent bulletEvent)
     {
-      var vector = this.otherPlayer.Position - bulletEvent.Area2D.Position;
+      var vector = this._otherPlayer.Position - bulletEvent._area2D.Position;
       var magnitude = vector.Length();
-      bulletEvent.Velocity.X += vector.X / (magnitude / 20);
-      bulletEvent.Velocity.Y += vector.Y / (magnitude / 20);
+      bulletEvent._velocity.X += vector.X / (magnitude / 20);
+      bulletEvent._velocity.Y += vector.Y / (magnitude / 20);
     }
   }
 
@@ -441,10 +441,10 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseGravity;
     }
 
-    public void ReverseGravity(MovementEvents.PlayerMovementEvent movementEvent)
+    public static void ReverseGravity(Events.PlayerMovementEvent movementEvent)
     {
-      movementEvent.Gravity *= -1;
-      movementEvent.JumpForce *= -1;
+      movementEvent._gravity *= -1;
+      movementEvent._jumpForce *= -1;
     }
   }
 
@@ -459,9 +459,9 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseMovement;
     }
 
-    public void ReverseMovement(MovementEvents.PlayerMovementEvent movementEvent)
+    public static void ReverseMovement(Events.PlayerMovementEvent movementEvent)
     {
-      movementEvent.InputDirection.X *= -1;
+      movementEvent._inputDirection.X *= -1;
     }
   }
 
@@ -470,8 +470,8 @@ public static class PowerUps
     // Hurting the opponent grows your photons
     public string Name => "Pheeding Phrenzy";
     public Rarity Rarity => Rarity.Legendary;
-    public int PhotonDamage = 0;
-    public float PhotonSize = 0;
+    public int _photonDamage = 0;
+    public float _photonSize = 0;
 
     public void Apply(Player player, Player otherPlayer)
     {
@@ -479,16 +479,16 @@ public static class PowerUps
       player.Gun.GunShoot += ApplyPhotonSize;
     }
 
-    public void ApplyPhotonSize(GunEvents.ShootEvent shootEvent)
+    public void ApplyPhotonSize(Events.GunFireEvent shootEvent)
     {
-      shootEvent.BulletDamage += PhotonDamage;
-      shootEvent.BulletSizeFactor += PhotonSize;
+      shootEvent._bulletDamage += _photonDamage;
+      shootEvent._bulletSizeFactor += _photonSize;
     }
 
-    public void IncreasePhotonSize(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent)
+    public void IncreasePhotonSize(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
     {
-      PhotonDamage += 1;
-      PhotonSize += 0.5f;
+      _photonDamage++;
+      _photonSize += 0.5f;
     }
   }
 
@@ -497,21 +497,21 @@ public static class PowerUps
     // Photons are randomized
     public string Name => "Randomizer 5000";
     public Rarity Rarity => Rarity.Common;
-    private Random rnd = new Random();
+    private readonly Random _rnd = new();
 
     public void Apply(Player player, Player otherPlayer)
     {
       player.Gun.GunShoot += ApplyRandomization;
     }
 
-    public void ApplyRandomization(GunEvents.ShootEvent shootEvent)
+    public void ApplyRandomization(Events.GunFireEvent shootEvent)
     {
-      shootEvent.BulletCount += rnd.Next(0, 3);
-      shootEvent.BulletDamage += rnd.Next(-2, 2);
-      shootEvent.BulletGravity += (float)rnd.NextDouble();
-      shootEvent.BulletSizeFactor += (float)rnd.NextDouble() * rnd.Next(-1, 2);
-      shootEvent.BulletSpeed += rnd.Next(-100, 100);
-      shootEvent.BulletSpread += (float)rnd.NextDouble();
+      shootEvent._bulletCount += _rnd.Next(0, 3);
+      shootEvent._bulletDamage += _rnd.Next(-2, 2);
+      shootEvent._bulletGravity += (float)_rnd.NextDouble();
+      shootEvent._bulletSizeFactor += (float)_rnd.NextDouble() * _rnd.Next(-1, 2);
+      shootEvent._bulletSpeed += _rnd.Next(-100, 100);
+      shootEvent._bulletSpread += (float)_rnd.NextDouble();
     }
   }
 }

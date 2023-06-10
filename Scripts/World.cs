@@ -242,7 +242,7 @@ public partial class World : Node2D
     effect.GlobalPosition = who.GlobalPosition;
   }
 
-  private void OnPlayerHurt(Player player, int damage, PlayerEvents.PlayerHurtEvent playerHurtEvent)
+  private void OnPlayerHurt(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
   {
     SpawnHurtIndicator(player, damage.ToString());
   }

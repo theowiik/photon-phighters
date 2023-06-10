@@ -6,10 +6,10 @@ namespace PhotonPhighters.Scripts;
 public partial class Bullet : Area2D
 {
   [Signal]
-  public delegate void BulletCollideFloorDelegateEventHandler(BulletEvents.BulletEvent bulletEvent);
+  public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletEvent bulletEvent);
 
   [Signal]
-  public delegate void BulletFlyingDelegateEventHandler(BulletEvents.BulletEvent bulletEvent);
+  public delegate void BulletFlyingDelegateEventHandler(Events.BulletEvent bulletEvent);
   private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private Vector2 _velocity;
   public float GravityFactor { get; set; } = 1.0f;
@@ -19,10 +19,10 @@ public partial class Bullet : Area2D
 
   public override void _PhysicsProcess(double delta)
   {
-    var bulletFlyingEvent = new BulletEvents.BulletEvent(this, _velocity);
+    var bulletFlyingEvent = new Events.BulletEvent(this, _velocity);
     EmitSignal(SignalName.BulletFlyingDelegate, bulletFlyingEvent);
-    bulletFlyingEvent.Velocity.Y += _gravity * GravityFactor * (float)delta;
-    _velocity = bulletFlyingEvent.Velocity;
+    bulletFlyingEvent._velocity.Y += _gravity * GravityFactor * (float)delta;
+    _velocity = bulletFlyingEvent._velocity;
     Translate(_velocity * (float)delta);
   }
 
@@ -55,7 +55,7 @@ public partial class Bullet : Area2D
   {
     if (body.IsInGroup("floors"))
     {
-      EmitSignal(SignalName.BulletCollideFloorDelegate, new BulletEvents.BulletEvent(this, _velocity));
+      EmitSignal(SignalName.BulletCollideFloorDelegate, new Events.BulletEvent(this, _velocity));
       QueueFree();
     }
   }

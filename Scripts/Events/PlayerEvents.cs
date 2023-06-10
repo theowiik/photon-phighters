@@ -1,17 +1,14 @@
 using System;
 using Godot;
 
-namespace PhotonPhighters.Scripts;
+namespace PhotonPhighters.Scripts.Events;
 
-public partial class PlayerEvents
+public partial class PlayerHurtEvent : Node
 {
-  public partial class PlayerHurtEvent : Node
-  {
-    public int Damage;
+  public int _damage;
 
-    public PlayerHurtEvent(int Damage)
-    {
-      this.Damage = Damage;
-    }
+  public PlayerHurtEvent(int damage)
+  {
+    this._damage = damage;
   }
 }
