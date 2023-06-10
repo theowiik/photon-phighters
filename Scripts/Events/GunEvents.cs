@@ -7,6 +7,7 @@ public partial class GunEvents
 {
   public partial class ShootEvent : Node
   {
+    public int BulletCount;
     public int BulletDamage;
     public float BulletGravity;
     public float BulletSizeFactor;
@@ -14,6 +15,7 @@ public partial class GunEvents
     public float BulletSpread;
 
     public ShootEvent(
+      int BulletCount,
       int BulletDamage,
       float BulletGravity,
       float BulletSizeFactor,
@@ -21,6 +23,7 @@ public partial class GunEvents
       float BulletSpread
     )
     {
+      this.BulletCount = BulletCount;
       this.BulletDamage = BulletDamage;
       this.BulletGravity = BulletGravity;
       this.BulletSizeFactor = BulletSizeFactor;

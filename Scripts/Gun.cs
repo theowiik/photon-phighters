@@ -121,17 +121,18 @@ public partial class Gun : Node2D
   {
     _shootPlayer.PitchScale = GetLightPitch();
     _shootPlayer.Play();
+    var shootEvent = new GunEvents.ShootEvent(
+      BulletCount,
+      BulletDamage,
+      BulletGravity,
+      BulletSizeFactor,
+      BulletSpeed,
+      BulletSpread
+    );
+    EmitSignal(SignalName.GunShoot, shootEvent);
 
-    for (var i = 0; i < BulletCount; i++)
+    for (var i = 0; i < shootEvent.BulletCount; i++)
     {
-      var shootEvent = new GunEvents.ShootEvent(
-        BulletDamage,
-        BulletGravity,
-        BulletSizeFactor,
-        BulletSpeed,
-        BulletSpread
-      );
-      EmitSignal(SignalName.GunShoot, shootEvent);
       var bullet = _bulletScene.Instantiate<Bullet>();
 
       bullet.BulletCollideFloorDelegate += HandleBulletCollideFloor;

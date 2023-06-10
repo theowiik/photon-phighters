@@ -506,6 +506,7 @@ public static class PowerUps
 
     public void ApplyRandomization(GunEvents.ShootEvent shootEvent)
     {
+      shootEvent.BulletCount += rnd.Next(0, 3);
       shootEvent.BulletDamage += rnd.Next(-2, 2);
       shootEvent.BulletGravity += (float)rnd.NextDouble();
       shootEvent.BulletSizeFactor += (float)rnd.NextDouble() * rnd.Next(-1, 2);
