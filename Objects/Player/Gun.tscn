@@ -10,9 +10,9 @@ script = ExtResource("1_va0s7")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_grco1")
-hframes = 4
-vframes = 4
-frame = 14
+hframes = 12
+vframes = 12
+frame = 140
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

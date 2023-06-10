@@ -13,6 +13,7 @@ public partial class MapManager : Node2D
 
   private const string MapsFolder = "res://Scenes/Maps";
   private readonly PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
+  private IEnumerable<string> _maps = new List<string>();
 
   /// <summary>
   ///   A queue of maps to play. When the queue is empty, all maps in the MapsFolder will be added to the queue.
@@ -21,6 +22,12 @@ public partial class MapManager : Node2D
 
   public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
   private Map CurrentMap => GetChildOrNull<Map>(0);
+
+  public override void _Ready()
+  {
+    this.AutoWire();
+    _maps = GetAllFilesInDirectory(MapsFolder, ".tscn").Shuffled();
+  }
 
   /// <summary>
   ///   Spawns the next map but does not enable map specific logic. See <see cref="StartNextMap" />.
@@ -89,8 +96,7 @@ public partial class MapManager : Node2D
   {
     if (_mapsQueue.Count == 0)
     {
-      var maps = GetAllFilesInDirectory(MapsFolder, "tscn");
-      _mapsQueue = new Queue<string>(maps.Shuffled());
+      _mapsQueue = new Queue<string>(_maps);
     }
 
     var mapName = _mapsQueue.Dequeue();

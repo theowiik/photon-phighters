@@ -11,9 +11,9 @@ script = ExtResource("1_xlknr")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_jnmg2")
-hframes = 4
-vframes = 4
-frame = 15
+hframes = 12
+vframes = 12
+frame = 141
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0

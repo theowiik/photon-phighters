@@ -9,7 +9,7 @@ public static class EnumerableExtensions
   public static IEnumerable<T> Shuffled<T>(this IEnumerable<T> source)
   {
     var rnd = new Random();
-    return source.OrderBy(_ => rnd.Next());
+    return source.OrderBy(_ => rnd.Next()).ToList();
   }
 
   public static T Sample<T>(this IEnumerable<T> source)
