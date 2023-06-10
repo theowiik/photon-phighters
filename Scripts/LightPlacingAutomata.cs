@@ -27,6 +27,7 @@ public partial class LightPlacingAutomata : Node2D
   {
     this.AutoWire();
     PlaceRaysInCircle();
+    Enabled = true;
   }
 
   public override void _Process(double delta)
@@ -45,8 +46,10 @@ public partial class LightPlacingAutomata : Node2D
     for (var i = 0; i < NRays; i++)
     {
       var angle = i * 2 * Mathf.Pi / NRays;
-      var ray = new RayCast2D();
-      ray.TargetPosition = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).Normalized() * Length;
+      var ray = new RayCast2D
+      {
+        TargetPosition = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)).Normalized() * Length
+      };
       AddChild(ray);
       _rayCasts.Add(ray);
     }
