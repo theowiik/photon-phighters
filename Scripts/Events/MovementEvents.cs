@@ -5,15 +5,15 @@ namespace PhotonPhighters.Scripts.Events;
 
 public partial class PlayerMovementEvent : Node
 {
-  public float _gravity;
-  public float _speed;
-  public Vector2 _velocity;
-  public Vector2 _inputDirection;
-  public bool _canMove;
-  public CharacterBody2D _characterBody;
-  public bool _canJump;
-  public float _jumpForce;
-  public int _maxJumps;
+  public float Gravity { get; set; }
+  public float Speed { get; set; }
+  public Vector2 Velocity { get; set; }
+  public Vector2 InputDirection { get; set; }
+  public bool CanMove { get; set; }
+  public CharacterBody2D CharacterBody { get; set; }
+  public bool CanJump { get; set; }
+  public float JumpForce { get; set; }
+  public int MaxJumps { get; set; }
 
   public PlayerMovementEvent(
     float gravity,
@@ -27,14 +27,14 @@ public partial class PlayerMovementEvent : Node
     int maxJumps
   )
   {
-    this._gravity = gravity;
-    this._speed = speed;
-    this._velocity = velocity;
-    this._inputDirection = inputDirection;
-    this._canMove = canMove;
-    this._characterBody = characterBody;
-    this._canJump = canJump;
-    this._jumpForce = jumpForce;
-    this._maxJumps = maxJumps;
+    Gravity = gravity;
+    Speed = speed;
+    Velocity = velocity;
+    InputDirection = inputDirection;
+    CanMove = canMove;
+    CharacterBody = characterBody;
+    CanJump = canJump;
+    JumpForce = jumpForce;
+    MaxJumps = maxJumps;
   }
 }

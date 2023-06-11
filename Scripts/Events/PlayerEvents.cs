@@ -5,10 +5,10 @@ namespace PhotonPhighters.Scripts.Events;
 
 public partial class PlayerHurtEvent : Node
 {
-  public int _damage;
+  public int Damage { get; set; }
 
   public PlayerHurtEvent(int damage)
   {
-    this._damage = damage;
+    Damage = damage;
   }
 }

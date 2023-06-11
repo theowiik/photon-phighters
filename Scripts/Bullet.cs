@@ -21,8 +21,8 @@ public partial class Bullet : Area2D
   {
     var bulletFlyingEvent = new Events.BulletEvent(this, _velocity);
     EmitSignal(SignalName.BulletFlyingDelegate, bulletFlyingEvent);
-    bulletFlyingEvent._velocity.Y += _gravity * GravityFactor * (float)delta;
-    _velocity = bulletFlyingEvent._velocity;
+    bulletFlyingEvent.Velocity += new Vector2(0, _gravity * GravityFactor * (float)delta);
+    _velocity = bulletFlyingEvent.Velocity;
     Translate(_velocity * (float)delta);
   }
 

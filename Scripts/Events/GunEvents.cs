@@ -5,12 +5,12 @@ namespace PhotonPhighters.Scripts.Events;
 
 public partial class GunFireEvent : Node
 {
-  public int _bulletCount;
-  public int _bulletDamage;
-  public float _bulletGravity;
-  public float _bulletSizeFactor;
-  public float _bulletSpeed;
-  public float _bulletSpread;
+  public int BulletCount { get; set; }
+  public int BulletDamage { get; set; }
+  public float BulletGravity { get; set; }
+  public float BulletSizeFactor { get; set; }
+  public float BulletSpeed { get; set; }
+  public float BulletSpread { get; set; }
 
   public GunFireEvent(
     int bulletCount,
@@ -21,11 +21,11 @@ public partial class GunFireEvent : Node
     float bulletSpread
   )
   {
-    this._bulletCount = bulletCount;
-    this._bulletDamage = bulletDamage;
-    this._bulletGravity = bulletGravity;
-    this._bulletSizeFactor = bulletSizeFactor;
-    this._bulletSpeed = bulletSpeed;
-    this._bulletSpread = bulletSpread;
+    BulletCount = bulletCount;
+    BulletDamage = bulletDamage;
+    BulletGravity = bulletGravity;
+    BulletSizeFactor = bulletSizeFactor;
+    BulletSpeed = bulletSpeed;
+    BulletSpread = bulletSpread;
   }
 }

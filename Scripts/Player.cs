@@ -183,7 +183,7 @@ public partial class Player : CharacterBody2D
     }
     var playerHurtEvent = new Events.PlayerHurtEvent(damage);
     EmitSignal(SignalName.PlayerHurt, this, damage, playerHurtEvent);
-    Health -= playerHurtEvent._damage;
+    Health -= playerHurtEvent.Damage;
     _playerEffectsDelegate.EmitHurtParticles();
     _playerEffectsDelegate.PlayHurtSound();
     _playerEffectsDelegate.AnimationPlayHurt();

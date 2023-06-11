@@ -5,12 +5,12 @@ namespace PhotonPhighters.Scripts.Events;
 
 public partial class BulletEvent : Node
 {
-  public Area2D _area2D;
-  public Vector2 _velocity;
+  public Area2D Area2D { get; set; }
+  public Vector2 Velocity { get; set; }
 
   public BulletEvent(Area2D area2D, Vector2 velocity)
   {
-    this._area2D = area2D;
-    this._velocity = velocity;
+    Area2D = area2D;
+    Velocity = velocity;
   }
 }

@@ -252,7 +252,7 @@ public static class PowerUps
       var currentTimeMsec = Time.GetTicksMsec();
       if (currentTimeMsec - _msecSinceLastWallJump < 6000)
       {
-        playerMovementEvent._speed *= 1.5f;
+        playerMovementEvent.Speed *= 1.5f;
       }
     }
 
@@ -275,7 +275,7 @@ public static class PowerUps
 
     public static void ApplyBounce(Events.PlayerMovementEvent playerMovementEvent)
     {
-      playerMovementEvent._velocity.Y -= 250;
+      playerMovementEvent.Velocity = new Vector2(playerMovementEvent.Velocity.X, -500);
     }
   }
 
@@ -296,7 +296,7 @@ public static class PowerUps
       var currentTimeMsec = Time.GetTicksMsec();
       if (currentTimeMsec - _msecSinceLastJump < 2000)
       {
-        playerMovementEvent._canJump = false;
+        playerMovementEvent.CanJump = false;
       }
       else
       {
@@ -310,7 +310,7 @@ public static class PowerUps
     // Photons briefly freeze the opponent
     public string Name => "Chronostasis";
     public Rarity Rarity => Rarity.Legendary;
-    public ulong _msecSinceLastFreeze;
+    private ulong _msecSinceLastFreeze;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -323,8 +323,8 @@ public static class PowerUps
       var currentTimeMsec = Time.GetTicksMsec();
       if (currentTimeMsec - _msecSinceLastFreeze < 5000)
       {
-        movementEvent._canMove = false;
-        movementEvent._canJump = false;
+        movementEvent.CanMove = false;
+        movementEvent.CanJump = false;
       }
     }
 
@@ -333,23 +333,6 @@ public static class PowerUps
       _msecSinceLastFreeze = Time.GetTicksMsec();
     }
   }
-
-  /* public class RayleighScattering : IPowerUp
-  {
-    // Photons scatter when hitting surfaces
-    public string Name => "Rayleigh Scattering";
-    public Rarity Rarity => Rarity.Rare;
-
-    public void Apply(Player player, Player otherPlayer)
-    {
-      player.Gun.BulletCollideFloor += ScatterPhotons;
-    }
-
-    public void ScatterPhotons(BulletEvents.BulletEvent bulletCollideFloorEvent)
-    {
-      // TODO: Spawn bullets
-    }
-  } */
 
   public class BrownianMotionCurse : IPowerUp
   {
@@ -365,8 +348,7 @@ public static class PowerUps
 
     public void RandomizeDirection(Events.BulletEvent bulletFlyingEvent)
     {
-      bulletFlyingEvent._velocity.X += _rnd.Next(-200, 200);
-      bulletFlyingEvent._velocity.Y += _rnd.Next(-200, 200);
+      bulletFlyingEvent.Velocity += new Vector2(_rnd.Next(-150, 150), _rnd.Next(-150, 150));
     }
   }
 
@@ -376,7 +358,7 @@ public static class PowerUps
     public string Name => "Fluorescent Burst";
     public Rarity Rarity => Rarity.Rare;
 
-    public ulong _msecSinceLastHurt;
+    private ulong _msecSinceLastHurt;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -389,7 +371,7 @@ public static class PowerUps
       var currentTimeMsec = Time.GetTicksMsec();
       if (currentTimeMsec - _msecSinceLastHurt < 1000)
       {
-        playerMovementEvent._speed *= 1.5f;
+        playerMovementEvent.Speed *= 1.5f;
       }
     }
 
@@ -415,10 +397,9 @@ public static class PowerUps
 
     public void MoveToOtherPlayer(Events.BulletEvent bulletEvent)
     {
-      var vector = this._otherPlayer.Position - bulletEvent._area2D.Position;
+      var vector = this._otherPlayer.Position - bulletEvent.Area2D.Position;
       var magnitude = vector.Length();
-      bulletEvent._velocity.X += vector.X / (magnitude / 20);
-      bulletEvent._velocity.Y += vector.Y / (magnitude / 20);
+      bulletEvent.Velocity += new Vector2(vector.X / (magnitude / 20), vector.Y / (magnitude / 20));
     }
   }
 
@@ -435,8 +416,8 @@ public static class PowerUps
 
     public static void ReverseGravity(Events.PlayerMovementEvent movementEvent)
     {
-      movementEvent._gravity *= -1;
-      movementEvent._jumpForce *= -1;
+      movementEvent.Gravity *= -1;
+      movementEvent.JumpForce *= -1;
     }
   }
 
@@ -453,7 +434,7 @@ public static class PowerUps
 
     public static void ReverseMovement(Events.PlayerMovementEvent movementEvent)
     {
-      movementEvent._inputDirection.X *= -1;
+      movementEvent.InputDirection *= new Vector2(-1, 1);
     }
   }
 
@@ -462,8 +443,8 @@ public static class PowerUps
     // Hurting the opponent grows your photons
     public string Name => "Pheeding Phrenzy";
     public Rarity Rarity => Rarity.Legendary;
-    public int _photonDamage;
-    public float _photonSize;
+    private int _photonDamage;
+    private float _photonSize;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -473,8 +454,8 @@ public static class PowerUps
 
     public void ApplyPhotonSize(Events.GunFireEvent shootEvent)
     {
-      shootEvent._bulletDamage += _photonDamage;
-      shootEvent._bulletSizeFactor += _photonSize;
+      shootEvent.BulletDamage += _photonDamage;
+      shootEvent.BulletSizeFactor += _photonSize;
     }
 
     public void IncreasePhotonSize(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
@@ -498,12 +479,12 @@ public static class PowerUps
 
     public void ApplyRandomization(Events.GunFireEvent shootEvent)
     {
-      shootEvent._bulletCount += _rnd.Next(0, 3);
-      shootEvent._bulletDamage += _rnd.Next(-2, 2);
-      shootEvent._bulletGravity += (float)_rnd.NextDouble();
-      shootEvent._bulletSizeFactor += (float)_rnd.NextDouble() * _rnd.Next(-1, 2);
-      shootEvent._bulletSpeed += _rnd.Next(-100, 100);
-      shootEvent._bulletSpread += (float)_rnd.NextDouble();
+      shootEvent.BulletCount += _rnd.Next(0, 3);
+      shootEvent.BulletDamage += _rnd.Next(-2, 2);
+      shootEvent.BulletGravity += (float)_rnd.NextDouble();
+      shootEvent.BulletSizeFactor += (float)_rnd.NextDouble() * _rnd.Next(-1, 2);
+      shootEvent.BulletSpeed += _rnd.Next(-100, 100);
+      shootEvent.BulletSpread += (float)_rnd.NextDouble();
     }
   }
 }
