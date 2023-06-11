@@ -9,7 +9,7 @@ public partial class Gun : Node2D
   public delegate void GunShootEventHandler(Events.GunFireEvent shootEvent);
 
   [Signal]
-  public delegate void BulletCollideFloorEventHandler(Events.BulletEvent bulletEvent);
+  public delegate void BulletCollideFloorEventHandler(Events.BulletCollideFloorEvent bulletEvent);
 
   [Signal]
   public delegate void BulletFlyingEventHandler(Events.BulletEvent bulletEvent);
@@ -155,9 +155,9 @@ public partial class Gun : Node2D
     _shootTimer.Start();
   }
 
-  private void HandleBulletCollideFloor(Events.BulletEvent bulletEvent)
+  private void HandleBulletCollideFloor(Events.BulletCollideFloorEvent bulletCollideFloorEvent)
   {
-    EmitSignal(SignalName.BulletCollideFloor, bulletEvent);
+    EmitSignal(SignalName.BulletCollideFloor, bulletCollideFloorEvent);
   }
 
   private void HandleBulletFlying(Events.BulletEvent bulletEvent)

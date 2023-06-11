@@ -14,3 +14,15 @@ public partial class BulletEvent : Node
     Velocity = velocity;
   }
 }
+
+public partial class BulletCollideFloorEvent : BulletEvent
+{
+  public Node2D Floor { get; set; }
+  public bool IsFinished { get; set; }
+
+  public BulletCollideFloorEvent(Area2D area2D, Vector2 vector2, Node2D floor, bool isFinished) : base(area2D, vector2)
+  {
+    Floor = floor;
+    IsFinished = isFinished;
+  }
+}

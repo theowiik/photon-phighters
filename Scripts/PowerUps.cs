@@ -387,7 +387,7 @@ public static class PowerUps
     public string Name => "Simple Trigonometry";
     public Rarity Rarity => Rarity.Rare;
 
-    public Player OtherPlayer {get; set;}
+    public Player OtherPlayer { get; set; }
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -485,6 +485,43 @@ public static class PowerUps
       shootEvent.BulletSizeFactor += (float)_rnd.NextDouble() * _rnd.Next(-1, 2);
       shootEvent.BulletSpeed += _rnd.Next(-100, 100);
       shootEvent.BulletSpread += (float)_rnd.NextDouble();
+    }
+  }
+
+  public class GomuGomuNoPhoton : IPowerUp
+  {
+    // Photons bounce
+    public string Name => "Gomu Gomu No Photon";
+    public Rarity Rarity => Rarity.Rare;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.Gun.BulletCollideFloor += ApplyBounce;
+    }
+
+    public static void ApplyBounce(Events.BulletCollideFloorEvent bulletCollideFloorEvent)
+    {
+      bulletCollideFloorEvent.IsFinished = false;
+      // AWAL
+    }
+  }
+
+  public class PhotonPhlyer : IPowerUp
+  {
+    // Player can fly
+    public string Name => "Photon Phlyer";
+    public Rarity Rarity => Rarity.Legendary;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.PlayerMovementDelegate.PlayerMove += DisableGravity;
+    }
+
+    public static void DisableGravity(Events.PlayerMovementEvent playerMovementEvent)
+    {
+      playerMovementEvent.CanJump = false;
+      playerMovementEvent.Gravity = 0;
+      playerMovementEvent.Velocity = playerMovementEvent.InputDirection * (playerMovementEvent.Speed / 2);
     }
   }
 }

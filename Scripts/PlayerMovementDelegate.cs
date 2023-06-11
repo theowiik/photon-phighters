@@ -55,7 +55,7 @@ public partial class PlayerMovementDelegate : Node
   {
     var inputDirection = new Vector2(
       Input.GetActionStrength($"p{PlayerNumber}_right") - Input.GetActionStrength($"p{PlayerNumber}_left"),
-      0
+      Input.GetActionStrength($"p{PlayerNumber}_down") - Input.GetActionStrength($"p{PlayerNumber}_up")
     );
 
     var moveEvent = new Events.PlayerMovementEvent(

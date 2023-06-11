@@ -6,7 +6,7 @@ namespace PhotonPhighters.Scripts;
 public partial class Bullet : Area2D
 {
   [Signal]
-  public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletEvent bulletEvent);
+  public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletCollideFloorEvent bulletCollideFloorEvent);
 
   [Signal]
   public delegate void BulletFlyingDelegateEventHandler(Events.BulletEvent bulletEvent);
@@ -47,7 +47,12 @@ public partial class Bullet : Area2D
     if (area.IsInGroup("lights") && area is Light light)
     {
       light.SetLight(LightMode);
-      QueueFree();
+      var bulletCollideFloorEvent = new Events.BulletCollideFloorEvent(this, _velocity, area, true);
+      EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
+      if (bulletCollideFloorEvent.IsFinished)
+      {
+        QueueFree();
+      }
     }
   }
 
@@ -55,8 +60,12 @@ public partial class Bullet : Area2D
   {
     if (body.IsInGroup("floors"))
     {
-      EmitSignal(SignalName.BulletCollideFloorDelegate, new Events.BulletEvent(this, _velocity));
-      QueueFree();
+      var bulletCollideFloorEvent = new Events.BulletCollideFloorEvent(this, _velocity, body, true);
+      EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
+      if (bulletCollideFloorEvent.IsFinished)
+      {
+        QueueFree();
+      }
     }
   }
 
