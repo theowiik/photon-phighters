@@ -488,24 +488,6 @@ public static class PowerUps
     }
   }
 
-  public class GomuGomuNoPhoton : IPowerUp
-  {
-    // Photons bounce
-    public string Name => "Gomu Gomu No Photon";
-    public Rarity Rarity => Rarity.Rare;
-
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
-    {
-      playerWhoSelected.Gun.BulletCollideFloor += ApplyBounce;
-    }
-
-    public static void ApplyBounce(Events.BulletCollideFloorEvent bulletCollideFloorEvent)
-    {
-      bulletCollideFloorEvent.IsFinished = false;
-      // AWAL
-    }
-  }
-
   public class PhotonPhlyer : IPowerUp
   {
     // Player can fly
