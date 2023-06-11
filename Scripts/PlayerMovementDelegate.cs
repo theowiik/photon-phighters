@@ -35,8 +35,8 @@ public partial class PlayerMovementDelegate : Node
   private bool _onFloorLastCall;
   private float _speed = 300;
   private Vector2 _velocity;
-  private bool _canJump = true;
-  private bool _canMove = true;
+  private readonly bool _canJump = true;
+  private readonly bool _canMove = true;
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;

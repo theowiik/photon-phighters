@@ -387,17 +387,17 @@ public static class PowerUps
     public string Name => "Simple Trigonometry";
     public Rarity Rarity => Rarity.Rare;
 
-    public Player _otherPlayer;
+    public Player OtherPlayer {get; set;}
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      this._otherPlayer = otherPlayer;
+      OtherPlayer = otherPlayer;
       playerWhoSelected.Gun.BulletFlying += MoveToOtherPlayer;
     }
 
     public void MoveToOtherPlayer(Events.BulletEvent bulletEvent)
     {
-      var vector = this._otherPlayer.Position - bulletEvent.Area2D.Position;
+      var vector = OtherPlayer.Position - bulletEvent.Area2D.Position;
       var magnitude = vector.Length();
       bulletEvent.Velocity += new Vector2(vector.X / (magnitude / 20), vector.Y / (magnitude / 20));
     }
