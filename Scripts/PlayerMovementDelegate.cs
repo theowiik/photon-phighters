@@ -188,7 +188,7 @@ public partial class PlayerMovementDelegate : Node
       {
         if (_isWaitingForSecondTap && _doubleTapTimer.TimeLeft > 0)
         {
-          GD.Print("double-tapped");
+          EmitSignal(SignalName.PlayerDoubleTapped, playerMovementEvent);
           ResetTapState();
         }
         else

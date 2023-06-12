@@ -113,6 +113,9 @@ public partial class World : Node2D
       throw new NodeNotFoundException("Could not find both players");
     }
 
+    var d = new PowerUps.NikeAirJordans();
+    d.Apply(_lightPlayer, _darkPlayer);
+
     // Start round
     SetupCapturePoint();
     StartRound();
