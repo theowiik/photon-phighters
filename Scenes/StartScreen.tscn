@@ -108,6 +108,7 @@ _data = {
 }
 
 [node name="StartScreen" type="Node2D"]
+position = Vector2(0, -1)
 script = ExtResource("1_stbcu")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]

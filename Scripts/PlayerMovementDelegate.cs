@@ -7,8 +7,24 @@ public partial class PlayerMovementDelegate : Node
   /// <summary>
   ///   The speed of which the player start taking damage from aerodynamic heating
   /// </summary>
-  private const int AerodynamicHeatingVelocity = 10_000;
 
+  [Signal]
+  public delegate void PlayerMoveEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+
+  [Signal]
+  public delegate void PlayerJumpEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+
+  [Signal]
+  public delegate void PlayerLandEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+
+  [Signal]
+  public delegate void PlayerWallJumpEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+
+  [Signal]
+  public delegate void PlayerStoppedEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+
+  private const int AerodynamicHeatingVelocity = 10_000;
+  private const float Gravity = 800;
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
@@ -19,6 +35,8 @@ public partial class PlayerMovementDelegate : Node
   private bool _onFloorLastCall;
   private float _speed = 300;
   private Vector2 _velocity;
+  private readonly bool _canJump = true;
+  private readonly bool _canMove = true;
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
@@ -37,64 +55,100 @@ public partial class PlayerMovementDelegate : Node
   {
     var inputDirection = new Vector2(
       Input.GetActionStrength($"p{PlayerNumber}_right") - Input.GetActionStrength($"p{PlayerNumber}_left"),
-      0
+      Input.GetActionStrength($"p{PlayerNumber}_down") - Input.GetActionStrength($"p{PlayerNumber}_up")
     );
 
+    var moveEvent = new Events.PlayerMovementEvent(
+      Gravity,
+      _speed,
+      _velocity,
+      inputDirection,
+      _canMove,
+      CharacterBody,
+      _canJump,
+      JumpForce,
+      MaxJumps
+    );
+    EmitSignal(SignalName.PlayerMove, moveEvent);
+
+    if (!moveEvent.CanMove)
+    {
+      moveEvent.InputDirection = new Vector2(0, 0);
+    }
+
+    // Stopped
+    if (Equals(moveEvent.InputDirection, new Vector2(0, 0)) && Equals(moveEvent.Velocity, new Vector2(0, 0)))
+    {
+      EmitSignal(SignalName.PlayerStopped, moveEvent);
+    }
+
     // Walking
-    var targetSpeed = inputDirection.X * Speed;
-    var acceleration = inputDirection.X != 0 ? Acceleration : Deceleration;
-    _velocity.X = Mathf.Lerp(_velocity.X, targetSpeed, acceleration * (float)delta);
+    var targetSpeed = moveEvent.InputDirection.X * moveEvent.Speed;
+    var acceleration = moveEvent.InputDirection.X != 0 ? Acceleration : Deceleration;
+    moveEvent.Velocity = new Vector2(
+      Mathf.Lerp(moveEvent.Velocity.X, targetSpeed, acceleration * (float)delta),
+      moveEvent.Velocity.Y
+    );
 
     // Jumping
     var onFloor = CharacterBody.IsOnFloor();
     if (onFloor)
     {
       _jumpCount = 0;
-      _velocity.Y = 0;
+      moveEvent.Velocity = new Vector2(moveEvent.Velocity.X, 0);
 
       if (!_onFloorLastCall)
       {
         PlayerEffectsDelegate.AnimationPlayLand();
+        EmitSignal(SignalName.PlayerLand, moveEvent);
       }
     }
 
     _onFloorLastCall = onFloor;
 
     // Gravity
-    var onWall = CharacterBody.IsOnWall() && !onFloor && inputDirection.X != 0;
-    _velocity.Y += _gravity * (float)delta;
+    var onWall = CharacterBody.IsOnWall() && !onFloor && moveEvent.InputDirection.X != 0;
+    moveEvent.Velocity += new Vector2(0, moveEvent.Gravity * (float)delta);
 
     // Gliding on walls
     if (onWall)
     {
-      _velocity.Y += _gravity * GlideGravityScale * (float)delta;
+      moveEvent.Velocity += new Vector2(0, moveEvent.Gravity * GlideGravityScale * (float)delta);
     }
     else
     {
-      _velocity.Y += _gravity * (float)delta;
+      moveEvent.Velocity += new Vector2(0, moveEvent.Gravity * (float)delta);
     }
 
     if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
     {
-      if (onFloor || _jumpCount < MaxJumps)
+      EmitSignal(SignalName.PlayerJump, moveEvent);
+      if (moveEvent.CanJump)
       {
-        _velocity.Y = -JumpForce;
-        _jumpCount++;
-        JumpEffectsHandler();
-      }
-      else if (onWall)
-      {
-        _velocity.Y = -JumpForce;
-        _velocity.X = -Mathf.Sign(_velocity.X) * JumpForce * 0.75f;
-        JumpEffectsHandler();
+        if (onFloor || _jumpCount < moveEvent.MaxJumps)
+        {
+          moveEvent.Velocity = new Vector2(0, -moveEvent.JumpForce);
+          _jumpCount++;
+          JumpEffectsHandler();
+        }
+        else if (onWall)
+        {
+          EmitSignal(SignalName.PlayerWallJump, moveEvent);
+          moveEvent.Velocity = new Vector2(
+            -Mathf.Sign(moveEvent.Velocity.X) * moveEvent.JumpForce * 0.75f,
+            -moveEvent.JumpForce
+          );
+          JumpEffectsHandler();
+        }
       }
     }
 
     // Knockback
-    _velocity += _knockback;
+    moveEvent.Velocity += _knockback;
     _knockback *= KnockbackDecayRate * (float)delta;
 
     // Apply movement
+    _velocity = moveEvent.Velocity;
     CharacterBody.Velocity = _velocity;
     CharacterBody.MoveAndSlide();
 

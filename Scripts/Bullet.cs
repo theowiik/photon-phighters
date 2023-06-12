@@ -5,6 +5,11 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Bullet : Area2D
 {
+  [Signal]
+  public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletCollideFloorEvent bulletCollideFloorEvent);
+
+  [Signal]
+  public delegate void BulletFlyingDelegateEventHandler(Events.BulletEvent bulletEvent);
   private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private Vector2 _velocity;
   public float GravityFactor { get; set; } = 1.0f;
@@ -14,7 +19,10 @@ public partial class Bullet : Area2D
 
   public override void _PhysicsProcess(double delta)
   {
-    _velocity.Y += _gravity * GravityFactor * (float)delta;
+    var bulletFlyingEvent = new Events.BulletEvent(this, _velocity);
+    EmitSignal(SignalName.BulletFlyingDelegate, bulletFlyingEvent);
+    bulletFlyingEvent.Velocity += new Vector2(0, _gravity * GravityFactor * (float)delta);
+    _velocity = bulletFlyingEvent.Velocity;
     Translate(_velocity * (float)delta);
   }
 
@@ -23,7 +31,7 @@ public partial class Bullet : Area2D
     _velocity = Vector2.FromAngle(Rotation) * Speed;
     var lifeTimeTimer = this.GetNodeOrExplode<Timer>("Timer");
     lifeTimeTimer.Timeout += OnTimerTimeout;
-    lifeTimeTimer.Start(5);
+    lifeTimeTimer.Start(3);
     AreaEntered += OnAreaEntered;
     BodyEntered += OnBodyEntered;
 
@@ -39,7 +47,12 @@ public partial class Bullet : Area2D
     if (area.IsInGroup("lights") && area is Light light)
     {
       light.SetLight(LightMode);
-      QueueFree();
+      var bulletCollideFloorEvent = new Events.BulletCollideFloorEvent(this, _velocity, area, true);
+      EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
+      if (bulletCollideFloorEvent.IsFinished)
+      {
+        QueueFree();
+      }
     }
   }
 
@@ -47,7 +60,12 @@ public partial class Bullet : Area2D
   {
     if (body.IsInGroup("floors"))
     {
-      QueueFree();
+      var bulletCollideFloorEvent = new Events.BulletCollideFloorEvent(this, _velocity, body, true);
+      EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
+      if (bulletCollideFloorEvent.IsFinished)
+      {
+        QueueFree();
+      }
     }
   }
 

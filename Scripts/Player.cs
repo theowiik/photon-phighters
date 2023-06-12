@@ -11,7 +11,7 @@ public partial class Player : CharacterBody2D
   public delegate void PlayerEffectAdded(Node2D effect, Player who);
 
   [Signal]
-  public delegate void PlayerHurtEventHandler(Player player, int damage);
+  public delegate void PlayerHurtEventHandler(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent);
 
   public enum TeamEnum
   {
@@ -181,9 +181,9 @@ public partial class Player : CharacterBody2D
     {
       return;
     }
-
-    Health -= damage;
-    EmitSignal(SignalName.PlayerHurt, this, damage);
+    var playerHurtEvent = new Events.PlayerHurtEvent(damage);
+    EmitSignal(SignalName.PlayerHurt, this, damage, playerHurtEvent);
+    Health -= playerHurtEvent.Damage;
     _playerEffectsDelegate.EmitHurtParticles();
     _playerEffectsDelegate.PlayHurtSound();
     _playerEffectsDelegate.AnimationPlayHurt();

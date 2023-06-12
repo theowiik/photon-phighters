@@ -31,7 +31,18 @@ public static class PowerUpManager
       new PowerUps.SteelBootsCurse(),
       new PowerUps.StickyThickyCurse(),
       new PowerUps.BulletRain(),
-      new PowerUps.MomentumMaster()
+      new PowerUps.MomentumMaster(),
+      new PowerUps.WallSpider(),
+      new PowerUps.OingoBoingoCurse(),
+      new PowerUps.PostLegDayCurse(),
+      new PowerUps.Chronostasis(),
+      new PowerUps.BrownianMotionCurse(),
+      new PowerUps.FluorescentBurst(),
+      new PowerUps.SimpleTrigonometry(),
+      new PowerUps.LuminogravitonFluxCurse(),
+      new PowerUps.PhotonReversifierCurse(),
+      new PowerUps.PheedingPhrenzy(),
+      new PowerUps.Randomizer5000()
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUp>();
