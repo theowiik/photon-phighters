@@ -507,7 +507,7 @@ public static class PowerUps
     }
   }
 
-  public class NikeAirJordans: IPowerUp
+  public class NikeAirJordans : IPowerUp
   {
     // Player can double tap to dash
     public string Name => "Nike Air Jordans";
@@ -520,7 +520,10 @@ public static class PowerUps
 
     public static void Dash(Events.PlayerMovementEvent playerMovementEvent)
     {
-      playerMovementEvent.Velocity += new Vector2(playerMovementEvent.InputDirection.X * (playerMovementEvent.Speed * 7), 0);
+      playerMovementEvent.Velocity += new Vector2(
+        playerMovementEvent.InputDirection.X * (playerMovementEvent.Speed * 7),
+        0
+      );
     }
   }
 }

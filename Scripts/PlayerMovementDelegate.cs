@@ -22,6 +22,7 @@ public partial class PlayerMovementDelegate : Node
 
   [Signal]
   public delegate void PlayerStoppedEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+
   [Signal]
   public delegate void PlayerDoubleTappedEventHandler(Events.PlayerMovementEvent playerMoveEvent);
 
