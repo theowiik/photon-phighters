@@ -12,15 +12,17 @@ public static class PowerUps
     Common = 11
   }
 
-  public interface IPowerUp
+  /// <summary>
+  ///   Stateless power up applier. Creates a new instance of the power up every time it is applied.
+  /// </summary>
+  public interface IPowerUpApplier
   {
     string Name { get; }
     Rarity Rarity { get; }
-
     void Apply(Player playerWhoSelected, Player otherPlayer);
   }
 
-  public class AirWalker : IPowerUp
+  public class AirWalker : IPowerUpApplier
   {
     public string Name => "Air Walker";
 
@@ -32,7 +34,7 @@ public static class PowerUps
     }
   }
 
-  public class BunnyBoost : IPowerUp
+  public class BunnyBoost : IPowerUpApplier
   {
     public string Name => "Bunny Boost";
 
@@ -44,7 +46,7 @@ public static class PowerUps
     }
   }
 
-  public class GeneratorEngine : IPowerUp
+  public class GeneratorEngine : IPowerUpApplier
   {
     public string Name => "Generator Engine";
 
@@ -57,7 +59,7 @@ public static class PowerUps
     }
   }
 
-  public class Gravitronizer : IPowerUp
+  public class Gravitronizer : IPowerUpApplier
   {
     public string Name => "Gravitronizer";
 
@@ -69,7 +71,7 @@ public static class PowerUps
     }
   }
 
-  public class HealthBoost : IPowerUp
+  public class HealthBoost : IPowerUpApplier
   {
     public string Name => "Health Boost";
 
@@ -81,7 +83,7 @@ public static class PowerUps
     }
   }
 
-  public class PhotonAccelerator : IPowerUp
+  public class PhotonAccelerator : IPowerUpApplier
   {
     public string Name => "Photon Accelerator";
 
@@ -94,7 +96,7 @@ public static class PowerUps
     }
   }
 
-  public class PhotonBoost : IPowerUp
+  public class PhotonBoost : IPowerUpApplier
   {
     public string Name => "Photon Boost";
 
@@ -106,7 +108,7 @@ public static class PowerUps
     }
   }
 
-  public class PhotonEnlarger : IPowerUp
+  public class PhotonEnlarger : IPowerUpApplier
   {
     public string Name => "Photon Enlarger";
 
@@ -121,7 +123,7 @@ public static class PowerUps
     }
   }
 
-  public class PhotonMultiplier : IPowerUp
+  public class PhotonMultiplier : IPowerUpApplier
   {
     public string Name => "Photon Multiplier";
 
@@ -134,7 +136,7 @@ public static class PowerUps
     }
   }
 
-  public class PhotonMuncher : IPowerUp
+  public class PhotonMuncher : IPowerUpApplier
   {
     public string Name => "Mega Photon Muncher";
 
@@ -148,7 +150,7 @@ public static class PowerUps
     }
   }
 
-  public class MiniGun : IPowerUp
+  public class MiniGun : IPowerUpApplier
   {
     public string Name => "1 000 000 lumen";
 
@@ -164,7 +166,7 @@ public static class PowerUps
     }
   }
 
-  public class Sniper : IPowerUp
+  public class Sniper : IPowerUpApplier
   {
     public string Name => "Photon Sniper";
 
@@ -180,7 +182,7 @@ public static class PowerUps
     }
   }
 
-  public class SteelBootsCurse : IPowerUp
+  public class SteelBootsCurse : IPowerUpApplier
   {
     public string Name => "Steel Boots Curse";
     public Rarity Rarity => Rarity.Rare;
@@ -194,7 +196,7 @@ public static class PowerUps
   // TODO: Make the player thicc
   // TODO: Add sticky sound effect when walking
   // TODO: Sticky shoot sounds
-  public class StickyThickyCurse : IPowerUp
+  public class StickyThickyCurse : IPowerUpApplier
   {
     public string Name => "Sticky Thicky Curse";
     public Rarity Rarity => Rarity.Legendary;
@@ -208,7 +210,7 @@ public static class PowerUps
     }
   }
 
-  public class MomentumMaster : IPowerUp
+  public class MomentumMaster : IPowerUpApplier
   {
     public string Name => "Momentum Master";
 
@@ -221,7 +223,7 @@ public static class PowerUps
     }
   }
 
-  public class BulletRain : IPowerUp
+  public class BulletRain : IPowerUpApplier
   {
     public string Name => "Bullet Rain";
 
@@ -234,35 +236,44 @@ public static class PowerUps
     }
   }
 
-  public class WallSpider : IPowerUp
+  public class WallSpider : IPowerUpApplier
   {
-    // Walljumping briefly increases movement speed
+    // Wall-jumping briefly increases movement speed
     public string Name => "Wall Spider";
     public Rarity Rarity => Rarity.Common;
-    private ulong _msecSinceLastWallJump;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
-      playerWhoSelected.PlayerMovementDelegate.PlayerWallJump += RecordTimeSinceWallJump;
+      new StatefulWallSpider().Apply(playerWhoSelected);
     }
 
-    public void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
+    private class StatefulWallSpider
     {
-      var currentTimeMsec = Time.GetTicksMsec();
-      if (currentTimeMsec - _msecSinceLastWallJump < 6000)
+      private ulong _msecSinceLastWallJump;
+
+      private void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
       {
-        playerMovementEvent.Speed *= 1.5f;
+        var currentTimeMsec = Time.GetTicksMsec();
+        if (currentTimeMsec - _msecSinceLastWallJump < 6000)
+        {
+          playerMovementEvent.Speed *= 1.5f;
+        }
       }
-    }
 
-    public void RecordTimeSinceWallJump(Events.PlayerMovementEvent playerMovementEvent)
-    {
-      _msecSinceLastWallJump = Time.GetTicksMsec();
+      private void RecordTimeSinceWallJump(Events.PlayerMovementEvent playerMovementEvent)
+      {
+        _msecSinceLastWallJump = Time.GetTicksMsec();
+      }
+
+      public void Apply(Player playerWhoSelected)
+      {
+        playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
+        playerWhoSelected.PlayerMovementDelegate.PlayerWallJump += RecordTimeSinceWallJump;
+      }
     }
   }
 
-  public class OingoBoingoCurse : IPowerUp
+  public class OingoBoingoCurse : IPowerUpApplier
   {
     // Opponent is always bouncing
     public string Name => "Oingo Boingo Curse";
@@ -273,72 +284,92 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerLand += ApplyBounce;
     }
 
-    public static void ApplyBounce(Events.PlayerMovementEvent playerMovementEvent)
+    private static void ApplyBounce(Events.PlayerMovementEvent playerMovementEvent)
     {
       playerMovementEvent.Velocity = new Vector2(playerMovementEvent.Velocity.X, -500);
     }
   }
 
-  public class PostLegDayCurse : IPowerUp
+  public class PostLegDayCurse : IPowerUpApplier
   {
     // Opponent has to briefly rest between jumps
     public string Name => "Post Leg Day Curse";
     public Rarity Rarity => Rarity.Rare;
-    private ulong _msecSinceLastJump;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      otherPlayer.PlayerMovementDelegate.PlayerJump += DelayJump;
+      new StatefulPostLegDayCurse().Apply(otherPlayer);
     }
 
-    public void DelayJump(Events.PlayerMovementEvent playerMovementEvent)
+    private class StatefulPostLegDayCurse
     {
-      var currentTimeMsec = Time.GetTicksMsec();
-      if (currentTimeMsec - _msecSinceLastJump < 2000)
+      private ulong _msecSinceLastJump;
+
+      private void DelayJump(Events.PlayerMovementEvent playerMovementEvent)
       {
-        playerMovementEvent.CanJump = false;
+        var currentTimeMsec = Time.GetTicksMsec();
+        if (currentTimeMsec - _msecSinceLastJump < 2000)
+        {
+          playerMovementEvent.CanJump = false;
+        }
+        else
+        {
+          _msecSinceLastJump = currentTimeMsec;
+        }
       }
-      else
+
+      public void Apply(Player otherPlayer)
       {
-        _msecSinceLastJump = currentTimeMsec;
+        otherPlayer.PlayerMovementDelegate.PlayerJump += DelayJump;
       }
     }
   }
 
-  public class Chronostasis : IPowerUp
+  public class Chronostasis : IPowerUpApplier
   {
     // Photons briefly freeze the opponent
     public string Name => "Chronostasis";
     public Rarity Rarity => Rarity.Legendary;
-    private ulong _msecSinceLastFreeze;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      otherPlayer.PlayerHurt += RecordTimeSinceFreeze;
-      otherPlayer.PlayerMovementDelegate.PlayerMove += FreezePlayer;
+      new StatefulChronostasis().Apply(otherPlayer);
     }
 
-    public void FreezePlayer(Events.PlayerMovementEvent movementEvent)
+    private class StatefulChronostasis
     {
-      var currentTimeMsec = Time.GetTicksMsec();
-      if (currentTimeMsec - _msecSinceLastFreeze < 5000)
+      private ulong _msecSinceLastFreeze;
+
+      public void Apply(Player otherPlayer)
       {
-        movementEvent.CanMove = false;
-        movementEvent.CanJump = false;
+        otherPlayer.PlayerHurt += RecordTimeSinceFreeze;
+        otherPlayer.PlayerMovementDelegate.PlayerMove += FreezePlayer;
       }
-    }
+      
+      public void FreezePlayer(Events.PlayerMovementEvent movementEvent)
+      {
+        var currentTimeMsec = Time.GetTicksMsec();
+        if (currentTimeMsec - _msecSinceLastFreeze < 5000)
+        {
+          movementEvent.CanMove = false;
+          movementEvent.CanJump = false;
+        }
+      }
 
-    public void RecordTimeSinceFreeze(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
-    {
-      _msecSinceLastFreeze = Time.GetTicksMsec();
+      public void RecordTimeSinceFreeze(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
+      {
+        _msecSinceLastFreeze = Time.GetTicksMsec();
+      }
     }
   }
 
-  public class BrownianMotionCurse : IPowerUp
+  public class BrownianMotionCurse : IPowerUpApplier
   {
     // Opponent's photons move erratically
     public string Name => "Brownian Motion Curse";
     public Rarity Rarity => Rarity.Rare;
+
+    // Technically stateful but does not deserve its own class
     private readonly Random _rnd = new();
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
@@ -352,58 +383,75 @@ public static class PowerUps
     }
   }
 
-  public class FluorescentBurst : IPowerUp
+  public class FluorescentBurst : IPowerUpApplier
   {
     // Getting hurt briefly increases movement speed
     public string Name => "Fluorescent Burst";
     public Rarity Rarity => Rarity.Rare;
 
-    private ulong _msecSinceLastHurt;
-
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
-      playerWhoSelected.PlayerHurt += RecordTimeSinceHurt;
+      new StatefulFluorescentBurst().Apply(playerWhoSelected);
     }
 
-    public void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
+    private class StatefulFluorescentBurst
     {
-      var currentTimeMsec = Time.GetTicksMsec();
-      if (currentTimeMsec - _msecSinceLastHurt < 1000)
+      private ulong _msecSinceLastHurt;
+
+      public void Apply(Player playerWhoSelected)
       {
-        playerMovementEvent.Speed *= 1.5f;
+        playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
+        playerWhoSelected.PlayerHurt += RecordTimeSinceHurt;
       }
-    }
 
-    public void RecordTimeSinceHurt(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
-    {
-      _msecSinceLastHurt = Time.GetTicksMsec();
+      private void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
+      {
+        var currentTimeMsec = Time.GetTicksMsec();
+        if (currentTimeMsec - _msecSinceLastHurt < 1000)
+        {
+          playerMovementEvent.Speed *= 1.5f;
+        }
+      }
+
+      private void RecordTimeSinceHurt(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
+      {
+        _msecSinceLastHurt = Time.GetTicksMsec();
+      }
     }
   }
 
-  public class SimpleTrigonometry : IPowerUp
+  public class SimpleTrigonometry : IPowerUpApplier
   {
     // Photons move toward the other player
     public string Name => "Simple Trigonometry";
     public Rarity Rarity => Rarity.Rare;
 
-    public Player OtherPlayer { get; set; }
-
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      OtherPlayer = otherPlayer;
-      playerWhoSelected.Gun.BulletFlying += MoveToOtherPlayer;
+      new StatefulSimpleTrigonometry().Apply(playerWhoSelected, otherPlayer);
     }
 
-    public void MoveToOtherPlayer(Events.BulletEvent bulletEvent)
+    private class StatefulSimpleTrigonometry
     {
-      var vector = OtherPlayer.Position - bulletEvent.Area2D.Position;
-      var magnitude = vector.Length();
-      bulletEvent.Velocity += new Vector2(vector.X / (magnitude / 20), vector.Y / (magnitude / 20));
+      private Player OtherPlayer { get; set; }
+
+      public void Apply(Player playerWhoSelected, Player otherPlayer)
+      {
+        OtherPlayer = otherPlayer;
+        playerWhoSelected.Gun.BulletFlying += MoveToOtherPlayer;
+      }
+
+      private void MoveToOtherPlayer(Events.BulletEvent bulletEvent)
+      {
+        var vector = OtherPlayer.Position - bulletEvent.Area2D.Position;
+        var magnitude = vector.Length();
+        bulletEvent.Velocity += new Vector2(vector.X / (magnitude / 20), vector.Y / (magnitude / 20));
+      }
+
     }
   }
 
-  public class LuminogravitonFluxCurse : IPowerUp
+  public class LuminogravitonFluxCurse : IPowerUpApplier
   {
     // The opponent's gravity is reversed
     public string Name => "Luminograviton Flux Curse";
@@ -414,14 +462,14 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseGravity;
     }
 
-    public static void ReverseGravity(Events.PlayerMovementEvent movementEvent)
+    private static void ReverseGravity(Events.PlayerMovementEvent movementEvent)
     {
       movementEvent.Gravity *= -1;
       movementEvent.JumpForce *= -1;
     }
   }
 
-  public class PhotonReversifierCurse : IPowerUp
+  public class PhotonReversifierCurse : IPowerUpApplier
   {
     // The opponent's movement is reversed
     public string Name => "Photon Reversifier Curse";
@@ -432,44 +480,55 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseMovement;
     }
 
-    public static void ReverseMovement(Events.PlayerMovementEvent movementEvent)
+    private static void ReverseMovement(Events.PlayerMovementEvent movementEvent)
     {
       movementEvent.InputDirection *= new Vector2(-1, 1);
     }
   }
 
-  public class PheedingPhrenzy : IPowerUp
+  public class PheedingPhrenzy : IPowerUpApplier
   {
     // Hurting the opponent grows your photons
     public string Name => "Pheeding Phrenzy";
     public Rarity Rarity => Rarity.Legendary;
-    private int _photonDamage;
-    private float _photonSize;
-
+    
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      otherPlayer.PlayerHurt += IncreasePhotonSize;
-      playerWhoSelected.Gun.GunShoot += ApplyPhotonSize;
+      new StatefulPheedingPhrenzy().Apply(playerWhoSelected, otherPlayer);
     }
-
-    public void ApplyPhotonSize(Events.GunFireEvent shootEvent)
+    
+    private class StatefulPheedingPhrenzy
     {
-      shootEvent.BulletDamage += _photonDamage;
-      shootEvent.BulletSizeFactor += _photonSize;
-    }
+      private int _photonDamage;
+      private float _photonSize;
 
-    public void IncreasePhotonSize(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
-    {
-      _photonDamage++;
-      _photonSize += 0.5f;
+      public void Apply(Player playerWhoSelected, Player otherPlayer)
+      {
+        otherPlayer.PlayerHurt += IncreasePhotonSize;
+        playerWhoSelected.Gun.GunShoot += ApplyPhotonSize;
+      }
+
+      private void ApplyPhotonSize(Events.GunFireEvent shootEvent)
+      {
+        shootEvent.BulletDamage += _photonDamage;
+        shootEvent.BulletSizeFactor += _photonSize;
+      }
+
+      private void IncreasePhotonSize(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
+      {
+        _photonDamage++;
+        _photonSize += 0.5f;
+      }
     }
   }
 
-  public class Randomizer5000 : IPowerUp
+  public class Randomizer5000 : IPowerUpApplier
   {
     // Photons are randomized
     public string Name => "Randomizer 5000";
     public Rarity Rarity => Rarity.Common;
+    
+    // Technically stateful but does not deserve its own class
     private readonly Random _rnd = new();
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
@@ -477,7 +536,7 @@ public static class PowerUps
       playerWhoSelected.Gun.GunShoot += ApplyRandomization;
     }
 
-    public void ApplyRandomization(Events.GunFireEvent shootEvent)
+    private void ApplyRandomization(Events.GunFireEvent shootEvent)
     {
       shootEvent.BulletCount += _rnd.Next(0, 3);
       shootEvent.BulletDamage += _rnd.Next(-2, 2);
@@ -488,7 +547,7 @@ public static class PowerUps
     }
   }
 
-  public class PhotonPhlyer : IPowerUp
+  public class PhotonPhlyer : IPowerUpApplier
   {
     // Player can fly
     public string Name => "Photon Phlyer";

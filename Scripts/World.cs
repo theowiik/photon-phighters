@@ -243,13 +243,13 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, damage.ToString());
   }
 
-  private void OnPowerUpSelected(PowerUps.IPowerUp powerUp)
+  private void OnPowerUpSelected(PowerUps.IPowerUpApplier powerUpApplier)
   {
     _powerUpPicker.Visible = false;
 
     var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
     var winner = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
-    powerUp.Apply(loser, winner);
+    powerUpApplier.Apply(loser, winner);
 
     StartRound();
   }

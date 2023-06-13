@@ -8,7 +8,7 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpPicker : Control
 {
-  public delegate void PowerUpPicked(PowerUps.IPowerUp powerUp);
+  public delegate void PowerUpPicked(PowerUps.IPowerUpApplier powerUpApplier);
 
   private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://UI/PowerUpButton.tscn");
 

@@ -10,11 +10,11 @@ namespace PhotonPhighters.Scripts;
 public static class PowerUpManager
 {
   // List of power ups, with duplicates to represent the rarity
-  private static readonly IList<PowerUps.IPowerUp> s_powerUpsRarity;
+  private static readonly IList<PowerUps.IPowerUpApplier> s_powerUpsRarity;
 
   static PowerUpManager()
   {
-    var allPowerUps = new List<PowerUps.IPowerUp>
+    var allPowerUps = new List<PowerUps.IPowerUpApplier>
     {
       new PowerUps.PhotonBoost(),
       new PowerUps.HealthBoost(),
@@ -45,7 +45,7 @@ public static class PowerUpManager
       new PowerUps.Randomizer5000()
     };
 
-    s_powerUpsRarity = new List<PowerUps.IPowerUp>();
+    s_powerUpsRarity = new List<PowerUps.IPowerUpApplier>();
     foreach (var powerUp in allPowerUps)
     {
       for (var i = 0; i < (int)powerUp.Rarity; i++)
@@ -58,7 +58,7 @@ public static class PowerUpManager
   }
 
   // Gets n power ups. At least nRare should be rare or better (legendary)
-  public static IEnumerable<PowerUps.IPowerUp> GetUniquePowerUpsWithRarity(int n, int nRare)
+  public static IEnumerable<PowerUps.IPowerUpApplier> GetUniquePowerUpsWithRarity(int n, int nRare)
   {
     if (n <= 0)
     {
@@ -73,7 +73,7 @@ public static class PowerUpManager
     var rares = s_powerUpsRarity.Where(p => p.Rarity == PowerUps.Rarity.Rare).ToList();
     var raresAdded = 0;
 
-    var output = new List<PowerUps.IPowerUp>();
+    var output = new List<PowerUps.IPowerUpApplier>();
     while (output.Count < n)
     {
       // Force selection of rare power-ups until minimum is reached
@@ -95,7 +95,7 @@ public static class PowerUpManager
     return output.Shuffled();
   }
 
-  private static void CalculateOdds(IEnumerable<PowerUps.IPowerUp> powerUps)
+  private static void CalculateOdds(IEnumerable<PowerUps.IPowerUpApplier> powerUps)
   {
     var total = powerUps.Count();
     var uniquePowerUps = powerUps.Distinct();
