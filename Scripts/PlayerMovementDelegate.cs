@@ -40,10 +40,10 @@ public partial class PlayerMovementDelegate : Node
   private Vector2 _velocity;
   private readonly bool _canJump = true;
   private readonly bool _canMove = true;
-  private bool _isLeftArrowPressed = false;
-  private bool _isRightArrowPressed = false;
-  private bool _isWaitingForSecondTap = false;
-  private float _doubleTapTimeThreshold = 0.3f;
+  private bool _isLeftArrowPressed;
+  private bool _isRightArrowPressed;
+  private bool _isWaitingForSecondTap;
+  private readonly float _doubleTapTimeThreshold = 0.3f;
   private Timer _doubleTapTimer;
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
