@@ -526,4 +526,17 @@ public static class PowerUps
       );
     }
   }
+
+  public class FakeJordans : IPowerUp
+  {
+    // Messes with the opponents movement
+    public string Name => "Fake Jordans";
+    public Rarity Rarity => Rarity.Common;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      otherPlayer.PlayerMovementDelegate.Speed -= 75.0f;
+      otherPlayer.PlayerMovementDelegate.JumpForce -= 100.0f;
+    }
+  }
 }
