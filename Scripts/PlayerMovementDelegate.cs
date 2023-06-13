@@ -144,7 +144,7 @@ public partial class PlayerMovementDelegate : Node
       {
         if (onFloor || _jumpCount < moveEvent.MaxJumps)
         {
-          moveEvent.Velocity = new Vector2(0, -moveEvent.JumpForce);
+          moveEvent.Velocity = new Vector2(moveEvent.Velocity.X, -moveEvent.JumpForce);
           _jumpCount++;
           JumpEffectsHandler();
         }
