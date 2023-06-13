@@ -1,5 +1,6 @@
 ﻿using System;
 using Godot;
+using PhotonPhighters.Scripts.Events;
 
 namespace PhotonPhighters.Scripts;
 
@@ -251,7 +252,7 @@ public static class PowerUps
     {
       private ulong _msecSinceLastWallJump;
 
-      private void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
+      private void GiveSpeedBoost(PlayerMovementEvent playerMovementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
         if (currentTimeMsec - _msecSinceLastWallJump < 6000)
@@ -260,7 +261,7 @@ public static class PowerUps
         }
       }
 
-      private void RecordTimeSinceWallJump(Events.PlayerMovementEvent playerMovementEvent)
+      private void RecordTimeSinceWallJump(PlayerMovementEvent playerMovementEvent)
       {
         _msecSinceLastWallJump = Time.GetTicksMsec();
       }
@@ -284,7 +285,7 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerLand += ApplyBounce;
     }
 
-    private static void ApplyBounce(Events.PlayerMovementEvent playerMovementEvent)
+    private static void ApplyBounce(PlayerMovementEvent playerMovementEvent)
     {
       playerMovementEvent.Velocity = new Vector2(playerMovementEvent.Velocity.X, -500);
     }
@@ -305,7 +306,7 @@ public static class PowerUps
     {
       private ulong _msecSinceLastJump;
 
-      private void DelayJump(Events.PlayerMovementEvent playerMovementEvent)
+      private void DelayJump(PlayerMovementEvent playerMovementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
         if (currentTimeMsec - _msecSinceLastJump < 2000)
@@ -345,8 +346,8 @@ public static class PowerUps
         otherPlayer.PlayerHurt += RecordTimeSinceFreeze;
         otherPlayer.PlayerMovementDelegate.PlayerMove += FreezePlayer;
       }
-      
-      public void FreezePlayer(Events.PlayerMovementEvent movementEvent)
+
+      private void FreezePlayer(PlayerMovementEvent movementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
         if (currentTimeMsec - _msecSinceLastFreeze < 5000)
@@ -356,7 +357,7 @@ public static class PowerUps
         }
       }
 
-      public void RecordTimeSinceFreeze(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
+      private void RecordTimeSinceFreeze(Player player, int damage, PlayerHurtEvent playerHurtEvent)
       {
         _msecSinceLastFreeze = Time.GetTicksMsec();
       }
@@ -365,19 +366,19 @@ public static class PowerUps
 
   public class BrownianMotionCurse : IPowerUpApplier
   {
+    // Technically stateful but does not deserve its own class
+    private readonly Random _rnd = new();
+
     // Opponent's photons move erratically
     public string Name => "Brownian Motion Curse";
     public Rarity Rarity => Rarity.Rare;
-
-    // Technically stateful but does not deserve its own class
-    private readonly Random _rnd = new();
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.Gun.BulletFlying += RandomizeDirection;
     }
 
-    public void RandomizeDirection(Events.BulletEvent bulletFlyingEvent)
+    private void RandomizeDirection(BulletEvent bulletFlyingEvent)
     {
       bulletFlyingEvent.Velocity += new Vector2(_rnd.Next(-150, 150), _rnd.Next(-150, 150));
     }
@@ -404,7 +405,7 @@ public static class PowerUps
         playerWhoSelected.PlayerHurt += RecordTimeSinceHurt;
       }
 
-      private void GiveSpeedBoost(Events.PlayerMovementEvent playerMovementEvent)
+      private void GiveSpeedBoost(PlayerMovementEvent playerMovementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
         if (currentTimeMsec - _msecSinceLastHurt < 1000)
@@ -413,7 +414,7 @@ public static class PowerUps
         }
       }
 
-      private void RecordTimeSinceHurt(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
+      private void RecordTimeSinceHurt(Player player, int damage, PlayerHurtEvent playerHurtEvent)
       {
         _msecSinceLastHurt = Time.GetTicksMsec();
       }
@@ -441,13 +442,12 @@ public static class PowerUps
         playerWhoSelected.Gun.BulletFlying += MoveToOtherPlayer;
       }
 
-      private void MoveToOtherPlayer(Events.BulletEvent bulletEvent)
+      private void MoveToOtherPlayer(BulletEvent bulletEvent)
       {
         var vector = OtherPlayer.Position - bulletEvent.Area2D.Position;
         var magnitude = vector.Length();
         bulletEvent.Velocity += new Vector2(vector.X / (magnitude / 20), vector.Y / (magnitude / 20));
       }
-
     }
   }
 
@@ -462,7 +462,7 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseGravity;
     }
 
-    private static void ReverseGravity(Events.PlayerMovementEvent movementEvent)
+    private static void ReverseGravity(PlayerMovementEvent movementEvent)
     {
       movementEvent.Gravity *= -1;
       movementEvent.JumpForce *= -1;
@@ -480,7 +480,7 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseMovement;
     }
 
-    private static void ReverseMovement(Events.PlayerMovementEvent movementEvent)
+    private static void ReverseMovement(PlayerMovementEvent movementEvent)
     {
       movementEvent.InputDirection *= new Vector2(-1, 1);
     }
@@ -491,12 +491,12 @@ public static class PowerUps
     // Hurting the opponent grows your photons
     public string Name => "Pheeding Phrenzy";
     public Rarity Rarity => Rarity.Legendary;
-    
+
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       new StatefulPheedingPhrenzy().Apply(playerWhoSelected, otherPlayer);
     }
-    
+
     private class StatefulPheedingPhrenzy
     {
       private int _photonDamage;
@@ -508,13 +508,13 @@ public static class PowerUps
         playerWhoSelected.Gun.GunShoot += ApplyPhotonSize;
       }
 
-      private void ApplyPhotonSize(Events.GunFireEvent shootEvent)
+      private void ApplyPhotonSize(GunFireEvent shootEvent)
       {
         shootEvent.BulletDamage += _photonDamage;
         shootEvent.BulletSizeFactor += _photonSize;
       }
 
-      private void IncreasePhotonSize(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
+      private void IncreasePhotonSize(Player player, int damage, PlayerHurtEvent playerHurtEvent)
       {
         _photonDamage++;
         _photonSize += 0.5f;
@@ -524,19 +524,19 @@ public static class PowerUps
 
   public class Randomizer5000 : IPowerUpApplier
   {
+    // Technically stateful but does not deserve its own class
+    private readonly Random _rnd = new();
+
     // Photons are randomized
     public string Name => "Randomizer 5000";
     public Rarity Rarity => Rarity.Common;
-    
-    // Technically stateful but does not deserve its own class
-    private readonly Random _rnd = new();
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.GunShoot += ApplyRandomization;
     }
 
-    private void ApplyRandomization(Events.GunFireEvent shootEvent)
+    private void ApplyRandomization(GunFireEvent shootEvent)
     {
       shootEvent.BulletCount += _rnd.Next(0, 3);
       shootEvent.BulletDamage += _rnd.Next(-2, 2);
@@ -558,7 +558,7 @@ public static class PowerUps
       playerWhoSelected.PlayerMovementDelegate.PlayerMove += DisableGravity;
     }
 
-    public static void DisableGravity(Events.PlayerMovementEvent playerMovementEvent)
+    private static void DisableGravity(PlayerMovementEvent playerMovementEvent)
     {
       playerMovementEvent.CanJump = false;
       playerMovementEvent.Gravity = 0;
