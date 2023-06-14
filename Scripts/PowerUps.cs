@@ -566,7 +566,7 @@ public static class PowerUps
     }
   }
 
-  public class NikeAirJordans : IPowerUp
+  public class NikeAirJordans : IPowerUpApplier
   {
     // Player can double tap to dash
     public string Name => "Nike Air Jordans";
@@ -577,7 +577,7 @@ public static class PowerUps
       playerWhoSelected.PlayerMovementDelegate.PlayerDoubleTapped += Dash;
     }
 
-    public static void Dash(Events.PlayerMovementEvent playerMovementEvent)
+    private static void Dash(PlayerMovementEvent playerMovementEvent)
     {
       playerMovementEvent.Velocity += new Vector2(
         playerMovementEvent.InputDirection.X * (playerMovementEvent.Speed * 7),
@@ -586,7 +586,7 @@ public static class PowerUps
     }
   }
 
-  public class FakeJordans : IPowerUp
+  public class FakeJordans : IPowerUpApplier
   {
     // Messes with the opponents movement
     public string Name => "Fake Jordans";
