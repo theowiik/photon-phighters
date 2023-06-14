@@ -1,3 +1,13 @@
-[gd_scene format=3 uid="uid://cwyo1ikf4i62n"]
+[gd_scene load_steps=2 format=3 uid="uid://cwyo1ikf4i62n"]
 
-[node name="PowerUpTextureButton" type="Node2D"]
+[ext_resource type="Texture2D" uid="uid://c5lujn7146pk4" path="res://Assets/Sprites/card_blue.png" id="1_3bg4w"]
+
+[node name="PowerUpTextureButton" type="TextureButton"]
+texture_normal = ExtResource("1_3bg4w")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+custom_minimum_size = Vector2(216, 50)
+layout_mode = 0
+offset_top = 37.0
+offset_right = 216.0
+offset_bottom = 87.0
