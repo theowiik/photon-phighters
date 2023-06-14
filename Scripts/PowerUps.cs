@@ -261,7 +261,7 @@ public static class PowerUps
         }
       }
 
-      private void RecordTimeSinceWallJump()
+      private void RecordTimeSinceWallJump(PlayerMovementEvent playerMovementEvent)
       {
         _msecSinceLastWallJump = Time.GetTicksMsec();
       }
@@ -269,7 +269,7 @@ public static class PowerUps
       public void Apply(Player playerWhoSelected)
       {
         playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
-        playerWhoSelected.PlayerMovementDelegate.PlayerWallJump += _ => RecordTimeSinceWallJump();
+        playerWhoSelected.PlayerMovementDelegate.PlayerWallJump += RecordTimeSinceWallJump;
       }
     }
   }
@@ -343,7 +343,7 @@ public static class PowerUps
 
       public void Apply(Player otherPlayer)
       {
-        otherPlayer.PlayerHurt += (player, otherPlayer, hurtEvent) => RecordTimeSinceFreeze();
+        otherPlayer.PlayerHurt += RecordTimeSinceFreeze;
         otherPlayer.PlayerMovementDelegate.PlayerMove += FreezePlayer;
       }
 
@@ -357,7 +357,7 @@ public static class PowerUps
         }
       }
 
-      private void RecordTimeSinceFreeze()
+      private void RecordTimeSinceFreeze(Player player, int damage, PlayerHurtEvent playerHurtEvent)
       {
         _msecSinceLastFreeze = Time.GetTicksMsec();
       }
@@ -402,7 +402,7 @@ public static class PowerUps
       public void Apply(Player playerWhoSelected)
       {
         playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
-        playerWhoSelected.PlayerHurt += (player, otherPlayer, hurtEvent) => RecordTimeSinceHurt();
+        playerWhoSelected.PlayerHurt += RecordTimeSinceHurt;
       }
 
       private void GiveSpeedBoost(PlayerMovementEvent playerMovementEvent)
@@ -414,7 +414,7 @@ public static class PowerUps
         }
       }
 
-      private void RecordTimeSinceHurt()
+      private void RecordTimeSinceHurt(Player player, int damage, PlayerHurtEvent playerHurtEvent)
       {
         _msecSinceLastHurt = Time.GetTicksMsec();
       }
@@ -504,7 +504,7 @@ public static class PowerUps
 
       public void Apply(Player playerWhoSelected, Player otherPlayer)
       {
-        otherPlayer.PlayerHurt += (player, otherPlayer, hurtEvent) => IncreasePhotonSize();
+        otherPlayer.PlayerHurt += IncreasePhotonSize;
         playerWhoSelected.Gun.GunShoot += ApplyPhotonSize;
       }
 
@@ -514,7 +514,7 @@ public static class PowerUps
         shootEvent.BulletSizeFactor += _photonSize;
       }
 
-      private void IncreasePhotonSize()
+      private void IncreasePhotonSize(Player player, int damage, PlayerHurtEvent playerHurtEvent)
       {
         _photonDamage++;
         _photonSize += 0.5f;
