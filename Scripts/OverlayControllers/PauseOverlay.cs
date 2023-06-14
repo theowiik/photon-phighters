@@ -58,18 +58,24 @@ public partial class PauseOverlay : Control
     _restartButton.Pressed += () => GetTree().ChangeSceneToFile("res://Scenes/StartScreen.tscn");
     _powerUpButton.Pressed += OnPowerUpButtonPressed;
     _powerUpsContainer.Visible = false;
+    _powerUpButton.Visible = false;
 
     PopulatePowerUps();
+  }
+
+  public override void _UnhandledKeyInput(InputEvent @event)
+  {
+    if (@event.IsActionPressed("dev_power_up_menu"))
+    {
+      _powerUpButton.Visible = true;
+    }
   }
 
   private void PopulatePowerUps()
   {
     foreach (var powerUp in PowerUpManager.AllPowerUps)
     {
-      var button = new Button
-      {
-        Text = powerUp.GetType().Name
-      };
+      var button = new Button { Text = powerUp.GetType().Name };
 
       button.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
       _powerUpsContainer.AddChild(button);
