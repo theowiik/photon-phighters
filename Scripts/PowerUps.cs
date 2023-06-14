@@ -506,4 +506,37 @@ public static class PowerUps
       playerMovementEvent.Velocity = playerMovementEvent.InputDirection * (playerMovementEvent.Speed / 2);
     }
   }
+
+  public class NikeAirJordans : IPowerUp
+  {
+    // Player can double tap to dash
+    public string Name => "Nike Air Jordans";
+    public Rarity Rarity => Rarity.Common;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.PlayerMovementDelegate.PlayerDoubleTapped += Dash;
+    }
+
+    public static void Dash(Events.PlayerMovementEvent playerMovementEvent)
+    {
+      playerMovementEvent.Velocity += new Vector2(
+        playerMovementEvent.InputDirection.X * (playerMovementEvent.Speed * 7),
+        0
+      );
+    }
+  }
+
+  public class FakeJordans : IPowerUp
+  {
+    // Messes with the opponents movement
+    public string Name => "Fake Jordans";
+    public Rarity Rarity => Rarity.Common;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      otherPlayer.PlayerMovementDelegate.Speed -= 75.0f;
+      otherPlayer.PlayerMovementDelegate.JumpForce -= 100.0f;
+    }
+  }
 }

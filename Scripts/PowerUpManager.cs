@@ -42,7 +42,10 @@ public static class PowerUpManager
       new PowerUps.LuminogravitonFluxCurse(),
       new PowerUps.PhotonReversifierCurse(),
       new PowerUps.PheedingPhrenzy(),
-      new PowerUps.Randomizer5000()
+      new PowerUps.Randomizer5000(),
+      new PowerUps.PhotonPhlyer(),
+      new PowerUps.NikeAirJordans(),
+      new PowerUps.FakeJordans()
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUp>();

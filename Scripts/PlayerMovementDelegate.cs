@@ -23,6 +23,9 @@ public partial class PlayerMovementDelegate : Node
   [Signal]
   public delegate void PlayerStoppedEventHandler(Events.PlayerMovementEvent playerMoveEvent);
 
+  [Signal]
+  public delegate void PlayerDoubleTappedEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+
   private const int AerodynamicHeatingVelocity = 10_000;
   private const float Gravity = 800;
   private const float Deceleration = 12f;
@@ -37,6 +40,11 @@ public partial class PlayerMovementDelegate : Node
   private Vector2 _velocity;
   private readonly bool _canJump = true;
   private readonly bool _canMove = true;
+  private bool _isLeftArrowPressed;
+  private bool _isRightArrowPressed;
+  private bool _isWaitingForSecondTap;
+  private readonly float _doubleTapTimeThreshold = 0.3f;
+  private Timer _doubleTapTimer;
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
@@ -49,6 +57,11 @@ public partial class PlayerMovementDelegate : Node
   {
     get => _speed;
     set => _speed = Mathf.Max(100f, value);
+  }
+
+  public override void _Ready()
+  {
+    InitializeDoubletap();
   }
 
   public override void _PhysicsProcess(double delta)
@@ -81,6 +94,9 @@ public partial class PlayerMovementDelegate : Node
     {
       EmitSignal(SignalName.PlayerStopped, moveEvent);
     }
+
+    // Double tapping
+    HandleDoubleTap(moveEvent);
 
     // Walking
     var targetSpeed = moveEvent.InputDirection.X * moveEvent.Speed;
@@ -120,6 +136,7 @@ public partial class PlayerMovementDelegate : Node
       moveEvent.Velocity += new Vector2(0, moveEvent.Gravity * (float)delta);
     }
 
+    // Jumping + walljuping
     if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
     {
       EmitSignal(SignalName.PlayerJump, moveEvent);
@@ -127,7 +144,7 @@ public partial class PlayerMovementDelegate : Node
       {
         if (onFloor || _jumpCount < moveEvent.MaxJumps)
         {
-          moveEvent.Velocity = new Vector2(0, -moveEvent.JumpForce);
+          moveEvent.Velocity = new Vector2(moveEvent.Velocity.X, -moveEvent.JumpForce);
           _jumpCount++;
           JumpEffectsHandler();
         }
@@ -153,6 +170,69 @@ public partial class PlayerMovementDelegate : Node
     CharacterBody.MoveAndSlide();
 
     WalkAnimationHandler();
+  }
+
+  public void InitializeDoubletap()
+  {
+    _doubleTapTimer = new Timer();
+    AddChild(_doubleTapTimer);
+    _doubleTapTimer.WaitTime = _doubleTapTimeThreshold;
+    _doubleTapTimer.OneShot = true;
+    _doubleTapTimer.Timeout += ResetTapState;
+  }
+
+  public void HandleDoubleTap(Events.PlayerMovementEvent playerMovementEvent)
+  {
+    if (Input.IsActionPressed($"p{PlayerNumber}_left"))
+    {
+      if (!_isLeftArrowPressed)
+      {
+        if (_isWaitingForSecondTap && _doubleTapTimer.TimeLeft > 0)
+        {
+          EmitSignal(SignalName.PlayerDoubleTapped, playerMovementEvent);
+          ResetTapState();
+        }
+        else
+        {
+          _isWaitingForSecondTap = true;
+          _doubleTapTimer.Start();
+        }
+      }
+
+      _isLeftArrowPressed = true;
+    }
+    else
+    {
+      _isLeftArrowPressed = false;
+    }
+    if (Input.IsActionPressed($"p{PlayerNumber}_right"))
+    {
+      if (!_isRightArrowPressed)
+      {
+        if (_isWaitingForSecondTap && _doubleTapTimer.TimeLeft > 0)
+        {
+          EmitSignal(SignalName.PlayerDoubleTapped, playerMovementEvent);
+          ResetTapState();
+        }
+        else
+        {
+          _isWaitingForSecondTap = true;
+          _doubleTapTimer.Start();
+        }
+      }
+
+      _isRightArrowPressed = true;
+    }
+    else
+    {
+      _isRightArrowPressed = false;
+    }
+  }
+
+  private void ResetTapState()
+  {
+    _isWaitingForSecondTap = false;
+    _doubleTapTimer.Stop();
   }
 
   public void AddKnockback(Vector2 knockback)
