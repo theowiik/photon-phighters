@@ -8,6 +8,10 @@ public partial class PauseOverlay : Control
   [Signal]
   public delegate void ResumeGameEventHandler();
 
+  public delegate void PowerUpPicked(PowerUps.IPowerUpApplier powerUpApplier);
+
+  public event PowerUpPicked PowerUpPickedListeners;
+
   [GetNode("AudioStreamPlayer")]
   private AudioStreamPlayer _audioStreamPlayer;
 
@@ -19,6 +23,12 @@ public partial class PauseOverlay : Control
 
   [GetNode("Center/VBox/ResumeButton")]
   private Button _resumeButton;
+
+  [GetNode("Center/VBox/PowerUpButton")]
+  private Button _powerUpButton;
+
+  [GetNode("PowerUpsContainer/VBoxContainer")]
+  private Control _powerUpsContainer;
 
   public bool Enabled
   {
@@ -46,6 +56,29 @@ public partial class PauseOverlay : Control
     _resumeButton.Pressed += () => EmitSignal(SignalName.ResumeGame);
     _quitButton.Pressed += () => GetTree().Quit();
     _restartButton.Pressed += () => GetTree().ChangeSceneToFile("res://Scenes/StartScreen.tscn");
+    _powerUpButton.Pressed += OnPowerUpButtonPressed;
+    _powerUpsContainer.Visible = false;
+
+    PopulatePowerUps();
+  }
+
+  private void PopulatePowerUps()
+  {
+    foreach (var powerUp in PowerUpManager.AllPowerUps)
+    {
+      var button = new Button
+      {
+        Text = powerUp.GetType().Name
+      };
+
+      button.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
+      _powerUpsContainer.AddChild(button);
+    }
+  }
+
+  private void OnPowerUpButtonPressed()
+  {
+    _powerUpsContainer.Visible = !_powerUpsContainer.Visible;
   }
 
   public override void _UnhandledInput(InputEvent @event)
