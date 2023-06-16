@@ -47,7 +47,6 @@ public partial class PowerUpPicker : Control
   public override void _Ready()
   {
     this.AutoWire();
-    //Reset(); does this need to be here?
   }
 
   public void Reset()
