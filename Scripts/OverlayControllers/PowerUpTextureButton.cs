@@ -7,6 +7,7 @@ public partial class PowerUpTextureButton : TextureButton
 {
   [GetNode("RichTextLabel")]
   private RichTextLabel _richTextLabel;
+
   public override void _Ready()
   {
     this.AutoWire();
@@ -21,7 +22,7 @@ public partial class PowerUpTextureButton : TextureButton
   }
 
   public void SetLabel(string text)
-  { 
+  {
     _richTextLabel.Text = $"[center]{text}[/center]";
   }
 }
