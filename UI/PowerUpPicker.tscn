@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpPicker.cs" id="1_2nnk8"]
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_4bdkx"]
-[ext_resource type="PackedScene" uid="uid://dymlsgg4ejjhs" path="res://UI/PowerUpButton.tscn" id="2_5qjoj"]
+[ext_resource type="PackedScene" uid="uid://cwe8cxy84ilkk" path="res://UI/PowerUpTextureButton.tscn" id="3_jf14l"]
 
 [node name="PowerUpPicker" type="Control"]
 layout_mode = 3
@@ -55,14 +55,14 @@ theme_override_constants/h_separation = 32
 theme_override_constants/v_separation = 32
 columns = 2
 
-[node name="PowerUpButton" parent="GridContainer" instance=ExtResource("2_5qjoj")]
+[node name="PowerUpTextureButton" parent="GridContainer" instance=ExtResource("3_jf14l")]
 layout_mode = 2
 
-[node name="PowerUpButton2" parent="GridContainer" instance=ExtResource("2_5qjoj")]
+[node name="PowerUpTextureButton2" parent="GridContainer" instance=ExtResource("3_jf14l")]
 layout_mode = 2
 
-[node name="PowerUpButton3" parent="GridContainer" instance=ExtResource("2_5qjoj")]
+[node name="PowerUpTextureButton3" parent="GridContainer" instance=ExtResource("3_jf14l")]
 layout_mode = 2
 
-[node name="PowerUpButton4" parent="GridContainer" instance=ExtResource("2_5qjoj")]
+[node name="PowerUpTextureButton4" parent="GridContainer" instance=ExtResource("3_jf14l")]
 layout_mode = 2
