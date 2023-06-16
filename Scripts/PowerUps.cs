@@ -296,7 +296,7 @@ public static class PowerUps
   {
     // Opponent has to briefly rest between jumps
     public string Name => "Post Leg Day Curse";
-    public Rarity Rarity => Rarity.Rare;
+    public Rarity Rarity => Rarity.Epic;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
