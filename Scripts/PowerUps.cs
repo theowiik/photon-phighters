@@ -599,4 +599,30 @@ public static class PowerUps
       otherPlayer.PlayerMovementDelegate.JumpForce -= 100.0f;
     }
   }
+
+  public class SketchyPillsGood : IPowerUpApplier
+  {
+    // Makes the player smaller and faster (gamba)
+    public string Name => "Sketchy Pills";
+    public Rarity Rarity => Rarity.Rare;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.Scale *= new Vector2(0.5f, 0.5f);
+      playerWhoSelected.PlayerMovementDelegate.Speed += 200;
+    }
+  }
+
+  public class SketchyPillsBad : IPowerUpApplier
+  {
+    // Makes the player bigger and slower (gamba)
+    public string Name => "Sketchy Pills";
+    public Rarity Rarity => Rarity.Rare;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.Scale *= new Vector2(1.25f, 1.25f);
+      playerWhoSelected.PlayerMovementDelegate.Speed -= 100;
+    }
+  }
 }
