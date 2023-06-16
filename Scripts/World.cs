@@ -87,6 +87,7 @@ public partial class World : Node2D
     uiUpdateTimer.Timeout += UpdateRoundTimer;
     _roundTimer.Timeout += OnRoundFinished;
     _pauseOverlay.ResumeGame += TogglePause;
+    _pauseOverlay.PowerUpPickedListeners += OnPowerUpSelectedBoth;
     _powerUpPicker.Visible = false;
     _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
 
@@ -252,6 +253,15 @@ public partial class World : Node2D
     powerUpApplier.Apply(loser, winner);
 
     StartRound();
+  }
+
+  /// <summary>
+  ///   Called when a power up is selected for both players
+  /// </summary>
+  private void OnPowerUpSelectedBoth(PowerUps.IPowerUpApplier powerUpApplier)
+  {
+    powerUpApplier.Apply(_lightPlayer, _lightPlayer);
+    powerUpApplier.Apply(_darkPlayer, _darkPlayer);
   }
 
   private void OnRoundFinished()
