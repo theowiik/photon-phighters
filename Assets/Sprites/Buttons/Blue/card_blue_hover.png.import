@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coj5qpla3osxm"
-path="res://.godot/imported/card_blue_hover.png-dad2a1dbae922c4454a5ae41ea299e0c.ctex"
+uid="uid://c6y1odft5uxkf"
+path="res://.godot/imported/card_blue_hover.png-d1e88fed999a2294376acfb8ba603cab.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/Buttons/card_blue_hover.png"
-dest_files=["res://.godot/imported/card_blue_hover.png-dad2a1dbae922c4454a5ae41ea299e0c.ctex"]
+source_file="res://Assets/Sprites/Buttons/Blue/card_blue_hover.png"
+dest_files=["res://.godot/imported/card_blue_hover.png-d1e88fed999a2294376acfb8ba603cab.ctex"]
 
 [params]
 
