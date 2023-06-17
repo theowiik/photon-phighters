@@ -625,4 +625,54 @@ public static class PowerUps
       playerWhoSelected.PlayerMovementDelegate.Speed -= 100;
     }
   }
+
+  public class BerserkerJuice : IPowerUpApplier
+  {
+    // When below 50% HP, grants bonus stats
+    public string Name => "Berserker Juice";
+    public Rarity Rarity => Rarity.Epic;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      new StatefulBerserkerJuice().Apply(playerWhoSelected);
+    }
+
+    private class StatefulBerserkerJuice
+    {
+      private Player _player;
+
+      public void Apply(Player playerWhoSelected)
+      {
+        _player = playerWhoSelected;
+        playerWhoSelected.PlayerMovementDelegate.PlayerMove += IncreaseSpeed;
+        playerWhoSelected.PlayerMovementDelegate.PlayerJump += IncreaseJump;
+        playerWhoSelected.Gun.GunShoot += IncreaseDamage;
+      }
+
+      private void IncreaseSpeed(PlayerMovementEvent playerMovementEvent)
+      {
+        if (_player.Health < (_player.MaxHealth / 2))
+        {
+          playerMovementEvent.Speed += 150;
+        }
+      }
+
+      private void IncreaseJump(PlayerMovementEvent playerMovementEvent)
+      {
+        if (_player.Health < (_player.MaxHealth / 2))
+        {
+          playerMovementEvent.JumpForce += 100;
+          playerMovementEvent.MaxJumps++;
+        }
+      }
+
+      private void IncreaseDamage(GunFireEvent shootEvent)
+      {
+        if (_player.Health < (_player.MaxHealth / 2))
+        {
+          shootEvent.BulletDamage += 5;
+        }
+      }
+    }
+  }
 }
