@@ -4,96 +4,94 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using PhotonPhighters.Scripts.Utils;
+using static PhotonPhighters.Scripts.PowerUps;
 
 namespace PhotonPhighters.Scripts;
 
 public static class PowerUpManager
 {
-  // List of power ups, with duplicates to represent the rarity
-  private static readonly IList<PowerUps.IPowerUpApplier> s_powerUpsRarity;
+  public static readonly IEnumerable<IPowerUpApplier> PowerUps;
 
   static PowerUpManager()
   {
-    var allPowerUps = new List<PowerUps.IPowerUpApplier>
+    if (!RaritySumIs100)
     {
-      new PowerUps.PhotonBoost(),
-      new PowerUps.HealthBoost(),
-      new PowerUps.BunnyBoost(),
-      new PowerUps.PhotonMultiplier(),
-      new PowerUps.PhotonEnlarger(),
-      new PowerUps.PhotonAccelerator(),
-      new PowerUps.Gravitronizer(),
-      new PowerUps.PhotonMuncher(),
-      new PowerUps.AirWalker(),
-      new PowerUps.GeneratorEngine(),
-      new PowerUps.MiniGun(),
-      new PowerUps.Sniper(),
-      new PowerUps.SteelBootsCurse(),
-      new PowerUps.StickyThickyCurse(),
-      new PowerUps.BulletRain(),
-      new PowerUps.MomentumMaster(),
-      new PowerUps.WallSpider(),
-      new PowerUps.OingoBoingoCurse(),
-      new PowerUps.PostLegDayCurse(),
-      new PowerUps.Chronostasis(),
-      new PowerUps.BrownianMotionCurse(),
-      new PowerUps.FluorescentBurst(),
-      new PowerUps.SimpleTrigonometry(),
-      new PowerUps.LuminogravitonFluxCurse(),
-      new PowerUps.PhotonReversifierCurse(),
-      new PowerUps.PheedingPhrenzy(),
-      new PowerUps.Randomizer5000(),
-      new PowerUps.PhotonPhlyer(),
-      new PowerUps.NikeAirJordans(),
-      new PowerUps.FakeJordans(),
-      new PowerUps.SketchyPillsGood(),
-      new PowerUps.SketchyPillsBad()
-    };
-
-    s_powerUpsRarity = new List<PowerUps.IPowerUpApplier>();
-    foreach (var powerUp in allPowerUps)
-    {
-      for (var i = 0; i < (int)powerUp.Rarity; i++)
-      {
-        s_powerUpsRarity.Add(powerUp);
-      }
+      throw new Exception("Rarities sum must be 100");
     }
 
-    CalculateOdds(s_powerUpsRarity);
+    PowerUps = new List<IPowerUpApplier>
+    {
+      new PhotonBoost(),
+      new HealthBoost(),
+      new BunnyBoost(),
+      new PhotonMultiplier(),
+      new PhotonEnlarger(),
+      new PhotonAccelerator(),
+      new Gravitronizer(),
+      new PhotonMuncher(),
+      new AirWalker(),
+      new GeneratorEngine(),
+      new MiniGun(),
+      new Sniper(),
+      new SteelBootsCurse(),
+      new StickyThickyCurse(),
+      new BulletRain(),
+      new MomentumMaster(),
+      new WallSpider(),
+      new OingoBoingoCurse(),
+      new PostLegDayCurse(),
+      new Chronostasis(),
+      new BrownianMotionCurse(),
+      new FluorescentBurst(),
+      new SimpleTrigonometry(),
+      new LuminogravitonFluxCurse(),
+      new PhotonReversifierCurse(),
+      new PheedingPhrenzy(),
+      new Randomizer5000(),
+      new PhotonPhlyer(),
+      new NikeAirJordans(),
+      new FakeJordans(),
+      new SketchyPillsGood(),
+      new SketchyPillsBad()
+    };
+
+    CalculateOdds();
   }
 
-  public static IEnumerable<PowerUps.IPowerUpApplier> AllPowerUps => s_powerUpsRarity.Distinct().ToList();
+  private static RarityCumulative RarityCumulativeOdds
+  {
+    get
+    {
+      const int CommonCumulative = (int)Rarity.Common;
+      const int RareCumulative = CommonCumulative + (int)Rarity.Rare;
+      const int EpicCumulative = RareCumulative + (int)Rarity.Epic;
+      const int LegendaryCumulative = EpicCumulative + (int)Rarity.Legendary;
 
-  // Gets n power ups. At least nRare should be rare or better (legendary)
-  public static IEnumerable<PowerUps.IPowerUpApplier> GetUniquePowerUpsWithRarity(int n, int nRare)
+      return new RarityCumulative
+      {
+        Common = CommonCumulative,
+        Rare = RareCumulative,
+        Epic = EpicCumulative,
+        Legendary = LegendaryCumulative
+      };
+    }
+  }
+
+  public static IEnumerable<IPowerUpApplier> GetUniquePowerUps(int n)
   {
     if (n <= 0)
     {
       throw new ArgumentException("n must be greater than 0");
     }
 
-    if (nRare > n)
-    {
-      throw new ArgumentException("Rare amount must be lesser than the total amount");
-    }
-
-    var rares = s_powerUpsRarity.Where(p => p.Rarity == PowerUps.Rarity.Rare).ToList();
-    var raresAdded = 0;
-
-    var output = new List<PowerUps.IPowerUpApplier>();
+    var output = new List<IPowerUpApplier>();
     while (output.Count < n)
     {
-      // Force selection of rare power-ups until minimum is reached
-      var p = raresAdded < nRare ? rares.Sample() : s_powerUpsRarity.Sample();
+      var p = GetRandomPowerUpWithOdds();
 
       if (output.Contains(p))
       {
         continue;
-      }
-
-      if (p.Rarity == PowerUps.Rarity.Rare)
-      {
-        raresAdded++;
       }
 
       output.Add(p);
@@ -102,32 +100,75 @@ public static class PowerUpManager
     return output.Shuffled();
   }
 
-  private static void CalculateOdds(IEnumerable<PowerUps.IPowerUpApplier> powerUps)
+  private static IPowerUpApplier GetRandomPowerUpWithOdds()
   {
-    var total = powerUps.Count();
-    var uniquePowerUps = powerUps.Distinct();
-
-    var things = (
-      from powerUp in uniquePowerUps
-      let count = powerUps.Count(p => p == powerUp)
-      let percent = (float)count / total * 100
-      select new Tuple<string, float>($"({powerUp.Rarity}) - {powerUp.Name}", percent)
-    )
-      .OrderBy(item => item.Item2)
-      .ToList();
-
-    WriteTupleListToFile(things, "probabilities.csv");
+    var rarity = GetRandomRarityWithOdds();
+    return PowerUps.Where(p => p.Rarity == rarity).ToList().Sample();
   }
 
-  private static void WriteTupleListToFile(List<Tuple<string, float>> tupleList, string filename)
+  private static Rarity GetRandomRarityWithOdds()
+  {
+    var random = new Random();
+    var randomNumber = random.Next(1, RarityCumulativeOdds.Legendary + 1);
+
+    if (randomNumber <= RarityCumulativeOdds.Common)
+    {
+      return Rarity.Common;
+    }
+
+    if (randomNumber <= RarityCumulativeOdds.Rare)
+    {
+      return Rarity.Rare;
+    }
+
+    if (randomNumber <= RarityCumulativeOdds.Epic)
+    {
+      return Rarity.Epic;
+    }
+
+    if (randomNumber <= RarityCumulativeOdds.Legendary)
+    {
+      return Rarity.Legendary;
+    }
+
+    throw new Exception("Rarity must sum to 100");
+  }
+
+  private static void CalculateOdds()
+  {
+    var things = new List<Tuple<string, float>>();
+
+    foreach (var rarity in Enum.GetValues(typeof(Rarity)).Cast<Rarity>())
+    {
+      var powerUpsOfRarity = PowerUps.Where(p => p.Rarity == rarity);
+      var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count();
+      things.AddRange(powerUpsOfRarity.Select(powerUp => new Tuple<string, float>(powerUp.Name, probabilityPerPowerUp)));
+    }
+    
+    WriteTupleListToFile(things, "probabilities.csv", "Power Up", "Probability");
+  }
+
+  private static void WriteTupleListToFile(
+    IEnumerable<Tuple<string, float>> tupleList,
+    string filename,
+    string column1,
+    string column2
+  )
   {
     using var writer = new StreamWriter(filename);
-
-    writer.WriteLine("Power Up, Probability");
+    writer.WriteLine($"{column1}, {column2}");
 
     foreach (var tuple in tupleList)
     {
       writer.WriteLine("{0}, {1}%", tuple.Item1, tuple.Item2.ToString("0.00", CultureInfo.InvariantCulture));
     }
+  }
+
+  private struct RarityCumulative
+  {
+    public int Common { get; set; }
+    public int Rare { get; set; }
+    public int Epic { get; set; }
+    public int Legendary { get; set; }
   }
 }

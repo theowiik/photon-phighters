@@ -73,7 +73,7 @@ public partial class PauseOverlay : Control
 
   private void PopulatePowerUps()
   {
-    foreach (var powerUp in PowerUpManager.AllPowerUps)
+    foreach (var powerUp in PowerUpManager.PowerUps)
     {
       var button = new Button { Text = powerUp.GetType().Name };
 
