@@ -143,7 +143,9 @@ public static class PowerUpManager
     {
       var powerUpsOfRarity = PowerUps.Where(p => p.Rarity == rarity);
       var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count();
-      things.AddRange(powerUpsOfRarity.Select(powerUp => new Tuple<string, float>(powerUp.Name, probabilityPerPowerUp)));
+      things.AddRange(
+        powerUpsOfRarity.Select(powerUp => new Tuple<string, float>(powerUp.Name, probabilityPerPowerUp))
+      );
     }
 
     WriteTupleListToFile(things, "probabilities.csv", "Power Up", "Probability");
