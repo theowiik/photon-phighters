@@ -137,18 +137,18 @@ public static class PowerUpManager
 
   private static void CalculateOdds()
   {
-    var things = new List<Tuple<string, float>>();
+    var powerUpProbabilites = new List<Tuple<string, float>>();
 
     foreach (var rarity in Enum.GetValues(typeof(Rarity)).Cast<Rarity>())
     {
       var powerUpsOfRarity = PowerUps.Where(p => p.Rarity == rarity);
       var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count();
-      things.AddRange(
-        powerUpsOfRarity.Select(powerUp => new Tuple<string, float>(powerUp.Name, probabilityPerPowerUp))
+      powerUpProbabilites.AddRange(
+        powerUpsOfRarity.Select(powerUp => new Tuple<string, float>($"{powerUp.Rarity} - {powerUp.Name}", probabilityPerPowerUp))
       );
     }
 
-    WriteTupleListToFile(things, "probabilities.csv", "Power Up", "Probability");
+    WriteTupleListToFile(powerUpProbabilites, "probabilities.csv", "Power Up", "Probability");
   }
 
   private static void WriteTupleListToFile(
