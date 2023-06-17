@@ -71,26 +71,37 @@ public partial class PowerUpPicker : Control
       _gridContainer.AddChild(powerUpButton);
 
       string rarityText;
-      Texture2D rarityTexture;
-      Texture2D rarityTextureHover;
+      Texture2D btnTexture;
+      Texture2D btnTextureHover;
+      Texture2D btnTextureDisabled;
 
       if (powerUp.Rarity == PowerUps.Rarity.Common)
       {
         rarityText = "";
-        rarityTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_green.png");
-        rarityTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_green_hover.png");
+        btnTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Green/card_green.png");
+        btnTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Green/card_green_hover.png");
+        btnTextureDisabled = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Green/card_green_disabled.png");
       }
       else if (powerUp.Rarity == PowerUps.Rarity.Rare)
       {
         rarityText = "(Rare) ";
-        rarityTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_blue.png");
-        rarityTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_blue_hover.png");
+        btnTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Blue/card_blue.png");
+        btnTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Blue/card_blue_hover.png");
+        btnTextureDisabled = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Blue/card_blue_disabled.png");
+      }
+      else if (powerUp.Rarity == PowerUps.Rarity.Epic)
+      {
+        rarityText = "(Epic) ";
+        btnTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Purple/card_purple.png");
+        btnTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Purple/card_purple_hover.png");
+        btnTextureDisabled = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Purple/card_purple_disabled.png");
       }
       else if (powerUp.Rarity == PowerUps.Rarity.Legendary)
       {
         rarityText = "(LEGENDARY) ";
-        rarityTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_orange.png");
-        rarityTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_orange_hover.png");
+        btnTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Orange/card_orange.png");
+        btnTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Orange/card_orange_hover.png");
+        btnTextureDisabled = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Orange/card_orange_disabled.png");
       }
       else
       {
@@ -98,9 +109,9 @@ public partial class PowerUpPicker : Control
       }
 
       powerUpButton.SetLabel(rarityText + powerUp.Name);
-      powerUpButton.TextureNormal = rarityTexture;
-      powerUpButton.TextureHover = rarityTextureHover;
-      powerUpButton.TextureDisabled = rarityTextureHover;
+      powerUpButton.TextureNormal = btnTexture;
+      powerUpButton.TextureHover = btnTextureHover;
+      powerUpButton.TextureDisabled = btnTextureDisabled;
       powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
 
       // Disable at first

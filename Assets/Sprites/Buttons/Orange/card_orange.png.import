@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://eecuhfoxvnhi"
-path="res://.godot/imported/card_orange.png-f426139a7e6edd997678bcd40665c0a7.ctex"
+uid="uid://bvx4ycpyannp0"
+path="res://.godot/imported/card_orange.png-cf483ac1c1e2f53f189a5cd1bed8bfc6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Sprites/card_orange.png"
-dest_files=["res://.godot/imported/card_orange.png-f426139a7e6edd997678bcd40665c0a7.ctex"]
+source_file="res://Assets/Sprites/Buttons/Orange/card_orange.png"
+dest_files=["res://.godot/imported/card_orange.png-cf483ac1c1e2f53f189a5cd1bed8bfc6.ctex"]
 
 [params]
 

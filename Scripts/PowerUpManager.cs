@@ -45,7 +45,9 @@ public static class PowerUpManager
       new PowerUps.Randomizer5000(),
       new PowerUps.PhotonPhlyer(),
       new PowerUps.NikeAirJordans(),
-      new PowerUps.FakeJordans()
+      new PowerUps.FakeJordans(),
+      new PowerUps.SketchyPillsGood(),
+      new PowerUps.SketchyPillsBad()
     };
 
     s_powerUpsRarity = new List<PowerUps.IPowerUpApplier>();

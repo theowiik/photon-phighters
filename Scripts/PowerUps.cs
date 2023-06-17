@@ -9,6 +9,7 @@ public static class PowerUps
   public enum Rarity
   {
     Legendary = 1,
+    Epic = 3,
     Rare = 6,
     Common = 11
   }
@@ -295,7 +296,7 @@ public static class PowerUps
   {
     // Opponent has to briefly rest between jumps
     public string Name => "Post Leg Day Curse";
-    public Rarity Rarity => Rarity.Rare;
+    public Rarity Rarity => Rarity.Epic;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -330,7 +331,7 @@ public static class PowerUps
   {
     // Photons briefly freeze the opponent
     public string Name => "Chronostasis";
-    public Rarity Rarity => Rarity.Legendary;
+    public Rarity Rarity => Rarity.Epic;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -350,7 +351,7 @@ public static class PowerUps
       private void FreezePlayer(PlayerMovementEvent movementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
-        if (currentTimeMsec - _msecSinceLastFreeze < 5000)
+        if (currentTimeMsec - _msecSinceLastFreeze < 2000)
         {
           movementEvent.CanMove = false;
           movementEvent.CanJump = false;
@@ -388,7 +389,7 @@ public static class PowerUps
   {
     // Getting hurt briefly increases movement speed
     public string Name => "Fluorescent Burst";
-    public Rarity Rarity => Rarity.Rare;
+    public Rarity Rarity => Rarity.Common;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -408,7 +409,7 @@ public static class PowerUps
       private void GiveSpeedBoost(PlayerMovementEvent playerMovementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
-        if (currentTimeMsec - _msecSinceLastHurt < 1000)
+        if (currentTimeMsec - _msecSinceLastHurt < 2000)
         {
           playerMovementEvent.Speed *= 1.5f;
         }
@@ -473,7 +474,7 @@ public static class PowerUps
   {
     // The opponent's movement is reversed
     public string Name => "Photon Reversifier Curse";
-    public Rarity Rarity => Rarity.Rare;
+    public Rarity Rarity => Rarity.Epic;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
@@ -590,12 +591,38 @@ public static class PowerUps
   {
     // Messes with the opponents movement
     public string Name => "Fake Jordans";
-    public Rarity Rarity => Rarity.Common;
+    public Rarity Rarity => Rarity.Rare;
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.Speed -= 75.0f;
       otherPlayer.PlayerMovementDelegate.JumpForce -= 100.0f;
+    }
+  }
+
+  public class SketchyPillsGood : IPowerUpApplier
+  {
+    // Makes the player smaller and faster (gamba)
+    public string Name => "Sketchy Pills";
+    public Rarity Rarity => Rarity.Rare;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.Scale *= new Vector2(0.5f, 0.5f);
+      playerWhoSelected.PlayerMovementDelegate.Speed += 200;
+    }
+  }
+
+  public class SketchyPillsBad : IPowerUpApplier
+  {
+    // Makes the player bigger and slower (gamba)
+    public string Name => "Sketchy Pills";
+    public Rarity Rarity => Rarity.Rare;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.Scale *= new Vector2(1.25f, 1.25f);
+      playerWhoSelected.PlayerMovementDelegate.Speed -= 100;
     }
   }
 }
