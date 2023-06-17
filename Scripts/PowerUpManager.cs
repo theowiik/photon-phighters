@@ -52,7 +52,8 @@ public static class PowerUpManager
       new NikeAirJordans(),
       new FakeJordans(),
       new SketchyPillsGood(),
-      new SketchyPillsBad()
+      new SketchyPillsBad(),
+      new BerserkerJuice()
     };
 
     CalculateOdds();
@@ -144,7 +145,7 @@ public static class PowerUpManager
       var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count();
       things.AddRange(powerUpsOfRarity.Select(powerUp => new Tuple<string, float>(powerUp.Name, probabilityPerPowerUp)));
     }
-    
+
     WriteTupleListToFile(things, "probabilities.csv", "Power Up", "Probability");
   }
 

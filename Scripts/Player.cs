@@ -109,7 +109,7 @@ public partial class Player : CharacterBody2D
   ///   The player's health.
   ///   Dont set this directly, use TakeDamage instead.
   /// </summary>
-  private int Health
+  public int Health
   {
     get => _health;
     set
