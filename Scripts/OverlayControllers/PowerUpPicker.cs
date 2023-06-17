@@ -10,7 +10,7 @@ public partial class PowerUpPicker : Control
 {
   public delegate void PowerUpPicked(PowerUps.IPowerUpApplier powerUpApplier);
 
-  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://UI/PowerUpButton.tscn");
+  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://UI/PowerUpTextureButton.tscn");
 
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;
@@ -47,7 +47,6 @@ public partial class PowerUpPicker : Control
   public override void _Ready()
   {
     this.AutoWire();
-    Reset();
   }
 
   public void Reset()
@@ -58,7 +57,7 @@ public partial class PowerUpPicker : Control
 
   private void Clear()
   {
-    foreach (var powerUpButton in _gridContainer.GetNodesOfType<Button>())
+    foreach (var powerUpButton in _gridContainer.GetNodesOfType<TextureButton>())
     {
       powerUpButton.QueueFree();
     }
@@ -68,24 +67,46 @@ public partial class PowerUpPicker : Control
   {
     foreach (var powerUp in PowerUpManager.GetUniquePowerUpsWithRarity(4, 0))
     {
-      var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpButton>();
+      var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpTextureButton>();
+      _gridContainer.AddChild(powerUpButton);
 
-      var rarityText = powerUp.Rarity switch
+      string rarityText;
+      Texture2D rarityTexture;
+      Texture2D rarityTextureHover;
+
+      if (powerUp.Rarity == PowerUps.Rarity.Common)
       {
-        PowerUps.Rarity.Common => "",
-        PowerUps.Rarity.Rare => "(Rare) ",
-        PowerUps.Rarity.Legendary => "(LEGENDARY) ",
-        _ => throw new KeyNotFoundException("Rarity not supported")
-      };
+        rarityText = "";
+        rarityTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_green.png");
+        rarityTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_green_hover.png");
+      }
+      else if (powerUp.Rarity == PowerUps.Rarity.Rare)
+      {
+        rarityText = "(Rare) ";
+        rarityTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_blue.png");
+        rarityTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_blue_hover.png");
+      }
+      else if (powerUp.Rarity == PowerUps.Rarity.Legendary)
+      {
+        rarityText = "(LEGENDARY) ";
+        rarityTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_orange.png");
+        rarityTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/card_orange_hover.png");
+      }
+      else
+      {
+        throw new KeyNotFoundException("Rarity not supported");
+      }
 
-      powerUpButton.Text = rarityText + powerUp.Name;
+      powerUpButton.SetLabel(rarityText + powerUp.Name);
+      powerUpButton.TextureNormal = rarityTexture;
+      powerUpButton.TextureHover = rarityTextureHover;
+      powerUpButton.TextureDisabled = rarityTextureHover;
       powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
 
       // Disable at first
       powerUpButton.Disabled = true;
       AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(2, () => powerUpButton.Disabled = false));
 
-      _gridContainer.AddChild(powerUpButton);
       powerUpButton.GrabFocus();
     }
   }
