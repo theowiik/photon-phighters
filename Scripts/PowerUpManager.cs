@@ -144,7 +144,9 @@ public static class PowerUpManager
       var powerUpsOfRarity = PowerUps.Where(p => p.Rarity == rarity);
       var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count();
       powerUpProbabilites.AddRange(
-        powerUpsOfRarity.Select(powerUp => new Tuple<string, float>($"{powerUp.Rarity} - {powerUp.Name}", probabilityPerPowerUp))
+        powerUpsOfRarity.Select(
+          powerUp => new Tuple<string, float>($"{powerUp.Rarity} - {powerUp.Name}", probabilityPerPowerUp)
+        )
       );
     }
 
