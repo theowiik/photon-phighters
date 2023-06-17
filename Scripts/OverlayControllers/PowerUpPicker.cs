@@ -93,8 +93,8 @@ public partial class PowerUpPicker : Control
       {
         rarityText = "(Epic) ";
         btnTexture = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Purple/card_purple.png");
-        btnTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Purple/card_purple.png");
-        btnTextureDisabled = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Purple/card_purple_hover.png");
+        btnTextureHover = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Purple/card_purple_hover.png");
+        btnTextureDisabled = GD.Load<Texture2D>("res://Assets/Sprites/Buttons/Purple/card_purple_disabled.png");
       }
       else if (powerUp.Rarity == PowerUps.Rarity.Legendary)
       {
