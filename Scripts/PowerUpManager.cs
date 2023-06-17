@@ -62,6 +62,8 @@ public static class PowerUpManager
     CalculateOdds(s_powerUpsRarity);
   }
 
+  public static IEnumerable<PowerUps.IPowerUpApplier> AllPowerUps => s_powerUpsRarity.Distinct().ToList();
+
   // Gets n power ups. At least nRare should be rare or better (legendary)
   public static IEnumerable<PowerUps.IPowerUpApplier> GetUniquePowerUpsWithRarity(int n, int nRare)
   {
