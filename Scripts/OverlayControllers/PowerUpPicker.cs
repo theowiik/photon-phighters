@@ -113,7 +113,7 @@ public partial class PowerUpPicker : Control
       powerUpButton.TextureHover = btnTextureHover;
 
       // This ensures that the menu gives feedback to the player when using a controller
-      if (Input.GetConnectedJoypads().Count == 1)
+      if (Input.GetConnectedJoypads().Count > 0)
       {
         powerUpButton.TextureFocused = btnTextureHover;
       }
