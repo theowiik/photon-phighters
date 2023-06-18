@@ -39,7 +39,7 @@ public static class PowerUpManager
       new PowerUps.BrownianMotionCurse(),
       new PowerUps.FluorescentBurst(),
       new PowerUps.SimpleTrigonometry(),
-      new PowerUps.LuminogravitonFluxCurse(),
+      // new PowerUps.LuminogravitonFluxCurse(),
       new PowerUps.PhotonReversifierCurse(),
       new PowerUps.PheedingPhrenzy(),
       new PowerUps.Randomizer5000(),
