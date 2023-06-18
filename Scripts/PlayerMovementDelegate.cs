@@ -106,12 +106,19 @@ public partial class PlayerMovementDelegate : Node
       moveEvent.Velocity.Y
     );
 
-    // Jumping
     var onFloor = CharacterBody.IsOnFloor();
+    var onCeiling = CharacterBody.IsOnCeiling();
+
+    // Hitting the floor or the ceiling should stop the player's vertical movement
+    if (onFloor || onCeiling)
+    {
+      moveEvent.Velocity = new Vector2(moveEvent.Velocity.X, 0);
+    }
+
+    // Hitting the floor should reset nr. of jumps
     if (onFloor)
     {
       _jumpCount = 0;
-      moveEvent.Velocity = new Vector2(moveEvent.Velocity.X, 0);
 
       if (!_onFloorLastCall)
       {
@@ -119,7 +126,6 @@ public partial class PlayerMovementDelegate : Node
         EmitSignal(SignalName.PlayerLand, moveEvent);
       }
     }
-
     _onFloorLastCall = onFloor;
 
     // Gravity

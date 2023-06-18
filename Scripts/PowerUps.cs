@@ -460,6 +460,7 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
+      otherPlayer.Rotate((float)Math.PI);
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseGravity;
     }
 
