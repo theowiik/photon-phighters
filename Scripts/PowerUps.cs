@@ -13,10 +13,10 @@ public static class PowerUps
   /// </summary>
   public enum Rarity
   {
-    Legendary = 5,
-    Epic = 20,
-    Rare = 30,
-    Common = 45
+    Legendary = 2,
+    Epic = 8,
+    Rare = 25,
+    Common = 65
   }
 
   public static bool RaritySumIs100 => Enum.GetValues(typeof(Rarity)).Cast<Rarity>().Sum(rarity => (int)rarity) == 100;
@@ -167,11 +167,11 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      playerWhoSelected.Gun.BulletCount += 7;
+      playerWhoSelected.Gun.BulletCount += 4;
       playerWhoSelected.Gun.BulletDamage = 1;
       playerWhoSelected.Gun.BulletSpread += 0.3f;
       playerWhoSelected.Gun.BulletSpeed /= 1.4f;
-      playerWhoSelected.Gun.FireRate += 2.5f;
+      playerWhoSelected.Gun.FireRate += 1.8f;
     }
   }
 
@@ -184,10 +184,10 @@ public static class PowerUps
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletCount = 1;
-      playerWhoSelected.Gun.BulletDamage = 100;
+      playerWhoSelected.Gun.BulletDamage = 130;
       playerWhoSelected.Gun.BulletSpread = 0.00001f;
       playerWhoSelected.Gun.BulletSpeed = 3000;
-      playerWhoSelected.Gun.FireRate = 1.6f;
+      playerWhoSelected.Gun.FireRate = 2.5f;
     }
   }
 
@@ -358,7 +358,7 @@ public static class PowerUps
       private void FreezePlayer(PlayerMovementEvent movementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
-        if (currentTimeMsec - _msecSinceLastFreeze < 2000)
+        if (currentTimeMsec - _msecSinceLastFreeze < 400)
         {
           movementEvent.CanMove = false;
           movementEvent.CanJump = false;
@@ -446,6 +446,7 @@ public static class PowerUps
 
       public void Apply(Player playerWhoSelected, Player otherPlayer)
       {
+        playerWhoSelected.Gun.BulletSpeed /= 1.5f;
         OtherPlayer = otherPlayer;
         playerWhoSelected.Gun.BulletFlying += MoveToOtherPlayer;
       }
@@ -453,8 +454,8 @@ public static class PowerUps
       private void MoveToOtherPlayer(BulletEvent bulletEvent)
       {
         var vector = OtherPlayer.Position - bulletEvent.Area2D.Position;
-        var magnitude = vector.Length();
-        bulletEvent.Velocity += new Vector2(vector.X / (magnitude / 20), vector.Y / (magnitude / 20));
+        var attractionStrenth = 20;
+        bulletEvent.Velocity += vector.Normalized() * attractionStrenth;
       }
     }
   }
@@ -571,7 +572,7 @@ public static class PowerUps
     {
       playerMovementEvent.CanJump = false;
       playerMovementEvent.Gravity = 0;
-      playerMovementEvent.Velocity = playerMovementEvent.InputDirection * (playerMovementEvent.Speed / 2);
+      playerMovementEvent.Velocity = playerMovementEvent.InputDirection * playerMovementEvent.Speed;
     }
   }
 

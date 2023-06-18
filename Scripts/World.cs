@@ -260,8 +260,8 @@ public partial class World : Node2D
   /// </summary>
   private void OnPowerUpSelectedBoth(PowerUps.IPowerUpApplier powerUpApplier)
   {
-    powerUpApplier.Apply(_lightPlayer, _lightPlayer);
-    powerUpApplier.Apply(_darkPlayer, _darkPlayer);
+    powerUpApplier.Apply(_lightPlayer, _darkPlayer);
+    powerUpApplier.Apply(_darkPlayer, _lightPlayer);
   }
 
   private void OnRoundFinished()
