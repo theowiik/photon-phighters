@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Events;
 
@@ -6,13 +7,19 @@ namespace PhotonPhighters.Scripts;
 
 public static class PowerUps
 {
+  /// <summary>
+  ///   Different power up rarities, and their percentage chance of being selected.
+  ///   Must add up to exactly 100.
+  /// </summary>
   public enum Rarity
   {
-    Legendary = 1,
-    Epic = 3,
-    Rare = 6,
-    Common = 11
+    Legendary = 5,
+    Epic = 20,
+    Rare = 30,
+    Common = 45
   }
+
+  public static bool RaritySumIs100 => Enum.GetValues(typeof(Rarity)).Cast<Rarity>().Sum(rarity => (int)rarity) == 100;
 
   /// <summary>
   ///   Stateless power up applier. Creates a new instance of the power up every time it is applied.
