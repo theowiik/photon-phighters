@@ -11,7 +11,6 @@ public partial class PowerUpTextureButton : TextureButton
   public override void _Ready()
   {
     this.AutoWire();
-    GrabFocus();
     ApplyShader();
   }
 

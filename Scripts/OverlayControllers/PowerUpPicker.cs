@@ -111,6 +111,13 @@ public partial class PowerUpPicker : Control
       powerUpButton.SetLabel(rarityText + powerUp.Name);
       powerUpButton.TextureNormal = btnTexture;
       powerUpButton.TextureHover = btnTextureHover;
+
+      // This ensures that the menu gives feedback to the player when using a controller
+      if (Input.GetConnectedJoypads().Count == 1)
+      {
+        powerUpButton.TextureFocused = btnTextureHover;
+      }
+
       powerUpButton.TextureDisabled = btnTextureDisabled;
       powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
 
