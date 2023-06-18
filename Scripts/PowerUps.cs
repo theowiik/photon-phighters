@@ -664,6 +664,7 @@ public static class PowerUps
     private class StatefulBerserkerJuice
     {
       private Player _player;
+      private float _threshold = 0.666f;
 
       public void Apply(Player playerWhoSelected)
       {
@@ -675,7 +676,7 @@ public static class PowerUps
 
       private void IncreaseSpeed(PlayerMovementEvent playerMovementEvent)
       {
-        if (_player.Health < (_player.MaxHealth / 2))
+        if (_player.Health < (_player.MaxHealth * _threshold))
         {
           playerMovementEvent.Speed += 150;
         }
@@ -683,7 +684,7 @@ public static class PowerUps
 
       private void IncreaseJump(PlayerMovementEvent playerMovementEvent)
       {
-        if (_player.Health < (_player.MaxHealth / 2))
+        if (_player.Health < (_player.MaxHealth * _threshold))
         {
           playerMovementEvent.JumpForce += 100;
           playerMovementEvent.MaxJumps++;
@@ -692,9 +693,10 @@ public static class PowerUps
 
       private void IncreaseDamage(GunFireEvent shootEvent)
       {
-        if (_player.Health < (_player.MaxHealth / 2))
+        if (_player.Health < (_player.MaxHealth * _threshold))
         {
           shootEvent.BulletDamage += 5;
+          shootEvent.BulletCount += 1;
         }
       }
     }
