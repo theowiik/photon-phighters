@@ -44,7 +44,7 @@ public static class PowerUpManager
       new BrownianMotionCurse(),
       new FluorescentBurst(),
       new SimpleTrigonometry(),
-      new LuminogravitonFluxCurse(),
+      // new LuminogravitonFluxCurse(),
       new PhotonReversifierCurse(),
       new PheedingPhrenzy(),
       new Randomizer5000(),

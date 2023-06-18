@@ -116,7 +116,21 @@ public partial class PowerUpPicker : Control
 
       // Disable at first
       powerUpButton.Disabled = true;
-      AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(2, () => powerUpButton.Disabled = false));
+      AddChild(
+        TimerFactory.OneShotSelfDestructingStartedTimer(
+          2,
+          () =>
+          {
+            // This ensures that the menu gives feedback to the player when using a controller
+            if (Input.GetConnectedJoypads().Count > 0)
+            {
+              powerUpButton.TextureFocused = btnTextureHover;
+            }
+
+            powerUpButton.Disabled = false;
+          }
+        )
+      );
 
       powerUpButton.GrabFocus();
     }

@@ -467,6 +467,7 @@ public static class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
+      otherPlayer.Rotate((float)Math.PI);
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseGravity;
     }
 
@@ -525,7 +526,7 @@ public static class PowerUps
       private void IncreasePhotonSize(Player player, int damage, PlayerHurtEvent playerHurtEvent)
       {
         _photonDamage++;
-        _photonSize += 0.5f;
+        _photonSize += 0.25f;
       }
     }
   }
