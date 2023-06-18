@@ -317,7 +317,7 @@ public static class PowerUps
       private void DelayJump(PlayerMovementEvent playerMovementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
-        if (currentTimeMsec - _msecSinceLastJump < 2000)
+        if (currentTimeMsec - _msecSinceLastJump < 1000)
         {
           playerMovementEvent.CanJump = false;
         }
@@ -369,6 +369,21 @@ public static class PowerUps
       {
         _msecSinceLastFreeze = Time.GetTicksMsec();
       }
+    }
+  }
+
+  public class EliasSpecialSauce : IPowerUpApplier
+  {
+    public string Name => "Elias' Special Sauce";
+
+    public Rarity Rarity => Rarity.Epic;
+
+    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      playerWhoSelected.Gun.FireRate = 11;
+      playerWhoSelected.Gun.BulletDamage = 4;
+      playerWhoSelected.Gun.BulletCount = 1;
+      playerWhoSelected.Gun.BulletSpread = 0;
     }
   }
 
@@ -526,8 +541,8 @@ public static class PowerUps
 
       private void IncreasePhotonSize(Player player, int damage, PlayerHurtEvent playerHurtEvent)
       {
-        _photonDamage++;
-        _photonSize += 0.25f;
+        _photonDamage = Math.Min(_photonDamage + 1, 30);
+        _photonSize = MathF.Min(_photonSize + 0.05f, 10f);
       }
     }
   }

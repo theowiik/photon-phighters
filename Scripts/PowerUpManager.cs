@@ -44,7 +44,6 @@ public static class PowerUpManager
       new BrownianMotionCurse(),
       new FluorescentBurst(),
       new SimpleTrigonometry(),
-      // new LuminogravitonFluxCurse(),
       new PhotonReversifierCurse(),
       new PheedingPhrenzy(),
       new Randomizer5000(),
@@ -53,7 +52,8 @@ public static class PowerUpManager
       new FakeJordans(),
       new SketchyPillsGood(),
       new SketchyPillsBad(),
-      new BerserkerJuice()
+      new BerserkerJuice(),
+      new EliasSpecialSauce()
     };
 
     CalculateOdds();
