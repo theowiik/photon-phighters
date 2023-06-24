@@ -1,4 +1,5 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -11,7 +12,7 @@ public partial class Player : CharacterBody2D
   public delegate void PlayerEffectAdded(Node2D effect, Player who);
 
   [Signal]
-  public delegate void PlayerHurtEventHandler(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent);
+  public delegate void PlayerHurtEventHandler(Player player, int damage, PlayerHurtEvent playerHurtEvent);
 
   public enum TeamEnum
   {
@@ -181,7 +182,8 @@ public partial class Player : CharacterBody2D
     {
       return;
     }
-    var playerHurtEvent = new Events.PlayerHurtEvent(damage);
+
+    var playerHurtEvent = new PlayerHurtEvent(damage);
     EmitSignal(SignalName.PlayerHurt, this, damage, playerHurtEvent);
     Health -= playerHurtEvent.Damage;
     _playerEffectsDelegate.EmitHurtParticles();

@@ -1,20 +1,9 @@
-using System;
 using Godot;
 
 namespace PhotonPhighters.Scripts.Events;
 
 public partial class PlayerMovementEvent : Node
 {
-  public float Gravity { get; set; }
-  public float Speed { get; set; }
-  public Vector2 Velocity { get; set; }
-  public Vector2 InputDirection { get; set; }
-  public bool CanMove { get; set; }
-  public CharacterBody2D CharacterBody { get; set; }
-  public bool CanJump { get; set; }
-  public float JumpForce { get; set; }
-  public int MaxJumps { get; set; }
-
   public PlayerMovementEvent(
     float gravity,
     float speed,
@@ -37,4 +26,14 @@ public partial class PlayerMovementEvent : Node
     JumpForce = jumpForce;
     MaxJumps = maxJumps;
   }
+
+  public float Gravity { get; set; }
+  public float Speed { get; set; }
+  public Vector2 Velocity { get; set; }
+  public Vector2 InputDirection { get; set; }
+  public bool CanMove { get; set; }
+  public CharacterBody2D CharacterBody { get; set; }
+  public bool CanJump { get; set; }
+  public float JumpForce { get; set; }
+  public int MaxJumps { get; set; }
 }

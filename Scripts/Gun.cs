@@ -1,4 +1,5 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -6,13 +7,13 @@ namespace PhotonPhighters.Scripts;
 public partial class Gun : Node2D
 {
   [Signal]
-  public delegate void GunShootEventHandler(Events.GunFireEvent shootEvent);
+  public delegate void BulletCollideFloorEventHandler(BulletCollideFloorEvent bulletEvent);
 
   [Signal]
-  public delegate void BulletCollideFloorEventHandler(Events.BulletCollideFloorEvent bulletEvent);
+  public delegate void BulletFlyingEventHandler(BulletEvent bulletEvent);
 
   [Signal]
-  public delegate void BulletFlyingEventHandler(Events.BulletEvent bulletEvent);
+  public delegate void GunShootEventHandler(GunFireEvent shootEvent);
 
   [Signal]
   public delegate void ShootDelegateEventHandler(Node2D bullet);
@@ -121,7 +122,7 @@ public partial class Gun : Node2D
   {
     _shootPlayer.PitchScale = GetLightPitch();
     _shootPlayer.Play();
-    var shootEvent = new Events.GunFireEvent(
+    var shootEvent = new GunFireEvent(
       BulletCount,
       BulletDamage,
       BulletGravity,
@@ -155,12 +156,12 @@ public partial class Gun : Node2D
     _shootTimer.Start();
   }
 
-  private void HandleBulletCollideFloor(Events.BulletCollideFloorEvent bulletCollideFloorEvent)
+  private void HandleBulletCollideFloor(BulletCollideFloorEvent bulletCollideFloorEvent)
   {
     EmitSignal(SignalName.BulletCollideFloor, bulletCollideFloorEvent);
   }
 
-  private void HandleBulletFlying(Events.BulletEvent bulletEvent)
+  private void HandleBulletFlying(BulletEvent bulletEvent)
   {
     EmitSignal(SignalName.BulletFlying, bulletEvent);
   }

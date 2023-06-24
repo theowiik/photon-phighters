@@ -1,17 +1,9 @@
-using System;
 using Godot;
 
 namespace PhotonPhighters.Scripts.Events;
 
 public partial class GunFireEvent : Node
 {
-  public int BulletCount { get; set; }
-  public int BulletDamage { get; set; }
-  public float BulletGravity { get; set; }
-  public float BulletSizeFactor { get; set; }
-  public float BulletSpeed { get; set; }
-  public float BulletSpread { get; set; }
-
   public GunFireEvent(
     int bulletCount,
     int bulletDamage,
@@ -28,4 +20,11 @@ public partial class GunFireEvent : Node
     BulletSpeed = bulletSpeed;
     BulletSpread = bulletSpread;
   }
+
+  public int BulletCount { get; set; }
+  public int BulletDamage { get; set; }
+  public float BulletGravity { get; set; }
+  public float BulletSizeFactor { get; set; }
+  public float BulletSpeed { get; set; }
+  public float BulletSpread { get; set; }
 }

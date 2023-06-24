@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
@@ -239,7 +240,7 @@ public partial class World : Node2D
     effect.GlobalPosition = who.GlobalPosition;
   }
 
-  private void OnPlayerHurt(Player player, int damage, Events.PlayerHurtEvent playerHurtEvent)
+  private void OnPlayerHurt(Player player, int damage, PlayerHurtEvent playerHurtEvent)
   {
     SpawnHurtIndicator(player, damage.ToString());
   }
@@ -260,8 +261,8 @@ public partial class World : Node2D
   /// </summary>
   private void OnPowerUpSelectedBoth(PowerUps.IPowerUpApplier powerUpApplier)
   {
-    powerUpApplier.Apply(_lightPlayer, _lightPlayer);
-    powerUpApplier.Apply(_darkPlayer, _darkPlayer);
+    powerUpApplier.Apply(_lightPlayer, _darkPlayer);
+    powerUpApplier.Apply(_darkPlayer, _lightPlayer);
   }
 
   private void OnRoundFinished()

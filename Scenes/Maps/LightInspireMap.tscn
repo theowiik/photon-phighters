@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3 uid="uid://bsu24qtewjrlc"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_4s6r2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cnuub"]
+size = Vector2(4326.13, 393.469)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2x1bi"]
+size = Vector2(533, 4776)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_defkp"]
+size = Vector2(4294, 444.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2dwfi"]
+size = Vector2(551, 4642)
+
+[node name="Map" instance=ExtResource("1_4s6r2")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(337.5, 1503.25)
+shape = SubResource("RectangleShape2D_cnuub")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="1"]
+position = Vector2(-1556, -633.75)
+shape = SubResource("RectangleShape2D_2x1bi")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="2"]
+position = Vector2(330.5, -2788)
+shape = SubResource("RectangleShape2D_defkp")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
+position = Vector2(2183, -643.75)
+shape = SubResource("RectangleShape2D_2dwfi")
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
+position = Vector2(-222, 283)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
+position = Vector2(252, 274)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnPointsContainer" index="2"]
+position = Vector2(738, 278)
+
+[node name="Marker2D4" type="Marker2D" parent="SpawnPointsContainer" index="3"]
+position = Vector2(217, 470)
+
+[node name="Marker2D5" type="Marker2D" parent="SpawnPointsContainer" index="4"]
+position = Vector2(299, 467)
+
+[node name="Marker2D6" type="Marker2D" parent="SpawnPointsContainer" index="5"]
+position = Vector2(195, 13)
+
+[node name="Marker2D7" type="Marker2D" parent="SpawnPointsContainer" index="6"]
+position = Vector2(326, 14)
+
+[node name="Marker2D8" type="Marker2D" parent="SpawnPointsContainer" index="7"]
+position = Vector2(-59, 170)
+
+[node name="Marker2D9" type="Marker2D" parent="SpawnPointsContainer" index="8"]
+position = Vector2(575, 165)
+
+[node name="TileMap" parent="." index="3"]
+layer_0/tile_data = PackedInt32Array(655362, 65536, 1, 655363, 65536, 1, 655364, 65536, 1, 655365, 65536, 1, 655366, 262144, 1, 655367, 262144, 1, 655368, 262144, 1, 655369, 262144, 1, 655370, 65536, 1, 655371, 65536, 1, 655372, 65536, 1, 655373, 65536, 1, 589830, 655360, 1, 524294, 655360, 0, 458758, 655360, 0, 589833, 655360, 1, 524297, 655360, 0, 458761, 655360, 0, 393222, 262144, 1, 393223, 262144, 1, 393224, 262144, 1, 393225, 262144, 1, 655376, 262144, 1, 589840, 262144, 1, 524304, 262144, 1, 458768, 262144, 1, 720895, 262144, 1, 655359, 262144, 1, 589823, 262144, 1, 524287, 262144, 1, 524286, 262144, 1, 524285, 262144, 1, 524284, 262144, 1, 458769, 262144, 1, 458770, 262144, 1, 458771, 262144, 1, 917500, 65536, 1, 917501, 65536, 1, 917502, 65536, 1, 917503, 65536, 1, 851984, 65536, 1, 851985, 65536, 1, 851986, 65536, 1, 851987, 65536, 1, 1048582, 65536, 1, 1048583, 65536, 1, 1048584, 65536, 1, 1048585, 65536, 1, 786426, 262144, 1, 851964, 655360, 1, 786451, 655360, 1, 720915, 655360, 0, 655379, 655360, 0, 589843, 655360, 0, 524307, 655360, 0, 786428, 655360, 0, 720892, 655360, 0, 655356, 655360, 0, 589820, 655360, 0, 720912, 655360, 0, 786431, 655360, 0, 851967, 655360, 1, 786448, 655360, 1, 131076, 65536, 1, 131077, 65536, 1, 131078, 65536, 1, 131079, 65536, 1, 131080, 65536, 1, 131081, 65536, 1, 131082, 65536, 1, 131083, 65536, 1, -131076, 655360, 2, -131067, 655360, 2, 12, 655360, 2, 11, 655360, 2, -65517, 655360, 2, -262121, 655360, 2, -131059, 655360, 2, 131066, 655360, 2, -65545, 655360, 2, 720917, 262144, 1, 720918, 262144, 1, 655381, 262144, 1, 720919, 262144, 1, 720920, 262144, 1, 655384, 262144, 1, 720890, 262144, 1, 786425, 262144, 1, 786424, 262144, 1, 786423, 262144, 1, 720887, 262144, 1, 1048581, 262144, 1, 1048586, 262144, 1, 983045, 655360, 1, 983050, 655360, 1, 917514, 655360, 0, 851978, 655360, 0, 786442, 655360, 0, 720906, 655360, 0, 917509, 655360, 0, 851973, 655360, 0, 786437, 655360, 0, 720901, 655360, 0, 983036, 655360, 0, 1048572, 655360, 0, 1114108, 655360, 0, 983039, 655360, 0, 1048575, 655360, 0, 1179654, 655360, 2, 1114121, 655360, 0, 917520, 655360, 0, 917523, 655360, 0, 983059, 655360, 0, 1179644, 655360, 2, 1245180, 655360, 2, 1114111, 655360, 2, 983055, 655360, 2, 983056, 655360, 2, 983057, 655360, 2, 1048594, 655360, 2, 1048595, 655360, 2, 1048596, 655360, 2, 1114117, 655360, 2, 1179655, 655360, 2, 1114118, 655360, 0, 1179657, 655360, 2, 1179656, 655360, 2, 1179658, 655360, 2, 1245194, 655360, 2, 1245190, 655360, 2, 1245191, 655360, 2, 1310727, 655360, 2, 1310728, 655360, 2, 1245193, 655360, 2, 1245192, 655360, 2)

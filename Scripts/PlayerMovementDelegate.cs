@@ -1,50 +1,50 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.Events;
 
 namespace PhotonPhighters.Scripts;
 
 public partial class PlayerMovementDelegate : Node
 {
+  [Signal]
+  public delegate void PlayerDoubleTappedEventHandler(PlayerMovementEvent playerMoveEvent);
+
+  [Signal]
+  public delegate void PlayerJumpEventHandler(PlayerMovementEvent playerMoveEvent);
+
+  [Signal]
+  public delegate void PlayerLandEventHandler(PlayerMovementEvent playerMoveEvent);
+
   /// <summary>
   ///   The speed of which the player start taking damage from aerodynamic heating
   /// </summary>
+  [Signal]
+  public delegate void PlayerMoveEventHandler(PlayerMovementEvent playerMoveEvent);
 
   [Signal]
-  public delegate void PlayerMoveEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+  public delegate void PlayerStoppedEventHandler(PlayerMovementEvent playerMoveEvent);
 
   [Signal]
-  public delegate void PlayerJumpEventHandler(Events.PlayerMovementEvent playerMoveEvent);
-
-  [Signal]
-  public delegate void PlayerLandEventHandler(Events.PlayerMovementEvent playerMoveEvent);
-
-  [Signal]
-  public delegate void PlayerWallJumpEventHandler(Events.PlayerMovementEvent playerMoveEvent);
-
-  [Signal]
-  public delegate void PlayerStoppedEventHandler(Events.PlayerMovementEvent playerMoveEvent);
-
-  [Signal]
-  public delegate void PlayerDoubleTappedEventHandler(Events.PlayerMovementEvent playerMoveEvent);
+  public delegate void PlayerWallJumpEventHandler(PlayerMovementEvent playerMoveEvent);
 
   private const int AerodynamicHeatingVelocity = 10_000;
   private const float Gravity = 800;
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
+  private readonly bool _canJump = true;
+  private readonly bool _canMove = true;
+  private readonly float _doubleTapTimeThreshold = 0.3f;
 
   private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+  private Timer _doubleTapTimer;
+  private bool _isLeftArrowPressed;
+  private bool _isRightArrowPressed;
+  private bool _isWaitingForSecondTap;
   private int _jumpCount;
   private Vector2 _knockback;
   private bool _onFloorLastCall;
   private float _speed = 300;
   private Vector2 _velocity;
-  private readonly bool _canJump = true;
-  private readonly bool _canMove = true;
-  private bool _isLeftArrowPressed;
-  private bool _isRightArrowPressed;
-  private bool _isWaitingForSecondTap;
-  private readonly float _doubleTapTimeThreshold = 0.3f;
-  private Timer _doubleTapTimer;
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
@@ -71,7 +71,7 @@ public partial class PlayerMovementDelegate : Node
       Input.GetActionStrength($"p{PlayerNumber}_down") - Input.GetActionStrength($"p{PlayerNumber}_up")
     );
 
-    var moveEvent = new Events.PlayerMovementEvent(
+    var moveEvent = new PlayerMovementEvent(
       Gravity,
       _speed,
       _velocity,
@@ -110,7 +110,7 @@ public partial class PlayerMovementDelegate : Node
     var onCeiling = CharacterBody.IsOnCeiling();
 
     // Hitting the floor or the ceiling should stop the player's vertical movement
-    moveEvent.Velocity = (onFloor || onCeiling) ? new Vector2(moveEvent.Velocity.X, 0) : moveEvent.Velocity;
+    moveEvent.Velocity = onFloor || onCeiling ? new Vector2(moveEvent.Velocity.X, 0) : moveEvent.Velocity;
 
     // Hitting the floor should reset the number of jumps
     if (onFloor && !_onFloorLastCall)
@@ -181,7 +181,7 @@ public partial class PlayerMovementDelegate : Node
     _doubleTapTimer.Timeout += ResetTapState;
   }
 
-  public void HandleDoubleTap(Events.PlayerMovementEvent playerMovementEvent)
+  public void HandleDoubleTap(PlayerMovementEvent playerMovementEvent)
   {
     if (Input.IsActionPressed($"p{PlayerNumber}_left"))
     {
@@ -205,6 +205,7 @@ public partial class PlayerMovementDelegate : Node
     {
       _isLeftArrowPressed = false;
     }
+
     if (Input.IsActionPressed($"p{PlayerNumber}_right"))
     {
       if (!_isRightArrowPressed)

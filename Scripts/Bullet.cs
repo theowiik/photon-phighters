@@ -1,4 +1,5 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -6,10 +7,11 @@ namespace PhotonPhighters.Scripts;
 public partial class Bullet : Area2D
 {
   [Signal]
-  public delegate void BulletCollideFloorDelegateEventHandler(Events.BulletCollideFloorEvent bulletCollideFloorEvent);
+  public delegate void BulletCollideFloorDelegateEventHandler(BulletCollideFloorEvent bulletCollideFloorEvent);
 
   [Signal]
-  public delegate void BulletFlyingDelegateEventHandler(Events.BulletEvent bulletEvent);
+  public delegate void BulletFlyingDelegateEventHandler(BulletEvent bulletEvent);
+
   private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
   private Vector2 _velocity;
   public float GravityFactor { get; set; } = 1.0f;
@@ -19,7 +21,7 @@ public partial class Bullet : Area2D
 
   public override void _PhysicsProcess(double delta)
   {
-    var bulletFlyingEvent = new Events.BulletEvent(this, _velocity);
+    var bulletFlyingEvent = new BulletEvent(this, _velocity);
     EmitSignal(SignalName.BulletFlyingDelegate, bulletFlyingEvent);
     bulletFlyingEvent.Velocity += new Vector2(0, _gravity * GravityFactor * (float)delta);
     _velocity = bulletFlyingEvent.Velocity;
@@ -47,7 +49,7 @@ public partial class Bullet : Area2D
     if (area.IsInGroup("lights") && area is Light light)
     {
       light.SetLight(LightMode);
-      var bulletCollideFloorEvent = new Events.BulletCollideFloorEvent(this, _velocity, area, true);
+      var bulletCollideFloorEvent = new BulletCollideFloorEvent(this, _velocity, area, true);
       EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
       if (bulletCollideFloorEvent.IsFinished)
       {
@@ -60,7 +62,7 @@ public partial class Bullet : Area2D
   {
     if (body.IsInGroup("floors"))
     {
-      var bulletCollideFloorEvent = new Events.BulletCollideFloorEvent(this, _velocity, body, true);
+      var bulletCollideFloorEvent = new BulletCollideFloorEvent(this, _velocity, body, true);
       EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
       if (bulletCollideFloorEvent.IsFinished)
       {
