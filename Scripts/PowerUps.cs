@@ -663,8 +663,8 @@ public static class PowerUps
 
     private class StatefulBerserkerJuice
     {
-      private Player _player;
       private readonly float treshold = 0.666f;
+      private Player _player;
 
       public void Apply(Player playerWhoSelected)
       {

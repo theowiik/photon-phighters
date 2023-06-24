@@ -16,7 +16,7 @@ public static class PowerUpManager
   {
     if (!RaritySumIs100)
     {
-      throw new Exception("Rarities sum must be 100");
+      throw new FormatException("Rarities sum must be 100");
     }
 
     PowerUps = new List<IPowerUpApplier>
@@ -132,7 +132,7 @@ public static class PowerUpManager
       return Rarity.Legendary;
     }
 
-    throw new Exception("Rarity must sum to 100");
+    throw new FormatException("Rarity must sum to 100");
   }
 
   private static void CalculateOdds()
@@ -169,11 +169,26 @@ public static class PowerUpManager
     }
   }
 
-  private struct RarityCumulative
+  private struct RarityCumulative : IEquatable<RarityCumulative>
   {
-    public int Common { get; set; }
-    public int Rare { get; set; }
-    public int Epic { get; set; }
-    public int Legendary { get; set; }
+    public int Common { get; init; }
+    public int Rare { get; init; }
+    public int Epic { get; init; }
+    public int Legendary { get; init; }
+
+    public bool Equals(RarityCumulative other)
+    {
+      return Common == other.Common && Rare == other.Rare && Epic == other.Epic && Legendary == other.Legendary;
+    }
+
+    public override bool Equals(object obj)
+    {
+      return obj is RarityCumulative other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(Common, Rare, Epic, Legendary);
+    }
   }
 }
