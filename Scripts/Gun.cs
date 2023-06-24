@@ -108,11 +108,6 @@ public partial class Gun : Node2D
     }
   }
 
-  private static float GetRandomBetweenRange(float min, float max)
-  {
-    return (float)GD.RandRange(min, max);
-  }
-
   private float GetLightPitch()
   {
     return LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);

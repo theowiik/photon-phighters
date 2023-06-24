@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
 
+namespace PhotonPhighters.Scripts;
+
 public partial class LightPlacingAutomata : Node2D
 {
   [Signal]

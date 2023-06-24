@@ -358,11 +358,13 @@ public static class PowerUps
       private void FreezePlayer(PlayerMovementEvent movementEvent)
       {
         var currentTimeMsec = Time.GetTicksMsec();
-        if (currentTimeMsec - _msecSinceLastFreeze < 400)
+        if (currentTimeMsec - _msecSinceLastFreeze >= 400)
         {
-          movementEvent.CanMove = false;
-          movementEvent.CanJump = false;
+          return;
         }
+
+        movementEvent.CanMove = false;
+        movementEvent.CanJump = false;
       }
 
       private void RecordTimeSinceFreeze(Player player, int damage, PlayerHurtEvent playerHurtEvent)
@@ -472,25 +474,6 @@ public static class PowerUps
         var attractionStrenth = 20;
         bulletEvent.Velocity += vector.Normalized() * attractionStrenth;
       }
-    }
-  }
-
-  public class LuminogravitonFluxCurse : IPowerUpApplier
-  {
-    // The opponent's gravity is reversed
-    public string Name => "Luminograviton Flux Curse";
-    public Rarity Rarity => Rarity.Legendary;
-
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
-    {
-      otherPlayer.Rotate((float)Math.PI);
-      otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseGravity;
-    }
-
-    private static void ReverseGravity(PlayerMovementEvent movementEvent)
-    {
-      movementEvent.Gravity *= -1;
-      movementEvent.JumpForce *= -1;
     }
   }
 

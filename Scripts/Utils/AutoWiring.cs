@@ -10,9 +10,6 @@ namespace PhotonPhighters.Scripts.Utils;
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
 public sealed class GetNodeAttribute : Attribute
 {
-  // Whether to exit the application if the node cannot be found
-  private const bool FailHard = true;
-
   private readonly string _path;
 
   public GetNodeAttribute(string nodePath)

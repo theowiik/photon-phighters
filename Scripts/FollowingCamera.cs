@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace PhotonPhighters.Scripts;
@@ -31,22 +32,20 @@ public partial class FollowingCamera : Camera2D
 
   private void MovePosition(double delta)
   {
-    var targetPosition = Vector2.Zero;
-    foreach (var target in _targets)
-    {
-      targetPosition += target.Position;
-    }
+    var targetPosition = _targets.Aggregate(Vector2.Zero, (current, target) => current + target.Position);
 
     targetPosition /= _targets.Count;
     Position = Position.Lerp(targetPosition, (float)delta * 5.0f);
 
     // Camera shake
-    if (_remainingShakeTime > 0)
+    if (!(_remainingShakeTime > 0))
     {
-      var shakeOffset = ShakeStrengthToOffset(_shakeStrength);
-      Position += new Vector2(GD.RandRange(-shakeOffset, shakeOffset), GD.RandRange(-shakeOffset, shakeOffset));
-      _remainingShakeTime -= (float)delta;
+      return;
     }
+
+    var shakeOffset = ShakeStrengthToOffset(_shakeStrength);
+    Position += new Vector2(GD.RandRange(-shakeOffset, shakeOffset), GD.RandRange(-shakeOffset, shakeOffset));
+    _remainingShakeTime -= (float)delta;
   }
 
   public void AddTarget(Node2D target)

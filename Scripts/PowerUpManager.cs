@@ -141,8 +141,8 @@ public static class PowerUpManager
 
     foreach (var rarity in Enum.GetValues(typeof(Rarity)).Cast<Rarity>())
     {
-      var powerUpsOfRarity = PowerUps.Where(p => p.Rarity == rarity);
-      var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count();
+      var powerUpsOfRarity = PowerUps.Where(p => p.Rarity == rarity).ToList();
+      var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count;
       powerUpProbabilites.AddRange(
         powerUpsOfRarity.Select(
           powerUp => new Tuple<string, float>($"{powerUp.Rarity} - {powerUp.Name}", probabilityPerPowerUp)
@@ -169,7 +169,7 @@ public static class PowerUpManager
     }
   }
 
-  private struct RarityCumulative : IEquatable<RarityCumulative>
+  private readonly struct RarityCumulative : IEquatable<RarityCumulative>
   {
     public int Common { get; init; }
     public int Rare { get; init; }

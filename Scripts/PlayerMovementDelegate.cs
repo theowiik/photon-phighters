@@ -31,11 +31,7 @@ public partial class PlayerMovementDelegate : Node
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
-  private readonly bool _canJump = true;
-  private readonly bool _canMove = true;
-  private readonly float _doubleTapTimeThreshold = 0.3f;
-
-  private readonly float _gravity = ProjectSettings.GetSetting("physics/2d/default_gravity").AsSingle();
+  private const float DoubleTapTimeThreshold = 0.3f;
   private Timer _doubleTapTimer;
   private bool _isLeftArrowPressed;
   private bool _isRightArrowPressed;
@@ -76,9 +72,9 @@ public partial class PlayerMovementDelegate : Node
       _speed,
       _velocity,
       inputDirection,
-      _canMove,
+      true,
       CharacterBody,
-      _canJump,
+      true,
       JumpForce,
       MaxJumps
     );
@@ -136,7 +132,7 @@ public partial class PlayerMovementDelegate : Node
       moveEvent.Velocity += new Vector2(0, moveEvent.Gravity * (float)delta);
     }
 
-    // Jumping + walljuping
+    // Jumping + walljumping
     if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
     {
       EmitSignal(SignalName.PlayerJump, moveEvent);
@@ -172,16 +168,16 @@ public partial class PlayerMovementDelegate : Node
     WalkAnimationHandler();
   }
 
-  public void InitializeDoubletap()
+  private void InitializeDoubletap()
   {
     _doubleTapTimer = new Timer();
     AddChild(_doubleTapTimer);
-    _doubleTapTimer.WaitTime = _doubleTapTimeThreshold;
+    _doubleTapTimer.WaitTime = DoubleTapTimeThreshold;
     _doubleTapTimer.OneShot = true;
     _doubleTapTimer.Timeout += ResetTapState;
   }
 
-  public void HandleDoubleTap(PlayerMovementEvent playerMovementEvent)
+  private void HandleDoubleTap(PlayerMovementEvent playerMovementEvent)
   {
     if (Input.IsActionPressed($"p{PlayerNumber}_left"))
     {
@@ -266,18 +262,16 @@ public partial class PlayerMovementDelegate : Node
       return;
     }
 
-    if (CharacterBody.Velocity.X == 0)
+    switch (CharacterBody.Velocity.X)
     {
-      return;
-    }
-
-    if (CharacterBody.Velocity.X > 0)
-    {
-      PlayerEffectsDelegate.AnimationPlayRunRight();
-    }
-    else
-    {
-      PlayerEffectsDelegate.AnimationPlayRunLeft();
+      case 0:
+        return;
+      case > 0:
+        PlayerEffectsDelegate.AnimationPlayRunRight();
+        break;
+      default:
+        PlayerEffectsDelegate.AnimationPlayRunLeft();
+        break;
     }
   }
 }

@@ -98,7 +98,7 @@ public partial class PlayerEffectsDelegate : Node2D
     _deathPlayer.Play();
   }
 
-  public void PlayFallDeathSound()
+  private void PlayFallDeathSound()
   {
     _fallDeathPlayer.Play();
   }

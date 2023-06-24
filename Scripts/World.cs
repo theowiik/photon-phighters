@@ -96,7 +96,7 @@ public partial class World : Node2D
     _mapManager.OutOfBoundsEventListeners += OnOutOfBounds;
 
     // Setup players
-    _players = GetTree().GetNodesInGroup("players").Cast<Player>();
+    _players = GetTree().GetNodesInGroup("players").Cast<Player>().ToList();
     foreach (var player in _players)
     {
       player.Frozen = true;
@@ -196,7 +196,7 @@ public partial class World : Node2D
           break;
 
         default:
-          throw new ArgumentOutOfRangeException("Light state is not a valid state");
+          throw new ArgumentOutOfRangeException(nameof(lightNode), "Light state is not a valid state");
       }
     }
 
@@ -308,14 +308,10 @@ public partial class World : Node2D
     _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
     if (_score.Dark >= _roundsToWin || _score.Light >= _roundsToWin)
     {
-      if (_score.Light > _score.Dark)
-      {
-        GetTree().ChangeSceneToFile("res://Scenes/EndScreenLight.tscn");
-      }
-      else
-      {
-        GetTree().ChangeSceneToFile("res://Scenes/EndScreenDarkness.tscn");
-      }
+      GetTree()
+        .ChangeSceneToFile(
+          _score.Light > _score.Dark ? "res://Scenes/EndScreenLight.tscn" : "res://Scenes/EndScreenDarkness.tscn"
+        );
     }
 
     _musicPlayer.SetPitch(_score.Light, _score.Dark, _roundsToWin);

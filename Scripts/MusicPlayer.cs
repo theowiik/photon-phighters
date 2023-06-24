@@ -1,5 +1,7 @@
 using Godot;
 
+namespace PhotonPhighters.Scripts;
+
 public partial class MusicPlayer : AudioStreamPlayer
 {
   private const float MinPitch = 1f;

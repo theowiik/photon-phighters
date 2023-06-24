@@ -14,13 +14,15 @@ public static class EnumerableExtensions
 
   public static T Sample<T>(this IEnumerable<T> source)
   {
-    if (!source.Any())
+    var list = source.ToList();
+
+    if (!list.Any())
     {
       throw new ArgumentException("Cannot sample from an empty collection");
     }
 
     var rnd = new Random();
-    var index = rnd.Next(0, source.Count());
-    return source.ElementAt(index);
+    var index = rnd.Next(0, list.Count);
+    return list.ElementAt(index);
   }
 }

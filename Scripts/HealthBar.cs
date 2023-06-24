@@ -13,7 +13,7 @@ public partial class HealthBar : Control
     this.AutoWire();
   }
 
-  public void SetHealth(int health, int maxHealth)
+  private void SetHealth(int health, int maxHealth)
   {
     _healthLabel.Text = $"{health}/{maxHealth}";
   }
