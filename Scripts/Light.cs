@@ -1,5 +1,4 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -25,37 +24,6 @@ public partial class Light : Area2D
 
   public LightMode LightState { get; private set; }
 
-  public override void _Draw()
-  {
-    const bool DebugDraw = false;
-
-    if (!DebugDraw)
-    {
-      return;
-    }
-
-    var color = Colors.Transparent;
-
-    switch (LightState)
-    {
-      case LightMode.Light:
-        color = Colors.White;
-        break;
-
-      case LightMode.Dark:
-        color = Colors.Black;
-        break;
-
-      case LightMode.None:
-        break;
-
-      default:
-        throw new ArgumentOutOfRangeException();
-    }
-
-    DrawCircle(Vector2.Zero, 5, color);
-  }
-
   public override void _Ready()
   {
     this.AutoWire();
@@ -80,7 +48,5 @@ public partial class Light : Area2D
     LightState = lightMode;
     _lightSprite.Visible = true;
     _lightSprite.Modulate = LightState == LightMode.Light ? _lightColorModulate : _darkColorModulate;
-
-    QueueRedraw(); // TODO: Dev remove
   }
 }

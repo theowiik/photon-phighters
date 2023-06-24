@@ -9,5 +9,5 @@ public partial class PlayerHurtEvent : Node
     Damage = damage;
   }
 
-  public int Damage { get; set; }
+  public int Damage { get; private set; }
 }

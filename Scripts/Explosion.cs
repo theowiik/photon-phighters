@@ -10,7 +10,6 @@ public partial class Explosion : Node2D
 {
   public enum ExplosionRadiusEnum
   {
-    Small = 20,
     Medium = 100,
     Large = 150
   }
@@ -54,7 +53,7 @@ public partial class Explosion : Node2D
     _explosionParticles.Emitting = true;
     _explosionPlayer.Play();
     ColorLightsInsideRadius();
-    AddChild(TimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime, () => QueueFree()));
+    AddChild(TimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime, QueueFree));
   }
 
   private void ColorLightsInsideRadius()

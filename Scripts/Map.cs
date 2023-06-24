@@ -41,7 +41,7 @@ public partial class Map : Node2D
   public Node2D GetRandomSpawnPoint()
   {
     Node2D nextSpawn = null;
-    var spawnPoints = _spawnPointsContainer.GetNodesOfType<Node2D>();
+    var spawnPoints = _spawnPointsContainer.GetNodesOfType<Node2D>().ToList();
 
     while (nextSpawn == null || nextSpawn == _lastSpawnPoint)
     {

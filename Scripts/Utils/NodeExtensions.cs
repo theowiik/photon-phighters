@@ -18,15 +18,17 @@ public static class NodeExtensions
 
     var n = node.GetNodeOrNull<T>(name);
 
-    if (n == null)
+    if (n != null)
+    {
+      return n;
+    }
+
     {
       var msg = $"Could not find child {name} on {node.Name}";
       GD.PrintErr(msg);
       node.GetTree().Quit();
       throw new KeyNotFoundException(msg);
     }
-
-    return n;
   }
 
   public static IEnumerable<T> GetNodesOfType<T>(this Node node)

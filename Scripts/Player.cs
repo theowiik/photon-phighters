@@ -80,14 +80,7 @@ public partial class Player : CharacterBody2D
       var collisionShape = this.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
       collisionShape.CallDeferred("set_disabled", _frozen);
 
-      if (_frozen)
-      {
-        PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Disabled;
-      }
-      else
-      {
-        PlayerMovementDelegate.ProcessMode = ProcessModeEnum.Inherit;
-      }
+      PlayerMovementDelegate.ProcessMode = _frozen ? ProcessModeEnum.Disabled : ProcessModeEnum.Inherit;
     }
   }
 
@@ -113,7 +106,7 @@ public partial class Player : CharacterBody2D
   public int Health
   {
     get => _health;
-    set
+    private set
     {
       _health = value;
       _healthBar.Value = (float)_health / MaxHealth;
@@ -198,14 +191,14 @@ public partial class Player : CharacterBody2D
 
   private void Aim()
   {
-    var joystickDeadzone = 0.05f;
+    const float JoystickDeadzone = 0.05f;
     var joystickVector = new Vector2(
       Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX),
       Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY)
     );
 
     // Controller has priority over mouse.
-    if (joystickVector.Length() > joystickDeadzone)
+    if (joystickVector.Length() > JoystickDeadzone)
     {
       _gunMarker.Rotation = joystickVector.Angle();
       _aimWithMouse = false;
@@ -251,11 +244,13 @@ public partial class Player : CharacterBody2D
       return;
     }
 
-    if (area is Bullet bullet && bullet.LightMode != Gun.LightMode)
+    if (area is not Bullet bullet || bullet.LightMode == Gun.LightMode)
     {
-      TakeDamage(bullet.Damage);
-      ApplyBulletKnockback(bullet);
-      bullet.QueueFree();
+      return;
     }
+
+    TakeDamage(bullet.Damage);
+    ApplyBulletKnockback(bullet);
+    bullet.QueueFree();
   }
 }

@@ -36,15 +36,17 @@ public partial class PauseOverlay : Control
       Visible = value;
       _audioStreamPlayer.StreamPaused = !value;
 
-      if (value)
+      if (!value)
       {
-        if (!_audioStreamPlayer.Playing)
-        {
-          _audioStreamPlayer.Play();
-        }
-
-        GrabFocus();
+        return;
       }
+
+      if (!_audioStreamPlayer.Playing)
+      {
+        _audioStreamPlayer.Play();
+      }
+
+      GrabFocus();
     }
   }
 

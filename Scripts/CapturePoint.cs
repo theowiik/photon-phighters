@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -118,7 +119,12 @@ public partial class CapturePoint : Node2D
     var area = this.GetNodeOrExplode<Area2D>("Area2D");
     area.BodyEntered += OnBodyEntered;
     area.BodyExited += OnBodyExited;
-    var circle = area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D").Shape as CircleShape2D;
+
+    if (area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D").Shape is not CircleShape2D circle)
+    {
+      throw new NodeNotFoundException("CollisionShape2D.Shape is not a CircleShape2D");
+    }
+
     _radius = circle.Radius;
   }
 
