@@ -8,6 +8,10 @@
     - [Dependencies 📦](#dependencies-)
     - [Formatting 💾](#formatting-)
   - [Gameplay 🕹️](#gameplay-️)
+  - [Torunaments 🏆](#torunaments-)
+    - [PP Alpha World Tour 🌎](#pp-alpha-world-tour-)
+    - [European Open Photon Phiesta 🇪🇺](#european-open-photon-phiesta-)
+    - [3 NA Regional Circuit Summer Split 2023 🇺🇸](#3-na-regional-circuit-summer-split-2023-)
 
 ## About 📖
 
@@ -39,3 +43,29 @@ In Photon Phighters, two teams battle to cover the map with light or darkness by
 Players can also attack their enemy to stop them from coloring the map. The team who has covered the largest area of the map after each round wins.
 
 After each round the losing team gets to choose a power-up which will help them in the next round.
+
+## Torunaments 🏆
+
+### PP Alpha World Tour 🌎
+
+1. Erik
+2. Elias
+3. Theo
+4. Arvid
+
+### European Open Photon Phiesta 🇪🇺
+
+1. Erik
+2. Victor
+3. Elias
+4. Theo
+
+### 3 NA Regional Circuit Summer Split 2023 🇺🇸
+
+![](.README/na_regional_circuit_summer_split_20232023.png)
+
+1. Theo
+2. Victor
+3. Erik
+4. Elias
+
