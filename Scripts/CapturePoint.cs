@@ -99,16 +99,15 @@ public partial class CapturePoint : Node2D
     var diff = diffPlayers > 0 ? 1 : -1;
     _captureTime += diff * (float)delta;
 
-    switch (_captureTime)
+    if (_captureTime >= TimeToCapture)
     {
-      case >= TimeToCapture:
-        _captured = true;
-        CapturedListeners?.Invoke(this, Player.TeamEnum.Light);
-        break;
-      case <= -TimeToCapture:
-        _captured = true;
-        CapturedListeners?.Invoke(this, Player.TeamEnum.Dark);
-        break;
+      _captured = true;
+      CapturedListeners?.Invoke(this, Player.TeamEnum.Light);
+    }
+    else if (_captureTime <= -TimeToCapture)
+    {
+      _captured = true;
+      CapturedListeners?.Invoke(this, Player.TeamEnum.Dark);
     }
 
     UpdateProgress();

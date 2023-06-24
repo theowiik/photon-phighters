@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
@@ -117,18 +118,18 @@ public partial class PowerUpPicker : Control
 
     var (color, rarityText) = theme;
 
-    var btnTexture = GDX.LoadOrExplode<Texture2D>($"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}.png");
+    var btnTexture = GDX.LoadOrExplode<Texture2D>($"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}.png");
     var btnTextureHover = GDX.LoadOrExplode<Texture2D>(
-      $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}_hover.png"
+      $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_hover.png"
     );
     var btnTextureDisabled = GDX.LoadOrExplode<Texture2D>(
-      $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}_disabled.png"
+      $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_disabled.png"
     );
 
     return new TexturePack(rarityText, btnTexture, btnTextureHover, btnTextureDisabled);
   }
 
-  private struct TexturePack
+  private struct TexturePack : IEquatable<TexturePack>
   {
     public string RarityText { get; }
     public Texture2D BtnTexture { get; }
@@ -141,6 +142,21 @@ public partial class PowerUpPicker : Control
       BtnTexture = btnTexture;
       BtnTextureHover = btnTextureHover;
       BtnTextureDisabled = btnTextureDisabled;
+    }
+
+    public bool Equals(TexturePack other)
+    {
+      return RarityText == other.RarityText && Equals(BtnTexture, other.BtnTexture) && Equals(BtnTextureHover, other.BtnTextureHover) && Equals(BtnTextureDisabled, other.BtnTextureDisabled);
+    }
+
+    public override bool Equals(object obj)
+    {
+      return obj is TexturePack other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+      return HashCode.Combine(RarityText, BtnTexture, BtnTextureHover, BtnTextureDisabled);
     }
   }
 }

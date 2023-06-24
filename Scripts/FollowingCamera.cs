@@ -38,7 +38,7 @@ public partial class FollowingCamera : Camera2D
     Position = Position.Lerp(targetPosition, (float)delta * 5.0f);
 
     // Camera shake
-    if (!(_remainingShakeTime > 0))
+    if (_remainingShakeTime <= 0)
     {
       return;
     }

@@ -667,7 +667,7 @@ public static class PowerUps
 
       private void IncreaseJump(PlayerMovementEvent playerMovementEvent)
       {
-        if (!(_player.Health < _player.MaxHealth * Treshold))
+        if (_player.Health <= _player.MaxHealth * Treshold)
         {
           return;
         }
@@ -678,7 +678,7 @@ public static class PowerUps
 
       private void IncreaseDamage(GunFireEvent shootEvent)
       {
-        if (!(_player.Health < _player.MaxHealth * Treshold))
+        if (_player.Health >= _player.MaxHealth * Treshold)
         {
           return;
         }
