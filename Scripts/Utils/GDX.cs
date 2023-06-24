@@ -27,7 +27,9 @@ public static class GDX
   {
     var error = tree.ChangeSceneToFile(filePath);
     if (error == Error.Ok)
+    {
       return;
+    }
 
     var msg = $"Could not change scene to {filePath}";
     GD.PrintErr(msg);
