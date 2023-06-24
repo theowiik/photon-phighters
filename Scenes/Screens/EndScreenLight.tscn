@@ -4,8 +4,13 @@
 
 [node name="EndScreenLight" instance=ExtResource("1_70aqy")]
 
+[node name="ColorRect" parent="CanvasLayer" index="0"]
+color = Color(0.901961, 0.901961, 0.901961, 1)
+
 [node name="Label" parent="CanvasLayer/VBoxContainer" index="0"]
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Lightness won!"
 
 [node name="Label2" parent="CanvasLayer/VBoxContainer" index="1"]
+theme_override_colors/font_color = Color(0, 0, 0, 1)
 text = "Light and hapiness spreads throghout the universe"

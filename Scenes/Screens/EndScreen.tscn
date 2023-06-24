@@ -1,11 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bsx0cugw6ijg8"]
+[gd_scene load_steps=3 format=3 uid="uid://bsx0cugw6ijg8"]
 
-[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_7voff"]
+[ext_resource type="Script" path="res://Scripts/MenuControllers/EndScreen.cs" id="1_nxer6"]
+[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_b45gs"]
 
 [node name="EndScreen" type="Node2D"]
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_7voff")
+script = ExtResource("1_nxer6")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
@@ -14,6 +13,14 @@ offset_right = 40.0
 offset_bottom = 40.0
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.419608, 0.160784, 0.34902, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer"]
 anchors_preset = 8
@@ -31,6 +38,7 @@ alignment = 1
 
 [node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("2_b45gs")
 text = "This team won!"
 horizontal_alignment = 1
 
@@ -41,9 +49,8 @@ horizontal_alignment = 1
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
-texture = ExtResource("1_7voff")
 stretch_mode = 2
 
-[node name="Button" type="Button" parent="CanvasLayer/VBoxContainer"]
+[node name="ExitButton" type="Button" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
-text = ":)"
+text = "Main Menu"

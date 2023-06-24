@@ -4,6 +4,9 @@
 
 [node name="EndScreenDark" instance=ExtResource("1_3eoj2")]
 
+[node name="ColorRect" parent="CanvasLayer" index="0"]
+color = Color(0, 0, 0, 0.647059)
+
 [node name="Label" parent="CanvasLayer/VBoxContainer" index="0"]
 text = "Darkness won!"
 

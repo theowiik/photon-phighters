@@ -57,7 +57,7 @@ public partial class PauseOverlay : Control
     this.AutoWire();
     _resumeButton.Pressed += () => EmitSignal(SignalName.ResumeGame);
     _quitButton.Pressed += () => GetTree().Quit();
-    _restartButton.Pressed += () => GetTree().ChangeSceneToFile("res://Scenes/Scenes/StartScreen.tscn");
+    _restartButton.Pressed += () => GetTree().ChangeOrExplode("res://Scenes/Screens/StartScreen.tscn");
     _powerUpButton.Pressed += OnPowerUpButtonPressed;
     _powerUpsContainer.Visible = false;
     _powerUpButton.Visible = false;
