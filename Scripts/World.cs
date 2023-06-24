@@ -310,7 +310,9 @@ public partial class World : Node2D
     {
       GetTree()
         .ChangeSceneToFile(
-          _score.Light > _score.Dark ? "res://Scenes/Screens/EndScreenLight.tscn" : "res://Scenes/Screens/EndScreenDarkness.tscn"
+          _score.Light > _score.Dark
+            ? "res://Scenes/Screens/EndScreenLight.tscn"
+            : "res://Scenes/Screens/EndScreenDarkness.tscn"
         );
     }
 

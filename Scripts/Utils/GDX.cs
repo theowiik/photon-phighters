@@ -26,7 +26,8 @@ public static class GDX
   public static void ChangeOrExplode(this SceneTree tree, string filePath)
   {
     var error = tree.ChangeSceneToFile(filePath);
-    if (error == Error.Ok) return;
+    if (error == Error.Ok)
+      return;
 
     var msg = $"Could not change scene to {filePath}";
     GD.PrintErr(msg);
