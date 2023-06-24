@@ -471,8 +471,8 @@ public static class PowerUps
       private void MoveToOtherPlayer(BulletEvent bulletEvent)
       {
         var vector = OtherPlayer.Position - bulletEvent.Area2D.Position;
-        var attractionStrenth = 20;
-        bulletEvent.Velocity += vector.Normalized() * attractionStrenth;
+        const int AttractionStrenth = 20;
+        bulletEvent.Velocity += vector.Normalized() * AttractionStrenth;
       }
     }
   }
@@ -646,7 +646,7 @@ public static class PowerUps
 
     private class StatefulBerserkerJuice
     {
-      private readonly float treshold = 0.666f;
+      private const float Treshold = 0.666f;
       private Player _player;
 
       public void Apply(Player playerWhoSelected)
@@ -659,7 +659,7 @@ public static class PowerUps
 
       private void IncreaseSpeed(PlayerMovementEvent playerMovementEvent)
       {
-        if (_player.Health < _player.MaxHealth * treshold)
+        if (_player.Health < _player.MaxHealth * Treshold)
         {
           playerMovementEvent.Speed += 150;
         }
@@ -667,20 +667,24 @@ public static class PowerUps
 
       private void IncreaseJump(PlayerMovementEvent playerMovementEvent)
       {
-        if (_player.Health < _player.MaxHealth * treshold)
+        if (!(_player.Health < _player.MaxHealth * Treshold))
         {
-          playerMovementEvent.JumpForce += 100;
-          playerMovementEvent.MaxJumps++;
+          return;
         }
+
+        playerMovementEvent.JumpForce += 100;
+        playerMovementEvent.MaxJumps++;
       }
 
       private void IncreaseDamage(GunFireEvent shootEvent)
       {
-        if (_player.Health < _player.MaxHealth * treshold)
+        if (!(_player.Health < _player.MaxHealth * Treshold))
         {
-          shootEvent.BulletDamage += 5;
-          shootEvent.BulletCount += 1;
+          return;
         }
+
+        shootEvent.BulletDamage += 5;
+        shootEvent.BulletCount += 1;
       }
     }
   }

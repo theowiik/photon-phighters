@@ -63,11 +63,13 @@ public partial class LightPlacingAutomata : Node2D
     {
       var hit = ray.GetCollider();
 
-      if (hit is Node2D node2D && node2D.IsInGroup("floors"))
+      if (hit is not Node2D node2D || !node2D.IsInGroup("floors"))
       {
-        var intersection = ray.GetCollisionPoint();
-        EmitSignal(SignalName.PossibleLightPositionFound, intersection);
+        continue;
       }
+
+      var intersection = ray.GetCollisionPoint();
+      EmitSignal(SignalName.PossibleLightPositionFound, intersection);
     }
   }
 }

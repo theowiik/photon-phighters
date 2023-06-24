@@ -46,28 +46,32 @@ public partial class Bullet : Area2D
 
   private void OnAreaEntered(Area2D area)
   {
-    if (area.IsInGroup("lights") && area is Light light)
+    if (!area.IsInGroup("lights") || area is not Light light)
     {
-      light.SetLight(LightMode);
-      var bulletCollideFloorEvent = new BulletCollideFloorEvent(this, _velocity, area, true);
-      EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
-      if (bulletCollideFloorEvent.IsFinished)
-      {
-        QueueFree();
-      }
+      return;
+    }
+
+    light.SetLight(LightMode);
+    var bulletCollideFloorEvent = new BulletCollideFloorEvent(this, _velocity, true);
+    EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
+    if (bulletCollideFloorEvent.IsFinished)
+    {
+      QueueFree();
     }
   }
 
   private void OnBodyEntered(Node2D body)
   {
-    if (body.IsInGroup("floors"))
+    if (!body.IsInGroup("floors"))
     {
-      var bulletCollideFloorEvent = new BulletCollideFloorEvent(this, _velocity, body, true);
-      EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
-      if (bulletCollideFloorEvent.IsFinished)
-      {
-        QueueFree();
-      }
+      return;
+    }
+
+    var bulletCollideFloorEvent = new BulletCollideFloorEvent(this, _velocity, true);
+    EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
+    if (bulletCollideFloorEvent.IsFinished)
+    {
+      QueueFree();
     }
   }
 

@@ -10,19 +10,16 @@ public partial class BulletEvent : Node
     Velocity = velocity;
   }
 
-  public Area2D Area2D { get; set; }
+  public Area2D Area2D { get; private set; }
   public Vector2 Velocity { get; set; }
 }
 
 public partial class BulletCollideFloorEvent : BulletEvent
 {
-  public BulletCollideFloorEvent(Area2D area2D, Vector2 vector2, Node2D floor, bool isFinished)
-    : base(area2D, vector2)
+  public BulletCollideFloorEvent(Area2D area2D, Vector2 vector2, bool isFinished) : base(area2D, vector2)
   {
-    Floor = floor;
     IsFinished = isFinished;
   }
 
-  public Node2D Floor { get; set; }
-  public bool IsFinished { get; set; }
+  public bool IsFinished { get; private set; }
 }

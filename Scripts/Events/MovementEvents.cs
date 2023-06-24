@@ -32,7 +32,7 @@ public partial class PlayerMovementEvent : Node
   public Vector2 Velocity { get; set; }
   public Vector2 InputDirection { get; set; }
   public bool CanMove { get; set; }
-  public CharacterBody2D CharacterBody { get; set; }
+  private CharacterBody2D CharacterBody { get; set; }
   public bool CanJump { get; set; }
   public float JumpForce { get; set; }
   public int MaxJumps { get; set; }

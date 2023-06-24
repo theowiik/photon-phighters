@@ -191,14 +191,14 @@ public partial class Player : CharacterBody2D
 
   private void Aim()
   {
-    var joystickDeadzone = 0.05f;
+    const float JoystickDeadzone = 0.05f;
     var joystickVector = new Vector2(
       Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX),
       Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY)
     );
 
     // Controller has priority over mouse.
-    if (joystickVector.Length() > joystickDeadzone)
+    if (joystickVector.Length() > JoystickDeadzone)
     {
       _gunMarker.Rotation = joystickVector.Angle();
       _aimWithMouse = false;
