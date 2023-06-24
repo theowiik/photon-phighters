@@ -118,7 +118,9 @@ public partial class PowerUpPicker : Control
 
     var (color, rarityText) = theme;
 
-    var btnTexture = GDX.LoadOrExplode<Texture2D>($"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}.png");
+    var btnTexture = GDX.LoadOrExplode<Texture2D>(
+      $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}.png"
+    );
     var btnTextureHover = GDX.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_hover.png"
     );
@@ -146,7 +148,10 @@ public partial class PowerUpPicker : Control
 
     public bool Equals(TexturePack other)
     {
-      return RarityText == other.RarityText && Equals(BtnTexture, other.BtnTexture) && Equals(BtnTextureHover, other.BtnTextureHover) && Equals(BtnTextureDisabled, other.BtnTextureDisabled);
+      return RarityText == other.RarityText
+        && Equals(BtnTexture, other.BtnTexture)
+        && Equals(BtnTextureHover, other.BtnTextureHover)
+        && Equals(BtnTextureDisabled, other.BtnTextureDisabled);
     }
 
     public override bool Equals(object obj)
