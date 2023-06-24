@@ -1,0 +1,11 @@
+[gd_scene load_steps=2 format=3 uid="uid://c3awhmdiqovno"]
+
+[ext_resource type="PackedScene" uid="uid://bsx0cugw6ijg8" path="res://Scenes/Screens/EndScreen.tscn" id="1_70aqy"]
+
+[node name="EndScreenLight" instance=ExtResource("1_70aqy")]
+
+[node name="Label" parent="CanvasLayer/VBoxContainer" index="0"]
+text = "Lightness won!"
+
+[node name="Label2" parent="CanvasLayer/VBoxContainer" index="1"]
+text = "Light and hapiness spreads throghout the universe"
