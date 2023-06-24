@@ -10,6 +10,15 @@ public partial class PowerUpPicker : Control
 {
   public delegate void PowerUpPicked(PowerUps.IPowerUpApplier powerUpApplier);
 
+  private static readonly Dictionary<PowerUps.Rarity, (string color, string text)> s_rarityThemes =
+    new()
+    {
+      { PowerUps.Rarity.Common, ("Green", "") },
+      { PowerUps.Rarity.Rare, ("Blue", "(Rare) ") },
+      { PowerUps.Rarity.Epic, ("Purple", "(Epic) ") },
+      { PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY) ") }
+    };
+
   private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://UI/PowerUpTextureButton.tscn");
 
   [GetNode("BackgroundRect")]
@@ -20,14 +29,6 @@ public partial class PowerUpPicker : Control
 
   [GetNode("Label")]
   private Label _label;
-
-  private static readonly Dictionary<PowerUps.Rarity, (string color, string text)> RarityThemes = new()
-  {
-    { PowerUps.Rarity.Common, ("Green", "") },
-    { PowerUps.Rarity.Rare, ("Blue", "(Rare) ") },
-    { PowerUps.Rarity.Epic, ("Purple", "(Epic) ") },
-    { PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY) ") }
-  };
 
   public void SetWinningSide(TeamEnum value)
   {
@@ -109,16 +110,20 @@ public partial class PowerUpPicker : Control
 
   private static TexturePack GetThemeTextures(PowerUps.IPowerUpApplier powerUp)
   {
-    if (!RarityThemes.TryGetValue(powerUp.Rarity, out var theme))
+    if (!s_rarityThemes.TryGetValue(powerUp.Rarity, out var theme))
     {
       throw new KeyNotFoundException("Rarity not supported");
     }
 
     var (color, rarityText) = theme;
 
-    var btnTexture = GD.Load<Texture2D>($"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}.png");
-    var btnTextureHover = GD.Load<Texture2D>($"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}_hover.png");
-    var btnTextureDisabled = GD.Load<Texture2D>($"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}_disabled.png");
+    var btnTexture = GDX.LoadOrExplode<Texture2D>($"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}.png");
+    var btnTextureHover = GDX.LoadOrExplode<Texture2D>(
+      $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}_hover.png"
+    );
+    var btnTextureDisabled = GDX.LoadOrExplode<Texture2D>(
+      $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower()}_disabled.png"
+    );
 
     return new TexturePack(rarityText, btnTexture, btnTextureHover, btnTextureDisabled);
   }

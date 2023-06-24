@@ -42,7 +42,12 @@ public static class TimerFactory
   /// </returns>
   public static Timer OneShotStartedTimer(double waitTime, Action onTimeout)
   {
-    var timer = new Timer { Autostart = true, OneShot = true, WaitTime = waitTime };
+    var timer = new Timer
+    {
+      Autostart = true,
+      OneShot = true,
+      WaitTime = waitTime
+    };
 
     if (onTimeout != null)
     {
@@ -63,7 +68,12 @@ public static class TimerFactory
   /// </returns>
   public static Timer StartedTimer(int waitTime)
   {
-    var timer = new Timer { Autostart = true, OneShot = false, WaitTime = waitTime };
+    var timer = new Timer
+    {
+      Autostart = true,
+      OneShot = false,
+      WaitTime = waitTime
+    };
 
     return timer;
   }

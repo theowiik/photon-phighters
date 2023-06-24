@@ -70,7 +70,10 @@ public static class PowerUpManager
 
       return new RarityCumulative
       {
-        Common = CommonCumulative, Rare = RareCumulative, Epic = EpicCumulative, Legendary = LegendaryCumulative
+        Common = CommonCumulative,
+        Rare = RareCumulative,
+        Epic = EpicCumulative,
+        Legendary = LegendaryCumulative
       };
     }
   }

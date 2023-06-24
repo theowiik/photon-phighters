@@ -16,7 +16,8 @@ public partial class BulletEvent : Node
 
 public partial class BulletCollideFloorEvent : BulletEvent
 {
-  public BulletCollideFloorEvent(Area2D area2D, Vector2 vector2, bool isFinished) : base(area2D, vector2)
+  public BulletCollideFloorEvent(Area2D area2D, Vector2 vector2, bool isFinished)
+    : base(area2D, vector2)
   {
     IsFinished = isFinished;
   }
