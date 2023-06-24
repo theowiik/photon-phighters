@@ -5,15 +5,19 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PauseOverlay : Control
 {
+  public delegate void PowerUpPicked(PowerUps.IPowerUpApplier powerUpApplier);
+
   [Signal]
   public delegate void ResumeGameEventHandler();
 
-  public delegate void PowerUpPicked(PowerUps.IPowerUpApplier powerUpApplier);
-
-  public event PowerUpPicked PowerUpPickedListeners;
-
   [GetNode("AudioStreamPlayer")]
   private AudioStreamPlayer _audioStreamPlayer;
+
+  [GetNode("Center/VBox/PowerUpButton")]
+  private Button _powerUpButton;
+
+  [GetNode("PowerUpsContainer/VBoxContainer")]
+  private Control _powerUpsContainer;
 
   [GetNode("Center/VBox/QuitButton")]
   private Button _quitButton;
@@ -23,12 +27,6 @@ public partial class PauseOverlay : Control
 
   [GetNode("Center/VBox/ResumeButton")]
   private Button _resumeButton;
-
-  [GetNode("Center/VBox/PowerUpButton")]
-  private Button _powerUpButton;
-
-  [GetNode("PowerUpsContainer/VBoxContainer")]
-  private Control _powerUpsContainer;
 
   public bool Enabled
   {
@@ -49,6 +47,8 @@ public partial class PauseOverlay : Control
       }
     }
   }
+
+  public event PowerUpPicked PowerUpPickedListeners;
 
   public override void _Ready()
   {
