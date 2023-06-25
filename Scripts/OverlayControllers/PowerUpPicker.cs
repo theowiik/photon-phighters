@@ -4,7 +4,6 @@ using System.Globalization;
 using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
@@ -151,9 +150,9 @@ public partial class PowerUpPicker : Control
     public bool Equals(TexturePack other)
     {
       return RarityText == other.RarityText
-        && Equals(BtnTexture, other.BtnTexture)
-        && Equals(BtnTextureHover, other.BtnTextureHover)
-        && Equals(BtnTextureDisabled, other.BtnTextureDisabled);
+             && Equals(BtnTexture, other.BtnTexture)
+             && Equals(BtnTextureHover, other.BtnTextureHover)
+             && Equals(BtnTextureDisabled, other.BtnTextureDisabled);
     }
 
     public override bool Equals(object obj)

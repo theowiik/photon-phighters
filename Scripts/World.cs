@@ -7,7 +7,6 @@ using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.OverlayControllers;
-using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
