@@ -1,8 +1,10 @@
 using Godot;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
+[GsInstancer("res://UI/PowerUpTextureButton.tscn")]
 public partial class PowerUpTextureButton : TextureButton
 {
   [GsAutoWiring("RichTextLabel")]

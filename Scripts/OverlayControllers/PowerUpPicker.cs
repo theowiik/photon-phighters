@@ -4,6 +4,7 @@ using System.Globalization;
 using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 using static PhotonPhighters.Scripts.Player;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
@@ -20,8 +21,6 @@ public partial class PowerUpPicker : Control
       { PowerUps.Rarity.Epic, ("Purple", "(Epic) ") },
       { PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY) ") }
     };
-
-  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://UI/PowerUpTextureButton.tscn");
 
   [GsAutoWiring("BackgroundRect")]
   private ColorRect _backgroundRect;
@@ -78,7 +77,7 @@ public partial class PowerUpPicker : Control
   {
     foreach (var powerUp in PowerUpManager.GetUniquePowerUps(4))
     {
-      var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpTextureButton>();
+      var powerUpButton = GsInstancer.Instantiate<PowerUpTextureButton>();
       _gridContainer.AddChild(powerUpButton);
       var texturePack = GetThemeTextures(powerUp);
 

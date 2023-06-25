@@ -124,7 +124,7 @@ public partial class MapManager : Node2D
         }
       }
 
-      var light = GsInstancer.Instanciate<Light>();
+      var light = GsInstancer.Instantiate<Light>();
       CurrentMap.AddChild(light);
       light.GlobalPosition = globalPos;
     };

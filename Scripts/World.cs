@@ -16,10 +16,6 @@ public partial class World : Node2D
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
 
-  private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
-
-  private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
-
   private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(
     "res://Objects/Player/Ragdolls/DarkRagdoll.tscn"
   );
@@ -356,7 +352,7 @@ public partial class World : Node2D
 
   private void SpawnRandomCapturePoint()
   {
-    var capturePoint = _capturePointScene.Instantiate<CapturePoint>();
+    var capturePoint = GsInstancer.Instantiate<CapturePoint>();
     AddChild(capturePoint);
     capturePoint.CapturedListeners += OnCapturePointCaptured;
 
@@ -377,7 +373,7 @@ public partial class World : Node2D
 
   private void SpawnExplosion(Node2D where, Light.LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
   {
-    var explosion = _explosionScene.Instantiate<Explosion>();
+    var explosion = GsInstancer.Instantiate<Explosion>();
     explosion.LightMode = who;
     explosion.Radius = explosionRadius;
     CallDeferred("add_child", explosion);
@@ -387,7 +383,7 @@ public partial class World : Node2D
 
   private void SpawnHurtIndicator(Node2D player, string msg)
   {
-    var indicator = GsInstancer.Instanciate<DamageAmountIndicator>();
+    var indicator = GsInstancer.Instantiate<DamageAmountIndicator>();
     indicator.AddChild(GsTimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
     AddChild(indicator);
     indicator.GlobalPosition = player.GlobalPosition;

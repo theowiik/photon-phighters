@@ -4,9 +4,11 @@ using Godot;
 using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
+[GsInstancer("res://Objects/CapturePoint.tscn")]
 public partial class CapturePoint : Node2D
 {
   public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);

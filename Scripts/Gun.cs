@@ -130,7 +130,7 @@ public partial class Gun : Node2D
 
     for (var i = 0; i < shootEvent.BulletCount; i++)
     {
-      var bullet = GsInstancer.Instanciate<Bullet>();
+      var bullet = GsInstancer.Instantiate<Bullet>();
 
       bullet.BulletCollideFloorDelegate += HandleBulletCollideFloor;
       bullet.BulletFlyingDelegate += HandleBulletFlying;
