@@ -160,7 +160,7 @@ public partial class Player : CharacterBody2D
   {
     if (apply)
     {
-      var shader = GD.Load<Shader>("res://Assets/Shaders/simple_shader.gdshader");
+      var shader = GD.Load<Shader>("res://Assets/Shaders/rainbow.gdshader");
       var shaderMaterial = new ShaderMaterial { Shader = shader };
       _sprite2D.Material = shaderMaterial;
     }

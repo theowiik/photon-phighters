@@ -22,4 +22,18 @@ public static class GsGDX
     GD.PrintErr(msg);
     throw new KeyNotFoundException(msg);
   }
+
+  public static void ChangeOrExplode(this SceneTree tree, string filePath)
+  {
+    var error = tree.ChangeSceneToFile(filePath);
+    if (error == Error.Ok)
+    {
+      return;
+    }
+
+    var msg = $"Could not change scene to {filePath}";
+    GD.PrintErr(msg);
+    tree.Quit();
+    throw new KeyNotFoundException(msg);
+  }
 }

@@ -12,6 +12,7 @@ public partial class StartScreen : Node2D
   public override void _Ready()
   {
     this.AutoWire();
+    GetTree().Paused = false;
 
     const string ButtonsRoot = "CanvasLayer/VBoxContainer/";
     var startButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "StartButton");
