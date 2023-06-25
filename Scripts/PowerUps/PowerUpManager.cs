@@ -13,8 +13,6 @@ public static class PowerUpManager
 {
   public static readonly IEnumerable<PowerUps.IPowerUpApplier> PowerUps;
 
-  private static bool RaritySumIs100 => Enum.GetValues(typeof(PowerUps.Rarity)).Cast<PowerUps.Rarity>().Sum(rarity => (int)rarity) == 100;
-
   static PowerUpManager()
   {
     if (!RaritySumIs100)
@@ -60,6 +58,9 @@ public static class PowerUpManager
     CalculateOdds();
   }
 
+  private static bool RaritySumIs100 =>
+    Enum.GetValues(typeof(PowerUps.Rarity)).Cast<PowerUps.Rarity>().Sum(rarity => (int)rarity) == 100;
+
   private static RarityCumulative RarityCumulativeOdds
   {
     get
@@ -71,7 +72,10 @@ public static class PowerUpManager
 
       return new RarityCumulative
       {
-        Common = CommonCumulative, Rare = RareCumulative, Epic = EpicCumulative, Legendary = LegendaryCumulative
+        Common = CommonCumulative,
+        Rare = RareCumulative,
+        Epic = EpicCumulative,
+        Legendary = LegendaryCumulative
       };
     }
   }
