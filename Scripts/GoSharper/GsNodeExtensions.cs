@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace PhotonPhighters.Scripts.Utils;
+namespace PhotonPhighters.Scripts.GoSharper;
 
-public static class NodeExtensions
+public static class GsNodeExtensions
 {
   public static T GetNodeOrExplode<T>(this Node node, string name)
     where T : Node

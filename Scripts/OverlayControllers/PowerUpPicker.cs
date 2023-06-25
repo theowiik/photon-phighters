@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.Player;
 
@@ -22,13 +24,13 @@ public partial class PowerUpPicker : Control
 
   private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://UI/PowerUpTextureButton.tscn");
 
-  [GetNode("BackgroundRect")]
+  [GsAutoWiring("BackgroundRect")]
   private ColorRect _backgroundRect;
 
-  [GetNode("GridContainer")]
+  [GsAutoWiring("GridContainer")]
   private GridContainer _gridContainer;
 
-  [GetNode("Label")]
+  [GsAutoWiring("Label")]
   private Label _label;
 
   public void SetWinningSide(TeamEnum value)
@@ -90,7 +92,7 @@ public partial class PowerUpPicker : Control
       // Disable at first
       powerUpButton.Disabled = true;
       AddChild(
-        TimerFactory.OneShotSelfDestructingStartedTimer(
+        GsTimerFactory.OneShotSelfDestructingStartedTimer(
           2,
           () =>
           {
@@ -118,13 +120,13 @@ public partial class PowerUpPicker : Control
 
     var (color, rarityText) = theme;
 
-    var btnTexture = GDX.LoadOrExplode<Texture2D>(
+    var btnTexture = GsGDX.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}.png"
     );
-    var btnTextureHover = GDX.LoadOrExplode<Texture2D>(
+    var btnTextureHover = GsGDX.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_hover.png"
     );
-    var btnTextureDisabled = GDX.LoadOrExplode<Texture2D>(
+    var btnTextureDisabled = GsGDX.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_disabled.png"
     );
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using Godot;
 
-namespace PhotonPhighters.Scripts.Utils;
+namespace PhotonPhighters.Scripts.GoSharper;
 
-public static class TimerFactory
+public static class GsTimerFactory
 {
   /// <summary>
   ///   Creates a timer that will self destruct (QueueFree) after the timeout.

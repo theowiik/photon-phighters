@@ -1,11 +1,13 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
 public partial class HealthBar : Control
 {
-  [GetNode("HealthLabel")]
+  [GsAutoWiring("HealthLabel")]
   private Label _healthLabel;
 
   public override void _Ready()

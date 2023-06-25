@@ -1,5 +1,7 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.Events;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -25,18 +27,18 @@ public partial class Player : CharacterBody2D
   private bool _canTakeDamage;
   private bool _frozen;
 
-  [GetNode("Marker2D")]
+  [GsAutoWiring("Marker2D")]
   private Marker2D _gunMarker;
 
   private int _health;
 
-  [GetNode("HealthBar")]
+  [GsAutoWiring("HealthBar")]
   private ProgressBar _healthBar;
 
-  [GetNode("PlayerEffectsDelegate")]
+  [GsAutoWiring("PlayerEffectsDelegate")]
   private PlayerEffectsDelegate _playerEffectsDelegate;
 
-  [GetNode("Sprite2D")]
+  [GsAutoWiring("Sprite2D")]
   private Sprite2D _sprite2D;
 
   private bool CanTakeDamage
@@ -73,7 +75,7 @@ public partial class Player : CharacterBody2D
       }
       else
       {
-        AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true));
+        AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true));
       }
 
       // Disable collisions
@@ -84,14 +86,14 @@ public partial class Player : CharacterBody2D
     }
   }
 
-  [GetNode("Marker2D/Gun")]
+  [GsAutoWiring("Marker2D/Gun")]
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
   public int MaxHealth { get; set; } = 60;
   public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
 
-  [GetNode("Movement")]
+  [GsAutoWiring("Movement")]
   public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
 
   [Export]

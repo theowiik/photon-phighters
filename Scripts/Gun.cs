@@ -1,5 +1,8 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.Events;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -28,13 +31,13 @@ public partial class Gun : Node2D
 
   private bool _loading;
 
-  [GetNode("ShootPlayer")]
+  [GsAutoWiring("ShootPlayer")]
   private AudioStreamPlayer2D _shootPlayer;
 
-  [GetNode("Timer")]
+  [GsAutoWiring("Timer")]
   private Timer _shootTimer;
 
-  [GetNode("Sprite2D")]
+  [GsAutoWiring("Sprite2D")]
   private Sprite2D _sprite;
 
   public int BulletCount { get; set; } = 3;
@@ -129,7 +132,7 @@ public partial class Gun : Node2D
 
     for (var i = 0; i < shootEvent.BulletCount; i++)
     {
-      var bullet = _bulletScene.Instantiate<Bullet>();
+      var bullet = GsInstancer.Instanciate<Bullet>();
 
       bullet.BulletCollideFloorDelegate += HandleBulletCollideFloor;
       bullet.BulletFlyingDelegate += HandleBulletFlying;

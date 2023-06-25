@@ -2,6 +2,8 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -14,13 +16,13 @@ public partial class Explosion : Node2D
     Large = 150
   }
 
-  [GetNode("Area2D")]
+  [GsAutoWiring("Area2D")]
   private Area2D _area;
 
-  [GetNode("CPUParticles2D")]
+  [GsAutoWiring("CPUParticles2D")]
   private CpuParticles2D _explosionParticles;
 
-  [GetNode("ExplosionPlayer")]
+  [GsAutoWiring("ExplosionPlayer")]
   private AudioStreamPlayer2D _explosionPlayer;
 
   private bool _hasExploded;
@@ -53,7 +55,7 @@ public partial class Explosion : Node2D
     _explosionParticles.Emitting = true;
     _explosionPlayer.Play();
     ColorLightsInsideRadius();
-    AddChild(TimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime, QueueFree));
+    AddChild(GsTimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime, QueueFree));
   }
 
   private void ColorLightsInsideRadius()

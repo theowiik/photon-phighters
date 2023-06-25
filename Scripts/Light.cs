@@ -1,4 +1,6 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -16,10 +18,10 @@ public partial class Light : Area2D
 
   private readonly Color _lightColorModulate = new(1, 1, 1, 0.5f);
 
-  [GetNode("AnimationPlayer")]
+  [GsAutoWiring("AnimationPlayer")]
   private AnimationPlayer _animationPlayer;
 
-  [GetNode("LightSprite")]
+  [GsAutoWiring("LightSprite")]
   private Sprite2D _lightSprite;
 
   public LightMode LightState { get; private set; }

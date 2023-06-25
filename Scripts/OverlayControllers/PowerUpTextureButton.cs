@@ -1,11 +1,13 @@
 using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpTextureButton : TextureButton
 {
-  [GetNode("RichTextLabel")]
+  [GsAutoWiring("RichTextLabel")]
   private RichTextLabel _richTextLabel;
 
   public override void _Ready()

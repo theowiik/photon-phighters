@@ -1,4 +1,6 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
@@ -10,22 +12,22 @@ public partial class PauseOverlay : Control
   [Signal]
   public delegate void ResumeGameEventHandler();
 
-  [GetNode("AudioStreamPlayer")]
+  [GsAutoWiring("AudioStreamPlayer")]
   private AudioStreamPlayer _audioStreamPlayer;
 
-  [GetNode("Center/VBox/PowerUpButton")]
+  [GsAutoWiring("Center/VBox/PowerUpButton")]
   private Button _powerUpButton;
 
-  [GetNode("PowerUpsContainer/VBoxContainer")]
+  [GsAutoWiring("PowerUpsContainer/VBoxContainer")]
   private Control _powerUpsContainer;
 
-  [GetNode("Center/VBox/QuitButton")]
+  [GsAutoWiring("Center/VBox/QuitButton")]
   private Button _quitButton;
 
-  [GetNode("Center/VBox/RestartButton")]
+  [GsAutoWiring("Center/VBox/RestartButton")]
   private Button _restartButton;
 
-  [GetNode("Center/VBox/ResumeButton")]
+  [GsAutoWiring("Center/VBox/ResumeButton")]
   private Button _resumeButton;
 
   public bool Enabled

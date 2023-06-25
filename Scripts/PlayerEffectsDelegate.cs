@@ -1,4 +1,6 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -20,25 +22,25 @@ public partial class PlayerEffectsDelegate : Node2D
     "res://Objects/Player/Particles/JumpParticles.tscn"
   );
 
-  [GetNode("AnimationPlayer")]
+  [GsAutoWiring("AnimationPlayer")]
   private AnimationPlayer _animationPlayer;
 
-  [GetNode("Sfx/DeathPlayer")]
+  [GsAutoWiring("Sfx/DeathPlayer")]
   private AudioStreamPlayer2D _deathPlayer;
 
-  [GetNode("Sfx/FallDeathPlayer")]
+  [GsAutoWiring("Sfx/FallDeathPlayer")]
   private AudioStreamPlayer2D _fallDeathPlayer;
 
-  [GetNode("Sfx/Hurt2Player")]
+  [GsAutoWiring("Sfx/Hurt2Player")]
   private AudioStreamPlayer2D _hurt2Player;
 
-  [GetNode("Sfx/HurtPlayer")]
+  [GsAutoWiring("Sfx/HurtPlayer")]
   private AudioStreamPlayer2D _hurtPlayer;
 
-  [GetNode("HurtTimer")]
+  [GsAutoWiring("HurtTimer")]
   private Timer _hurtTimer;
 
-  [GetNode("Sfx/JumpPlayer")]
+  [GsAutoWiring("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
 
   public PlayerEffectPerformed PlayerEffectAddedListeners { get; set; }
@@ -122,7 +124,7 @@ public partial class PlayerEffectsDelegate : Node2D
   private static Node2D GenerateParticles(PackedScene particlesScene)
   {
     var instance = particlesScene.Instantiate<CpuParticles2D>();
-    var timer = TimerFactory.OneShotStartedTimer(instance.Lifetime, () => instance.QueueFree());
+    var timer = GsTimerFactory.OneShotStartedTimer(instance.Lifetime, () => instance.QueueFree());
 
     instance.Emitting = true;
     instance.AddChild(timer);

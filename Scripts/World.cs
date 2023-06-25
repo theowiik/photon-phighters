@@ -4,6 +4,8 @@ using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.Utils;
 
@@ -28,41 +30,41 @@ public partial class World : Node2D
 
   private readonly PackedScene _scene = GD.Load<PackedScene>("res://UI/DamageAmountIndicator.tscn");
 
-  [GetNode("FollowingCamera")]
+  [GsAutoWiring("FollowingCamera")]
   private FollowingCamera _camera;
 
   private Player _darkPlayer;
 
-  [GetNode("Sfx/DarkWin")]
+  [GsAutoWiring("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
 
   private Player _lastPlayerToScore;
   private Player _lightPlayer;
 
-  [GetNode("Sfx/LightWin")]
+  [GsAutoWiring("Sfx/LightWin")]
   private AudioStreamPlayer _lightWin;
 
-  [GetNode("MapManager")]
+  [GsAutoWiring("MapManager")]
   private MapManager _mapManager;
 
-  [GetNode("MusicPlayer")]
+  [GsAutoWiring("MusicPlayer")]
   private MusicPlayer _musicPlayer;
 
-  [GetNode("CanvasLayer/Overlay")]
+  [GsAutoWiring("CanvasLayer/Overlay")]
   private Overlay _overlay;
 
-  [GetNode("CanvasLayer/PauseOverlay")]
+  [GsAutoWiring("CanvasLayer/PauseOverlay")]
   private PauseOverlay _pauseOverlay;
 
   private IEnumerable<Player> _players;
 
-  [GetNode("CanvasLayer/PowerUpPicker")]
+  [GsAutoWiring("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
 
   private int _roundsToWin = 10;
   private int _roundTime = 40;
 
-  [GetNode("RoundTimer")]
+  [GsAutoWiring("RoundTimer")]
   private Timer _roundTimer;
 
   private Score _score;
@@ -221,7 +223,7 @@ public partial class World : Node2D
     player.Frozen = true;
     player.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition;
 
-    var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(
+    var liveTimer = GsTimerFactory.OneShotSelfDestructingStartedTimer(
       RespawnTime,
       () =>
       {
@@ -339,7 +341,7 @@ public partial class World : Node2D
   private void SetupCapturePoint()
   {
     const int MaxConcurrentCapturePoints = 2;
-    var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
+    var timer = GsTimerFactory.StartedTimer(TimeBetweenCapturePoint);
 
     AddChild(timer);
 
@@ -364,7 +366,7 @@ public partial class World : Node2D
     capturePoint.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition + offset;
 
     // De-spawn after a while
-    var timer = TimerFactory.OneShotStartedTimer(
+    var timer = GsTimerFactory.OneShotStartedTimer(
       30,
       () =>
       {
@@ -388,7 +390,7 @@ public partial class World : Node2D
   private void SpawnHurtIndicator(Node2D player, string msg)
   {
     var indicator = _scene.Instantiate<DamageAmountIndicator>();
-    indicator.AddChild(TimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
+    indicator.AddChild(GsTimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
     AddChild(indicator);
     indicator.GlobalPosition = player.GlobalPosition;
     indicator.SetMessage(msg);
@@ -400,7 +402,7 @@ public partial class World : Node2D
       player.Team == Player.TeamEnum.Light
         ? _ragdollLightScene.Instantiate<RigidBody2D>()
         : _ragdollDarkScene.Instantiate<RigidBody2D>();
-    var timer = TimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
+    var timer = GsTimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
     ragdoll.AddChild(timer);
     CallDeferred("add_child", ragdoll);
 
@@ -433,7 +435,7 @@ public partial class World : Node2D
     }
 
     // TODO: Hack to ensure players are moved before activating the map
-    AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
+    AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
     // _mapManager.StartNextMap(); // <- Should be done similar to this
     _roundTimer.Start(_roundTime);
   }

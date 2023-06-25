@@ -1,5 +1,7 @@
 ﻿using System;
 using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 using static PhotonPhighters.Scripts.World;
 
@@ -7,19 +9,19 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class Overlay : Control
 {
-  [GetNode("VBox/Logs")]
+  [GsAutoWiring("VBox/Logs")]
   private RichTextLabel _logs;
 
-  [GetNode("VBox/RoundScoreBar")]
+  [GsAutoWiring("VBox/RoundScoreBar")]
   private ProgressBar _roundScoreBar;
 
-  [GetNode("VBox/RoundScoreLabel")]
+  [GsAutoWiring("VBox/RoundScoreLabel")]
   private Label _roundScoreLabel;
 
-  [GetNode("VBox/RoundTimerLabel")]
+  [GsAutoWiring("VBox/RoundTimerLabel")]
   private Label _timerLabel;
 
-  [GetNode("VBox/TotalScoreLabel")]
+  [GsAutoWiring("VBox/TotalScoreLabel")]
   private Label _totalScoreLabel;
 
   public void SetRoundScore(Results value)

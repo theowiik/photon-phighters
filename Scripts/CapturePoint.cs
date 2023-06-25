@@ -2,6 +2,8 @@
 using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Exceptions;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -21,10 +23,10 @@ public partial class CapturePoint : Node2D
   /// </summary>
   private float _captureTime;
 
-  [GetNode("ChargePlayer")]
+  [GsAutoWiring("ChargePlayer")]
   private AudioStreamPlayer2D _chargePlayer;
 
-  [GetNode("ProgressBar")]
+  [GsAutoWiring("ProgressBar")]
   private ProgressBar _progressBar;
 
   private float _radius;

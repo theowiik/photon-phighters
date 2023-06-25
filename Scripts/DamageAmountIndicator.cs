@@ -1,5 +1,6 @@
 ﻿using System;
 using Godot;
+using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;

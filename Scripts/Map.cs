@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -9,16 +11,16 @@ public partial class Map : Node2D
 {
   private Node2D _lastSpawnPoint;
 
-  [GetNode("SpawnPointsContainer")]
+  [GsAutoWiring("SpawnPointsContainer")]
   private Node2D _spawnPointsContainer;
 
-  [GetNode("TileMap")]
+  [GsAutoWiring("TileMap")]
   private TileMap _tileMap;
 
-  [GetNode("OB")]
+  [GsAutoWiring("OB")]
   public Area2D OutOfBounds { get; private set; }
 
-  [GetNode("LightPlacingAutomata")]
+  [GsAutoWiring("LightPlacingAutomata")]
   public LightPlacingAutomata LightPlacingAutomata { get; private set; }
 
   public override void _Ready()
