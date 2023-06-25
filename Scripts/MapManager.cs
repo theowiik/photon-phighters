@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Godot;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -13,7 +14,6 @@ public partial class MapManager : Node2D
   public delegate void OutOfBoundsEvent(Player player);
 
   private const string MapsFolder = "res://Scenes/Maps";
-  private readonly PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
   private IEnumerable<string> _maps = new List<string>();
 
   /// <summary>
@@ -124,7 +124,7 @@ public partial class MapManager : Node2D
         }
       }
 
-      var light = _lightScene.Instantiate<Light>();
+      var light = GsInstancer.Instanciate<Light>();
       CurrentMap.AddChild(light);
       light.GlobalPosition = globalPos;
     };

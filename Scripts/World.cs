@@ -6,6 +6,7 @@ using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.OverlayControllers;
 
 namespace PhotonPhighters.Scripts;
@@ -26,8 +27,6 @@ public partial class World : Node2D
   private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(
     "res://Objects/Player/Ragdolls/LightRagdoll.tscn"
   );
-
-  private readonly PackedScene _scene = GD.Load<PackedScene>("res://UI/DamageAmountIndicator.tscn");
 
   [GsAutoWiring("FollowingCamera")]
   private FollowingCamera _camera;
@@ -388,7 +387,7 @@ public partial class World : Node2D
 
   private void SpawnHurtIndicator(Node2D player, string msg)
   {
-    var indicator = _scene.Instantiate<DamageAmountIndicator>();
+    var indicator = GsInstancer.Instanciate<DamageAmountIndicator>();
     indicator.AddChild(GsTimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
     AddChild(indicator);
     indicator.GlobalPosition = player.GlobalPosition;

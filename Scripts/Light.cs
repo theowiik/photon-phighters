@@ -1,8 +1,10 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
+[GsInstancer("res://Objects/Light.tscn")]
 public partial class Light : Area2D
 {
   public enum LightMode

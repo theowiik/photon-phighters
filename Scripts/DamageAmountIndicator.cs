@@ -1,9 +1,11 @@
 ﻿using System;
 using Godot;
 using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
+[GsInstancer("res://UI/DamageAmountIndicator.tscn")]
 public partial class DamageAmountIndicator : Node2D
 {
   private const float Gravity = 1500;

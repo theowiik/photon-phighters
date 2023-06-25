@@ -9,7 +9,8 @@ public static class GsInstancer
 {
   private static readonly IDictionary<Type, string> s_typePathLookup = new Dictionary<Type, string>();
 
-  public static T Instanciate<T>() where T : Node
+  public static T Instanciate<T>()
+    where T : Node
   {
     var type = typeof(T);
     string path;
