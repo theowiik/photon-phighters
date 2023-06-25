@@ -22,13 +22,13 @@ public partial class PowerUpPicker : Control
       { PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY) ") }
     };
 
-  [GsAutoWiring("BackgroundRect")]
+  [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;
 
-  [GsAutoWiring("GridContainer")]
+  [GetNode("GridContainer")]
   private GridContainer _gridContainer;
 
-  [GsAutoWiring("Label")]
+  [GetNode("Label")]
   private Label _label;
 
   public void SetWinningSide(TeamEnum value)
@@ -77,7 +77,7 @@ public partial class PowerUpPicker : Control
   {
     foreach (var powerUp in PowerUpManager.GetUniquePowerUps(4))
     {
-      var powerUpButton = GsInstancer.Instantiate<PowerUpTextureButton>();
+      var powerUpButton = GsInstanter.Instantiate<PowerUpTextureButton>();
       _gridContainer.AddChild(powerUpButton);
       var texturePack = GetThemeTextures(powerUp);
 

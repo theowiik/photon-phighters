@@ -7,7 +7,7 @@ namespace PhotonPhighters.Scripts.MenuControllers;
 
 public partial class EndScreen : Node2D
 {
-  [GsAutoWiring("CanvasLayer/VBoxContainer/ExitButton")]
+  [GetNode("CanvasLayer/VBoxContainer/ExitButton")]
   private Button _exitButton;
 
   public override void _Ready()

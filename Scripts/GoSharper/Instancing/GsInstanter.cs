@@ -5,7 +5,7 @@ using Godot;
 
 namespace PhotonPhighters.Scripts.GoSharper.Instancing;
 
-public static class GsInstancer
+public static class GsInstanter
 {
   private static readonly IDictionary<Type, string> s_typePathLookup = new Dictionary<Type, string>();
 
@@ -21,7 +21,7 @@ public static class GsInstancer
     }
     else
     {
-      var attr = (GsInstancerAttribute)Attribute.GetCustomAttribute(type, typeof(GsInstancerAttribute));
+      var attr = (InstantiableAttribute)Attribute.GetCustomAttribute(type, typeof(InstantiableAttribute));
 
       if (attr == null)
       {

@@ -11,16 +11,16 @@ public partial class Map : Node2D
 {
   private Node2D _lastSpawnPoint;
 
-  [GsAutoWiring("SpawnPointsContainer")]
+  [GetNode("SpawnPointsContainer")]
   private Node2D _spawnPointsContainer;
 
-  [GsAutoWiring("TileMap")]
+  [GetNode("TileMap")]
   private TileMap _tileMap;
 
-  [GsAutoWiring("OB")]
+  [GetNode("OB")]
   public Area2D OutOfBounds { get; private set; }
 
-  [GsAutoWiring("LightPlacingAutomata")]
+  [GetNode("LightPlacingAutomata")]
   public LightPlacingAutomata LightPlacingAutomata { get; private set; }
 
   public override void _Ready()

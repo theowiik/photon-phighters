@@ -43,7 +43,7 @@ public static class GsAutoWiring
   {
     foreach (var member in members)
     {
-      member.GetCustomAttribute<GsAutoWiringAttribute>()?.SetNode(member, node);
+      member.GetCustomAttribute<GetNodeAttribute>()?.SetNode(member, node);
     }
   }
 }

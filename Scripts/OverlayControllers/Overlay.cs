@@ -7,19 +7,19 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class Overlay : Control
 {
-  [GsAutoWiring("VBox/Logs")]
+  [GetNode("VBox/Logs")]
   private RichTextLabel _logs;
 
-  [GsAutoWiring("VBox/RoundScoreBar")]
+  [GetNode("VBox/RoundScoreBar")]
   private ProgressBar _roundScoreBar;
 
-  [GsAutoWiring("VBox/RoundScoreLabel")]
+  [GetNode("VBox/RoundScoreLabel")]
   private Label _roundScoreLabel;
 
-  [GsAutoWiring("VBox/RoundTimerLabel")]
+  [GetNode("VBox/RoundTimerLabel")]
   private Label _timerLabel;
 
-  [GsAutoWiring("VBox/TotalScoreLabel")]
+  [GetNode("VBox/TotalScoreLabel")]
   private Label _totalScoreLabel;
 
   public void SetRoundScore(Results value)

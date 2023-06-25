@@ -1,11 +1,12 @@
 ﻿using System;
+using Godot;
 
 namespace PhotonPhighters.Scripts.GoSharper.Instancing;
 
 [AttributeUsage(AttributeTargets.Class)]
-public sealed class GsInstancerAttribute : Attribute
+public sealed class InstantiableAttribute : Attribute
 {
-  public GsInstancerAttribute(string path)
+  public InstantiableAttribute(string path)
   {
     Path = path;
   }

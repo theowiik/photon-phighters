@@ -8,7 +8,7 @@ using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
-[GsInstancer("res://Objects/CapturePoint.tscn")]
+[Instantiable("res://Objects/CapturePoint.tscn")]
 public partial class CapturePoint : Node2D
 {
   public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
@@ -24,10 +24,10 @@ public partial class CapturePoint : Node2D
   /// </summary>
   private float _captureTime;
 
-  [GsAutoWiring("ChargePlayer")]
+  [GetNode("ChargePlayer")]
   private AudioStreamPlayer2D _chargePlayer;
 
-  [GsAutoWiring("ProgressBar")]
+  [GetNode("ProgressBar")]
   private ProgressBar _progressBar;
 
   private float _radius;

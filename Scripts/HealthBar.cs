@@ -5,7 +5,7 @@ namespace PhotonPhighters.Scripts;
 
 public partial class HealthBar : Control
 {
-  [GsAutoWiring("HealthLabel")]
+  [GetNode("HealthLabel")]
   private Label _healthLabel;
 
   public override void _Ready()

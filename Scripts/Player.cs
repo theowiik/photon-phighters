@@ -27,18 +27,18 @@ public partial class Player : CharacterBody2D
   private bool _canTakeDamage;
   private bool _frozen;
 
-  [GsAutoWiring("Marker2D")]
+  [GetNode("Marker2D")]
   private Marker2D _gunMarker;
 
   private int _health;
 
-  [GsAutoWiring("HealthBar")]
+  [GetNode("HealthBar")]
   private ProgressBar _healthBar;
 
-  [GsAutoWiring("PlayerEffectsDelegate")]
+  [GetNode("PlayerEffectsDelegate")]
   private PlayerEffectsDelegate _playerEffectsDelegate;
 
-  [GsAutoWiring("Sprite2D")]
+  [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
   private bool CanTakeDamage
@@ -86,14 +86,14 @@ public partial class Player : CharacterBody2D
     }
   }
 
-  [GsAutoWiring("Marker2D/Gun")]
+  [GetNode("Marker2D/Gun")]
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
   public int MaxHealth { get; set; } = 60;
   public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
 
-  [GsAutoWiring("Movement")]
+  [GetNode("Movement")]
   public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
 
   [Export]

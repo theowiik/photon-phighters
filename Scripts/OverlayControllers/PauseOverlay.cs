@@ -12,22 +12,22 @@ public partial class PauseOverlay : Control
   [Signal]
   public delegate void ResumeGameEventHandler();
 
-  [GsAutoWiring("AudioStreamPlayer")]
+  [GetNode("AudioStreamPlayer")]
   private AudioStreamPlayer _audioStreamPlayer;
 
-  [GsAutoWiring("Center/VBox/PowerUpButton")]
+  [GetNode("Center/VBox/PowerUpButton")]
   private Button _powerUpButton;
 
-  [GsAutoWiring("PowerUpsContainer/VBoxContainer")]
+  [GetNode("PowerUpsContainer/VBoxContainer")]
   private Control _powerUpsContainer;
 
-  [GsAutoWiring("Center/VBox/QuitButton")]
+  [GetNode("Center/VBox/QuitButton")]
   private Button _quitButton;
 
-  [GsAutoWiring("Center/VBox/RestartButton")]
+  [GetNode("Center/VBox/RestartButton")]
   private Button _restartButton;
 
-  [GsAutoWiring("Center/VBox/ResumeButton")]
+  [GetNode("Center/VBox/ResumeButton")]
   private Button _resumeButton;
 
   public bool Enabled

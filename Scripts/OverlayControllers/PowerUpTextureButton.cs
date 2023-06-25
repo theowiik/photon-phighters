@@ -5,10 +5,10 @@ using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
-[GsInstancer("res://UI/PowerUpTextureButton.tscn")]
+[Instantiable("res://UI/PowerUpTextureButton.tscn")]
 public partial class PowerUpTextureButton : TextureButton
 {
-  [GsAutoWiring("RichTextLabel")]
+  [GetNode("RichTextLabel")]
   private RichTextLabel _richTextLabel;
 
   public override void _Ready()

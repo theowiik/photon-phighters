@@ -6,11 +6,11 @@ using PhotonPhighters.Scripts.Exceptions;
 namespace PhotonPhighters.Scripts.GoSharper.AutoWiring;
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property)]
-public sealed class GsAutoWiringAttribute : Attribute
+public sealed class GetNodeAttribute : Attribute
 {
   private readonly string _path;
 
-  public GsAutoWiringAttribute(string nodePath)
+  public GetNodeAttribute(string nodePath)
   {
     _path = nodePath;
   }

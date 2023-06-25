@@ -5,7 +5,7 @@ using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
-[GsInstancer("res://Objects/Player/Bullet.tscn")]
+[Instantiable("res://Objects/Player/Bullet.tscn")]
 public partial class Bullet : Area2D
 {
   [Signal]

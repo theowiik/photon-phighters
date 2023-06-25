@@ -27,13 +27,13 @@ public partial class Gun : Node2D
 
   private bool _loading;
 
-  [GsAutoWiring("ShootPlayer")]
+  [GetNode("ShootPlayer")]
   private AudioStreamPlayer2D _shootPlayer;
 
-  [GsAutoWiring("Timer")]
+  [GetNode("Timer")]
   private Timer _shootTimer;
 
-  [GsAutoWiring("Sprite2D")]
+  [GetNode("Sprite2D")]
   private Sprite2D _sprite;
 
   public int BulletCount { get; set; } = 3;
@@ -128,7 +128,7 @@ public partial class Gun : Node2D
 
     for (var i = 0; i < shootEvent.BulletCount; i++)
     {
-      var bullet = GsInstancer.Instantiate<Bullet>();
+      var bullet = GsInstanter.Instantiate<Bullet>();
 
       bullet.BulletCollideFloorDelegate += HandleBulletCollideFloor;
       bullet.BulletFlyingDelegate += HandleBulletFlying;

@@ -8,7 +8,7 @@ using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
-[GsInstancer("res://Objects/Explosion.tscn")]
+[Instantiable("res://Objects/Explosion.tscn")]
 public partial class Explosion : Node2D
 {
   public enum ExplosionRadiusEnum
@@ -17,13 +17,13 @@ public partial class Explosion : Node2D
     Large = 150
   }
 
-  [GsAutoWiring("Area2D")]
+  [GetNode("Area2D")]
   private Area2D _area;
 
-  [GsAutoWiring("CPUParticles2D")]
+  [GetNode("CPUParticles2D")]
   private CpuParticles2D _explosionParticles;
 
-  [GsAutoWiring("ExplosionPlayer")]
+  [GetNode("ExplosionPlayer")]
   private AudioStreamPlayer2D _explosionPlayer;
 
   private bool _hasExploded;

@@ -22,25 +22,25 @@ public partial class PlayerEffectsDelegate : Node2D
     ObjectResourceWrapper.JumpParticlesPath
   );
 
-  [GsAutoWiring("AnimationPlayer")]
+  [GetNode("AnimationPlayer")]
   private AnimationPlayer _animationPlayer;
 
-  [GsAutoWiring("Sfx/DeathPlayer")]
+  [GetNode("Sfx/DeathPlayer")]
   private AudioStreamPlayer2D _deathPlayer;
 
-  [GsAutoWiring("Sfx/FallDeathPlayer")]
+  [GetNode("Sfx/FallDeathPlayer")]
   private AudioStreamPlayer2D _fallDeathPlayer;
 
-  [GsAutoWiring("Sfx/Hurt2Player")]
+  [GetNode("Sfx/Hurt2Player")]
   private AudioStreamPlayer2D _hurt2Player;
 
-  [GsAutoWiring("Sfx/HurtPlayer")]
+  [GetNode("Sfx/HurtPlayer")]
   private AudioStreamPlayer2D _hurtPlayer;
 
-  [GsAutoWiring("HurtTimer")]
+  [GetNode("HurtTimer")]
   private Timer _hurtTimer;
 
-  [GsAutoWiring("Sfx/JumpPlayer")]
+  [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
 
   public PlayerEffectPerformed PlayerEffectAddedListeners { get; set; }

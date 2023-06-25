@@ -21,41 +21,41 @@ public partial class World : Node2D
 
   private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(ObjectResourceWrapper.LightRagdollPath);
 
-  [GsAutoWiring("FollowingCamera")]
+  [GetNode("FollowingCamera")]
   private FollowingCamera _camera;
 
   private Player _darkPlayer;
 
-  [GsAutoWiring("Sfx/DarkWin")]
+  [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
 
   private Player _lastPlayerToScore;
   private Player _lightPlayer;
 
-  [GsAutoWiring("Sfx/LightWin")]
+  [GetNode("Sfx/LightWin")]
   private AudioStreamPlayer _lightWin;
 
-  [GsAutoWiring("MapManager")]
+  [GetNode("MapManager")]
   private MapManager _mapManager;
 
-  [GsAutoWiring("MusicPlayer")]
+  [GetNode("MusicPlayer")]
   private MusicPlayer _musicPlayer;
 
-  [GsAutoWiring("CanvasLayer/Overlay")]
+  [GetNode("CanvasLayer/Overlay")]
   private Overlay _overlay;
 
-  [GsAutoWiring("CanvasLayer/PauseOverlay")]
+  [GetNode("CanvasLayer/PauseOverlay")]
   private PauseOverlay _pauseOverlay;
 
   private IEnumerable<Player> _players;
 
-  [GsAutoWiring("CanvasLayer/PowerUpPicker")]
+  [GetNode("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
 
   private int _roundsToWin = 10;
   private int _roundTime = 40;
 
-  [GsAutoWiring("RoundTimer")]
+  [GetNode("RoundTimer")]
   private Timer _roundTimer;
 
   private Score _score;
@@ -351,7 +351,7 @@ public partial class World : Node2D
 
   private void SpawnRandomCapturePoint()
   {
-    var capturePoint = GsInstancer.Instantiate<CapturePoint>();
+    var capturePoint = GsInstanter.Instantiate<CapturePoint>();
     AddChild(capturePoint);
     capturePoint.CapturedListeners += OnCapturePointCaptured;
 
@@ -372,7 +372,7 @@ public partial class World : Node2D
 
   private void SpawnExplosion(Node2D where, Light.LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
   {
-    var explosion = GsInstancer.Instantiate<Explosion>();
+    var explosion = GsInstanter.Instantiate<Explosion>();
     explosion.LightMode = who;
     explosion.Radius = explosionRadius;
     CallDeferred("add_child", explosion);
@@ -382,7 +382,7 @@ public partial class World : Node2D
 
   private void SpawnHurtIndicator(Node2D player, string msg)
   {
-    var indicator = GsInstancer.Instantiate<DamageAmountIndicator>();
+    var indicator = GsInstanter.Instantiate<DamageAmountIndicator>();
     indicator.AddChild(GsTimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
     AddChild(indicator);
     indicator.GlobalPosition = player.GlobalPosition;
