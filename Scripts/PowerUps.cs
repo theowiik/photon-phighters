@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Events;
@@ -28,102 +29,119 @@ public static class PowerUps
   {
     string Name { get; }
     Rarity Rarity { get; }
+    int TimesTakenBy(Player player);
     void Apply(Player playerWhoSelected, Player otherPlayer);
   }
-
-  public class AirWalker : IPowerUpApplier
+  
+  public abstract class AbstractPowerUpApplier : IPowerUpApplier
   {
-    public string Name => "Air Walker";
-
-    public Rarity Rarity => Rarity.Common;
+    public int TimesTakenBy(Player player) => _haveTaken.Count(p => p == player);
+    private readonly IList<Player> _haveTaken = new List<Player>();
+    public abstract string Name { get; }
+    public abstract Rarity Rarity { get; }
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
+      _haveTaken.Add(playerWhoSelected);
+      _Apply(playerWhoSelected, otherPlayer);
+    }
+
+    protected abstract void _Apply(Player playerWhoSelected, Player otherPlayer);
+  }
+
+  public class AirWalker : AbstractPowerUpApplier
+  {
+    public override string Name => "Air Walker";
+    public override Rarity Rarity => Rarity.Common;
+
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
+    {
+      var times = TimesTakenBy(playerWhoSelected);
+
       playerWhoSelected.PlayerMovementDelegate.MaxJumps++;
     }
   }
 
-  public class BunnyBoost : IPowerUpApplier
+  public class BunnyBoost : AbstractPowerUpApplier
   {
-    public string Name => "Bunny Boost";
+    public override string Name => "Bunny Boost";
+    public override Rarity Rarity => Rarity.Common;
 
-    public Rarity Rarity => Rarity.Common;
-
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.PlayerMovementDelegate.JumpForce += 300;
     }
   }
 
-  public class GeneratorEngine : IPowerUpApplier
+  public class GeneratorEngine : AbstractPowerUpApplier
   {
-    public string Name => "Generator Engine";
+    public override string Name => "Generator Engine";
 
-    public Rarity Rarity => Rarity.Rare;
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.FireRate += 0.9f;
       playerWhoSelected.Gun.BulletSpread *= 1.06f;
     }
   }
 
-  public class Gravitronizer : IPowerUpApplier
+  public class Gravitronizer : AbstractPowerUpApplier
   {
-    public string Name => "Gravitronizer";
+    public override string Name => "Gravitronizer";
 
-    public Rarity Rarity => Rarity.Common;
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletGravity = 0.0f;
     }
   }
 
-  public class HealthBoost : IPowerUpApplier
+  public class HealthBoost : AbstractPowerUpApplier
   {
-    public string Name => "Health Boost";
+    public override string Name => "Health Boost";
 
-    public Rarity Rarity => Rarity.Common;
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.MaxHealth = (int)(playerWhoSelected.MaxHealth * 1.5f);
     }
   }
 
-  public class PhotonAccelerator : IPowerUpApplier
+  public class PhotonAccelerator : AbstractPowerUpApplier
   {
-    public string Name => "Photon Accelerator";
+    public override string Name => "Photon Accelerator";
 
-    public Rarity Rarity => Rarity.Common;
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletSpeed += 300.0f;
       playerWhoSelected.Gun.BulletSpread *= 1.05f;
     }
   }
 
-  public class PhotonBoost : IPowerUpApplier
+  public class PhotonBoost : AbstractPowerUpApplier
   {
-    public string Name => "Photon Boost";
+    public override string Name => "Photon Boost";
 
-    public Rarity Rarity => Rarity.Common;
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.PlayerMovementDelegate.Speed += 200;
     }
   }
 
-  public class PhotonEnlarger : IPowerUpApplier
+  public class PhotonEnlarger : AbstractPowerUpApplier
   {
-    public string Name => "Photon Enlarger";
+    public override string Name => "Photon Enlarger";
 
-    public Rarity Rarity => Rarity.Common;
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletSizeFactor += 1.5f;
       playerWhoSelected.Gun.BulletDamage = Mathf.RoundToInt(playerWhoSelected.Gun.BulletDamage * 1.333f);
@@ -132,26 +150,26 @@ public static class PowerUps
     }
   }
 
-  public class PhotonMultiplier : IPowerUpApplier
+  public class PhotonMultiplier : AbstractPowerUpApplier
   {
-    public string Name => "Photon Multiplier";
+    public override string Name => "Photon Multiplier";
 
-    public Rarity Rarity => Rarity.Rare;
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletCount = (int)Math.Ceiling(playerWhoSelected.Gun.BulletCount * 1.5f);
       playerWhoSelected.Gun.BulletSpread *= 1.05f;
     }
   }
 
-  public class PhotonMuncher : IPowerUpApplier
+  public class PhotonMuncher : AbstractPowerUpApplier
   {
-    public string Name => "Mega Photon Muncher";
+    public override string Name => "Mega Photon Muncher";
 
-    public Rarity Rarity => Rarity.Rare;
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.MaxHealth = Mathf.RoundToInt(playerWhoSelected.MaxHealth * 1.42f);
       playerWhoSelected.PlayerMovementDelegate.Speed -= -200.0f;
@@ -159,13 +177,13 @@ public static class PowerUps
     }
   }
 
-  public class MiniGun : IPowerUpApplier
+  public class MiniGun : AbstractPowerUpApplier
   {
-    public string Name => "1 000 000 lumen";
+    public override string Name => "1 000 000 lumen";
 
-    public Rarity Rarity => Rarity.Legendary;
+    public override Rarity Rarity => Rarity.Legendary;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletCount += 4;
       playerWhoSelected.Gun.BulletDamage = 1;
@@ -175,28 +193,12 @@ public static class PowerUps
     }
   }
 
-  public class Sniper : IPowerUpApplier
+  public class SteelBootsCurse : AbstractPowerUpApplier
   {
-    public string Name => "Photon Sniper";
+    public override string Name => "Steel Boots Curse";
+    public override Rarity Rarity => Rarity.Rare;
 
-    public Rarity Rarity => Rarity.Legendary;
-
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
-    {
-      playerWhoSelected.Gun.BulletCount = 1;
-      playerWhoSelected.Gun.BulletDamage = 130;
-      playerWhoSelected.Gun.BulletSpread = 0.00001f;
-      playerWhoSelected.Gun.BulletSpeed = 3000;
-      playerWhoSelected.Gun.FireRate = 2.5f;
-    }
-  }
-
-  public class SteelBootsCurse : IPowerUpApplier
-  {
-    public string Name => "Steel Boots Curse";
-    public Rarity Rarity => Rarity.Rare;
-
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.JumpForce /= 1.33f;
     }
@@ -205,12 +207,12 @@ public static class PowerUps
   // TODO: Make the player thicc
   // TODO: Add sticky sound effect when walking
   // TODO: Sticky shoot sounds
-  public class StickyThickyCurse : IPowerUpApplier
+  public class StickyThickyCurse : AbstractPowerUpApplier
   {
-    public string Name => "Sticky Thicky Curse";
-    public Rarity Rarity => Rarity.Legendary;
+    public override string Name => "Sticky Thicky Curse";
+    public override Rarity Rarity => Rarity.Legendary;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.Speed /= 2;
       otherPlayer.PlayerMovementDelegate.Acceleration /= 3;
@@ -219,39 +221,39 @@ public static class PowerUps
     }
   }
 
-  public class MomentumMaster : IPowerUpApplier
+  public class MomentumMaster : AbstractPowerUpApplier
   {
-    public string Name => "Momentum Master";
+    public override string Name => "Momentum Master";
 
-    public Rarity Rarity => Rarity.Rare;
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.PlayerMovementDelegate.Speed += 300;
       playerWhoSelected.PlayerMovementDelegate.Acceleration += 6;
     }
   }
 
-  public class BulletRain : IPowerUpApplier
+  public class BulletRain : AbstractPowerUpApplier
   {
-    public string Name => "Bullet Rain";
+    public override string Name => "Bullet Rain";
 
-    public Rarity Rarity => Rarity.Rare;
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.BulletCount *= 2; // Double the bullets
       playerWhoSelected.Gun.BulletGravity *= 2; // Bullets drop faster
     }
   }
 
-  public class WallSpider : IPowerUpApplier
+  public class WallSpider : AbstractPowerUpApplier
   {
     // Wall-jumping briefly increases movement speed
-    public string Name => "Wall Spider";
-    public Rarity Rarity => Rarity.Common;
+    public override string Name => "Wall Spider";
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       new StatefulWallSpider().Apply(playerWhoSelected);
     }
@@ -282,65 +284,30 @@ public static class PowerUps
     }
   }
 
-  public class OingoBoingoCurse : IPowerUpApplier
+  public class OingoBoingoCurse : AbstractPowerUpApplier
   {
     // Opponent is always bouncing
-    public string Name => "Oingo Boingo Curse";
-    public Rarity Rarity => Rarity.Rare;
+    public override string Name => "Oingo Boingo Curse";
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      otherPlayer.PlayerMovementDelegate.PlayerLand += ApplyBounce;
+      otherPlayer.PlayerMovementDelegate.PlayerLand += _ApplyBounce;
     }
 
-    private static void ApplyBounce(PlayerMovementEvent playerMovementEvent)
+    private static void _ApplyBounce(PlayerMovementEvent playerMovementEvent)
     {
       playerMovementEvent.Velocity = new Vector2(playerMovementEvent.Velocity.X, -500);
     }
   }
 
-  public class PostLegDayCurse : IPowerUpApplier
-  {
-    // Opponent has to briefly rest between jumps
-    public string Name => "Post Leg Day Curse";
-    public Rarity Rarity => Rarity.Epic;
-
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
-    {
-      new StatefulPostLegDayCurse().Apply(otherPlayer);
-    }
-
-    private class StatefulPostLegDayCurse
-    {
-      private ulong _msecSinceLastJump;
-
-      private void DelayJump(PlayerMovementEvent playerMovementEvent)
-      {
-        var currentTimeMsec = Time.GetTicksMsec();
-        if (currentTimeMsec - _msecSinceLastJump < 1000)
-        {
-          playerMovementEvent.CanJump = false;
-        }
-        else
-        {
-          _msecSinceLastJump = currentTimeMsec;
-        }
-      }
-
-      public void Apply(Player otherPlayer)
-      {
-        otherPlayer.PlayerMovementDelegate.PlayerJump += DelayJump;
-      }
-    }
-  }
-
-  public class Chronostasis : IPowerUpApplier
+  public class Chronostasis : AbstractPowerUpApplier
   {
     // Photons briefly freeze the opponent
-    public string Name => "Chronostasis";
-    public Rarity Rarity => Rarity.Epic;
+    public override string Name => "Chronostasis";
+    public override Rarity Rarity => Rarity.Epic;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       new StatefulChronostasis().Apply(otherPlayer);
     }
@@ -374,13 +341,13 @@ public static class PowerUps
     }
   }
 
-  public class EliasSpecialSauce : IPowerUpApplier
+  public class EliasSpecialSauce : AbstractPowerUpApplier
   {
-    public string Name => "Elias' Special Sauce";
+    public override string Name => "Elias' Special Sauce";
 
-    public Rarity Rarity => Rarity.Epic;
+    public override Rarity Rarity => Rarity.Epic;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Gun.FireRate = 11;
       playerWhoSelected.Gun.BulletDamage = 4;
@@ -389,16 +356,16 @@ public static class PowerUps
     }
   }
 
-  public class BrownianMotionCurse : IPowerUpApplier
+  public class BrownianMotionCurse : AbstractPowerUpApplier
   {
     // Technically stateful but does not deserve its own class
     private readonly Random _rnd = new();
 
     // Opponent's photons move erratically
-    public string Name => "Brownian Motion Curse";
-    public Rarity Rarity => Rarity.Rare;
+    public override string Name => "Brownian Motion Curse";
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.Gun.BulletFlying += RandomizeDirection;
     }
@@ -409,13 +376,13 @@ public static class PowerUps
     }
   }
 
-  public class FluorescentBurst : IPowerUpApplier
+  public class FluorescentBurst : AbstractPowerUpApplier
   {
     // Getting hurt briefly increases movement speed
-    public string Name => "Fluorescent Burst";
-    public Rarity Rarity => Rarity.Common;
+    public override string Name => "Fluorescent Burst";
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       new StatefulFluorescentBurst().Apply(playerWhoSelected);
     }
@@ -446,13 +413,13 @@ public static class PowerUps
     }
   }
 
-  public class SimpleTrigonometry : IPowerUpApplier
+  public class SimpleTrigonometry : AbstractPowerUpApplier
   {
     // Photons move toward the other player
-    public string Name => "Simple Trigonometry";
-    public Rarity Rarity => Rarity.Rare;
+    public override string Name => "Simple Trigonometry";
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       new StatefulSimpleTrigonometry().Apply(playerWhoSelected, otherPlayer);
     }
@@ -477,13 +444,13 @@ public static class PowerUps
     }
   }
 
-  public class PhotonReversifierCurse : IPowerUpApplier
+  public class PhotonReversifierCurse : AbstractPowerUpApplier
   {
     // The opponent's movement is reversed
-    public string Name => "Photon Reversifier Curse";
-    public Rarity Rarity => Rarity.Epic;
+    public override string Name => "Photon Reversifier Curse";
+    public override Rarity Rarity => Rarity.Epic;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.PlayerMove += ReverseMovement;
     }
@@ -494,13 +461,13 @@ public static class PowerUps
     }
   }
 
-  public class PheedingPhrenzy : IPowerUpApplier
+  public class PheedingPhrenzy : AbstractPowerUpApplier
   {
     // Hurting the opponent grows your photons
-    public string Name => "Pheeding Phrenzy";
-    public Rarity Rarity => Rarity.Legendary;
+    public override string Name => "Pheeding Phrenzy";
+    public override Rarity Rarity => Rarity.Legendary;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       new StatefulPheedingPhrenzy().Apply(playerWhoSelected, otherPlayer);
     }
@@ -513,10 +480,10 @@ public static class PowerUps
       public void Apply(Player playerWhoSelected, Player otherPlayer)
       {
         otherPlayer.PlayerHurt += IncreasePhotonSize;
-        playerWhoSelected.Gun.GunShoot += ApplyPhotonSize;
+        playerWhoSelected.Gun.GunShoot += _ApplyPhotonSize;
       }
 
-      private void ApplyPhotonSize(GunFireEvent shootEvent)
+      private void _ApplyPhotonSize(GunFireEvent shootEvent)
       {
         shootEvent.BulletDamage += _photonDamage;
         shootEvent.BulletSizeFactor += _photonSize;
@@ -530,21 +497,21 @@ public static class PowerUps
     }
   }
 
-  public class Randomizer5000 : IPowerUpApplier
+  public class Randomizer5000 : AbstractPowerUpApplier
   {
     // Technically stateful but does not deserve its own class
     private readonly Random _rnd = new();
 
     // Photons are randomized
-    public string Name => "Randomizer 5000";
-    public Rarity Rarity => Rarity.Common;
+    public override string Name => "Randomizer 5000";
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      playerWhoSelected.Gun.GunShoot += ApplyRandomization;
+      playerWhoSelected.Gun.GunShoot += _ApplyRandomization;
     }
 
-    private void ApplyRandomization(GunFireEvent shootEvent)
+    private void _ApplyRandomization(GunFireEvent shootEvent)
     {
       shootEvent.BulletCount += _rnd.Next(0, 3);
       shootEvent.BulletDamage += _rnd.Next(-2, 2);
@@ -555,13 +522,13 @@ public static class PowerUps
     }
   }
 
-  public class PhotonPhlyer : IPowerUpApplier
+  public class PhotonPhlyer : AbstractPowerUpApplier
   {
     // Player can fly
-    public string Name => "Photon Phlyer";
-    public Rarity Rarity => Rarity.Legendary;
+    public override string Name => "Photon Phlyer";
+    public override Rarity Rarity => Rarity.Legendary;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.PlayerMovementDelegate.PlayerMove += DisableGravity;
     }
@@ -574,13 +541,13 @@ public static class PowerUps
     }
   }
 
-  public class NikeAirJordans : IPowerUpApplier
+  public class NikeAirJordans : AbstractPowerUpApplier
   {
     // Player can double tap to dash
-    public string Name => "Nike Air Jordans";
-    public Rarity Rarity => Rarity.Common;
+    public override string Name => "Nike Air Jordans";
+    public override Rarity Rarity => Rarity.Common;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.PlayerMovementDelegate.PlayerDoubleTapped += Dash;
     }
@@ -594,52 +561,52 @@ public static class PowerUps
     }
   }
 
-  public class FakeJordans : IPowerUpApplier
+  public class FakeJordans : AbstractPowerUpApplier
   {
     // Messes with the opponents movement
-    public string Name => "Fake Jordans";
-    public Rarity Rarity => Rarity.Rare;
+    public override string Name => "Fake Jordans";
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       otherPlayer.PlayerMovementDelegate.Speed -= 75.0f;
       otherPlayer.PlayerMovementDelegate.JumpForce -= 100.0f;
     }
   }
 
-  public class SketchyPillsGood : IPowerUpApplier
+  public class SketchyPillsGood : AbstractPowerUpApplier
   {
     // Makes the player smaller and faster (gamba)
-    public string Name => "Sketchy Pills";
-    public Rarity Rarity => Rarity.Rare;
+    public override string Name => "Sketchy Pills";
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Scale *= new Vector2(0.5f, 0.5f);
       playerWhoSelected.PlayerMovementDelegate.Speed += 200;
     }
   }
 
-  public class SketchyPillsBad : IPowerUpApplier
+  public class SketchyPillsBad : AbstractPowerUpApplier
   {
     // Makes the player bigger and slower (gamba)
-    public string Name => "Sketchy Pills";
-    public Rarity Rarity => Rarity.Rare;
+    public override string Name => "Sketchy Pills";
+    public override Rarity Rarity => Rarity.Rare;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       playerWhoSelected.Scale *= new Vector2(1.25f, 1.25f);
       playerWhoSelected.PlayerMovementDelegate.Speed -= 100;
     }
   }
 
-  public class BerserkerJuice : IPowerUpApplier
+  public class BerserkerJuice : AbstractPowerUpApplier
   {
     // When below 50% HP, grants bonus stats
-    public string Name => "Berserker Juice";
-    public Rarity Rarity => Rarity.Epic;
+    public override string Name => "Berserker Juice";
+    public override Rarity Rarity => Rarity.Epic;
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
+    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {
       new StatefulBerserkerJuice().Apply(playerWhoSelected);
     }

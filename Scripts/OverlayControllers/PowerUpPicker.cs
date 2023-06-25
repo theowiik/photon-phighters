@@ -17,9 +17,9 @@ public partial class PowerUpPicker : Control
     new()
     {
       { PowerUps.Rarity.Common, ("Green", "") },
-      { PowerUps.Rarity.Rare, ("Blue", "(Rare) ") },
-      { PowerUps.Rarity.Epic, ("Purple", "(Epic) ") },
-      { PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY) ") }
+      { PowerUps.Rarity.Rare, ("Blue", "(Rare)") },
+      { PowerUps.Rarity.Epic, ("Purple", "(Epic)") },
+      { PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY)") }
     };
 
   [GetNode("BackgroundRect")]
@@ -31,7 +31,7 @@ public partial class PowerUpPicker : Control
   [GetNode("Label")]
   private Label _label;
 
-  public void SetWinningSide(TeamEnum value)
+  private void SetTheme(TeamEnum value)
   {
     switch (value)
     {
@@ -59,10 +59,11 @@ public partial class PowerUpPicker : Control
     this.AutoWire();
   }
 
-  public void Reset()
+  public void Reset(Player losingPlayer)
   {
     Clear();
-    Populate();
+    Populate(losingPlayer);
+    SetTheme(losingPlayer.Team == TeamEnum.Light ? TeamEnum.Dark : TeamEnum.Light);
   }
 
   private void Clear()
@@ -73,7 +74,7 @@ public partial class PowerUpPicker : Control
     }
   }
 
-  private void Populate()
+  private void Populate(Player losingPlayer)
   {
     foreach (var powerUp in PowerUpManager.GetUniquePowerUps(4))
     {
@@ -81,7 +82,7 @@ public partial class PowerUpPicker : Control
       _gridContainer.AddChild(powerUpButton);
       var texturePack = GetThemeTextures(powerUp);
 
-      powerUpButton.SetLabel(texturePack.RarityText + powerUp.Name);
+      powerUpButton.SetLabel($"{texturePack.RarityText} {powerUp.Name} {powerUp.TimesTakenBy(losingPlayer)}");
       powerUpButton.TextureNormal = texturePack.BtnTexture;
       powerUpButton.TextureHover = texturePack.BtnTextureHover;
       powerUpButton.TextureDisabled = texturePack.BtnTextureDisabled;
@@ -131,7 +132,7 @@ public partial class PowerUpPicker : Control
     return new TexturePack(rarityText, btnTexture, btnTextureHover, btnTextureDisabled);
   }
 
-  private struct TexturePack : IEquatable<TexturePack>
+  private readonly struct TexturePack : IEquatable<TexturePack>
   {
     public string RarityText { get; }
     public Texture2D BtnTexture { get; }

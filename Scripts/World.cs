@@ -407,10 +407,10 @@ public partial class World : Node2D
 
   private void StartPowerUpSelection()
   {
-    _powerUpPicker.SetWinningSide(_lastPlayerToScore.Team);
+    var losingPlayer = _lastPlayerToScore == _lightPlayer ? _darkPlayer : _lightPlayer;
     _powerUpPicker.Visible = true;
     _powerUpPicker.GrabFocus();
-    _powerUpPicker.Reset();
+    _powerUpPicker.Reset(losingPlayer);
   }
 
   private void StartRound()
