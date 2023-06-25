@@ -8,6 +8,7 @@ using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.OverlayControllers;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
 
@@ -16,13 +17,9 @@ public partial class World : Node2D
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
 
-  private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(
-    "res://Objects/Player/Ragdolls/DarkRagdoll.tscn"
-  );
+  private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(ObjectResourceWrapper.DarkRagdollPath);
 
-  private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(
-    "res://Objects/Player/Ragdolls/LightRagdoll.tscn"
-  );
+  private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(ObjectResourceWrapper.LightRagdollPath);
 
   [GsAutoWiring("FollowingCamera")]
   private FollowingCamera _camera;
@@ -307,8 +304,8 @@ public partial class World : Node2D
       GetTree()
         .ChangeSceneToFile(
           _score.Light > _score.Dark
-            ? "res://Scenes/Screens/EndScreenLight.tscn"
-            : "res://Scenes/Screens/EndScreenDarkness.tscn"
+            ? SceneResourceWrapper.EndScreenLightnessPath
+            : SceneResourceWrapper.EndScreenDarknessPath
         );
     }
 

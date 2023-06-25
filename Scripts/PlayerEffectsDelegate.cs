@@ -1,6 +1,7 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
 
@@ -14,11 +15,11 @@ public partial class PlayerEffectsDelegate : Node2D
   private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
-    "res://Objects/Player/Particles/HurtParticles.tscn"
+    ObjectResourceWrapper.HurtParticlesPath
   );
 
   private readonly PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
-    "res://Objects/Player/Particles/JumpParticles.tscn"
+    ObjectResourceWrapper.JumpParticlesPath
   );
 
   [GsAutoWiring("AnimationPlayer")]

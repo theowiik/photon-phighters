@@ -32,7 +32,7 @@ public static class GsInstancer
       s_typePathLookup[type] = path;
     }
 
-    var scene = GsGDX.LoadOrExplode<PackedScene>(path);
+    var scene = Gs.LoadOrExplode<PackedScene>(path);
     return scene.Instantiate<T>();
   }
 }

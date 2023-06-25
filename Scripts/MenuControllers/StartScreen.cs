@@ -1,6 +1,7 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts.MenuControllers;
 
@@ -39,6 +40,6 @@ public partial class StartScreen : Node2D
     GlobalGameState.RoundTime = (int)roundTime;
     GlobalGameState.RoundsToWin = (int)roundsToWin;
 
-    GetTree().ChangeSceneToFile("res://Scenes/World.tscn");
+    GetTree().ChangeSceneToFile(SceneResourceWrapper.WorldPath);
   }
 }

@@ -118,13 +118,13 @@ public partial class PowerUpPicker : Control
 
     var (color, rarityText) = theme;
 
-    var btnTexture = GsGDX.LoadOrExplode<Texture2D>(
+    var btnTexture = Gs.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}.png"
     );
-    var btnTextureHover = GsGDX.LoadOrExplode<Texture2D>(
+    var btnTextureHover = Gs.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_hover.png"
     );
-    var btnTextureDisabled = GsGDX.LoadOrExplode<Texture2D>(
+    var btnTextureDisabled = Gs.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_disabled.png"
     );
 
