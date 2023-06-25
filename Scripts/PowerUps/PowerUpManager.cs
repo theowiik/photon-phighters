@@ -4,7 +4,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using PhotonPhighters.Scripts.Utils;
-using static PhotonPhighters.Scripts.PowerUps.PowerUpAppliers.PowerUps;
+using static PhotonPhighters.Scripts.PowerUps.Appliers.PowerUps;
 using static PhotonPhighters.Scripts.PowerUps.PowerUps.Rarity;
 
 namespace PhotonPhighters.Scripts.PowerUps;
