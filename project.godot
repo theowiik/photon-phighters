@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Photon Phighters"
-run/main_scene="res://Scenes/StartScreen.tscn"
+run/main_scene="res://Scenes/Screens/StartScreen.tscn"
 config/features=PackedStringArray("4.0", "C#", "Forward Plus")
 boot_splash/image="res://AssetsProjectFiles/Logo/banner.png"
 config/icon="res://AssetsProjectFiles/Logo/logo.png"

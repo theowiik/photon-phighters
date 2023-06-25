@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://cbfoopu4203sn"]
+
+[ext_resource type="PackedScene" uid="uid://bsx0cugw6ijg8" path="res://Scenes/Screens/EndScreen.tscn" id="1_3eoj2"]
+
+[node name="EndScreenDark" instance=ExtResource("1_3eoj2")]
+
+[node name="ColorRect" parent="CanvasLayer" index="0"]
+color = Color(0, 0, 0, 0.647059)
+
+[node name="Label" parent="CanvasLayer/VBoxContainer" index="0"]
+text = "Darkness won!"
+
+[node name="Label2" parent="CanvasLayer/VBoxContainer" index="1"]
+text = "Death... Death everywhere..."
