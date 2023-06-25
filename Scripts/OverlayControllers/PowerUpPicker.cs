@@ -5,21 +5,22 @@ using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
+using PhotonPhighters.Scripts.PowerUps;
 using static PhotonPhighters.Scripts.Player;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpPicker : Control
 {
-  public delegate void PowerUpPicked(PowerUps.IPowerUpApplier powerUpApplier);
+  public delegate void PowerUpPicked(PowerUps.PowerUps.IPowerUpApplier powerUpApplier);
 
-  private static readonly Dictionary<PowerUps.Rarity, (string color, string text)> s_rarityThemes =
+  private static readonly Dictionary<PowerUps.PowerUps.Rarity, (string color, string text)> s_rarityThemes =
     new()
     {
-      { PowerUps.Rarity.Common, ("Green", "") },
-      { PowerUps.Rarity.Rare, ("Blue", "(Rare)") },
-      { PowerUps.Rarity.Epic, ("Purple", "(Epic)") },
-      { PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY)") }
+      { PowerUps.PowerUps.Rarity.Common, ("Green", "") },
+      { PowerUps.PowerUps.Rarity.Rare, ("Blue", "(Rare)") },
+      { PowerUps.PowerUps.Rarity.Epic, ("Purple", "(Epic)") },
+      { PowerUps.PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY)") }
     };
 
   [GetNode("BackgroundRect")]
@@ -110,7 +111,7 @@ public partial class PowerUpPicker : Control
     }
   }
 
-  private static TexturePack GetThemeTextures(PowerUps.IPowerUpApplier powerUp)
+  private static TexturePack GetThemeTextures(PowerUps.PowerUps.IPowerUpApplier powerUp)
   {
     if (!s_rarityThemes.TryGetValue(powerUp.Rarity, out var theme))
     {
@@ -150,9 +151,9 @@ public partial class PowerUpPicker : Control
     public bool Equals(TexturePack other)
     {
       return RarityText == other.RarityText
-        && Equals(BtnTexture, other.BtnTexture)
-        && Equals(BtnTextureHover, other.BtnTextureHover)
-        && Equals(BtnTextureDisabled, other.BtnTextureDisabled);
+             && Equals(BtnTexture, other.BtnTexture)
+             && Equals(BtnTextureHover, other.BtnTextureHover)
+             && Equals(BtnTextureDisabled, other.BtnTextureDisabled);
     }
 
     public override bool Equals(object obj)

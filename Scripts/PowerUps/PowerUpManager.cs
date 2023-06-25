@@ -4,13 +4,16 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using PhotonPhighters.Scripts.Utils;
-using static PhotonPhighters.Scripts.PowerUps;
+using static PhotonPhighters.Scripts.PowerUps.PowerUpAppliers.PowerUps;
+using static PhotonPhighters.Scripts.PowerUps.PowerUps.Rarity;
 
-namespace PhotonPhighters.Scripts;
+namespace PhotonPhighters.Scripts.PowerUps;
 
 public static class PowerUpManager
 {
-  public static readonly IEnumerable<IPowerUpApplier> PowerUps;
+  public static readonly IEnumerable<PowerUps.IPowerUpApplier> PowerUps;
+
+  private static bool RaritySumIs100 => Enum.GetValues(typeof(PowerUps.Rarity)).Cast<PowerUps.Rarity>().Sum(rarity => (int)rarity) == 100;
 
   static PowerUpManager()
   {
@@ -19,7 +22,7 @@ public static class PowerUpManager
       throw new FormatException("Rarities sum must be 100");
     }
 
-    PowerUps = new List<IPowerUpApplier>
+    PowerUps = new List<PowerUps.IPowerUpApplier>
     {
       new PhotonBoost(),
       new HealthBoost(),
@@ -61,29 +64,26 @@ public static class PowerUpManager
   {
     get
     {
-      const int CommonCumulative = (int)Rarity.Common;
-      const int RareCumulative = CommonCumulative + (int)Rarity.Rare;
-      const int EpicCumulative = RareCumulative + (int)Rarity.Epic;
-      const int LegendaryCumulative = EpicCumulative + (int)Rarity.Legendary;
+      const int CommonCumulative = (int)Common;
+      const int RareCumulative = CommonCumulative + (int)Rare;
+      const int EpicCumulative = RareCumulative + (int)Epic;
+      const int LegendaryCumulative = EpicCumulative + (int)Legendary;
 
       return new RarityCumulative
       {
-        Common = CommonCumulative,
-        Rare = RareCumulative,
-        Epic = EpicCumulative,
-        Legendary = LegendaryCumulative
+        Common = CommonCumulative, Rare = RareCumulative, Epic = EpicCumulative, Legendary = LegendaryCumulative
       };
     }
   }
 
-  public static IEnumerable<IPowerUpApplier> GetUniquePowerUps(int n)
+  public static IEnumerable<PowerUps.IPowerUpApplier> GetUniquePowerUps(int n)
   {
     if (n <= 0)
     {
       throw new ArgumentException("n must be greater than 0");
     }
 
-    var output = new List<IPowerUpApplier>();
+    var output = new List<PowerUps.IPowerUpApplier>();
     while (output.Count < n)
     {
       var p = GetRandomPowerUpWithOdds();
@@ -99,35 +99,35 @@ public static class PowerUpManager
     return output.Shuffled();
   }
 
-  private static IPowerUpApplier GetRandomPowerUpWithOdds()
+  private static PowerUps.IPowerUpApplier GetRandomPowerUpWithOdds()
   {
     var rarity = GetRandomRarityWithOdds();
     return PowerUps.Where(p => p.Rarity == rarity).ToList().Sample();
   }
 
-  private static Rarity GetRandomRarityWithOdds()
+  private static PowerUps.Rarity GetRandomRarityWithOdds()
   {
     var random = new Random();
     var randomNumber = random.Next(1, RarityCumulativeOdds.Legendary + 1);
 
     if (randomNumber <= RarityCumulativeOdds.Common)
     {
-      return Rarity.Common;
+      return Common;
     }
 
     if (randomNumber <= RarityCumulativeOdds.Rare)
     {
-      return Rarity.Rare;
+      return Rare;
     }
 
     if (randomNumber <= RarityCumulativeOdds.Epic)
     {
-      return Rarity.Epic;
+      return Epic;
     }
 
     if (randomNumber <= RarityCumulativeOdds.Legendary)
     {
-      return Rarity.Legendary;
+      return Legendary;
     }
 
     throw new FormatException("Rarity must sum to 100");
@@ -137,7 +137,7 @@ public static class PowerUpManager
   {
     var powerUpProbabilites = new List<Tuple<string, float>>();
 
-    foreach (var rarity in Enum.GetValues(typeof(Rarity)).Cast<Rarity>())
+    foreach (var rarity in Enum.GetValues(typeof(PowerUps.Rarity)).Cast<PowerUps.Rarity>())
     {
       var powerUpsOfRarity = PowerUps.Where(p => p.Rarity == rarity).ToList();
       var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count;
