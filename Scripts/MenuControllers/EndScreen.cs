@@ -1,9 +1,9 @@
 using Godot;
-using PhotonPhighters.Scripts.Utils;
-
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 public partial class EndScreen : Node2D
 {
-  [GetNode("CanvasLayer/VBoxContainer/ExitButton")]
+  [GsAutoWiring("CanvasLayer/VBoxContainer/ExitButton")]
   private Button _exitButton;
 
   public override void _Ready()
