@@ -1,6 +1,7 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
@@ -17,8 +18,6 @@ public partial class Gun : Node2D
 
   [Signal]
   public delegate void ShootDelegateEventHandler(Node2D bullet);
-
-  private readonly PackedScene _bulletScene = GD.Load<PackedScene>("res://Objects/Player/Bullet.tscn");
 
   private readonly Color _loadedModulationColor = new(1, 1, 1);
 
@@ -129,7 +128,7 @@ public partial class Gun : Node2D
 
     for (var i = 0; i < shootEvent.BulletCount; i++)
     {
-      var bullet = _bulletScene.Instantiate<Bullet>();
+      var bullet = GsInstanter.Instantiate<Bullet>();
 
       bullet.BulletCollideFloorDelegate += HandleBulletCollideFloor;
       bullet.BulletFlyingDelegate += HandleBulletFlying;

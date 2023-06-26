@@ -4,8 +4,11 @@ using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.OverlayControllers;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
 
@@ -14,19 +17,9 @@ public partial class World : Node2D
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
 
-  private readonly PackedScene _capturePointScene = GD.Load<PackedScene>("res://Objects/CapturePoint.tscn");
+  private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(ObjectResourceWrapper.DarkRagdollPath);
 
-  private readonly PackedScene _explosionScene = GD.Load<PackedScene>("res://Objects/Explosion.tscn");
-
-  private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(
-    "res://Objects/Player/Ragdolls/DarkRagdoll.tscn"
-  );
-
-  private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(
-    "res://Objects/Player/Ragdolls/LightRagdoll.tscn"
-  );
-
-  private readonly PackedScene _scene = GD.Load<PackedScene>("res://UI/DamageAmountIndicator.tscn");
+  private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(ObjectResourceWrapper.LightRagdollPath);
 
   [GetNode("FollowingCamera")]
   private FollowingCamera _camera;
@@ -221,7 +214,7 @@ public partial class World : Node2D
     player.Frozen = true;
     player.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition;
 
-    var liveTimer = TimerFactory.OneShotSelfDestructingStartedTimer(
+    var liveTimer = GsTimerFactory.OneShotSelfDestructingStartedTimer(
       RespawnTime,
       () =>
       {
@@ -311,8 +304,8 @@ public partial class World : Node2D
       GetTree()
         .ChangeSceneToFile(
           _score.Light > _score.Dark
-            ? "res://Scenes/Screens/EndScreenLight.tscn"
-            : "res://Scenes/Screens/EndScreenDarkness.tscn"
+            ? SceneResourceWrapper.EndScreenLightnessPath
+            : SceneResourceWrapper.EndScreenDarknessPath
         );
     }
 
@@ -341,7 +334,7 @@ public partial class World : Node2D
   private void SetupCapturePoint()
   {
     const int MaxConcurrentCapturePoints = 2;
-    var timer = TimerFactory.StartedTimer(TimeBetweenCapturePoint);
+    var timer = GsTimerFactory.StartedTimer(TimeBetweenCapturePoint);
 
     AddChild(timer);
 
@@ -358,7 +351,7 @@ public partial class World : Node2D
 
   private void SpawnRandomCapturePoint()
   {
-    var capturePoint = _capturePointScene.Instantiate<CapturePoint>();
+    var capturePoint = GsInstanter.Instantiate<CapturePoint>();
     AddChild(capturePoint);
     capturePoint.CapturedListeners += OnCapturePointCaptured;
 
@@ -366,7 +359,7 @@ public partial class World : Node2D
     capturePoint.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition + offset;
 
     // De-spawn after a while
-    var timer = TimerFactory.OneShotStartedTimer(
+    var timer = GsTimerFactory.OneShotStartedTimer(
       30,
       () =>
       {
@@ -379,7 +372,7 @@ public partial class World : Node2D
 
   private void SpawnExplosion(Node2D where, Light.LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
   {
-    var explosion = _explosionScene.Instantiate<Explosion>();
+    var explosion = GsInstanter.Instantiate<Explosion>();
     explosion.LightMode = who;
     explosion.Radius = explosionRadius;
     CallDeferred("add_child", explosion);
@@ -389,8 +382,8 @@ public partial class World : Node2D
 
   private void SpawnHurtIndicator(Node2D player, string msg)
   {
-    var indicator = _scene.Instantiate<DamageAmountIndicator>();
-    indicator.AddChild(TimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
+    var indicator = GsInstanter.Instantiate<DamageAmountIndicator>();
+    indicator.AddChild(GsTimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
     AddChild(indicator);
     indicator.GlobalPosition = player.GlobalPosition;
     indicator.SetMessage(msg);
@@ -402,7 +395,7 @@ public partial class World : Node2D
       player.Team == Player.TeamEnum.Light
         ? _ragdollLightScene.Instantiate<RigidBody2D>()
         : _ragdollDarkScene.Instantiate<RigidBody2D>();
-    var timer = TimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
+    var timer = GsTimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
     ragdoll.AddChild(timer);
     CallDeferred("add_child", ragdoll);
 
@@ -435,7 +428,7 @@ public partial class World : Node2D
     }
 
     // TODO: Hack to ensure players are moved before activating the map
-    AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
+    AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
     // _mapManager.StartNextMap(); // <- Should be done similar to this
     _roundTimer.Start(_roundTime);
   }

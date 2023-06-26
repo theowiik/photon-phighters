@@ -1,5 +1,5 @@
 ﻿using Godot;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 
 namespace PhotonPhighters.Scripts;
 

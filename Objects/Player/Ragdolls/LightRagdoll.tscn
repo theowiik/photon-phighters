@@ -3,3 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://d2rg8btxttugm" path="res://Objects/Player/Ragdolls/Ragdoll.tscn" id="1_k81w5"]
 
 [node name="LightRagdoll" instance=ExtResource("1_k81w5")]
+
+[node name="Sprite2D" parent="." index="0"]
+frame = 132

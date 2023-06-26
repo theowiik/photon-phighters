@@ -1,8 +1,11 @@
 using Godot;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
+[Instantiable("res://UI/PowerUpTextureButton.tscn")]
 public partial class PowerUpTextureButton : TextureButton
 {
   [GetNode("RichTextLabel")]
@@ -16,8 +19,7 @@ public partial class PowerUpTextureButton : TextureButton
 
   private void ApplyShader()
   {
-    var shader = GD.Load<Shader>("res://Assets/Shaders/shine.gdshader");
-    Material = new ShaderMaterial { Shader = shader };
+    Material = new ShaderMaterial { Shader = ShaderResourceWrapper.ShineShader };
   }
 
   public void SetLabel(string text)

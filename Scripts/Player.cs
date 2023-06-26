@@ -1,6 +1,8 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
 
@@ -73,7 +75,7 @@ public partial class Player : CharacterBody2D
       }
       else
       {
-        AddChild(TimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true));
+        AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true));
       }
 
       // Disable collisions
@@ -159,9 +161,7 @@ public partial class Player : CharacterBody2D
   {
     if (apply)
     {
-      var shader = GD.Load<Shader>("res://Assets/Shaders/rainbow.gdshader");
-      var shaderMaterial = new ShaderMaterial { Shader = shader };
-      _sprite2D.Material = shaderMaterial;
+      _sprite2D.Material = new ShaderMaterial { Shader = ShaderResourceWrapper.RainbowShader };
     }
     else
     {

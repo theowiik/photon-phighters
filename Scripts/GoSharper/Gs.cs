@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using Godot;
 
-namespace PhotonPhighters.Scripts.Utils;
+namespace PhotonPhighters.Scripts.GoSharper;
 
 /// <summary>
 ///   Extended Godot API.
 /// </summary>
-public static class GDX
+public static class Gs
 {
   public static T LoadOrExplode<T>(string path)
     where T : class

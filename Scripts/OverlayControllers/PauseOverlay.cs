@@ -1,5 +1,7 @@
 ﻿using Godot;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
@@ -57,7 +59,7 @@ public partial class PauseOverlay : Control
     this.AutoWire();
     _resumeButton.Pressed += () => EmitSignal(SignalName.ResumeGame);
     _quitButton.Pressed += () => GetTree().Quit();
-    _restartButton.Pressed += () => GetTree().ChangeOrExplode("res://Scenes/Screens/StartScreen.tscn");
+    _restartButton.Pressed += () => GetTree().ChangeOrExplode(SceneResourceWrapper.StartScreenPath);
     _powerUpButton.Pressed += OnPowerUpButtonPressed;
     _powerUpsContainer.Visible = false;
     _powerUpButton.Visible = false;

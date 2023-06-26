@@ -5,4 +5,4 @@
 [node name="DarkRagdoll" instance=ExtResource("1_kujx1")]
 
 [node name="Sprite2D" parent="." index="0"]
-frame = 13
+frame = 133

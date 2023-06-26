@@ -1,5 +1,7 @@
 ﻿using Godot;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
 
@@ -13,11 +15,11 @@ public partial class PlayerEffectsDelegate : Node2D
   private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
-    "res://Objects/Player/Particles/HurtParticles.tscn"
+    ObjectResourceWrapper.HurtParticlesPath
   );
 
   private readonly PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
-    "res://Objects/Player/Particles/JumpParticles.tscn"
+    ObjectResourceWrapper.JumpParticlesPath
   );
 
   [GetNode("AnimationPlayer")]
@@ -122,7 +124,7 @@ public partial class PlayerEffectsDelegate : Node2D
   private static Node2D GenerateParticles(PackedScene particlesScene)
   {
     var instance = particlesScene.Instantiate<CpuParticles2D>();
-    var timer = TimerFactory.OneShotStartedTimer(instance.Lifetime, () => instance.QueueFree());
+    var timer = GsTimerFactory.OneShotStartedTimer(instance.Lifetime, () => instance.QueueFree());
 
     instance.Emitting = true;
     instance.AddChild(timer);

@@ -1,9 +1,11 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
+[Instantiable("res://Objects/Player/Bullet.tscn")]
 public partial class Bullet : Area2D
 {
   [Signal]

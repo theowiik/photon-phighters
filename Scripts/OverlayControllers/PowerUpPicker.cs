@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Godot;
-using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.GoSharper;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 using static PhotonPhighters.Scripts.Player;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
@@ -19,8 +21,6 @@ public partial class PowerUpPicker : Control
       { PowerUps.Rarity.Epic, ("Purple", "(Epic) ") },
       { PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY) ") }
     };
-
-  private readonly PackedScene _powerUpButtonScene = GD.Load<PackedScene>("res://UI/PowerUpTextureButton.tscn");
 
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;
@@ -77,7 +77,7 @@ public partial class PowerUpPicker : Control
   {
     foreach (var powerUp in PowerUpManager.GetUniquePowerUps(4))
     {
-      var powerUpButton = _powerUpButtonScene.Instantiate<PowerUpTextureButton>();
+      var powerUpButton = GsInstanter.Instantiate<PowerUpTextureButton>();
       _gridContainer.AddChild(powerUpButton);
       var texturePack = GetThemeTextures(powerUp);
 
@@ -90,7 +90,7 @@ public partial class PowerUpPicker : Control
       // Disable at first
       powerUpButton.Disabled = true;
       AddChild(
-        TimerFactory.OneShotSelfDestructingStartedTimer(
+        GsTimerFactory.OneShotSelfDestructingStartedTimer(
           2,
           () =>
           {
@@ -118,13 +118,13 @@ public partial class PowerUpPicker : Control
 
     var (color, rarityText) = theme;
 
-    var btnTexture = GDX.LoadOrExplode<Texture2D>(
+    var btnTexture = Gs.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}.png"
     );
-    var btnTextureHover = GDX.LoadOrExplode<Texture2D>(
+    var btnTextureHover = Gs.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_hover.png"
     );
-    var btnTextureDisabled = GDX.LoadOrExplode<Texture2D>(
+    var btnTextureDisabled = Gs.LoadOrExplode<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_disabled.png"
     );
 

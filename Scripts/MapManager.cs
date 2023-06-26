@@ -3,7 +3,10 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.Utils;
+using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
 
@@ -11,8 +14,7 @@ public partial class MapManager : Node2D
 {
   public delegate void OutOfBoundsEvent(Player player);
 
-  private const string MapsFolder = "res://Scenes/Maps";
-  private readonly PackedScene _lightScene = GD.Load<PackedScene>("res://Objects/Light.tscn");
+  private readonly string _mapsFolder = SceneResourceWrapper.MapsFolder;
   private IEnumerable<string> _maps = new List<string>();
 
   /// <summary>
@@ -26,7 +28,7 @@ public partial class MapManager : Node2D
   public override void _Ready()
   {
     this.AutoWire();
-    _maps = GetAllFilesInDirectory(MapsFolder, ".tscn").Shuffled();
+    _maps = GetAllFilesInDirectory(_mapsFolder, ".tscn").Shuffled();
   }
 
   /// <summary>
@@ -123,7 +125,7 @@ public partial class MapManager : Node2D
         }
       }
 
-      var light = _lightScene.Instantiate<Light>();
+      var light = GsInstanter.Instantiate<Light>();
       CurrentMap.AddChild(light);
       light.GlobalPosition = globalPos;
     };
