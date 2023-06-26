@@ -83,7 +83,7 @@ public partial class PowerUpPicker : Control
       _gridContainer.AddChild(powerUpButton);
       var texturePack = GetThemeTextures(powerUp);
 
-      powerUpButton.SetLabel($"{texturePack.RarityText} {powerUp.Name} {powerUp.TimesTakenBy(losingPlayer)}");
+      powerUpButton.SetLabel($"{texturePack.RarityText} {powerUp.Name} {powerUp.GetMarkName(losingPlayer)}");
       powerUpButton.TextureNormal = texturePack.BtnTexture;
       powerUpButton.TextureHover = texturePack.BtnTextureHover;
       powerUpButton.TextureDisabled = texturePack.BtnTextureDisabled;

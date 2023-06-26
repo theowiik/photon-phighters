@@ -9,7 +9,7 @@ public static partial class PowerUps
   {
     string Name { get; }
     Rarity Rarity { get; }
-    int TimesTakenBy(Player player);
+    string GetMarkName(Player player);
     void Apply(Player playerWhoSelected, Player otherPlayer);
   }
 }

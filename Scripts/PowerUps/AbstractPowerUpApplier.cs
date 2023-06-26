@@ -9,9 +9,9 @@ public static partial class PowerUps
   {
     private readonly IList<Player> _haveTaken = new List<Player>();
 
-    public int TimesTakenBy(Player player)
+    public virtual string GetMarkName(Player player)
     {
-      return _haveTaken.Count(p => p == player);
+      return null;
     }
 
     public abstract string Name { get; }
@@ -21,6 +21,11 @@ public static partial class PowerUps
     {
       _haveTaken.Add(playerWhoSelected);
       _Apply(playerWhoSelected, otherPlayer);
+    }
+
+    protected int TimesTakenBy(Player player)
+    {
+      return _haveTaken.Count(p => p == player);
     }
 
     protected abstract void _Apply(Player playerWhoSelected, Player otherPlayer);
