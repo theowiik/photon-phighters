@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts.PowerUps;
 
@@ -19,8 +20,8 @@ public static partial class PowerUps
 
     public void Apply(Player playerWhoSelected, Player otherPlayer)
     {
-      _haveTaken.Add(playerWhoSelected);
       _Apply(playerWhoSelected, otherPlayer);
+      _haveTaken.Add(playerWhoSelected);
     }
 
     protected int TimesTakenBy(Player player)
@@ -29,5 +30,10 @@ public static partial class PowerUps
     }
 
     protected abstract void _Apply(Player playerWhoSelected, Player otherPlayer);
+
+    protected static string BuildMarkName(int timesTaken)
+    {
+      return $"MRK.{NumberUtil.ToRoman(timesTaken)}";
+    }
   }
 }
