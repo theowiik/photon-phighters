@@ -8,11 +8,11 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 [Instantiable("res://UI/PowerUpTextureButton.tscn")]
 public partial class PowerUpTextureButton : TextureButton
 {
-  [GetNode("RichTextLabel")]
-  private RichTextLabel _powerUpNameLabel;
-
   [GetNode("MarkLabel")]
   private RichTextLabel _markLabel;
+
+  [GetNode("RichTextLabel")]
+  private RichTextLabel _powerUpNameLabel;
 
   public override void _Ready()
   {
