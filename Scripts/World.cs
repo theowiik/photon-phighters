@@ -240,13 +240,32 @@ public partial class World : Node2D
 
   private void OnPowerUpSelected(PowerUps.IPowerUpApplier powerUpApplier)
   {
-    _powerUpPicker.Visible = false;
+    _powerUpPicker.HidePowerUps();
 
-    var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
-    var winner = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
+    var loser = GetLosingPlayer();
+    var winner = GetWinningPlayer();
     powerUpApplier.Apply(loser, winner);
+    loser.EnableInput();
 
     StartRound();
+  }
+
+  private Player GetLosingPlayer()
+  {
+    if (_lastPlayerToScore == null)
+    {
+      throw new NullReferenceException("No player has scored yet!");
+    }
+    return _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
+  }
+
+  private Player GetWinningPlayer()
+  {
+    if (_lastPlayerToScore == null)
+    {
+      throw new NullReferenceException("No player has scored yet!");
+    }
+    return _lastPlayerToScore.Team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
   }
 
   /// <summary>
@@ -407,10 +426,9 @@ public partial class World : Node2D
 
   private void StartPowerUpSelection()
   {
-    _powerUpPicker.SetWinningSide(_lastPlayerToScore.Team);
-    _powerUpPicker.Visible = true;
-    _powerUpPicker.GrabFocus();
-    _powerUpPicker.Reset();
+    var loser = GetLosingPlayer();
+    var winner = GetWinningPlayer();
+    _powerUpPicker.ShowPowerUps(winner, loser);
   }
 
   private void StartRound()

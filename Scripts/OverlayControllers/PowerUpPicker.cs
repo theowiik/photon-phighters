@@ -65,6 +65,22 @@ public partial class PowerUpPicker : Control
     Populate();
   }
 
+  public void ShowPowerUps(Player winningPlayer, Player losingPlayer)
+  {
+    SetWinningSide(winningPlayer.Team);
+    Visible = true;
+    GrabFocus();
+    Clear();
+    Populate();
+    winningPlayer.VibrateGamepadWeak(0.25f);
+    losingPlayer.DisableInput();
+  }
+
+  public void HidePowerUps()
+  {
+    Visible = false;
+  }
+
   private void Clear()
   {
     foreach (var powerUpButton in _gridContainer.GetNodesOfType<TextureButton>())
@@ -94,9 +110,9 @@ public partial class PowerUpPicker : Control
           2,
           () =>
           {
-            // This ensures that the menu gives feedback to the player when using a controller
             if (Input.GetConnectedJoypads().Count > 0)
             {
+            // This ensures that the menu gives feedback to the player when using a controller
               powerUpButton.TextureFocused = texturePack.BtnTextureHover;
             }
 

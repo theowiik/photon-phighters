@@ -40,6 +40,7 @@ public partial class Player : CharacterBody2D
 
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
+  private int _gamepadIndex;
 
   private bool CanTakeDamage
   {
@@ -137,6 +138,7 @@ public partial class Player : CharacterBody2D
 
     Health = MaxHealth;
     IsAlive = true;
+    _gamepadIndex = GetGamepadIndex();
     Gun.ShootActionName = $"p{PlayerNumber}_shoot";
     Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
@@ -252,5 +254,31 @@ public partial class Player : CharacterBody2D
     TakeDamage(bullet.Damage);
     ApplyBulletKnockback(bullet);
     bullet.QueueFree();
+  }
+
+  private int GetGamepadIndex()
+  {
+    var connectedGamePads = Input.GetConnectedJoypads();
+    return connectedGamePads.Count == 2 ? connectedGamePads[PlayerNumber - 1] : 0;
+  }
+
+  public void DisableInput()
+  {
+    SetProcessInput(false);
+  }
+
+  public void EnableInput()
+  {
+    SetProcessInput(true);
+  }
+
+  public void VibrateGamepadStrong(float seconds)
+  {
+    Input.StartJoyVibration(_gamepadIndex, 0.25f, 0.25f, seconds);
+  }
+
+  public void VibrateGamepadWeak(float seconds)
+  {
+    Input.StartJoyVibration(_gamepadIndex, 0.75f, 0.75f, seconds);
   }
 }
