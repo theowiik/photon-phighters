@@ -1,13 +1,14 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PauseOverlay : Control
 {
-  public delegate void PowerUpPicked(PowerUps.IPowerUpApplier powerUpApplier);
+  public delegate void PowerUpPicked(PowerUps.PowerUps.IPowerUpApplier powerUpApplier);
 
   [Signal]
   public delegate void ResumeGameEventHandler();

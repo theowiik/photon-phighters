@@ -8,8 +8,11 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 [Instantiable("res://UI/PowerUpTextureButton.tscn")]
 public partial class PowerUpTextureButton : TextureButton
 {
+  [GetNode("MarkLabel")]
+  private RichTextLabel _markLabel;
+
   [GetNode("RichTextLabel")]
-  private RichTextLabel _richTextLabel;
+  private RichTextLabel _powerUpNameLabel;
 
   public override void _Ready()
   {
@@ -22,8 +25,13 @@ public partial class PowerUpTextureButton : TextureButton
     Material = new ShaderMaterial { Shader = ShaderResourceWrapper.ShineShader };
   }
 
-  public void SetLabel(string text)
+  public void SetPowerUpName(string text)
   {
-    _richTextLabel.Text = $"[center]{text}[/center]";
+    _powerUpNameLabel.Text = $"[center]{text}[/center]";
+  }
+
+  public void SetMark(string text)
+  {
+    _markLabel.Text = $"[center][i]{text}[/i][/center]";
   }
 }
