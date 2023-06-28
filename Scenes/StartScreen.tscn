@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cyc8gcj463jhp"]
+[gd_scene load_steps=8 format=3 uid="uid://pljg204x71eb"]
 
 [ext_resource type="Script" path="res://Scripts/MenuControllers/StartScreen.cs" id="1_stbcu"]
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_nlhw4"]
