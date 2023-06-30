@@ -34,6 +34,9 @@ public partial class PowerUpPicker : Control
   [GetNode("RerollTextureButton")]
   private TextureButton _rerollButton;
 
+  private Player _loser;
+
+  private Player _winner;
 
   public void SetWinningSide(TeamEnum value)
   {
@@ -62,6 +65,7 @@ public partial class PowerUpPicker : Control
   {
     this.AutoWire();
     _rerollButton.Pressed += () => HandleReroll();
+    PowerUpPickedListeners += EndPowerUpSelection;
   }
 
   public void Reset()
@@ -70,27 +74,32 @@ public partial class PowerUpPicker : Control
     Populate();
   }
 
-  public void ShowPowerUps(Player winningPlayer, Player losingPlayer)
+  public void BeginPowerUpSelection(Player winner, Player loser)
   {
-    SetWinningSide(winningPlayer.Team);
     Visible = true;
+    _winner = winner;
+    _loser = loser;
+    SetWinningSide(winner.Team);
     GrabFocus();
     Clear();
     Populate();
-    winningPlayer.VibrateGamepadWeak(0.25f);
-    losingPlayer.DisableInput();
+    loser.VibrateGamepadWeak(0.25f);
+    winner.DisableInput();
     _rerollButton.Disabled = false;
   }
 
-  public void HidePowerUps()
+  public void EndPowerUpSelection(PowerUps.IPowerUpApplier powerUpApplier)
   {
     Visible = false;
+    powerUpApplier.Apply(_loser, _winner);
+    _winner.EnableInput();
   }
 
   public void HandleReroll()
   {
     Clear();
     Populate();
+    _loser.MaxHealth -= 10;
     _rerollButton.Disabled = true;
   }
 

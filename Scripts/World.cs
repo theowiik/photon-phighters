@@ -240,13 +240,6 @@ public partial class World : Node2D
 
   private void OnPowerUpSelected(PowerUps.IPowerUpApplier powerUpApplier)
   {
-    _powerUpPicker.HidePowerUps();
-
-    var loser = GetLosingPlayer();
-    var winner = GetWinningPlayer();
-    powerUpApplier.Apply(loser, winner);
-    loser.EnableInput();
-
     StartRound();
   }
 
@@ -428,7 +421,7 @@ public partial class World : Node2D
   {
     var loser = GetLosingPlayer();
     var winner = GetWinningPlayer();
-    _powerUpPicker.ShowPowerUps(winner, loser);
+    _powerUpPicker.BeginPowerUpSelection(winner, loser);
   }
 
   private void StartRound()
