@@ -121,39 +121,6 @@ public partial class World : Node2D
     }
   }
 
-  private static string GetRandomDeathMessage()
-  {
-    var deathMessages = new List<string>
-    {
-      "oof",
-      "ouch",
-      "ow",
-      "yikes",
-      "rip",
-      "x_x",
-      "-_-",
-      "T_T",
-      "u_u",
-      "X_X",
-      "@_@",
-      "(X_X)",
-      "[-_-]",
-      "{x_x}",
-      "[T_T]",
-      "{@_@}",
-      "<x_x>",
-      "(.-.)",
-      "[._.]",
-      "<@_@>",
-      "(xOx)",
-      "[x_x]",
-      "<-_->",
-      "{-_-}",
-      "(XoX)"
-    };
-    return deathMessages[GD.RandRange(0, deathMessages.Count - 1)];
-  }
-
   private static void OnOutOfBounds(Player player)
   {
     if (player.Exists)
@@ -209,7 +176,6 @@ public partial class World : Node2D
 
     SpawnRagdoll(player);
     SpawnExplosion(player, oppositeLight, Explosion.ExplosionRadiusEnum.Medium);
-    SpawnHurtIndicator(player, GetRandomDeathMessage());
 
     player.Frozen = true;
     player.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition;
@@ -238,7 +204,7 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, damage.ToString());
   }
 
-  private void OnPowerUpSelected(PowerUps.IPowerUpApplier powerUpApplier)
+  private void OnPowerUpSelected(PowerUps.PowerUps.IPowerUpApplier powerUpApplier)
   {
     StartRound();
   }
@@ -264,7 +230,7 @@ public partial class World : Node2D
   /// <summary>
   ///   Called when a power up is selected for both players
   /// </summary>
-  private void OnPowerUpSelectedBoth(PowerUps.IPowerUpApplier powerUpApplier)
+  private void OnPowerUpSelectedBoth(PowerUps.PowerUps.IPowerUpApplier powerUpApplier)
   {
     powerUpApplier.Apply(_lightPlayer, _darkPlayer);
     powerUpApplier.Apply(_darkPlayer, _lightPlayer);

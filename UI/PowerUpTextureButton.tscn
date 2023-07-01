@@ -16,3 +16,12 @@ offset_bottom = 105.0
 mouse_filter = 1
 bbcode_enabled = true
 text = "[center] powerup text goes here [/center]"
+
+[node name="MarkLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 103.0
+offset_right = 216.0
+offset_bottom = 143.0
+mouse_filter = 1
+bbcode_enabled = true
+text = "[center][i]MRK.X[/i][/center]"
