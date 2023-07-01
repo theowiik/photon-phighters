@@ -31,6 +31,7 @@ public partial class Player : CharacterBody2D
   private Marker2D _gunMarker;
 
   private int _health;
+  private int _maxHealth = 60;
 
   [GetNode("HealthBar")]
   private ProgressBar _healthBar;
@@ -91,7 +92,11 @@ public partial class Player : CharacterBody2D
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
-  public int MaxHealth { get; set; } = 60;
+  public int MaxHealth
+  {
+    get => _maxHealth;
+    set { _maxHealth = Mathf.Max(value, 1); }
+  }
   public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
 
   [GetNode("Movement")]

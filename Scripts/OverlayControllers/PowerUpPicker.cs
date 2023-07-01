@@ -86,7 +86,6 @@ public partial class PowerUpPicker : Control
     Populate();
     loser.VibrateGamepadWeak(0.25f);
     winner.DisableInput();
-    _rerollButton.Disabled = false;
   }
 
   public void EndPowerUpSelection(PowerUps.IPowerUpApplier powerUpApplier)
@@ -101,7 +100,6 @@ public partial class PowerUpPicker : Control
     Clear();
     Populate();
     _loser.MaxHealth -= 10;
-    _rerollButton.Disabled = true;
   }
 
   private void Clear()
@@ -136,7 +134,7 @@ public partial class PowerUpPicker : Control
           {
             if (Input.GetConnectedJoypads().Count > 0)
             {
-            // This ensures that the menu gives feedback to the player when using a controller
+              // This ensures that the menu gives feedback to the player when using a controller
               powerUpButton.TextureFocused = texturePack.BtnTextureHover;
             }
 
