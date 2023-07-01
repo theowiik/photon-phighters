@@ -33,7 +33,7 @@ public static partial class PowerUps
 
     protected static string BuildMarkName(int timesTaken)
     {
-      return $"MRK.{NumberUtil.ToRoman(timesTaken)}";
+      return $"MK.{NumberUtil.ToRoman(timesTaken)}";
     }
   }
 }
