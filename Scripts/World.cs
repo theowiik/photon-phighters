@@ -8,6 +8,7 @@ using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.OverlayControllers;
+using PhotonPhighters.Scripts.Utils;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
@@ -162,11 +163,29 @@ public partial class World : Node2D
 
     return results;
   }
+  
+  private Player Other(Player player)
+  {
+    return player == _lightPlayer ? _darkPlayer : _lightPlayer;
+  }
 
   private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
   {
-    var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
-    SpawnExplosion(which, light, Explosion.ExplosionRadiusEnum.Large);
+    var playerWhoCaptured = team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
+    var otherPlayer = Other(playerWhoCaptured);
+
+    switch (which.Reward)
+    {
+      case CapturePoint.CapturePointReward.Explosion:
+        SpawnExplosion(which, playerWhoCaptured.LightMode, Explosion.ExplosionRadiusEnum.Large);
+        break;
+      case CapturePoint.CapturePointReward.Kill:
+        otherPlayer.TakeDamage(999_999);
+        break;
+    }
+
+    // 
+
     which.QueueFree();
   }
 
