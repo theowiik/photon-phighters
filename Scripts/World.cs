@@ -8,6 +8,7 @@ using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.OverlayControllers;
+using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
@@ -204,7 +205,7 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, damage.ToString());
   }
 
-  private void OnPowerUpSelected(PowerUps.PowerUps.IPowerUpApplier powerUpApplier)
+  private void OnPowerUpSelected(IPowerUpApplier powerUpApplier)
   {
     StartRound();
   }
@@ -230,7 +231,7 @@ public partial class World : Node2D
   /// <summary>
   ///   Called when a power up is selected for both players
   /// </summary>
-  private void OnPowerUpSelectedBoth(PowerUps.PowerUps.IPowerUpApplier powerUpApplier)
+  private void OnPowerUpSelectedBoth(IPowerUpApplier powerUpApplier)
   {
     powerUpApplier.Apply(_lightPlayer, _darkPlayer);
     powerUpApplier.Apply(_darkPlayer, _lightPlayer);

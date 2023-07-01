@@ -12,7 +12,7 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpPicker : Control
 {
-  public delegate void PowerUpPicked(PowerUps.PowerUps.IPowerUpApplier powerUpApplier);
+  public delegate void PowerUpPicked(IPowerUpApplier powerUpApplier);
 
   private static readonly Dictionary<PowerUps.PowerUps.Rarity, (string color, string text)> s_rarityThemes =
     new()
@@ -48,7 +48,7 @@ public partial class PowerUpPicker : Control
   private int _disabledDelay = 2;
 
   private int _timeToChoose = 20;
-  private List<PowerUps.PowerUps.IPowerUpApplier> _availablePowerups = new();
+  private List<IPowerUpApplier> _availablePowerups = new();
   public void SetTheme(TeamEnum value)
   {
     switch (value)
@@ -122,7 +122,7 @@ public partial class PowerUpPicker : Control
     GrabFocus();
   }
 
-  private void EndPowerUpSelection(PowerUps.PowerUps.IPowerUpApplier powerUpApplier)
+  private void EndPowerUpSelection(IPowerUpApplier powerUpApplier)
   {
     Visible = false;
     powerUpApplier.Apply(_loser, _winner);
@@ -186,7 +186,7 @@ public partial class PowerUpPicker : Control
     }
   }
 
-  private static TexturePack GetThemeTextures(PowerUps.PowerUps.IPowerUpApplier powerUp)
+  private static TexturePack GetThemeTextures(IPowerUpApplier powerUp)
   {
     if (!s_rarityThemes.TryGetValue(powerUp.Rarity, out var theme))
     {
