@@ -120,6 +120,7 @@ public partial class Player : CharacterBody2D
       _healthBar.Value = (float)_health / MaxHealth;
     }
   }
+  public Light.LightMode LightMode => PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
   public override void _PhysicsProcess(double delta)
   {
