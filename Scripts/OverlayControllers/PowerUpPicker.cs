@@ -92,14 +92,6 @@ public partial class PowerUpPicker : Control
     SetTheme(losingPlayer.Team == TeamEnum.Light ? TeamEnum.Dark : TeamEnum.Light);
   }
 
-  public override void _Input(InputEvent @event)
-  {
-    if (@event.IsActionPressed("ui_left"))
-    {
-      @event.Dispose();
-    }
-  }
-
   public void BeginPowerUpSelection(Player winner, Player loser)
   {
     _winner = winner;
