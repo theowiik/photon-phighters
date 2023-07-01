@@ -127,6 +127,14 @@ public partial class PowerUpPicker : Control
     Clear();
     Populate(_loser);
     _loser.MaxHealth -= 10;
+
+    // TODO: Make better
+    _rerollButton.Disabled = true;
+    AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(_disabledDelay, () =>
+    {
+      _rerollButton.Disabled = false;
+      _rerollButton.GrabFocus();
+    }));
   }
 
   private void HandleTimerRunOut()

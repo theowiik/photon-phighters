@@ -55,15 +55,6 @@ public static class PowerUpManager
       new BerserkerJuice(),
       new EliasSpecialSauce()
     };
-    
-    
-    PowerUps = new List<IPowerUpApplier>
-    {
-      new NikeAirJordans(),
-      new EliasSpecialSauce(),
-      new BulletRain(),
-      new MiniGun()
-    };
 
     CalculateOdds();
   }
