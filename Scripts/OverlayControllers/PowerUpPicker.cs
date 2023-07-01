@@ -94,10 +94,10 @@ public partial class PowerUpPicker : Control
 
   public override void _Input(InputEvent @event)
   {
-      if (@event.IsActionPressed("ui_left"))
-      {
-          @event.Dispose();
-      }
+    if (@event.IsActionPressed("ui_left"))
+    {
+      @event.Dispose();
+    }
   }
 
   public void BeginPowerUpSelection(Player winner, Player loser)
@@ -108,15 +108,16 @@ public partial class PowerUpPicker : Control
 
     // Reroll button should be disabled at first to avoid mistakenly rerolling
     _rerollButton.Disabled = true;
-    AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(_disabledDelay, () => _rerollButton.Disabled = false));
-    _rerollButton.GrabFocus();
+    AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(_disabledDelay, () =>
+    {
+      _rerollButton.Disabled = false;
+      _rerollButton.GrabFocus();
+    }));
 
     Clear();
     Populate(loser);
 
     loser.VibrateGamepadWeak(0.25f);
-    winner.DisableInput();
-
     _timer.Start(_timeToChoose);
     Visible = true;
     GrabFocus();
@@ -126,7 +127,6 @@ public partial class PowerUpPicker : Control
   {
     Visible = false;
     powerUpApplier.Apply(_loser, _winner);
-    _winner.EnableInput();
     _timer.Stop();
   }
 

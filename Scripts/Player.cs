@@ -268,16 +268,6 @@ public partial class Player : CharacterBody2D
     return connectedGamePads.Count == 2 ? connectedGamePads[PlayerNumber - 1] : 0;
   }
 
-  public void DisableInput()
-  {
-    SetProcessInput(false);
-  }
-
-  public void EnableInput()
-  {
-    SetProcessInput(true);
-  }
-
   public void VibrateGamepadStrong(float seconds)
   {
     Input.StartJoyVibration(_gamepadIndex, 0.25f, 0.25f, seconds);
