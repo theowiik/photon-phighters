@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
@@ -12,34 +12,34 @@ public partial class StartScreen : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
-    GetTree().Paused = false;
+	this.AutoWire();
+	GetTree().Paused = false;
 
-    const string ButtonsRoot = "CanvasLayer/VBoxContainer/";
-    var startButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "StartButton");
-    var quitButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "QuitButton");
-    _roundTimeLineEdit = this.GetNodeOrExplode<SpinBox>(ButtonsRoot + "RoundTimeSpinBox");
-    _roundsToWinLineEdit = this.GetNodeOrExplode<SpinBox>(ButtonsRoot + "RoundsToWinSpinBox");
+	const string ButtonsRoot = "CanvasLayer/VBoxContainer/";
+	var startButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "StartButton");
+	var quitButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "QuitButton");
+	_roundTimeLineEdit = this.GetNodeOrExplode<SpinBox>(ButtonsRoot + "RoundTimeSpinBox");
+	_roundsToWinLineEdit = this.GetNodeOrExplode<SpinBox>(ButtonsRoot + "RoundsToWinSpinBox");
 
-    startButton.Pressed += StartGame;
-    quitButton.Pressed += QuitGame;
+	startButton.Pressed += StartGame;
+	quitButton.Pressed += QuitGame;
 
-    startButton.GrabFocus();
+	startButton.GrabFocus();
   }
 
   private void QuitGame()
   {
-    GetTree().Quit();
+	GetTree().Quit();
   }
 
   private void StartGame()
   {
-    var roundTime = _roundTimeLineEdit.Value;
-    var roundsToWin = _roundsToWinLineEdit.Value;
+	var roundTime = _roundTimeLineEdit.Value;
+	var roundsToWin = _roundsToWinLineEdit.Value;
 
-    GlobalGameState.RoundTime = (int)roundTime;
-    GlobalGameState.RoundsToWin = (int)roundsToWin;
+	GlobalGameState.RoundTime = (int)roundTime;
+	GlobalGameState.RoundsToWin = (int)roundsToWin;
 
-    GetTree().ChangeSceneToFile(SceneResourceWrapper.WorldPath);
+	GetTree().ChangeSceneToFile(SceneResourceWrapper.WorldPath);
   }
 }

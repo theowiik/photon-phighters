@@ -81,6 +81,7 @@ public partial class PowerUpPicker : Control
     _loser = loser;
     SetWinningSide(winner.Team);
     GrabFocus();
+    _rerollButton.GrabFocus();
     Clear();
     Populate();
     loser.VibrateGamepadWeak(0.25f);
@@ -124,6 +125,7 @@ public partial class PowerUpPicker : Control
       powerUpButton.TextureHover = texturePack.BtnTextureHover;
       powerUpButton.TextureDisabled = texturePack.BtnTextureDisabled;
       powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
+      powerUpButton.GrabFocus();
 
       // Disable at first
       powerUpButton.Disabled = true;
