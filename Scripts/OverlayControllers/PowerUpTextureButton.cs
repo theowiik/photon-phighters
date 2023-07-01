@@ -32,6 +32,7 @@ public partial class PowerUpTextureButton : TextureButton
 
   public void SetMark(string text)
   {
+    GD.Print("hello_" + text);
     _markLabel.Text = $"[center][i]{text}[/i][/center]";
   }
 }

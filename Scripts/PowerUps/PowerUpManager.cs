@@ -25,6 +25,7 @@ public static class PowerUpManager
       new PhotonBoost(),
       new HealthBoost(),
       new BunnyBoost(),
+      new MiniGun(),
       new PhotonMultiplier(),
       new PhotonEnlarger(),
       new PhotonAccelerator(),
@@ -53,6 +54,15 @@ public static class PowerUpManager
       new SketchyPillsBad(),
       new BerserkerJuice(),
       new EliasSpecialSauce()
+    };
+    
+    
+    PowerUps = new List<IPowerUpApplier>
+    {
+      new NikeAirJordans(),
+      new EliasSpecialSauce(),
+      new BulletRain(),
+      new MiniGun()
     };
 
     CalculateOdds();

@@ -11,7 +11,7 @@ public static partial class PowerUps
 
     public override Rarity Rarity => Rarity.Rare;
 
-    public virtual string GetMarkName(Player player)
+    public override string GetMarkName(Player player)
     {
       var times = TimesTakenBy(player);
 

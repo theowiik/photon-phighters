@@ -10,7 +10,7 @@ public static partial class PowerUps
     public override string Name => "Air Walker";
     public override Rarity Rarity => Rarity.Common;
 
-    public virtual string GetMarkName(Player player)
+    public override string GetMarkName(Player player)
     {
       var times = TimesTakenBy(player);
 
