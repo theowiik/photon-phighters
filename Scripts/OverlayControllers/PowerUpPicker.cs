@@ -34,10 +34,20 @@ public partial class PowerUpPicker : Control
   [GetNode("RerollTextureButton")]
   private TextureButton _rerollButton;
 
+  [GetNode("TimerLabel")]
+  private Label _timerLabel;
+
+  [GetNode("Timer")]
+  private Timer _timer;
+
   private Player _loser;
 
   private Player _winner;
 
+  private int _disabledDelay = 2;
+
+  private int _timeToChoose = 10;
+  private List<PowerUps.IPowerUpApplier> _availablePowerups = new();
   public void SetWinningSide(TeamEnum value)
   {
     switch (value)
@@ -66,6 +76,12 @@ public partial class PowerUpPicker : Control
     this.AutoWire();
     _rerollButton.Pressed += () => HandleReroll();
     PowerUpPickedListeners += EndPowerUpSelection;
+    _timer.Timeout += HandleTimerRunOut;
+  }
+
+  public override void _Process(double delta)
+  {
+    _timerLabel.Text = string.Format("Time left to choose: {0}", _timer.TimeLeft.ToString("0.0"));
   }
 
   public void Reset()
@@ -76,16 +92,24 @@ public partial class PowerUpPicker : Control
 
   public void BeginPowerUpSelection(Player winner, Player loser)
   {
-    Visible = true;
     _winner = winner;
     _loser = loser;
     SetWinningSide(winner.Team);
-    GrabFocus();
+
+    // Reroll button should be disabled at first to avoid mistakenly rerolling
+    _rerollButton.Disabled = true;
+    AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(_disabledDelay, () => _rerollButton.Disabled = false));
     _rerollButton.GrabFocus();
+
     Clear();
     Populate();
+
     loser.VibrateGamepadWeak(0.25f);
     winner.DisableInput();
+
+    _timer.Start(_timeToChoose);
+    Visible = true;
+    GrabFocus();
   }
 
   public void EndPowerUpSelection(PowerUps.IPowerUpApplier powerUpApplier)
@@ -93,6 +117,7 @@ public partial class PowerUpPicker : Control
     Visible = false;
     powerUpApplier.Apply(_loser, _winner);
     _winner.EnableInput();
+    _timer.Stop();
   }
 
   public void HandleReroll()
@@ -100,6 +125,14 @@ public partial class PowerUpPicker : Control
     Clear();
     Populate();
     _loser.MaxHealth -= 10;
+  }
+
+  public void HandleTimerRunOut()
+  {
+    var random = new Random();
+    var index = random.Next(_availablePowerups.Count);
+    var powerUp = _availablePowerups[index];
+    PowerUpPickedListeners?.Invoke(powerUp);
   }
 
   private void Clear()
@@ -114,6 +147,9 @@ public partial class PowerUpPicker : Control
   {
     foreach (var powerUp in PowerUpManager.GetUniquePowerUps(4))
     {
+      // Store the available PowerUps to pick one in case the timer runs out
+      _availablePowerups.Add(powerUp);
+
       var powerUpButton = GsInstanter.Instantiate<PowerUpTextureButton>();
       _gridContainer.AddChild(powerUpButton);
       var texturePack = GetThemeTextures(powerUp);
@@ -123,21 +159,15 @@ public partial class PowerUpPicker : Control
       powerUpButton.TextureHover = texturePack.BtnTextureHover;
       powerUpButton.TextureDisabled = texturePack.BtnTextureDisabled;
       powerUpButton.Pressed += () => PowerUpPickedListeners?.Invoke(powerUp);
-      powerUpButton.GrabFocus();
 
       // Disable at first
       powerUpButton.Disabled = true;
       AddChild(
         GsTimerFactory.OneShotSelfDestructingStartedTimer(
-          2,
+          _disabledDelay,
           () =>
           {
-            if (Input.GetConnectedJoypads().Count > 0)
-            {
-              // This ensures that the menu gives feedback to the player when using a controller
-              powerUpButton.TextureFocused = texturePack.BtnTextureHover;
-            }
-
+            powerUpButton.TextureFocused = texturePack.BtnTextureHover;
             powerUpButton.Disabled = false;
           }
         )

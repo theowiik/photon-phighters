@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpPicker.cs" id="1_2nnk8"]
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_4bdkx"]
 [ext_resource type="PackedScene" uid="uid://bvqsava8yffpg" path="res://UI/PowerUpTextureButton.tscn" id="3_jf14l"]
-[ext_resource type="PackedScene" path="res://UI/RerollTextureButton.tscn" id="4_2mnl0"]
+[ext_resource type="PackedScene" uid="uid://d10pj1vq0sxps" path="res://UI/RerollTextureButton.tscn" id="4_2mnl0"]
 
 [node name="PowerUpPicker" type="Control"]
 layout_mode = 3
@@ -78,3 +78,22 @@ offset_left = -109.44
 offset_top = -71.72
 offset_right = 106.56
 offset_bottom = 72.28
+
+[node name="TimerLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.194
+anchor_right = 0.5
+anchor_bottom = 0.194
+offset_left = -278.0
+offset_top = -21.68
+offset_right = 280.0
+offset_bottom = 25.32
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("2_4bdkx")
+text = "round timer"
+horizontal_alignment = 1
+
+[node name="Timer" type="Timer" parent="."]
