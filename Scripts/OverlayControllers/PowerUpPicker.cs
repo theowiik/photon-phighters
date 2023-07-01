@@ -46,7 +46,7 @@ public partial class PowerUpPicker : Control
 
   private int _disabledDelay = 2;
 
-  private int _timeToChoose = 10;
+  private int _timeToChoose = 20;
   private List<PowerUps.IPowerUpApplier> _availablePowerups = new();
   public void SetWinningSide(TeamEnum value)
   {
@@ -81,13 +81,21 @@ public partial class PowerUpPicker : Control
 
   public override void _Process(double delta)
   {
-    _timerLabel.Text = string.Format("Time left to choose: {0}", _timer.TimeLeft.ToString("0.0"));
+    _timerLabel.Text = string.Format("Time left: {0}", _timer.TimeLeft.ToString("0.0"));
   }
 
   public void Reset()
   {
     Clear();
     Populate();
+  }
+
+  public override void _Input(InputEvent @event)
+  {
+      if (@event.IsActionPressed("ui_left"))
+      {
+          @event.Dispose();
+      }
   }
 
   public void BeginPowerUpSelection(Player winner, Player loser)
@@ -112,7 +120,7 @@ public partial class PowerUpPicker : Control
     GrabFocus();
   }
 
-  public void EndPowerUpSelection(PowerUps.IPowerUpApplier powerUpApplier)
+  private void EndPowerUpSelection(PowerUps.IPowerUpApplier powerUpApplier)
   {
     Visible = false;
     powerUpApplier.Apply(_loser, _winner);
@@ -120,14 +128,14 @@ public partial class PowerUpPicker : Control
     _timer.Stop();
   }
 
-  public void HandleReroll()
+  private void HandleReroll()
   {
     Clear();
     Populate();
     _loser.MaxHealth -= 10;
   }
 
-  public void HandleTimerRunOut()
+  private void HandleTimerRunOut()
   {
     var random = new Random();
     var index = random.Next(_availablePowerups.Count);

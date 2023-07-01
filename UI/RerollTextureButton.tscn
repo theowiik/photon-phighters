@@ -8,6 +8,7 @@
 texture_normal = ExtResource("1_lastg")
 texture_hover = ExtResource("2_251q3")
 texture_disabled = ExtResource("3_2qxvu")
+texture_focused = ExtResource("2_251q3")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
 layout_mode = 0
