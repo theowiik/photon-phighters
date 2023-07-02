@@ -17,9 +17,9 @@ public partial class CapturePoint : Node2D
     Explosion,
     Kill
   }
-  
+
   public CapturePointReward Reward { get; private set; }
-  
+
   public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
 
   private const float TimeToCapture = 6f;
@@ -44,7 +44,7 @@ public partial class CapturePoint : Node2D
 
   [GetNode("ProgressBar")]
   private ProgressBar _progressBar;
-  
+
   [GetNode("RewardLabel")]
   private Label _rewardLabel;
 

@@ -84,7 +84,7 @@ public partial class World : Node2D
     _pauseOverlay.ResumeGame += TogglePause;
     _pauseOverlay.PowerUpPickedListeners += OnPowerUpSelectedBoth;
     _powerUpPicker.Visible = false;
-    _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
+    _powerUpPicker.PowerUpSelectionEndedListeners += OnPowerUpSelected;
 
     // Setup map
     _mapManager.OutOfBoundsEventListeners += OnOutOfBounds;
@@ -184,7 +184,7 @@ public partial class World : Node2D
         break;
     }
 
-    // 
+    //
 
     which.QueueFree();
   }
@@ -223,7 +223,7 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, damage.ToString());
   }
 
-  private void OnPowerUpSelected(IPowerUpApplier powerUpApplier)
+  private void OnPowerUpSelected()
   {
     StartRound();
   }
