@@ -16,9 +16,7 @@ public partial class World : Node2D
 {
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
-
   private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(ObjectResourceWrapper.DarkRagdollPath);
-
   private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(ObjectResourceWrapper.LightRagdollPath);
 
   [GetNode("FollowingCamera")]
@@ -52,13 +50,11 @@ public partial class World : Node2D
   [GetNode("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
 
-  private int _roundsToWin = 10;
-  private int _roundTime = 40;
-
   [GetNode("RoundTimer")]
   private Timer _roundTimer;
 
   private Score _score;
+  private readonly RoundState _roundState = new();
 
   public override void _Ready()
   {
@@ -67,12 +63,12 @@ public partial class World : Node2D
 
     if (GlobalGameState.RoundTime > 0)
     {
-      _roundTime = GlobalGameState.RoundTime;
+      _roundState.RoundTime = GlobalGameState.RoundTime;
     }
 
     if (GlobalGameState.RoundsToWin > 0)
     {
-      _roundsToWin = GlobalGameState.RoundsToWin;
+      _roundState.RoundsToWin = GlobalGameState.RoundsToWin;
     }
 
     // UI
@@ -129,38 +125,20 @@ public partial class World : Node2D
     }
   }
 
-  private Results GetResults()
+  private Score GetResults()
   {
-    var lights = GetTree().GetNodesInGroup("lights");
-    var results = new Results();
-
-    foreach (var light in lights)
+    return GlobalGameState.GameMode switch
     {
-      if (light is not Light lightNode)
+      GlobalGameState.GameModes.PhotonPhight => LightUtils.CountScore(GetTree().GetNodesInGroup("lights").Cast<Light>()),
+      GlobalGameState.GameModes.Deathmatch => new Score
       {
-        throw new NodeNotFoundException("Light node is not a Light!!");
-      }
-
-      switch (lightNode.LightState)
-      {
-        case Light.LightMode.Light:
-          results.Light++;
-          break;
-
-        case Light.LightMode.Dark:
-          results.Dark++;
-          break;
-
-        case Light.LightMode.None:
-          results.Neutral++;
-          break;
-
-        default:
-          throw new ArgumentOutOfRangeException(nameof(lightNode), "Light state is not a valid state");
-      }
-    }
-
-    return results;
+        Light = _roundState.DarkDeaths,
+        Dark = _roundState.LightDeaths,
+        Ties = 0
+      },
+      GlobalGameState.GameModes.PowerUpPhrenzy => throw new NotImplementedException(),
+      _ => throw new ArgumentOutOfRangeException(),
+    };
   }
 
   private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
@@ -172,6 +150,7 @@ public partial class World : Node2D
 
   private void OnPlayerDied(Player player)
   {
+    _roundState.IncrementDeathForTeam(player.Team);
     var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
 
     SpawnRagdoll(player);
@@ -265,7 +244,7 @@ public partial class World : Node2D
     }
 
     _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
-    if (_score.Dark >= _roundsToWin || _score.Light >= _roundsToWin)
+    if (_score.Dark >= _roundState.RoundsToWin || _score.Light >= _roundState.RoundsToWin)
     {
       GetTree()
         .ChangeSceneToFile(
@@ -275,7 +254,7 @@ public partial class World : Node2D
         );
     }
 
-    _musicPlayer.SetPitch(_score.Light, _score.Dark, _roundsToWin);
+    _musicPlayer.SetPitch(_score.Light, _score.Dark, _roundState.RoundsToWin);
     StartPowerUpSelection();
   }
 
@@ -381,6 +360,7 @@ public partial class World : Node2D
 
   private void StartRound()
   {
+    _roundState.Reset();
     _mapManager.InitNextMap();
     ResetLights();
 
@@ -396,7 +376,7 @@ public partial class World : Node2D
     // TODO: Hack to ensure players are moved before activating the map
     AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
     // _mapManager.StartNextMap(); // <- Should be done similar to this
-    _roundTimer.Start(_roundTime);
+    _roundTimer.Start(_roundState.RoundTime);
   }
 
   private void TogglePause()
@@ -413,77 +393,16 @@ public partial class World : Node2D
 
   private void UpdateScore()
   {
-    var results = GetResults();
-
-    if (results is { Light: 0, Dark: 0 })
+    switch (GlobalGameState.GameMode)
     {
-      return;
-    }
-
-    _overlay.SetRoundScore(results);
-  }
-
-  public struct Results : IEquatable<Results>
-  {
-    public int Dark { get; set; }
-    public int Light { get; set; }
-    public int Neutral { get; set; }
-
-    public bool Equals(Results other)
-    {
-      return Dark == other.Dark && Light == other.Light && Neutral == other.Neutral;
-    }
-
-    public override bool Equals(object obj)
-    {
-      return obj is Results other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(Dark, Light, Neutral);
-    }
-
-    public static bool operator ==(Results left, Results right)
-    {
-      return left.Equals(right);
-    }
-
-    public static bool operator !=(Results left, Results right)
-    {
-      return !left.Equals(right);
-    }
-  }
-
-  private struct Score : IEquatable<Score>
-  {
-    public int Dark { get; set; }
-    public int Light { get; set; }
-    public int Ties { get; set; }
-
-    public bool Equals(Score other)
-    {
-      return Dark == other.Dark && Light == other.Light && Ties == other.Ties;
-    }
-
-    public override bool Equals(object obj)
-    {
-      return obj is Score other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(Dark, Light, Ties);
-    }
-
-    public static bool operator ==(Score left, Score right)
-    {
-      return left.Equals(right);
-    }
-
-    public static bool operator !=(Score left, Score right)
-    {
-      return !left.Equals(right);
+      case GlobalGameState.GameModes.PhotonPhight:
+      case GlobalGameState.GameModes.Deathmatch:
+        _overlay.SetRoundScore(GetResults());
+        break;
+      case GlobalGameState.GameModes.PowerUpPhrenzy:
+        throw new NotSupportedException("PowerUpPhrenzy not supported yet");
+      default:
+        throw new ArgumentOutOfRangeException();
     }
   }
 }

@@ -55,7 +55,8 @@ public partial class MapManager : Node2D
       }
     };
 
-    PlaceLights();
+    if (GlobalGameState.GameMode != GlobalGameState.GameModes.Deathmatch)
+      PlaceLights();
   }
 
   /// <summary>

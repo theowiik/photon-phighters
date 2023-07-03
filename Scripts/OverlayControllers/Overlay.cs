@@ -22,7 +22,7 @@ public partial class Overlay : Control
   [GetNode("VBox/TotalScoreLabel")]
   private Label _totalScoreLabel;
 
-  public void SetRoundScore(Results value)
+  public void SetRoundScore(Score value)
   {
     var pLight = value.Light / (float)(value.Light + value.Dark);
     _roundScoreBar.Value = pLight;
