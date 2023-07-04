@@ -22,6 +22,14 @@ public partial class PlayerEffectsDelegate : Node2D
     ObjectResourceWrapper.JumpParticlesPath
   );
 
+  private readonly PackedScene _curseEffectParticlesScene = ResourceLoader.Load<PackedScene>(
+    ObjectResourceWrapper.CurseEffectParticlesPath
+  );
+
+  private readonly PackedScene _powerUpEffectParticlesScene = ResourceLoader.Load<PackedScene>(
+    ObjectResourceWrapper.PowerUpEffectParticlesPath
+  );
+
   [GetNode("AnimationPlayer")]
   private AnimationPlayer _animationPlayer;
 
@@ -135,5 +143,13 @@ public partial class PlayerEffectsDelegate : Node2D
   private void HurtTimerOnTimeout()
   {
     PlayerSprite.Modulate = Colors.White;
+  }
+
+  public void DisplayPowerUpEffect(PowerUps.PowerUps.IPowerUpApplier powerUp)
+  {
+    var instance = powerUp.IsCurse
+      ? GenerateParticles(_curseEffectParticlesScene)
+      : GenerateParticles(_powerUpEffectParticlesScene);
+    PlayerEffectAddedListeners?.Invoke(instance);
   }
 }

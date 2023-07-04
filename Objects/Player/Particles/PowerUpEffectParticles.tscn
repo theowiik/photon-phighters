@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://b7amrolxnquoa"]
+
+[node name="PowerUpEffectsParticles" type="CPUParticles2D"]
+emitting = false
+amount = 1397
+one_shot = true
+spread = 180.0
+initial_velocity_min = 706.12
+initial_velocity_max = 771.43
+color = Color(1, 0.223529, 0.345098, 1)

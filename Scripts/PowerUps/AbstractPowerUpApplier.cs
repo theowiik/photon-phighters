@@ -24,6 +24,11 @@ public static partial class PowerUps
     {
       _Apply(playerWhoSelected, otherPlayer);
       _haveTaken.Add(playerWhoSelected);
+
+      if (IsCurse)
+        otherPlayer.EffectsDelegate.DisplayPowerUpEffect(this);
+      else
+        playerWhoSelected.EffectsDelegate.DisplayPowerUpEffect(this);
     }
 
     public abstract bool IsCurse { get; }
