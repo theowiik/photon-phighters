@@ -11,5 +11,6 @@ public static partial class PowerUps
     Rarity Rarity { get; }
     string GetMarkName(Player player);
     void Apply(Player playerWhoSelected, Player otherPlayer);
+    bool IsCurse { get; }
   }
 }

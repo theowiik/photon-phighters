@@ -10,6 +10,7 @@ public static partial class PowerUps
     // Photons move toward the other player
     public override string Name => "Simple Trigonometry";
     public override Rarity Rarity => Rarity.Rare;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

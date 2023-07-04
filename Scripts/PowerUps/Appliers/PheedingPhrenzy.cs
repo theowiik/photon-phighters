@@ -11,6 +11,7 @@ public static partial class PowerUps
     // Hurting the opponent grows your photons
     public override string Name => "Pheeding Phrenzy";
     public override Rarity Rarity => Rarity.Legendary;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

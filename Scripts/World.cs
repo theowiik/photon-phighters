@@ -4,6 +4,7 @@ using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
+using PhotonPhighters.Scripts.GameMode;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
@@ -55,6 +56,7 @@ public partial class World : Node2D
 
   private Score _score;
   private readonly RoundState _roundState = new();
+  private readonly PowerUpPhrenzyDelegate _powerUpPhrenzyDelegate = new();
 
   public override void _Ready()
   {
@@ -360,6 +362,9 @@ public partial class World : Node2D
 
   private void StartRound()
   {
+    if (GlobalGameState.GameMode == GlobalGameState.GameModes.PowerUpPhrenzy)
+      _powerUpPhrenzyDelegate.ApplyPowerUp(_lightPlayer, _darkPlayer);
+    
     _roundState.Reset();
     _mapManager.InitNextMap();
     ResetLights();

@@ -11,6 +11,7 @@ public static partial class PowerUps
     // The opponent's movement is reversed
     public override string Name => "Photon Reversifier Curse";
     public override Rarity Rarity => Rarity.Epic;
+    public override bool IsCurse => true;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

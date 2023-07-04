@@ -9,6 +9,7 @@ public static partial class PowerUps
     // Messes with the opponents movement
     public override string Name => "Fake Jordans";
     public override Rarity Rarity => Rarity.Rare;
+    public override bool IsCurse => true;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

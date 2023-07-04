@@ -8,6 +8,7 @@ public static partial class PowerUps
   {
     public override string Name => "Bunny Boost";
     public override Rarity Rarity => Rarity.Common;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

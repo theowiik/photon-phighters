@@ -11,6 +11,7 @@ public static partial class PowerUps
     // Photons briefly freeze the opponent
     public override string Name => "Chronostasis";
     public override Rarity Rarity => Rarity.Epic;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

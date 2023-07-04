@@ -10,6 +10,7 @@ public static partial class PowerUps
     // When below 50% HP, grants bonus stats
     public override string Name => "Berserker Juice";
     public override Rarity Rarity => Rarity.Epic;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

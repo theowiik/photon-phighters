@@ -8,6 +8,7 @@ public static partial class PowerUps
   {
     public override string Name => "Steel Boots Curse";
     public override Rarity Rarity => Rarity.Rare;
+    public override bool IsCurse => true;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

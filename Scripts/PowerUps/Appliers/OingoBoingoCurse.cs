@@ -11,6 +11,7 @@ public static partial class PowerUps
     // Opponent is always bouncing
     public override string Name => "Oingo Boingo Curse";
     public override Rarity Rarity => Rarity.Rare;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

@@ -253,4 +253,9 @@ public partial class Player : CharacterBody2D
     ApplyBulletKnockback(bullet);
     bullet.QueueFree();
   }
+
+  public void DisplayPowerUpEffect(PowerUps.PowerUps.IPowerUpApplier powerUp)
+  {
+    
+  }
 }
