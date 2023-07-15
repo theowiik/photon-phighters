@@ -9,7 +9,7 @@ public static class GlobalGameState
 {
   public static int RoundsToWin { get; set; } = -1;
   public static int RoundTime { get; set; } = -1;
-  public static GameModes GameMode { get; set; } = GameModes.Deathmatch;
+  public static GameModes GameMode { get; set; } = GameModes.PhotonPhight;
 
   public enum GameModes
   {

@@ -171,6 +171,9 @@ libraries = {
 "": SubResource("AnimationLibrary_rbon5")
 }
 
+[node name="PowerUpsPickedPlayer" type="AudioStreamPlayer2D" parent="PlayerEffectsDelegate"]
+volume_db = 10.843
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_k4h85")
 

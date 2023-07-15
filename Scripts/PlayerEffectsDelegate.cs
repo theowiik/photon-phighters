@@ -1,4 +1,5 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
@@ -50,6 +51,9 @@ public partial class PlayerEffectsDelegate : Node2D
 
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
+
+  [GetNode("PowerUpsPickedPlayer")]
+  private AudioStreamPlayer2D _powerUpsPickedPlayer;
 
   public PlayerEffectPerformed PlayerEffectAddedListeners { get; set; }
 
@@ -150,6 +154,28 @@ public partial class PlayerEffectsDelegate : Node2D
     var instance = powerUp.IsCurse
       ? GenerateParticles(_curseEffectParticlesScene)
       : GenerateParticles(_powerUpEffectParticlesScene);
+
     PlayerEffectAddedListeners?.Invoke(instance);
+
+    _powerUpsPickedPlayer.Stream = GetPowerUpNameAudioStream(powerUp);
+    _powerUpsPickedPlayer.Play();
+  }
+
+  private static AudioStream GetPowerUpNameAudioStream(PowerUps.PowerUps.IPowerUpApplier powerUp)
+  {
+    var fileName = StringUtil.ToSnakeCase(powerUp.GetType().Name);
+    var powerUpNamePath = $"{FilesResourceWrapper.PowerUpNamesFolder}{fileName}.mp3";
+
+    try
+    {
+      if (GD.RandRange(0, 2) <= 0.2)
+        throw new Exception();
+
+      return GD.Load<AudioStream>(powerUpNamePath);
+    }
+    catch (Exception)
+    {
+      return null;
+    }
   }
 }
