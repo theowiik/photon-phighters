@@ -24,7 +24,7 @@ for filename in os.listdir(dir_path):
     if filename.endswith('.mp3'):
         # Load the mp3 file
         y, sr = librosa.load(dir_path + filename, sr=None)
-        
+
         # Slow down the audio by a factor of 0.9
         y_slow = librosa.effects.time_stretch(0.5)
 

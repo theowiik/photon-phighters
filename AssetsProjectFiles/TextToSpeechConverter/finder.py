@@ -45,7 +45,7 @@ else:
         output_directory = current_directory / 'output'
         output_directory.mkdir(exist_ok=True)
         output_file = output_directory / 'powerups.txt'
-        
+
         # Open the file in write mode
         with output_file.open('w') as f:
             # Print out the .cs files' names (without .cs extension)
