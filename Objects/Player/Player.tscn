@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://cmxhv53no4cy5"]
+[gd_scene load_steps=21 format=3 uid="uid://cmxhv53no4cy5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="PackedScene" uid="uid://dpatm74iofg13" path="res://Objects/Player/Gun.tscn" id="3_g1rr3"]
@@ -7,6 +7,7 @@
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Assets/Sfx/PlayerEffects/jump-sfx.wav" id="5_iig84"]
 [ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Assets/Sfx/PlayerEffects/death.wav" id="6_km5ul"]
 [ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Assets/Sfx/PlayerEffects/damage2.wav" id="8_k35ro"]
+[ext_resource type="AudioStream" uid="uid://cn0lmxy5j65ho" path="res://Assets/Sfx/PowerUpNames/elias_special_sauce.mp3" id="8_uvxot"]
 [ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/Sprites/pp_spritesheet.png" id="8_v52hp"]
 [ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Assets/Sfx/PlayerEffects/fall-death.wav" id="9_jshgc"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovementDelegate.cs" id="10_ueqen"]
@@ -172,7 +173,9 @@ libraries = {
 }
 
 [node name="PowerUpsPickedPlayer" type="AudioStreamPlayer2D" parent="PlayerEffectsDelegate"]
-volume_db = 10.843
+stream = ExtResource("8_uvxot")
+volume_db = 11.0
+pitch_scale = 0.8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_k4h85")

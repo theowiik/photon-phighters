@@ -154,8 +154,7 @@ public partial class PlayerEffectsDelegate : Node2D
     var instance = powerUp.IsCurse
       ? GenerateParticles(_curseEffectParticlesScene)
       : GenerateParticles(_powerUpEffectParticlesScene);
-
-    PlayerEffectAddedListeners?.Invoke(instance);
+    AddChild(instance);
 
     _powerUpsPickedPlayer.Stream = GetPowerUpNameAudioStream(powerUp);
     _powerUpsPickedPlayer.Play();

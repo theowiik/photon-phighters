@@ -1,10 +1,21 @@
-[gd_scene format=3 uid="uid://b7amrolxnquoa"]
+[gd_scene load_steps=2 format=3 uid="uid://b7amrolxnquoa"]
+
+[ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="1_s1ie7"]
 
 [node name="PowerUpEffectsParticles" type="CPUParticles2D"]
 emitting = false
-amount = 1397
+amount = 100
+lifetime = 3.0
 one_shot = true
+explosiveness = 0.52
 spread = 180.0
-initial_velocity_min = 706.12
-initial_velocity_max = 771.43
-color = Color(1, 0.223529, 0.345098, 1)
+gravity = Vector2(0, -100)
+initial_velocity_min = 68.44
+initial_velocity_max = 101.01
+scale_amount_min = 2.0
+scale_amount_max = 4.0
+color = Color(0.721569, 0.403922, 0.905882, 1)
+
+[node name="ScaleReference" parent="." instance=ExtResource("1_s1ie7")]
+visible = false
+position = Vector2(-64, -131)
