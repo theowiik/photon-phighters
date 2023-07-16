@@ -364,7 +364,7 @@ public partial class World : Node2D
   {
     if (GlobalGameState.GameMode == GlobalGameState.GameModes.PowerUpPhrenzy)
       _powerUpPhrenzyDelegate.ApplyPowerUp(_lightPlayer, _darkPlayer);
-    
+
     _roundState.Reset();
     _mapManager.InitNextMap();
     ResetLights();

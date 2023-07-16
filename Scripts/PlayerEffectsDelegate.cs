@@ -2,6 +2,7 @@
 using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
@@ -155,6 +156,11 @@ public partial class PlayerEffectsDelegate : Node2D
       ? GenerateParticles(_curseEffectParticlesScene)
       : GenerateParticles(_powerUpEffectParticlesScene);
     AddChild(instance);
+
+    var label = GsInstanter.Instantiate<FloatingText>();
+    AddChild(label);
+    label.Position -= new Vector2(0, 30);
+    label.SetText(powerUp.Name);
 
     _powerUpsPickedPlayer.Stream = GetPowerUpNameAudioStream(powerUp);
     _powerUpsPickedPlayer.Play();
