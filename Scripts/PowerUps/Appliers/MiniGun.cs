@@ -1,5 +1,4 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 using static PhotonPhighters.Scripts.PowerUps.PowerUps;
 
 namespace PhotonPhighters.Scripts.PowerUps.Appliers;

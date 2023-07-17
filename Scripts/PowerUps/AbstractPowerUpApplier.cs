@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Utils;
@@ -26,9 +25,13 @@ public static partial class PowerUps
       _haveTaken.Add(playerWhoSelected);
 
       if (IsCurse)
+      {
         otherPlayer.EffectsDelegate.DisplayPowerUpEffect(this);
+      }
       else
+      {
         playerWhoSelected.EffectsDelegate.DisplayPowerUpEffect(this);
+      }
     }
 
     public abstract bool IsCurse { get; }

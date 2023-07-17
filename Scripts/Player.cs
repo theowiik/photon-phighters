@@ -38,11 +38,11 @@ public partial class Player : CharacterBody2D
 
   private int _maxHealth = 60;
 
-  [GetNode("PlayerEffectsDelegate")]
-  public PlayerEffectsDelegate EffectsDelegate { get; private set; }
-
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
+
+  [GetNode("PlayerEffectsDelegate")]
+  public PlayerEffectsDelegate EffectsDelegate { get; private set; }
 
   private bool CanTakeDamage
   {

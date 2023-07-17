@@ -21,15 +21,16 @@ public partial class CapturePoint : Node2D
   }
 
   private const float TimeToCapture = 6f;
-  private readonly ICollection<Player> _playersInside = new List<Player>();
-
-  private bool _captured;
 
   private readonly ISet<CapturePointReward> _capturePointRewards = new HashSet<CapturePointReward>
   {
     CapturePointReward.Explosion,
     CapturePointReward.Kill
   };
+
+  private readonly ICollection<Player> _playersInside = new List<Player>();
+
+  private bool _captured;
 
   /// <summary>
   ///   Light should reach +TimeToCapture.

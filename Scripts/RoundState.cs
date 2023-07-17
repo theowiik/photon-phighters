@@ -18,8 +18,12 @@ public sealed class RoundState
   public void IncrementDeathForTeam(TeamEnum team)
   {
     if (team == TeamEnum.Light)
+    {
       LightDeaths++;
+    }
     else
+    {
       DarkDeaths++;
+    }
   }
 }

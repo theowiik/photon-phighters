@@ -1,5 +1,4 @@
-﻿using System;
-using static PhotonPhighters.Scripts.PowerUps.PowerUps;
+﻿using static PhotonPhighters.Scripts.PowerUps.PowerUps;
 
 namespace PhotonPhighters.Scripts.PowerUps.Appliers;
 

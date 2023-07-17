@@ -29,6 +29,8 @@ public partial class World : Node2D
   [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
 
+  private readonly IGameMode _gameMode = new PowerUpPhrenzy();
+
   private Player _lastPlayerToScore;
   public Player _lightPlayer;
 
@@ -57,7 +59,6 @@ public partial class World : Node2D
 
   private Score _score;
   public RoundState RoundState { get; } = new();
-  private IGameMode _gameMode = new PowerUpPhrenzy();
 
   public override void _Ready()
   {

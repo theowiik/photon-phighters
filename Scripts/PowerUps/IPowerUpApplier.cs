@@ -7,7 +7,7 @@ public interface IPowerUpApplier
 {
   string Name { get; }
   PowerUps.Rarity Rarity { get; }
+  bool IsCurse { get; }
   string GetMarkName(Player player);
   void Apply(Player playerWhoSelected, Player otherPlayer);
-  bool IsCurse { get; }
 }

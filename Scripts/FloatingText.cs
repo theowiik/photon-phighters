@@ -10,10 +10,11 @@ public partial class FloatingText : Node2D
 {
   private const float ExistsTime = 3f;
   private const float MovementSpeed = 23f;
-  private Timer _timer;
 
   [GetNode("Label")]
   private Label _label;
+
+  private Timer _timer;
 
   public override void _Ready()
   {

@@ -15,6 +15,11 @@ public partial class PlayerEffectsDelegate : Node2D
   private const string JumpAnimation = "jump";
   private const string LandAnimation = "land";
   private const string RunAnimation = "run";
+
+  private readonly PackedScene _curseEffectParticlesScene = ResourceLoader.Load<PackedScene>(
+    ObjectResourceWrapper.CurseEffectParticlesPath
+  );
+
   private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
@@ -23,10 +28,6 @@ public partial class PlayerEffectsDelegate : Node2D
 
   private readonly PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
     ObjectResourceWrapper.JumpParticlesPath
-  );
-
-  private readonly PackedScene _curseEffectParticlesScene = ResourceLoader.Load<PackedScene>(
-    ObjectResourceWrapper.CurseEffectParticlesPath
   );
 
   private readonly PackedScene _powerUpEffectParticlesScene = ResourceLoader.Load<PackedScene>(

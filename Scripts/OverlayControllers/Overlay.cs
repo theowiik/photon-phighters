@@ -1,7 +1,6 @@
 ﻿using System;
 using Godot;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using static PhotonPhighters.Scripts.World;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
