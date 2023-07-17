@@ -3,6 +3,7 @@ using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
+using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
@@ -150,7 +151,7 @@ public partial class PlayerEffectsDelegate : Node2D
     PlayerSprite.Modulate = Colors.White;
   }
 
-  public void DisplayPowerUpEffect(PowerUps.PowerUps.IPowerUpApplier powerUp)
+  public void DisplayPowerUpEffect(IPowerUpApplier powerUp)
   {
     var instance = powerUp.IsCurse
       ? GenerateParticles(_curseEffectParticlesScene)
@@ -166,7 +167,7 @@ public partial class PlayerEffectsDelegate : Node2D
     _powerUpsPickedPlayer.Play();
   }
 
-  private static AudioStream GetPowerUpNameAudioStream(PowerUps.PowerUps.IPowerUpApplier powerUp)
+  private static AudioStream GetPowerUpNameAudioStream(IPowerUpApplier powerUp)
   {
     var fileName = StringUtil.ToSnakeCase(powerUp.GetType().Name);
     var powerUpNamePath = $"{FilesResourceWrapper.PowerUpNamesFolder}{fileName}.mp3";

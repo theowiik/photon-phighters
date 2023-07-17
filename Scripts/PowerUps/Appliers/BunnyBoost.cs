@@ -13,19 +13,7 @@ public static partial class PowerUps
 
     public override string GetMarkName(Player player)
     {
-      var times = TimesTakenBy(player);
-
-      switch (times)
-      {
-        case 0:
-          return BuildMarkName(1);
-        case 1:
-          return BuildMarkName(2);
-        case >= 2:
-          return BuildMarkName(3);
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
+      return LazyGetMarkName(3, player);
     }
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
@@ -42,6 +30,7 @@ public static partial class PowerUps
           break;
         case >= 2:
           playerWhoSelected.PlayerMovementDelegate.JumpForce += 900;
+          playerWhoSelected.Gun.BulletDamage *= 3;
           break;
         default:
           throw new ArgumentOutOfRangeException();
