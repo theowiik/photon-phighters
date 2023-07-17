@@ -53,6 +53,9 @@ public partial class World : Node2D
 
   [GetNode("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
+  
+  [GetNode("CanvasLayer/PowerUpsHUD")]
+  private PowerUpsHUD _powerUpsHUD;
 
   [GetNode("RoundTimer")]
   private Timer _roundTimer;
@@ -195,8 +198,9 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, damage.ToString());
   }
 
-  private void OnPowerUpSelected()
+  private void OnPowerUpSelected(IPowerUpApplier powerUpApplier)
   {
+    _powerUpsHUD.Add(powerUpApplier, Other(_lastPlayerToScore).Team);
     StartRound();
   }
 

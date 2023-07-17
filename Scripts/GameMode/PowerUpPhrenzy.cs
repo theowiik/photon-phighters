@@ -16,5 +16,6 @@ public sealed class PowerUpPhrenzy : IGameMode
   {
     var powerUp = PowerUpManager.GetUniquePowerUps(1).First();
     powerUp.Apply(world._lightPlayer, world._darkPlayer);
+    powerUp.Apply(world._darkPlayer, world._lightPlayer);
   }
 }

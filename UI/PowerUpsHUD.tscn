@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://5fw7v1bd7pjv"]
+
+[ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpsHUD.cs" id="1_adh24"]
+
+[node name="PowerUpsHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_adh24")
+
+[node name="DarkLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -472.0
+offset_top = -329.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "vivi
+"
+horizontal_alignment = 2
+
+[node name="LightLabel" type="Label" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -329.0
+offset_right = 472.0
+grow_vertical = 0
+text = "vivi
+some power up here
+some other power up"

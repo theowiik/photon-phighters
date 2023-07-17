@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpPicker.cs" id="1_2nnk8"]
 [ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_4bdkx"]
 [ext_resource type="PackedScene" uid="uid://bvqsava8yffpg" path="res://UI/PowerUpTextureButton.tscn" id="3_jf14l"]
-[ext_resource type="PackedScene" uid="uid://d10pj1vq0sxps" path="res://UI/RerollTextureButton.tscn" id="4_2mnl0"]
+[ext_resource type="PackedScene" path="res://UI/RerollTextureButton.tscn" id="4_2mnl0"]
 
 [node name="PowerUpPicker" type="Control"]
 layout_mode = 3

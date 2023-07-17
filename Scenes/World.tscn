@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://cxt0fjve8r5yw"]
+[gd_scene load_steps=15 format=3 uid="uid://cxt0fjve8r5yw"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
 [ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Assets/Music/Logical_Sequence_of_Events.mp3" id="3_jun8y"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://UI/Overlay.tscn" id="6_ukett"]
 [ext_resource type="PackedScene" uid="uid://21mvhckupcnw" path="res://UI/PowerUpPicker.tscn" id="7_mepvd"]
 [ext_resource type="PackedScene" uid="uid://b7ix1pgcvbwjk" path="res://UI/PauseOverlay.tscn" id="8_707gv"]
+[ext_resource type="PackedScene" uid="uid://5fw7v1bd7pjv" path="res://UI/PowerUpsHUD.tscn" id="8_o1pw3"]
 [ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Assets/Sfx/Win/darkness.mp3" id="9_jmxqj"]
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Assets/Sfx/Win/the light.mp3" id="10_ratws"]
 [ext_resource type="Script" path="res://Scripts/MapManager.cs" id="11_624e5"]
@@ -50,6 +51,8 @@ visible = false
 
 [node name="PauseOverlay" parent="CanvasLayer" instance=ExtResource("8_707gv")]
 visible = false
+
+[node name="PowerUpsHUD" parent="CanvasLayer" instance=ExtResource("8_o1pw3")]
 
 [node name="Sfx" type="Node" parent="."]
 
