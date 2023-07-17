@@ -66,7 +66,7 @@ public static class GsTimerFactory
   /// <returns>
   ///   The timer.
   /// </returns>
-  public static Timer StartedTimer(int waitTime)
+  public static Timer StartedTimer(float waitTime, Action onTimeout = null)
   {
     var timer = new Timer
     {
@@ -74,6 +74,11 @@ public static class GsTimerFactory
       OneShot = false,
       WaitTime = waitTime
     };
+
+    if (onTimeout != null)
+    {
+      timer.Timeout += onTimeout;
+    }
 
     return timer;
   }

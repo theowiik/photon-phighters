@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;

@@ -26,6 +26,7 @@ public partial class Player : CharacterBody2D
 
   private bool _canTakeDamage;
   private bool _frozen;
+  private int _gamepadIndex;
 
   [GetNode("Marker2D")]
   private Marker2D _gunMarker;
@@ -34,6 +35,8 @@ public partial class Player : CharacterBody2D
 
   [GetNode("HealthBar")]
   private ProgressBar _healthBar;
+
+  private int _maxHealth = 60;
 
   [GetNode("PlayerEffectsDelegate")]
   public PlayerEffectsDelegate EffectsDelegate { get; private set; }
@@ -90,7 +93,13 @@ public partial class Player : CharacterBody2D
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
-  public int MaxHealth { get; set; } = 60;
+
+  public int MaxHealth
+  {
+    get => _maxHealth;
+    set => _maxHealth = Mathf.Max(value, 1);
+  }
+
   public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
 
   [GetNode("Movement")]
@@ -115,6 +124,8 @@ public partial class Player : CharacterBody2D
     }
   }
 
+  public Light.LightMode LightMode => PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
+
   public override void _PhysicsProcess(double delta)
   {
     if (!Exists)
@@ -137,6 +148,7 @@ public partial class Player : CharacterBody2D
 
     Health = MaxHealth;
     IsAlive = true;
+    _gamepadIndex = GetGamepadIndex();
     Gun.ShootActionName = $"p{PlayerNumber}_shoot";
     Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
@@ -252,5 +264,21 @@ public partial class Player : CharacterBody2D
     TakeDamage(bullet.Damage);
     ApplyBulletKnockback(bullet);
     bullet.QueueFree();
+  }
+
+  private int GetGamepadIndex()
+  {
+    var connectedGamePads = Input.GetConnectedJoypads();
+    return connectedGamePads.Count == 2 ? connectedGamePads[PlayerNumber - 1] : 0;
+  }
+
+  public void VibrateGamepadStrong(float seconds)
+  {
+    Input.StartJoyVibration(_gamepadIndex, 0.25f, 0.25f, seconds);
+  }
+
+  public void VibrateGamepadWeak(float seconds)
+  {
+    Input.StartJoyVibration(_gamepadIndex, 0.75f, 0.75f, seconds);
   }
 }

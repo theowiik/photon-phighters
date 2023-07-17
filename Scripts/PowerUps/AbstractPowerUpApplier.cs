@@ -44,7 +44,7 @@ public static partial class PowerUps
     {
       var timesTaken = TimesTakenBy(player);
       var mark = Mathf.Min(timesTaken + 1, max);
-      return $"MRK.{NumberUtil.ToRoman(mark)}";
+      return $"MK.{NumberUtil.ToRoman(mark)}";
     }
   }
 }
