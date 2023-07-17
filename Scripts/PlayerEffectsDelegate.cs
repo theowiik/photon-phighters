@@ -173,9 +173,6 @@ public partial class PlayerEffectsDelegate : Node2D
 
     try
     {
-      if (GD.RandRange(0, 2) <= 0.2)
-        throw new Exception();
-
       return GD.Load<AudioStream>(powerUpNamePath);
     }
     catch (Exception)

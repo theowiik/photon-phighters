@@ -23,13 +23,13 @@ public partial class World : Node2D
   [GetNode("FollowingCamera")]
   private FollowingCamera _camera;
 
-  private Player _darkPlayer;
+  public Player _darkPlayer;
 
   [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
 
   private Player _lastPlayerToScore;
-  private Player _lightPlayer;
+  public Player _lightPlayer;
 
   [GetNode("Sfx/LightWin")]
   private AudioStreamPlayer _lightWin;
@@ -55,8 +55,8 @@ public partial class World : Node2D
   private Timer _roundTimer;
 
   private Score _score;
-  private readonly RoundState _roundState = new();
-  private readonly PowerUpPhrenzyDelegate _powerUpPhrenzyDelegate = new();
+  public RoundState RoundState { get; } = new();
+  private IGameMode _gameMode = new PowerUpPhrenzy();
 
   public override void _Ready()
   {
@@ -65,12 +65,12 @@ public partial class World : Node2D
 
     if (GlobalGameState.RoundTime > 0)
     {
-      _roundState.RoundTime = GlobalGameState.RoundTime;
+      RoundState.RoundTime = GlobalGameState.RoundTime;
     }
 
     if (GlobalGameState.RoundsToWin > 0)
     {
-      _roundState.RoundsToWin = GlobalGameState.RoundsToWin;
+      RoundState.RoundsToWin = GlobalGameState.RoundsToWin;
     }
 
     // UI
@@ -85,6 +85,7 @@ public partial class World : Node2D
 
     // Setup map
     _mapManager.OutOfBoundsEventListeners += OnOutOfBounds;
+    _mapManager.GameMode = _gameMode;
 
     // Setup players
     _players = GetTree().GetNodesInGroup("players").Cast<Player>().ToList();
@@ -129,18 +130,7 @@ public partial class World : Node2D
 
   private Score GetResults()
   {
-    return GlobalGameState.GameMode switch
-    {
-      GlobalGameState.GameModes.PhotonPhight => LightUtils.CountScore(GetTree().GetNodesInGroup("lights").Cast<Light>()),
-      GlobalGameState.GameModes.Deathmatch => new Score
-      {
-        Light = _roundState.DarkDeaths,
-        Dark = _roundState.LightDeaths,
-        Ties = 0
-      },
-      GlobalGameState.GameModes.PowerUpPhrenzy => throw new NotImplementedException(),
-      _ => throw new ArgumentOutOfRangeException(),
-    };
+    return _gameMode.GetResults(this);
   }
 
   private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
@@ -152,7 +142,7 @@ public partial class World : Node2D
 
   private void OnPlayerDied(Player player)
   {
-    _roundState.IncrementDeathForTeam(player.Team);
+    RoundState.IncrementDeathForTeam(player.Team);
     var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
 
     SpawnRagdoll(player);
@@ -246,7 +236,7 @@ public partial class World : Node2D
     }
 
     _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
-    if (_score.Dark >= _roundState.RoundsToWin || _score.Light >= _roundState.RoundsToWin)
+    if (_score.Dark >= RoundState.RoundsToWin || _score.Light >= RoundState.RoundsToWin)
     {
       GetTree()
         .ChangeSceneToFile(
@@ -256,7 +246,7 @@ public partial class World : Node2D
         );
     }
 
-    _musicPlayer.SetPitch(_score.Light, _score.Dark, _roundState.RoundsToWin);
+    _musicPlayer.SetPitch(_score.Light, _score.Dark, RoundState.RoundsToWin);
     StartPowerUpSelection();
   }
 
@@ -362,10 +352,9 @@ public partial class World : Node2D
 
   private void StartRound()
   {
-    if (GlobalGameState.GameMode == GlobalGameState.GameModes.PowerUpPhrenzy)
-      _powerUpPhrenzyDelegate.ApplyPowerUp(_lightPlayer, _darkPlayer);
+    _gameMode.RoundStarted(this);
 
-    _roundState.Reset();
+    RoundState.Reset();
     _mapManager.InitNextMap();
     ResetLights();
 
@@ -381,7 +370,7 @@ public partial class World : Node2D
     // TODO: Hack to ensure players are moved before activating the map
     AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
     // _mapManager.StartNextMap(); // <- Should be done similar to this
-    _roundTimer.Start(_roundState.RoundTime);
+    _roundTimer.Start(RoundState.RoundTime);
   }
 
   private void TogglePause()
@@ -398,16 +387,6 @@ public partial class World : Node2D
 
   private void UpdateScore()
   {
-    switch (GlobalGameState.GameMode)
-    {
-      case GlobalGameState.GameModes.PhotonPhight:
-      case GlobalGameState.GameModes.Deathmatch:
-        _overlay.SetRoundScore(GetResults());
-        break;
-      case GlobalGameState.GameModes.PowerUpPhrenzy:
-        throw new NotSupportedException("PowerUpPhrenzy not supported yet");
-      default:
-        throw new ArgumentOutOfRangeException();
-    }
+    _overlay.SetRoundScore(GetResults());
   }
 }

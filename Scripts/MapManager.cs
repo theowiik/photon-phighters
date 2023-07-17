@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using PhotonPhighters.Scripts.GameMode;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.Utils;
@@ -16,6 +17,7 @@ public partial class MapManager : Node2D
 
   private readonly string _mapsFolder = SceneResourceWrapper.MapsFolder;
   private IEnumerable<string> _maps = new List<string>();
+  public IGameMode GameMode { get; set; }
 
   /// <summary>
   ///   A queue of maps to play. When the queue is empty, all maps in the MapsFolder will be added to the queue.
@@ -55,7 +57,7 @@ public partial class MapManager : Node2D
       }
     };
 
-    if (GlobalGameState.GameMode != GlobalGameState.GameModes.Deathmatch)
+    if (GameMode.SpawnLights)
       PlaceLights();
   }
 
