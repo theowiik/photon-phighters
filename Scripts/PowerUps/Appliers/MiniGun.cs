@@ -17,7 +17,7 @@ public static partial class PowerUps
 
       return timesTaken switch
       {
-        0 => "",
+        0 => BuildMarkName(1),
         >= 1 => BuildMarkName(2),
         _ => throw new ArgumentOutOfRangeException(nameof(player), "This should never happen")
       };

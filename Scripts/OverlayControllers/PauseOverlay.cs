@@ -8,7 +8,7 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PauseOverlay : Control
 {
-  public delegate void PowerUpPicked(PowerUps.PowerUps.IPowerUpApplier powerUpApplier);
+  public delegate void PowerUpPicked(IPowerUpApplier powerUpApplier);
 
   [Signal]
   public delegate void ResumeGameEventHandler();

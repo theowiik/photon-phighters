@@ -8,6 +8,7 @@ using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.OverlayControllers;
+using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
@@ -83,7 +84,7 @@ public partial class World : Node2D
     _pauseOverlay.ResumeGame += TogglePause;
     _pauseOverlay.PowerUpPickedListeners += OnPowerUpSelectedBoth;
     _powerUpPicker.Visible = false;
-    _powerUpPicker.PowerUpPickedListeners += OnPowerUpSelected;
+    _powerUpPicker.PowerUpSelectionEndedListeners += OnPowerUpSelected;
 
     // Setup map
     _mapManager.OutOfBoundsEventListeners += OnOutOfBounds;
@@ -163,10 +164,28 @@ public partial class World : Node2D
     return results;
   }
 
+  private Player Other(Player player)
+  {
+    return player == _lightPlayer ? _darkPlayer : _lightPlayer;
+  }
+
   private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
   {
-    var light = team == Player.TeamEnum.Light ? Light.LightMode.Light : Light.LightMode.Dark;
-    SpawnExplosion(which, light, Explosion.ExplosionRadiusEnum.Large);
+    var playerWhoCaptured = team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
+    var otherPlayer = Other(playerWhoCaptured);
+
+    switch (which.Reward)
+    {
+      case CapturePoint.CapturePointReward.Explosion:
+        SpawnExplosion(which, playerWhoCaptured.LightMode, Explosion.ExplosionRadiusEnum.Large);
+        break;
+      case CapturePoint.CapturePointReward.Kill:
+        otherPlayer.TakeDamage(999_999);
+        break;
+    }
+
+    //
+
     which.QueueFree();
   }
 
@@ -204,21 +223,33 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, damage.ToString());
   }
 
-  private void OnPowerUpSelected(PowerUps.PowerUps.IPowerUpApplier powerUpApplier)
+  private void OnPowerUpSelected()
   {
-    _powerUpPicker.Visible = false;
-
-    var loser = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
-    var winner = _lastPlayerToScore.Team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
-    powerUpApplier.Apply(loser, winner);
-
     StartRound();
+  }
+
+  private Player GetLosingPlayer()
+  {
+    if (_lastPlayerToScore == null)
+    {
+      throw new NullReferenceException("No player has scored yet!");
+    }
+    return _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
+  }
+
+  private Player GetWinningPlayer()
+  {
+    if (_lastPlayerToScore == null)
+    {
+      throw new NullReferenceException("No player has scored yet!");
+    }
+    return _lastPlayerToScore.Team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
   }
 
   /// <summary>
   ///   Called when a power up is selected for both players
   /// </summary>
-  private void OnPowerUpSelectedBoth(PowerUps.PowerUps.IPowerUpApplier powerUpApplier)
+  private void OnPowerUpSelectedBoth(IPowerUpApplier powerUpApplier)
   {
     powerUpApplier.Apply(_lightPlayer, _darkPlayer);
     powerUpApplier.Apply(_darkPlayer, _lightPlayer);
@@ -373,10 +404,9 @@ public partial class World : Node2D
 
   private void StartPowerUpSelection()
   {
-    var losingPlayer = _lastPlayerToScore == _lightPlayer ? _darkPlayer : _lightPlayer;
-    _powerUpPicker.Visible = true;
-    _powerUpPicker.GrabFocus();
-    _powerUpPicker.Reset(losingPlayer);
+    var loser = GetLosingPlayer();
+    var winner = GetWinningPlayer();
+    _powerUpPicker.BeginPowerUpSelection(winner, loser);
   }
 
   private void StartRound()

@@ -11,7 +11,7 @@ namespace PhotonPhighters.Scripts.PowerUps;
 
 public static class PowerUpManager
 {
-  public static readonly IEnumerable<PowerUps.IPowerUpApplier> PowerUps;
+  public static readonly IEnumerable<IPowerUpApplier> PowerUps;
 
   static PowerUpManager()
   {
@@ -20,11 +20,12 @@ public static class PowerUpManager
       throw new FormatException("Rarities sum must be 100");
     }
 
-    PowerUps = new List<PowerUps.IPowerUpApplier>
+    PowerUps = new List<IPowerUpApplier>
     {
       new PhotonBoost(),
       new HealthBoost(),
       new BunnyBoost(),
+      new MiniGun(),
       new PhotonMultiplier(),
       new PhotonEnlarger(),
       new PhotonAccelerator(),
@@ -80,14 +81,14 @@ public static class PowerUpManager
     }
   }
 
-  public static IEnumerable<PowerUps.IPowerUpApplier> GetUniquePowerUps(int n)
+  public static IEnumerable<IPowerUpApplier> GetUniquePowerUps(int n)
   {
     if (n <= 0)
     {
       throw new ArgumentException("n must be greater than 0");
     }
 
-    var output = new List<PowerUps.IPowerUpApplier>();
+    var output = new List<IPowerUpApplier>();
     while (output.Count < n)
     {
       var p = GetRandomPowerUpWithOdds();
@@ -103,7 +104,7 @@ public static class PowerUpManager
     return output.Shuffled();
   }
 
-  private static PowerUps.IPowerUpApplier GetRandomPowerUpWithOdds()
+  private static IPowerUpApplier GetRandomPowerUpWithOdds()
   {
     var rarity = GetRandomRarityWithOdds();
     return PowerUps.Where(p => p.Rarity == rarity).ToList().Sample();

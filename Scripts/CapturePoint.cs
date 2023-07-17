@@ -5,18 +5,33 @@ using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
+using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
 [Instantiable("res://Objects/CapturePoint.tscn")]
 public partial class CapturePoint : Node2D
 {
+  public enum CapturePointReward
+  {
+    Explosion,
+    Kill
+  }
+
+  public CapturePointReward Reward { get; private set; }
+
   public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
 
   private const float TimeToCapture = 6f;
   private readonly ICollection<Player> _playersInside = new List<Player>();
 
   private bool _captured;
+
+  private ISet<CapturePointReward> _capturePointRewards = new HashSet<CapturePointReward>()
+  {
+    CapturePointReward.Explosion,
+    CapturePointReward.Kill
+  };
 
   /// <summary>
   ///   Light should reach +TimeToCapture.
@@ -29,6 +44,9 @@ public partial class CapturePoint : Node2D
 
   [GetNode("ProgressBar")]
   private ProgressBar _progressBar;
+
+  [GetNode("RewardLabel")]
+  private Label _rewardLabel;
 
   private float _radius;
 
@@ -127,6 +145,9 @@ public partial class CapturePoint : Node2D
     {
       throw new NodeNotFoundException("CollisionShape2D.Shape is not a CircleShape2D");
     }
+
+    this.Reward = _capturePointRewards.Sample();
+    _rewardLabel.Text = this.Reward.ToString();
 
     _radius = circle.Radius;
   }

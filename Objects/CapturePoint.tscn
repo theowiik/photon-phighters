@@ -50,3 +50,12 @@ position = Vector2(-40, -142)
 [node name="ScaleReference2" parent="." instance=ExtResource("4_2fhxl")]
 visible = false
 position = Vector2(-160, -113)
+
+[node name="RewardLabel" type="Label" parent="."]
+offset_left = -73.0
+offset_top = -87.0
+offset_right = 74.0
+offset_bottom = -44.0
+text = "hello world lorem"
+horizontal_alignment = 1
+vertical_alignment = 1
