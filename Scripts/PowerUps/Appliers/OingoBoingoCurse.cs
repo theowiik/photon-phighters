@@ -1,6 +1,6 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using PhotonPhighters.Scripts.Events;
-using System;
 using static PhotonPhighters.Scripts.PowerUps.PowerUps;
 
 namespace PhotonPhighters.Scripts.PowerUps.Appliers;

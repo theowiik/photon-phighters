@@ -26,22 +26,23 @@ public partial class Player : CharacterBody2D
 
   private bool _canTakeDamage;
   private bool _frozen;
+  private int _gamepadIndex;
 
   [GetNode("Marker2D")]
   private Marker2D _gunMarker;
 
   private int _health;
-  private int _maxHealth = 60;
 
   [GetNode("HealthBar")]
   private ProgressBar _healthBar;
+
+  private int _maxHealth = 60;
 
   [GetNode("PlayerEffectsDelegate")]
   private PlayerEffectsDelegate _playerEffectsDelegate;
 
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
-  private int _gamepadIndex;
 
   private bool CanTakeDamage
   {
@@ -92,11 +93,13 @@ public partial class Player : CharacterBody2D
   public Gun Gun { get; private set; }
 
   public bool IsAlive { get; set; }
+
   public int MaxHealth
   {
     get => _maxHealth;
-    set { _maxHealth = Mathf.Max(value, 1); }
+    set => _maxHealth = Mathf.Max(value, 1);
   }
+
   public PlayerEffectAdded PlayerEffectAddedListeners { get; set; }
 
   [GetNode("Movement")]
@@ -120,6 +123,7 @@ public partial class Player : CharacterBody2D
       _healthBar.Value = (float)_health / MaxHealth;
     }
   }
+
   public Light.LightMode LightMode => PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
   public override void _PhysicsProcess(double delta)
