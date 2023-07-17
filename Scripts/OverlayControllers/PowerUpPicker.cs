@@ -23,8 +23,12 @@ public partial class PowerUpPicker : Control
       { PowerUps.PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY)") }
     };
 
+  private readonly List<IPowerUpApplier> _availablePowerups = new();
+
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;
+
+  private int _disabledDelay = 2;
 
   [GetNode("GridContainer")]
   private GridContainer _gridContainer;
@@ -32,23 +36,20 @@ public partial class PowerUpPicker : Control
   [GetNode("Label")]
   private Label _label;
 
+  private Player _loser;
+
   [GetNode("RerollTextureButton")]
   private TextureButton _rerollButton;
-
-  [GetNode("TimerLabel")]
-  private Label _timerLabel;
 
   [GetNode("Timer")]
   private Timer _timer;
 
-  private Player _loser;
-
-  private Player _winner;
-
-  private int _disabledDelay = 2;
+  [GetNode("TimerLabel")]
+  private Label _timerLabel;
 
   private int _timeToChoose = 20;
-  private List<IPowerUpApplier> _availablePowerups = new();
+
+  private Player _winner;
   public event PowerUpSelectionEnded PowerUpSelectionEndedListeners;
 
   public override void _Ready()

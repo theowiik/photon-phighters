@@ -234,6 +234,7 @@ public partial class World : Node2D
     {
       throw new NullReferenceException("No player has scored yet!");
     }
+
     return _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
   }
 
@@ -243,6 +244,7 @@ public partial class World : Node2D
     {
       throw new NullReferenceException("No player has scored yet!");
     }
+
     return _lastPlayerToScore.Team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
   }
 
