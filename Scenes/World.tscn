@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://cxt0fjve8r5yw"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
-[ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Assets/Music/Logical_Sequence_of_Events.mp3" id="3_jun8y"]
+[ext_resource type="AudioStream" uid="uid://jlsk7815x1am" path="res://Assets/Music/Test/pp_test3.wav" id="3_skt4a"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="4_g4vs6"]
 [ext_resource type="Script" path="res://Scripts/MusicPlayer.cs" id="4_kl11m"]
 [ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://UI/Overlay.tscn" id="6_ukett"]
@@ -37,8 +37,8 @@ one_shot = true
 script = ExtResource("4_g4vs6")
 
 [node name="MusicPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource("3_jun8y")
-volume_db = -11.946
+stream = ExtResource("3_skt4a")
+volume_db = -8.0
 autoplay = true
 script = ExtResource("4_kl11m")
 

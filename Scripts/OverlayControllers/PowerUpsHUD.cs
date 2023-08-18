@@ -7,16 +7,14 @@ using PhotonPhighters.Scripts.PowerUps;
 public partial class PowerUpsHUD : Control
 {
   [GetNode("DarkLabel")]
-  private Label _darkLabel;
+  private RichTextLabel _darkLabel;
 
   [GetNode("LightLabel")]
-  private Label _lightLabel;
+  private RichTextLabel _lightLabel;
 
   public override void _Ready()
   {
     this.AutoWire();
-    _darkLabel.Text = "Darkness";
-    _lightLabel.Text = "Lightness";
   }
 
   public void Add(IPowerUpApplier powerUp, Player.TeamEnum who)
@@ -24,10 +22,10 @@ public partial class PowerUpsHUD : Control
     switch (who)
     {
       case Player.TeamEnum.Light:
-        _lightLabel.Text += $"\n{powerUp.Name}";
+        _lightLabel.Text += $"\n- {powerUp.Name}";
         break;
       case Player.TeamEnum.Dark:
-        _darkLabel.Text += $"\n{powerUp.Name}";
+        _darkLabel.Text += $"[right]\n- {powerUp.Name}[/right]";
         break;
       default:
         throw new ArgumentOutOfRangeException(nameof(who), who, null);

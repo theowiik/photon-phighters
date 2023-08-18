@@ -29,7 +29,7 @@ public partial class World : Node2D
   [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
 
-  private readonly IGameMode _gameMode = new PowerUpPhrenzy();
+  private readonly IGameMode _gameMode = new PhotonPhight();
 
   private Player _lastPlayerToScore;
   public Player _lightPlayer;
@@ -53,7 +53,7 @@ public partial class World : Node2D
 
   [GetNode("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
-  
+
   [GetNode("CanvasLayer/PowerUpsHUD")]
   private PowerUpsHUD _powerUpsHUD;
 

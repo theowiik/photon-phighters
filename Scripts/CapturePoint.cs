@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Godot;
 using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.GoSharper;
@@ -16,20 +19,12 @@ public partial class CapturePoint : Node2D
 
   public enum CapturePointReward
   {
-    Explosion,
-    Kill
+    Explosion = 9,
+    Kill = 1
   }
 
   private const float TimeToCapture = 6f;
-
-  private readonly ISet<CapturePointReward> _capturePointRewards = new HashSet<CapturePointReward>
-  {
-    CapturePointReward.Explosion,
-    CapturePointReward.Kill
-  };
-
   private readonly ICollection<Player> _playersInside = new List<Player>();
-
   private bool _captured;
 
   /// <summary>
@@ -101,6 +96,22 @@ public partial class CapturePoint : Node2D
     DrawCircle(Vector2.Zero, _radius, color);
   }
 
+  private static CapturePointReward GetRandomReward()
+  {
+    // TODO: Use better odds thingy
+    var rewards = new List<CapturePointReward>();
+
+    foreach (CapturePointReward reward in Enum.GetValues(typeof(CapturePointReward)))
+    {
+      for (var i = 0; i < (int)reward; i++)
+      {
+        rewards.Add(reward);
+      }
+    }
+
+    return rewards.Sample();
+  }
+
   public override void _Process(double delta)
   {
     if (_captured)
@@ -147,7 +158,7 @@ public partial class CapturePoint : Node2D
       throw new NodeNotFoundException("CollisionShape2D.Shape is not a CircleShape2D");
     }
 
-    Reward = _capturePointRewards.Sample();
+    Reward = GetRandomReward();
     _rewardLabel.Text = Reward.ToString();
 
     _radius = circle.Radius;
