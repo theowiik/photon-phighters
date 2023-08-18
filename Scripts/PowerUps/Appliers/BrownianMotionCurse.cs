@@ -15,6 +15,7 @@ public static partial class PowerUps
     // Opponent's photons move erratically
     public override string Name => "Brownian Motion Curse";
     public override Rarity Rarity => Rarity.Rare;
+    public override bool IsCurse => true;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

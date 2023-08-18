@@ -1,6 +1,9 @@
-﻿using Godot;
+﻿using System;
+using Godot;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GoSharper.Instancing;
+using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
@@ -12,6 +15,11 @@ public partial class PlayerEffectsDelegate : Node2D
   private const string JumpAnimation = "jump";
   private const string LandAnimation = "land";
   private const string RunAnimation = "run";
+
+  private readonly PackedScene _curseEffectParticlesScene = ResourceLoader.Load<PackedScene>(
+    ObjectResourceWrapper.CurseEffectParticlesPath
+  );
+
   private readonly Color _hurtColor = new(0.8f, 0, 0);
 
   private readonly PackedScene _hurtParticlesScene = ResourceLoader.Load<PackedScene>(
@@ -20,6 +28,10 @@ public partial class PlayerEffectsDelegate : Node2D
 
   private readonly PackedScene _jumpParticlesScene = ResourceLoader.Load<PackedScene>(
     ObjectResourceWrapper.JumpParticlesPath
+  );
+
+  private readonly PackedScene _powerUpEffectParticlesScene = ResourceLoader.Load<PackedScene>(
+    ObjectResourceWrapper.PowerUpEffectParticlesPath
   );
 
   [GetNode("AnimationPlayer")]
@@ -42,6 +54,9 @@ public partial class PlayerEffectsDelegate : Node2D
 
   [GetNode("Sfx/JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
+
+  [GetNode("PowerUpsPickedPlayer")]
+  private AudioStreamPlayer2D _powerUpsPickedPlayer;
 
   public PlayerEffectPerformed PlayerEffectAddedListeners { get; set; }
 
@@ -135,5 +150,36 @@ public partial class PlayerEffectsDelegate : Node2D
   private void HurtTimerOnTimeout()
   {
     PlayerSprite.Modulate = Colors.White;
+  }
+
+  public void DisplayPowerUpEffect(IPowerUpApplier powerUp)
+  {
+    var instance = powerUp.IsCurse
+      ? GenerateParticles(_curseEffectParticlesScene)
+      : GenerateParticles(_powerUpEffectParticlesScene);
+    AddChild(instance);
+
+    var label = GsInstanter.Instantiate<FloatingText>();
+    AddChild(label);
+    label.Position -= new Vector2(0, 30);
+    label.SetText(powerUp.Name);
+
+    _powerUpsPickedPlayer.Stream = GetPowerUpNameAudioStream(powerUp);
+    _powerUpsPickedPlayer.Play();
+  }
+
+  private static AudioStream GetPowerUpNameAudioStream(IPowerUpApplier powerUp)
+  {
+    var fileName = StringUtil.ToSnakeCase(powerUp.GetType().Name);
+    var powerUpNamePath = $"{FilesResourceWrapper.PowerUpNamesFolder}{fileName}.mp3";
+
+    try
+    {
+      return GD.Load<AudioStream>(powerUpNamePath);
+    }
+    catch (Exception)
+    {
+      return null;
+    }
   }
 }

@@ -12,20 +12,11 @@ public static partial class PowerUps
     // Opponent is always bouncing
     public override string Name => "Oingo Boingo Curse";
     public override Rarity Rarity => Rarity.Rare;
+    public override bool IsCurse => false;
 
     public override string GetMarkName(Player player)
     {
-      var times = TimesTakenBy(player);
-
-      switch (times)
-      {
-        case 0:
-          return BuildMarkName(1);
-        case >= 1:
-          return BuildMarkName(2);
-        default:
-          throw new ArgumentOutOfRangeException();
-      }
+      return LazyGetMarkName(2, player);
     }
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)

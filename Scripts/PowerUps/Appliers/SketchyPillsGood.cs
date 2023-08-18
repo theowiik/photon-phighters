@@ -10,6 +10,7 @@ public static partial class PowerUps
     // Makes the player smaller and faster (gamba)
     public override string Name => "Sketchy Pills";
     public override Rarity Rarity => Rarity.Rare;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

@@ -11,6 +11,7 @@ public static partial class PowerUps
     // Wall-jumping briefly increases movement speed
     public override string Name => "Wall Spider";
     public override Rarity Rarity => Rarity.Common;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

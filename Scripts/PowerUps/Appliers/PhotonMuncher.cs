@@ -8,8 +8,8 @@ public static partial class PowerUps
   public class PhotonMuncher : AbstractPowerUpApplier
   {
     public override string Name => "Mega Photon Muncher";
-
     public override Rarity Rarity => Rarity.Rare;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using PhotonPhighters.Scripts.GameMode;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.Utils;
@@ -21,6 +22,8 @@ public partial class MapManager : Node2D
   ///   A queue of maps to play. When the queue is empty, all maps in the MapsFolder will be added to the queue.
   /// </summary>
   private Queue<string> _mapsQueue = new();
+
+  public IGameMode GameMode { get; set; }
 
   public OutOfBoundsEvent OutOfBoundsEventListeners { get; set; }
   private Map CurrentMap => GetChildOrNull<Map>(0);
@@ -55,7 +58,10 @@ public partial class MapManager : Node2D
       }
     };
 
-    PlaceLights();
+    if (GameMode.SpawnLights)
+    {
+      PlaceLights();
+    }
   }
 
   /// <summary>

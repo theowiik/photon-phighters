@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://b3gt50c6yg0cs"]
+
+[ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="1_o75d8"]
+
+[node name="CurseEffectParticles" type="CPUParticles2D"]
+emitting = false
+amount = 111
+lifetime = 3.0
+one_shot = true
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 50.72
+initial_velocity_max = 54.35
+orbit_velocity_min = -0.3
+orbit_velocity_max = 0.3
+radial_accel_min = -100.0
+radial_accel_max = 100.0
+scale_amount_min = 3.0
+scale_amount_max = 6.0
+color = Color(0.160784, 0.160784, 0.160784, 1)
+
+[node name="ScaleReference" parent="." instance=ExtResource("1_o75d8")]
+visible = false
+position = Vector2(-65, -131)

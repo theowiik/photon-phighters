@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://c32p1dpjcv3bw"]
+
+[ext_resource type="Script" path="res://Scripts/FloatingText.cs" id="1_uc0ig"]
+
+[node name="FloatingText" type="Node2D"]
+script = ExtResource("1_uc0ig")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -116.0
+offset_top = -58.0
+offset_right = 125.0
+offset_bottom = 55.0
+text = "hello world"
+horizontal_alignment = 1
+vertical_alignment = 1

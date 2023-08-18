@@ -14,6 +14,7 @@ public static partial class PowerUps
     // Photons are randomized
     public override string Name => "Randomizer 5000";
     public override Rarity Rarity => Rarity.Common;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

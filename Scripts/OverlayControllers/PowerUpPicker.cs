@@ -12,7 +12,7 @@ namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpPicker : Control
 {
-  public delegate void PowerUpSelectionEnded();
+  public delegate void PowerUpSelectionEnded(IPowerUpApplier powerUpApplier);
 
   private static readonly Dictionary<PowerUps.PowerUps.Rarity, (string color, string text)> s_rarityThemes =
     new()
@@ -106,7 +106,7 @@ public partial class PowerUpPicker : Control
     Visible = false;
     powerUpApplier.Apply(_loser, _winner);
     _timer.Stop();
-    PowerUpSelectionEndedListeners.Invoke();
+    PowerUpSelectionEndedListeners?.Invoke(powerUpApplier);
   }
 
   private void HandleReroll()

@@ -11,6 +11,7 @@ public static partial class PowerUps
     // Getting hurt briefly increases movement speed
     public override string Name => "Fluorescent Burst";
     public override Rarity Rarity => Rarity.Common;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

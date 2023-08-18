@@ -1,5 +1,4 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 using static PhotonPhighters.Scripts.PowerUps.PowerUps;
 
 namespace PhotonPhighters.Scripts.PowerUps.Appliers;
@@ -10,17 +9,11 @@ public static partial class PowerUps
   {
     public override string Name => "1 000 000 lumen";
     public override Rarity Rarity => Rarity.Legendary;
+    public override bool IsCurse => false;
 
     public override string GetMarkName(Player player)
     {
-      var timesTaken = TimesTakenBy(player);
-
-      return timesTaken switch
-      {
-        0 => BuildMarkName(1),
-        >= 1 => BuildMarkName(2),
-        _ => throw new ArgumentOutOfRangeException(nameof(player), "This should never happen")
-      };
+      return LazyGetMarkName(2, player);
     }
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)

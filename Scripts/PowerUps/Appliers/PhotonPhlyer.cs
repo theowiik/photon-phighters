@@ -10,6 +10,7 @@ public static partial class PowerUps
     // Player can fly
     public override string Name => "Photon Phlyer";
     public override Rarity Rarity => Rarity.Legendary;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

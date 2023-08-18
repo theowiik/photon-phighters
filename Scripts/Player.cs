@@ -38,11 +38,11 @@ public partial class Player : CharacterBody2D
 
   private int _maxHealth = 60;
 
-  [GetNode("PlayerEffectsDelegate")]
-  private PlayerEffectsDelegate _playerEffectsDelegate;
-
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
+
+  [GetNode("PlayerEffectsDelegate")]
+  public PlayerEffectsDelegate EffectsDelegate { get; private set; }
 
   private bool CanTakeDamage
   {
@@ -152,10 +152,10 @@ public partial class Player : CharacterBody2D
     Gun.ShootActionName = $"p{PlayerNumber}_shoot";
     Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
-    _playerEffectsDelegate.PlayerSprite = _sprite2D;
+    EffectsDelegate.PlayerSprite = _sprite2D;
     PlayerMovementDelegate.PlayerNumber = PlayerNumber;
     PlayerMovementDelegate.CharacterBody = this;
-    PlayerMovementDelegate.PlayerEffectsDelegate = _playerEffectsDelegate;
+    PlayerMovementDelegate.PlayerEffectsDelegate = EffectsDelegate;
     PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners += effect =>
       PlayerEffectAddedListeners?.Invoke(effect, this);
 
@@ -191,9 +191,9 @@ public partial class Player : CharacterBody2D
     var playerHurtEvent = new PlayerHurtEvent(damage);
     EmitSignal(SignalName.PlayerHurt, this, damage, playerHurtEvent);
     Health -= playerHurtEvent.Damage;
-    _playerEffectsDelegate.EmitHurtParticles();
-    _playerEffectsDelegate.PlayHurtSound();
-    _playerEffectsDelegate.AnimationPlayHurt();
+    EffectsDelegate.EmitHurtParticles();
+    EffectsDelegate.PlayHurtSound();
+    EffectsDelegate.AnimationPlayHurt();
 
     if (Health <= 0)
     {
@@ -245,7 +245,7 @@ public partial class Player : CharacterBody2D
     IsAlive = false;
 
     PlayerMovementDelegate.Reset();
-    _playerEffectsDelegate.PlayDeathSound();
+    EffectsDelegate.PlayDeathSound();
     EmitSignal(SignalName.PlayerDied, this);
   }
 

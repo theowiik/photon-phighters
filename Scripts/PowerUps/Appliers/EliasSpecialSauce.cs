@@ -7,8 +7,8 @@ public static partial class PowerUps
   public class EliasSpecialSauce : AbstractPowerUpApplier
   {
     public override string Name => "Elias' Special Sauce";
-
     public override Rarity Rarity => Rarity.Epic;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

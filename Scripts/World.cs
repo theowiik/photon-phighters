@@ -4,6 +4,7 @@ using System.Linq;
 using Godot;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
+using PhotonPhighters.Scripts.GameMode;
 using PhotonPhighters.Scripts.GoSharper;
 using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.GoSharper.Instancing;
@@ -17,21 +18,21 @@ public partial class World : Node2D
 {
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
-
   private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(ObjectResourceWrapper.DarkRagdollPath);
-
   private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(ObjectResourceWrapper.LightRagdollPath);
 
   [GetNode("FollowingCamera")]
   private FollowingCamera _camera;
 
-  private Player _darkPlayer;
+  public Player _darkPlayer;
 
   [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
 
+  private readonly IGameMode _gameMode = new PhotonPhight();
+
   private Player _lastPlayerToScore;
-  private Player _lightPlayer;
+  public Player _lightPlayer;
 
   [GetNode("Sfx/LightWin")]
   private AudioStreamPlayer _lightWin;
@@ -53,13 +54,14 @@ public partial class World : Node2D
   [GetNode("CanvasLayer/PowerUpPicker")]
   private PowerUpPicker _powerUpPicker;
 
-  private int _roundsToWin = 10;
-  private int _roundTime = 40;
+  [GetNode("CanvasLayer/PowerUpsHUD")]
+  private PowerUpsHUD _powerUpsHUD;
 
   [GetNode("RoundTimer")]
   private Timer _roundTimer;
 
   private Score _score;
+  public RoundState RoundState { get; } = new();
 
   public override void _Ready()
   {
@@ -68,12 +70,12 @@ public partial class World : Node2D
 
     if (GlobalGameState.RoundTime > 0)
     {
-      _roundTime = GlobalGameState.RoundTime;
+      RoundState.RoundTime = GlobalGameState.RoundTime;
     }
 
     if (GlobalGameState.RoundsToWin > 0)
     {
-      _roundsToWin = GlobalGameState.RoundsToWin;
+      RoundState.RoundsToWin = GlobalGameState.RoundsToWin;
     }
 
     // UI
@@ -88,6 +90,7 @@ public partial class World : Node2D
 
     // Setup map
     _mapManager.OutOfBoundsEventListeners += OnOutOfBounds;
+    _mapManager.GameMode = _gameMode;
 
     // Setup players
     _players = GetTree().GetNodesInGroup("players").Cast<Player>().ToList();
@@ -130,38 +133,9 @@ public partial class World : Node2D
     }
   }
 
-  private Results GetResults()
+  private Score GetResults()
   {
-    var lights = GetTree().GetNodesInGroup("lights");
-    var results = new Results();
-
-    foreach (var light in lights)
-    {
-      if (light is not Light lightNode)
-      {
-        throw new NodeNotFoundException("Light node is not a Light!!");
-      }
-
-      switch (lightNode.LightState)
-      {
-        case Light.LightMode.Light:
-          results.Light++;
-          break;
-
-        case Light.LightMode.Dark:
-          results.Dark++;
-          break;
-
-        case Light.LightMode.None:
-          results.Neutral++;
-          break;
-
-        default:
-          throw new ArgumentOutOfRangeException(nameof(lightNode), "Light state is not a valid state");
-      }
-    }
-
-    return results;
+    return _gameMode.GetResults(this);
   }
 
   private Player Other(Player player)
@@ -191,6 +165,7 @@ public partial class World : Node2D
 
   private void OnPlayerDied(Player player)
   {
+    RoundState.IncrementDeathForTeam(player.Team);
     var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
 
     SpawnRagdoll(player);
@@ -223,8 +198,9 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, damage.ToString());
   }
 
-  private void OnPowerUpSelected()
+  private void OnPowerUpSelected(IPowerUpApplier powerUpApplier)
   {
+    _powerUpsHUD.Add(powerUpApplier, Other(_lastPlayerToScore).Team);
     StartRound();
   }
 
@@ -298,7 +274,7 @@ public partial class World : Node2D
     }
 
     _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
-    if (_score.Dark >= _roundsToWin || _score.Light >= _roundsToWin)
+    if (_score.Dark >= RoundState.RoundsToWin || _score.Light >= RoundState.RoundsToWin)
     {
       GetTree()
         .ChangeSceneToFile(
@@ -308,7 +284,7 @@ public partial class World : Node2D
         );
     }
 
-    _musicPlayer.SetPitch(_score.Light, _score.Dark, _roundsToWin);
+    _musicPlayer.SetPitch(_score.Light, _score.Dark, RoundState.RoundsToWin);
     StartPowerUpSelection();
   }
 
@@ -413,6 +389,9 @@ public partial class World : Node2D
 
   private void StartRound()
   {
+    _gameMode.RoundStarted(this);
+
+    RoundState.Reset();
     _mapManager.InitNextMap();
     ResetLights();
 
@@ -428,7 +407,7 @@ public partial class World : Node2D
     // TODO: Hack to ensure players are moved before activating the map
     AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
     // _mapManager.StartNextMap(); // <- Should be done similar to this
-    _roundTimer.Start(_roundTime);
+    _roundTimer.Start(RoundState.RoundTime);
   }
 
   private void TogglePause()
@@ -445,77 +424,6 @@ public partial class World : Node2D
 
   private void UpdateScore()
   {
-    var results = GetResults();
-
-    if (results is { Light: 0, Dark: 0 })
-    {
-      return;
-    }
-
-    _overlay.SetRoundScore(results);
-  }
-
-  public struct Results : IEquatable<Results>
-  {
-    public int Dark { get; set; }
-    public int Light { get; set; }
-    public int Neutral { get; set; }
-
-    public bool Equals(Results other)
-    {
-      return Dark == other.Dark && Light == other.Light && Neutral == other.Neutral;
-    }
-
-    public override bool Equals(object obj)
-    {
-      return obj is Results other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(Dark, Light, Neutral);
-    }
-
-    public static bool operator ==(Results left, Results right)
-    {
-      return left.Equals(right);
-    }
-
-    public static bool operator !=(Results left, Results right)
-    {
-      return !left.Equals(right);
-    }
-  }
-
-  private struct Score : IEquatable<Score>
-  {
-    public int Dark { get; set; }
-    public int Light { get; set; }
-    public int Ties { get; set; }
-
-    public bool Equals(Score other)
-    {
-      return Dark == other.Dark && Light == other.Light && Ties == other.Ties;
-    }
-
-    public override bool Equals(object obj)
-    {
-      return obj is Score other && Equals(other);
-    }
-
-    public override int GetHashCode()
-    {
-      return HashCode.Combine(Dark, Light, Ties);
-    }
-
-    public static bool operator ==(Score left, Score right)
-    {
-      return left.Equals(right);
-    }
-
-    public static bool operator !=(Score left, Score right)
-    {
-      return !left.Equals(right);
-    }
+    _overlay.SetRoundScore(GetResults());
   }
 }

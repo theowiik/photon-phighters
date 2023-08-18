@@ -11,6 +11,7 @@ public static partial class PowerUps
     // Player can double tap to dash
     public override string Name => "Nike Air Jordans";
     public override Rarity Rarity => Rarity.Common;
+    public override bool IsCurse => false;
 
     protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
     {

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Godot;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts.PowerUps;
@@ -22,7 +23,18 @@ public static partial class PowerUps
     {
       _Apply(playerWhoSelected, otherPlayer);
       _haveTaken.Add(playerWhoSelected);
+
+      if (IsCurse)
+      {
+        otherPlayer.EffectsDelegate.DisplayPowerUpEffect(this);
+      }
+      else
+      {
+        playerWhoSelected.EffectsDelegate.DisplayPowerUpEffect(this);
+      }
     }
+
+    public abstract bool IsCurse { get; }
 
     protected int TimesTakenBy(Player player)
     {
@@ -31,9 +43,11 @@ public static partial class PowerUps
 
     protected abstract void _Apply(Player playerWhoSelected, Player otherPlayer);
 
-    protected static string BuildMarkName(int timesTaken)
+    protected string LazyGetMarkName(int max, Player player)
     {
-      return $"MK.{NumberUtil.ToRoman(timesTaken)}";
+      var timesTaken = TimesTakenBy(player);
+      var mark = Mathf.Min(timesTaken + 1, max);
+      return $"MK.{NumberUtil.ToRoman(mark)}";
     }
   }
 }
