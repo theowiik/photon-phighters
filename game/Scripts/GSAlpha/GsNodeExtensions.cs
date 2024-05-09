@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using Godot;
 
-namespace PhotonPhighters.Scripts.GoSharper;
+namespace PhotonPhighters.Scripts.GSAlpha;
 
+[Obsolete("Migrate to GodotSharper")]
 public static class GsNodeExtensions
 {
+  [Obsolete("Migrate to GodotSharper")]
   public static T GetNodeOrExplode<T>(this Node node, string name)
     where T : Node
   {
@@ -31,6 +33,7 @@ public static class GsNodeExtensions
     }
   }
 
+  [Obsolete("Migrate to GodotSharper")]
   public static IEnumerable<T> GetNodesOfType<T>(this Node node)
     where T : Node
   {

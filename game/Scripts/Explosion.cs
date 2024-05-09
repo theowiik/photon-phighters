@@ -2,13 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
+using GodotSharper;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
+using PhotonPhighters.Scripts.GSAlpha;
 
 namespace PhotonPhighters.Scripts;
 
-[Instantiable("res://Objects/Explosion.tscn")]
+[Scene("res://Objects/Explosion.tscn")]
 public partial class Explosion : Node2D
 {
   public enum ExplosionRadiusEnum
@@ -33,7 +34,7 @@ public partial class Explosion : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
 
     var shape = _area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
     shape.Shape = new CircleShape2D { Radius = (int)Radius };
@@ -56,7 +57,7 @@ public partial class Explosion : Node2D
     _explosionParticles.Emitting = true;
     _explosionPlayer.Play();
     ColorLightsInsideRadius();
-    AddChild(GsTimerFactory.OneShotStartedTimer(_explosionParticles.Lifetime, QueueFree));
+    AddChild(TimerFactory.StartedSelfDestructingOneShot(_explosionParticles.Lifetime, QueueFree));
   }
 
   private void ColorLightsInsideRadius()

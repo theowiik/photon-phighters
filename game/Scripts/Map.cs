@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Godot;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using GodotSharper.AutoGetNode;
+using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
@@ -25,7 +25,7 @@ public partial class Map : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
   }
 
   public void SetCollisionsEnabled(bool value)

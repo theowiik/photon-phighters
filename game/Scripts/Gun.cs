@@ -1,7 +1,7 @@
 ﻿using Godot;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
@@ -93,7 +93,7 @@ public partial class Gun : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     FireRate = 3f;
     _shootTimer.Timeout += () => Loading = !Loading;
     LightMode = Light.LightMode.Light;
@@ -128,7 +128,7 @@ public partial class Gun : Node2D
 
     for (var i = 0; i < shootEvent.BulletCount; i++)
     {
-      var bullet = GsInstanter.Instantiate<Bullet>();
+      var bullet = Instanter.Instantiate<Bullet>();
 
       bullet.BulletCollideFloorDelegate += HandleBulletCollideFloor;
       bullet.BulletFlyingDelegate += HandleBulletFlying;

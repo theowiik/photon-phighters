@@ -181,10 +181,10 @@ max_value = 9.22337e+18
 value = 5.0
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-autoplay = "gradient"
 libraries = {
 "": SubResource("AnimationLibrary_0crsu")
 }
+autoplay = "gradient"
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_svkrb")

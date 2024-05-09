@@ -1,6 +1,6 @@
 ﻿using System;
 using Godot;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using GodotSharper.AutoGetNode;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
@@ -40,7 +40,7 @@ public partial class Overlay : Control
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
   }
 
   private void Log(string msg)

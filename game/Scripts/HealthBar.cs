@@ -1,5 +1,5 @@
 ﻿using Godot;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using GodotSharper.AutoGetNode;
 
 namespace PhotonPhighters.Scripts;
 
@@ -10,7 +10,7 @@ public partial class HealthBar : Control
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
   }
 
   private void SetHealth(int health, int maxHealth)

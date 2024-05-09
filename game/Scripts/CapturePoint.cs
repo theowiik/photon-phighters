@@ -1,18 +1,16 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
 using Godot;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.Exceptions;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
+using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts;
 
-[Instantiable("res://Objects/CapturePoint.tscn")]
+[Scene("res://Objects/CapturePoint.tscn")]
 public partial class CapturePoint : Node2D
 {
   public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
@@ -148,7 +146,7 @@ public partial class CapturePoint : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     var area = this.GetNodeOrExplode<Area2D>("Area2D");
     area.BodyEntered += OnBodyEntered;
     area.BodyExited += OnBodyExited;

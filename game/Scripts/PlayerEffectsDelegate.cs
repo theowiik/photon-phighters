@@ -1,8 +1,8 @@
 ﻿using System;
 using Godot;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
+using GodotSharper;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
@@ -64,7 +64,7 @@ public partial class PlayerEffectsDelegate : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     _hurtTimer.Timeout += HurtTimerOnTimeout;
   }
 
@@ -139,7 +139,7 @@ public partial class PlayerEffectsDelegate : Node2D
   private static Node2D GenerateParticles(PackedScene particlesScene)
   {
     var instance = particlesScene.Instantiate<CpuParticles2D>();
-    var timer = GsTimerFactory.OneShotStartedTimer(instance.Lifetime, () => instance.QueueFree());
+    var timer = TimerFactory.StartedSelfDestructingOneShot(instance.Lifetime, () => instance.QueueFree());
 
     instance.Emitting = true;
     instance.AddChild(timer);
@@ -159,7 +159,7 @@ public partial class PlayerEffectsDelegate : Node2D
       : GenerateParticles(_powerUpEffectParticlesScene);
     AddChild(instance);
 
-    var label = GsInstanter.Instantiate<FloatingText>();
+    var label = Instanter.Instantiate<FloatingText>();
     AddChild(label);
     label.Position -= new Vector2(0, 30);
     label.SetText(powerUp.Name);

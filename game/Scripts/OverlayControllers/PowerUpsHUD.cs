@@ -1,7 +1,7 @@
 using System;
 using Godot;
+using GodotSharper.AutoGetNode;
 using PhotonPhighters.Scripts;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
 using PhotonPhighters.Scripts.PowerUps;
 
 public partial class PowerUpsHUD : Control
@@ -14,7 +14,7 @@ public partial class PowerUpsHUD : Control
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
   }
 
   public void Add(IPowerUpApplier powerUp, Player.TeamEnum who)

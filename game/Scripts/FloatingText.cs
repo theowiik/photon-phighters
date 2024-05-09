@@ -1,11 +1,11 @@
 using Godot;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
+using GodotSharper;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
-[Instantiable("res://Objects/FloatingText.tscn")]
+[Scene("res://Objects/FloatingText.tscn")]
 public partial class FloatingText : Node2D
 {
   private const float ExistsTime = 3f;
@@ -18,8 +18,8 @@ public partial class FloatingText : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
-    _timer = GsTimerFactory.OneShotSelfDestructingStartedTimer(ExistsTime, QueueFree);
+    this.GetNodes();
+    _timer = TimerFactory.StartedSelfDestructingOneShot(ExistsTime, QueueFree);
     AddChild(_timer);
   }
 

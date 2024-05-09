@@ -1,10 +1,10 @@
 ﻿using Godot;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 
 namespace PhotonPhighters.Scripts;
 
-[Instantiable("res://Objects/Light.tscn")]
+[Scene("res://Objects/Light.tscn")]
 public partial class Light : Area2D
 {
   public enum LightMode
@@ -28,7 +28,7 @@ public partial class Light : Area2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     _lightSprite.Visible = false;
     LightState = LightMode.None;
   }

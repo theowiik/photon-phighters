@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using Godot;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using GodotSharper.AutoGetNode;
 
 namespace PhotonPhighters.Scripts;
 
@@ -27,7 +27,7 @@ public partial class LightPlacingAutomata : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     PlaceRaysInCircle();
     Enabled = true;
   }

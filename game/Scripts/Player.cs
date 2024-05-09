@@ -1,7 +1,8 @@
 ﻿using Godot;
+using GodotSharper;
+using GodotSharper.AutoGetNode;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
@@ -78,7 +79,7 @@ public partial class Player : CharacterBody2D
       }
       else
       {
-        AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => CanTakeDamage = true));
+        AddChild(TimerFactory.StartedSelfDestructingOneShot(1, () => CanTakeDamage = true));
       }
 
       // Disable collisions
@@ -144,7 +145,7 @@ public partial class Player : CharacterBody2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
 
     Health = MaxHealth;
     IsAlive = true;

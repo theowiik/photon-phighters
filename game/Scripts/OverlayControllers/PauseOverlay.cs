@@ -1,6 +1,6 @@
 ﻿using Godot;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using GodotSharper.AutoGetNode;
+using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
@@ -57,7 +57,7 @@ public partial class PauseOverlay : Control
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     _resumeButton.Pressed += () => EmitSignal(SignalName.ResumeGame);
     _quitButton.Pressed += () => GetTree().Quit();
     _restartButton.Pressed += () => GetTree().ChangeOrExplode(SceneResourceWrapper.StartScreenPath);

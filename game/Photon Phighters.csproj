@@ -4,4 +4,14 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>PhotonPhighters</RootNamespace>
   </PropertyGroup>
+
+    <ItemGroup>
+    <Reference Include="GodotSharper">
+      <HintPath>Libraries/GodotSharper.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="Scripts\GSAlpha\README.md" />
+    </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
 using Godot;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
+using GodotSharper.AutoGetNode;
+using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts.MenuControllers;
@@ -12,7 +12,7 @@ public partial class StartScreen : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     GetTree().Paused = false;
 
     const string ButtonsRoot = "CanvasLayer/VBoxContainer/";

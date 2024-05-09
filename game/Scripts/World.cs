@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using GodotSharper;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.GameMode;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
+using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
@@ -65,7 +66,7 @@ public partial class World : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     _score = new Score();
 
     if (GlobalGameState.RoundTime > 0)
@@ -174,7 +175,7 @@ public partial class World : Node2D
     player.Frozen = true;
     player.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition;
 
-    var liveTimer = GsTimerFactory.OneShotSelfDestructingStartedTimer(
+    var liveTimer = TimerFactory.StartedSelfDestructingOneShot(
       RespawnTime,
       () =>
       {
@@ -309,7 +310,7 @@ public partial class World : Node2D
   private void SetupCapturePoint()
   {
     const int MaxConcurrentCapturePoints = 2;
-    var timer = GsTimerFactory.StartedTimer(TimeBetweenCapturePoint);
+    var timer = TimerFactory.StartedRepeating(TimeBetweenCapturePoint);
 
     AddChild(timer);
 
@@ -326,7 +327,7 @@ public partial class World : Node2D
 
   private void SpawnRandomCapturePoint()
   {
-    var capturePoint = GsInstanter.Instantiate<CapturePoint>();
+    var capturePoint = Instanter.Instantiate<CapturePoint>();
     AddChild(capturePoint);
     capturePoint.CapturedListeners += OnCapturePointCaptured;
 
@@ -334,7 +335,7 @@ public partial class World : Node2D
     capturePoint.GlobalPosition = _mapManager.GetRandomSpawnPoint().GlobalPosition + offset;
 
     // De-spawn after a while
-    var timer = GsTimerFactory.OneShotStartedTimer(
+    var timer = TimerFactory.StartedSelfDestructingOneShot(
       30,
       () =>
       {
@@ -347,7 +348,7 @@ public partial class World : Node2D
 
   private void SpawnExplosion(Node2D where, Light.LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
   {
-    var explosion = GsInstanter.Instantiate<Explosion>();
+    var explosion = Instanter.Instantiate<Explosion>();
     explosion.LightMode = who;
     explosion.Radius = explosionRadius;
     CallDeferred("add_child", explosion);
@@ -357,8 +358,8 @@ public partial class World : Node2D
 
   private void SpawnHurtIndicator(Node2D player, string msg)
   {
-    var indicator = GsInstanter.Instantiate<DamageAmountIndicator>();
-    indicator.AddChild(GsTimerFactory.OneShotStartedTimer(6, () => indicator.QueueFree()));
+    var indicator = Instanter.Instantiate<DamageAmountIndicator>();
+    indicator.AddChild(TimerFactory.StartedSelfDestructingOneShot(6, () => indicator.QueueFree()));
     AddChild(indicator);
     indicator.GlobalPosition = player.GlobalPosition;
     indicator.SetMessage(msg);
@@ -370,7 +371,7 @@ public partial class World : Node2D
       player.Team == Player.TeamEnum.Light
         ? _ragdollLightScene.Instantiate<RigidBody2D>()
         : _ragdollDarkScene.Instantiate<RigidBody2D>();
-    var timer = GsTimerFactory.OneShotStartedTimer(5, () => ragdoll.QueueFree());
+    var timer = TimerFactory.StartedSelfDestructingOneShot(5, () => ragdoll.QueueFree());
     ragdoll.AddChild(timer);
     CallDeferred("add_child", ragdoll);
 
@@ -405,7 +406,7 @@ public partial class World : Node2D
     }
 
     // TODO: Hack to ensure players are moved before activating the map
-    AddChild(GsTimerFactory.OneShotSelfDestructingStartedTimer(1, () => _mapManager.StartNextMap()));
+    AddChild(TimerFactory.StartedSelfDestructingOneShot(1, () => _mapManager.StartNextMap()));
     // _mapManager.StartNextMap(); // <- Should be done similar to this
     _roundTimer.Start(RoundState.RoundTime);
   }

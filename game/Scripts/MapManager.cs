@@ -3,9 +3,9 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Godot;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.GameMode;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
 using PhotonPhighters.Scripts.Utils;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
@@ -30,7 +30,7 @@ public partial class MapManager : Node2D
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     _maps = GetAllFilesInDirectory(_mapsFolder, ".tscn").Shuffled();
   }
 
@@ -131,7 +131,7 @@ public partial class MapManager : Node2D
         }
       }
 
-      var light = GsInstanter.Instantiate<Light>();
+      var light = Instanter.Instantiate<Light>();
       CurrentMap.AddChild(light);
       light.GlobalPosition = globalPos;
     };

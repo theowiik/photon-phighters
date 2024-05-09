@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using Godot;
-using PhotonPhighters.Scripts.GoSharper;
-using PhotonPhighters.Scripts.GoSharper.AutoWiring;
-using PhotonPhighters.Scripts.GoSharper.Instancing;
+using GodotSharper;
+using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
+using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.PowerUps;
 using static PhotonPhighters.Scripts.Player;
 
@@ -54,7 +55,7 @@ public partial class PowerUpPicker : Control
 
   public override void _Ready()
   {
-    this.AutoWire();
+    this.GetNodes();
     _rerollButton.Pressed += () => HandleReroll();
     _timer.Timeout += HandleTimerRunOut;
   }
@@ -122,7 +123,7 @@ public partial class PowerUpPicker : Control
     // Reroll button should be disabled at first to avoid mistakenly rerolling
     _rerollButton.Disabled = true;
     AddChild(
-      GsTimerFactory.OneShotSelfDestructingStartedTimer(
+      TimerFactory.StartedSelfDestructingOneShot(
         _disabledDelay,
         () =>
         {
@@ -157,7 +158,7 @@ public partial class PowerUpPicker : Control
       // Store the available PowerUps to pick one in case the timer runs out
       _availablePowerups.Add(powerUp);
 
-      var powerUpButton = GsInstanter.Instantiate<PowerUpTextureButton>();
+      var powerUpButton = Instanter.Instantiate<PowerUpTextureButton>();
       _gridContainer.AddChild(powerUpButton);
       var texturePack = GetThemeTextures(powerUp);
 
@@ -171,7 +172,7 @@ public partial class PowerUpPicker : Control
       // Disable at first
       powerUpButton.Disabled = true;
       AddChild(
-        GsTimerFactory.OneShotSelfDestructingStartedTimer(
+        TimerFactory.StartedSelfDestructingOneShot(
           _disabledDelay,
           () =>
           {
@@ -192,13 +193,13 @@ public partial class PowerUpPicker : Control
 
     var (color, rarityText) = theme;
 
-    var btnTexture = Gs.LoadOrExplode<Texture2D>(
+    var btnTexture = GDX.LoadOrFail<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}.png"
     );
-    var btnTextureHover = Gs.LoadOrExplode<Texture2D>(
+    var btnTextureHover = GDX.LoadOrFail<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_hover.png"
     );
-    var btnTextureDisabled = Gs.LoadOrExplode<Texture2D>(
+    var btnTextureDisabled = GDX.LoadOrFail<Texture2D>(
       $"res://Assets/Sprites/Buttons/{color}/card_{color.ToLower(CultureInfo.InvariantCulture)}_disabled.png"
     );
 
