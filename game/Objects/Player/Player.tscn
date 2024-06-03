@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://cmxhv53no4cy5"]
+[gd_scene load_steps=22 format=3 uid="uid://cmxhv53no4cy5"]
 
 [ext_resource type="Script" path="res://Scripts/Player.cs" id="1_be4dv"]
 [ext_resource type="PackedScene" uid="uid://dpatm74iofg13" path="res://Objects/Player/Gun.tscn" id="3_g1rr3"]
@@ -132,10 +132,14 @@ radius = 17.1172
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_d4oxs"]
 size = Vector2(28, 29)
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nggpt"]
+bg_color = Color(0, 0, 0, 0.168627)
+
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ctffe"]
 bg_color = Color(0, 0.709804, 0.490196, 1)
 
 [sub_resource type="Theme" id="Theme_hil3n"]
+ProgressBar/styles/background = SubResource("StyleBoxFlat_nggpt")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_ctffe")
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
