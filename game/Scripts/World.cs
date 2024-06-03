@@ -19,6 +19,8 @@ public partial class World : Node2D
 {
   private const float RespawnTime = 2.3f;
   private const int TimeBetweenCapturePoint = 10;
+
+  private readonly IGameMode _gameMode = new PhotonPhight();
   private readonly PackedScene _ragdollDarkScene = GD.Load<PackedScene>(ObjectResourceWrapper.DarkRagdollPath);
   private readonly PackedScene _ragdollLightScene = GD.Load<PackedScene>(ObjectResourceWrapper.LightRagdollPath);
 
@@ -29,8 +31,6 @@ public partial class World : Node2D
 
   [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
-
-  private readonly IGameMode _gameMode = new PhotonPhight();
 
   private Player _lastPlayerToScore;
   public Player _lightPlayer;
@@ -127,7 +127,9 @@ public partial class World : Node2D
 
     // Test vibration
     if (@event is InputEventKey keyEvent && int.TryParse(keyEvent.AsTextKeycode(), out var number))
-          new GamepadWrapper(number - 1).Vibrate();
+    {
+      new GamepadWrapper(number - 1).Vibrate();
+    }
   }
 
   private static void OnOutOfBounds(Player player)

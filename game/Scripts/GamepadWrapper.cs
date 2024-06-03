@@ -6,12 +6,15 @@ namespace PhotonPhighters;
 
 public class GamepadWrapper
 {
+  private const float DeadZone = 0.1f;
   private readonly int _gamepadIndex;
 
   public GamepadWrapper(int gamepadIndex)
   {
     if (gamepadIndex < 0)
+    {
       throw new ArgumentOutOfRangeException(nameof(gamepadIndex), "Gamepad index must be greater than or equal to 0.");
+    }
 
     _gamepadIndex = gamepadIndex;
   }
@@ -21,10 +24,7 @@ public class GamepadWrapper
   /// </summary>
   public Vector2 GetMovement()
   {
-    return new Vector2(
-      Input.GetJoyAxis(_gamepadIndex, JoyAxis.LeftX),
-      Input.GetJoyAxis(_gamepadIndex, JoyAxis.LeftY)
-    ).Normalized();
+    return GetAxis(JoyAxis.LeftX, JoyAxis.LeftY);
   }
 
   /// <summary>
@@ -32,10 +32,19 @@ public class GamepadWrapper
   /// </summary>
   public Vector2 GetAim()
   {
-    return new Vector2(
-      Input.GetJoyAxis(_gamepadIndex, JoyAxis.RightX),
-      Input.GetJoyAxis(_gamepadIndex, JoyAxis.RightY)
-    ).Normalized();
+    return GetAxis(JoyAxis.RightX, JoyAxis.RightY);
+  }
+
+  private Vector2 GetAxis(JoyAxis axis1, JoyAxis axis2)
+  {
+    var vec = new Vector2(Input.GetJoyAxis(_gamepadIndex, axis1), Input.GetJoyAxis(_gamepadIndex, axis2));
+
+    if (vec.Length() < DeadZone)
+    {
+      return Vector2.Zero;
+    }
+
+    return vec;
   }
 
   /// <summary>
@@ -43,7 +52,7 @@ public class GamepadWrapper
   /// </summary>
   public bool IsJumpPressed()
   {
-    return Input.IsJoyButtonPressed(_gamepadIndex, JoyButton.LeftShoulder);
+    return Input.GetJoyAxis(_gamepadIndex, JoyAxis.TriggerLeft) > DeadZone;
   }
 
   /// <summary>
@@ -51,7 +60,7 @@ public class GamepadWrapper
   /// </summary>
   public bool IsShootPressed()
   {
-    return Input.IsJoyButtonPressed(_gamepadIndex, JoyButton.RightShoulder);
+    return Input.GetJoyAxis(_gamepadIndex, JoyAxis.TriggerRight) > DeadZone;
   }
 
   /// <summary>

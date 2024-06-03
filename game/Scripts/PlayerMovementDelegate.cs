@@ -39,9 +39,9 @@ public partial class PlayerMovementDelegate : Node
   private int _jumpCount;
   private Vector2 _knockback;
   private bool _onFloorLastCall;
-  public GamepadWrapper Gamepad {get; set;}
   private float _speed = 300;
   private Vector2 _velocity;
+  public GamepadWrapper Gamepad { get; set; }
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
@@ -62,7 +62,7 @@ public partial class PlayerMovementDelegate : Node
 
   public override void _PhysicsProcess(double delta)
   {
-    var inputDirection = Gamepad.GetMovement(); 
+    var inputDirection = Gamepad.GetMovement();
 
     var moveEvent = new PlayerMovementEvent(
       Gravity,

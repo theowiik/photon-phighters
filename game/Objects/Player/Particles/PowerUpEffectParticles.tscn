@@ -1,6 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://b7amrolxnquoa"]
+[gd_scene load_steps=3 format=3 uid="uid://b7amrolxnquoa"]
 
 [ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="1_s1ie7"]
+
+[sub_resource type="Gradient" id="Gradient_atcnp"]
+colors = PackedColorArray(0.721569, 0.403922, 0.905882, 1, 0.721569, 0.403922, 0.905882, 0)
 
 [node name="PowerUpEffectsParticles" type="CPUParticles2D"]
 emitting = false
@@ -15,6 +18,7 @@ initial_velocity_max = 101.01
 scale_amount_min = 2.0
 scale_amount_max = 4.0
 color = Color(0.721569, 0.403922, 0.905882, 1)
+color_ramp = SubResource("Gradient_atcnp")
 
 [node name="ScaleReference" parent="." instance=ExtResource("1_s1ie7")]
 visible = false

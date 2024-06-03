@@ -37,14 +37,11 @@ public partial class Gun : Node2D
   private Sprite2D _sprite;
 
   public int BulletCount { get; set; } = 3;
-
   public int BulletDamage { get; set; } = 5;
-
   public float BulletGravity { get; set; } = 1.0f;
-
   public float BulletSizeFactor { get; set; } = 1.0f;
-
   public float BulletSpeed { get; set; } = 500;
+  public GamepadWrapper Gamepad { get; set; }
 
   /// <summary>
   ///   The spread of the bullets in radians.
@@ -66,7 +63,6 @@ public partial class Gun : Node2D
 
   public bool Frozen { get; set; }
   public Light.LightMode LightMode { get; set; }
-  public string ShootActionName { get; set; }
 
   private bool Loading
   {
@@ -85,7 +81,7 @@ public partial class Gun : Node2D
       return;
     }
 
-    if (Input.IsActionPressed(ShootActionName) && !Loading)
+    if (Gamepad.IsShootPressed() && !Loading)
     {
       Shoot();
     }

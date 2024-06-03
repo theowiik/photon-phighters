@@ -5,13 +5,13 @@
     <RootNamespace>PhotonPhighters</RootNamespace>
   </PropertyGroup>
 
-    <ItemGroup>
+  <ItemGroup>
     <Reference Include="GodotSharper">
       <HintPath>Libraries/GodotSharper.dll</HintPath>
     </Reference>
   </ItemGroup>
 
-    <ItemGroup>
-      <Content Include="Scripts\GSAlpha\README.md" />
-    </ItemGroup>
+  <ItemGroup>
+    <Content Include="Scripts\GSAlpha\README.md"/>
+  </ItemGroup>
 </Project>

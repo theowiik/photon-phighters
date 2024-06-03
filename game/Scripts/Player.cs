@@ -23,10 +23,11 @@ public partial class Player : CharacterBody2D
     Dark
   }
 
-  private GamepadWrapper _gamepad;
-  private bool _aimWithMouse = true;
+  private const float JoystickDeadzone = 0.05f;
   private bool _canTakeDamage;
   private bool _frozen;
+
+  private GamepadWrapper _gamepad;
   private int _gamepadIndex;
 
   [GetNode("Marker2D")]
@@ -151,7 +152,7 @@ public partial class Player : CharacterBody2D
     Health = MaxHealth;
     IsAlive = true;
     _gamepadIndex = GetGamepadIndex();
-    Gun.ShootActionName = $"p{PlayerNumber}_shoot";
+    Gun.Gamepad = _gamepad;
     Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
     EffectsDelegate.PlayerSprite = _sprite2D;
@@ -205,21 +206,10 @@ public partial class Player : CharacterBody2D
 
   private void Aim()
   {
-    const float JoystickDeadzone = 0.05f;
     var joystickVector = _gamepad.GetAim();
-
-    // Controller has priority over mouse.
     if (joystickVector.Length() > JoystickDeadzone)
     {
       _gunMarker.Rotation = joystickVector.Angle();
-      _aimWithMouse = false;
-    }
-
-    // Only player one can play with mouse and keyboard.
-    if (PlayerNumber == 1 && _aimWithMouse)
-    {
-      var direction = GetGlobalMousePosition() - GlobalPosition;
-      _gunMarker.Rotation = direction.Angle();
     }
 
     var flip = _gunMarker.RotationDegrees is > 90 or < -90;
@@ -267,10 +257,10 @@ public partial class Player : CharacterBody2D
 
   private int GetGamepadIndex()
   {
+    GD.Print("refactor!");
     var connectedGamePads = Input.GetConnectedJoypads();
     return connectedGamePads.Count == 2 ? connectedGamePads[PlayerNumber - 1] : 0;
   }
-
 
   public void VibrateGamepad()
   {
