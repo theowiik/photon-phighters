@@ -48,7 +48,6 @@ public static class PowerUpManager
       new PheedingPhrenzy(),
       new Randomizer5000(),
       new PhotonPhlyer(),
-      new NikeAirJordans(),
       new FakeJordans(),
       new SketchyPillsGood(),
       new SketchyPillsBad(),

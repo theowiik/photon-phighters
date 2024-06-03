@@ -124,6 +124,10 @@ public partial class World : Node2D
     {
       _roundTimer.Start(0.00001);
     }
+
+    // Test vibration
+    if (@event is InputEventKey keyEvent && int.TryParse(keyEvent.AsTextKeycode(), out var number))
+          new GamepadWrapper(number - 1).Vibrate();
   }
 
   private static void OnOutOfBounds(Player player)

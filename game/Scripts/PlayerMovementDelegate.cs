@@ -39,6 +39,7 @@ public partial class PlayerMovementDelegate : Node
   private int _jumpCount;
   private Vector2 _knockback;
   private bool _onFloorLastCall;
+  public GamepadWrapper Gamepad {get; set;}
   private float _speed = 300;
   private Vector2 _velocity;
   public float Acceleration { get; set; } = 12f;
@@ -47,7 +48,6 @@ public partial class PlayerMovementDelegate : Node
   public float JumpForce { get; set; } = 500;
   public int MaxJumps { get; set; } = 2;
   public PlayerEffectsDelegate PlayerEffectsDelegate { get; set; }
-  public int PlayerNumber { get; set; }
 
   public float Speed
   {
@@ -62,10 +62,7 @@ public partial class PlayerMovementDelegate : Node
 
   public override void _PhysicsProcess(double delta)
   {
-    var inputDirection = new Vector2(
-      Input.GetActionStrength($"p{PlayerNumber}_right") - Input.GetActionStrength($"p{PlayerNumber}_left"),
-      Input.GetActionStrength($"p{PlayerNumber}_down") - Input.GetActionStrength($"p{PlayerNumber}_up")
-    );
+    var inputDirection = Gamepad.GetMovement(); 
 
     var moveEvent = new PlayerMovementEvent(
       Gravity,
@@ -90,9 +87,6 @@ public partial class PlayerMovementDelegate : Node
     {
       EmitSignal(SignalName.PlayerStopped, moveEvent);
     }
-
-    // Double tapping
-    HandleDoubleTap(moveEvent);
 
     // Walking
     var targetSpeed = moveEvent.InputDirection.X * moveEvent.Speed;
@@ -133,7 +127,7 @@ public partial class PlayerMovementDelegate : Node
     }
 
     // Jumping + walljumping
-    if (Input.IsActionJustPressed($"p{PlayerNumber}_jump"))
+    if (Gamepad.IsJumpPressed())
     {
       EmitSignal(SignalName.PlayerJump, moveEvent);
       if (moveEvent.CanJump)
@@ -175,55 +169,6 @@ public partial class PlayerMovementDelegate : Node
     _doubleTapTimer.WaitTime = DoubleTapTimeThreshold;
     _doubleTapTimer.OneShot = true;
     _doubleTapTimer.Timeout += ResetTapState;
-  }
-
-  private void HandleDoubleTap(PlayerMovementEvent playerMovementEvent)
-  {
-    if (Input.IsActionPressed($"p{PlayerNumber}_left"))
-    {
-      if (!_isLeftArrowPressed)
-      {
-        if (_isWaitingForSecondTap && _doubleTapTimer.TimeLeft > 0)
-        {
-          EmitSignal(SignalName.PlayerDoubleTapped, playerMovementEvent);
-          ResetTapState();
-        }
-        else
-        {
-          _isWaitingForSecondTap = true;
-          _doubleTapTimer.Start();
-        }
-      }
-
-      _isLeftArrowPressed = true;
-    }
-    else
-    {
-      _isLeftArrowPressed = false;
-    }
-
-    if (Input.IsActionPressed($"p{PlayerNumber}_right"))
-    {
-      if (!_isRightArrowPressed)
-      {
-        if (_isWaitingForSecondTap && _doubleTapTimer.TimeLeft > 0)
-        {
-          EmitSignal(SignalName.PlayerDoubleTapped, playerMovementEvent);
-          ResetTapState();
-        }
-        else
-        {
-          _isWaitingForSecondTap = true;
-          _doubleTapTimer.Start();
-        }
-      }
-
-      _isRightArrowPressed = true;
-    }
-    else
-    {
-      _isRightArrowPressed = false;
-    }
   }
 
   private void ResetTapState()

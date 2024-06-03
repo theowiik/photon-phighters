@@ -23,8 +23,8 @@ public partial class Player : CharacterBody2D
     Dark
   }
 
+  private GamepadWrapper _gamepad;
   private bool _aimWithMouse = true;
-
   private bool _canTakeDamage;
   private bool _frozen;
   private int _gamepadIndex;
@@ -146,6 +146,7 @@ public partial class Player : CharacterBody2D
   public override void _Ready()
   {
     this.GetNodes();
+    _gamepad = new GamepadWrapper(PlayerNumber - 1);
 
     Health = MaxHealth;
     IsAlive = true;
@@ -154,7 +155,7 @@ public partial class Player : CharacterBody2D
     Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
     EffectsDelegate.PlayerSprite = _sprite2D;
-    PlayerMovementDelegate.PlayerNumber = PlayerNumber;
+    PlayerMovementDelegate.Gamepad = _gamepad;
     PlayerMovementDelegate.CharacterBody = this;
     PlayerMovementDelegate.PlayerEffectsDelegate = EffectsDelegate;
     PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners += effect =>
@@ -205,10 +206,7 @@ public partial class Player : CharacterBody2D
   private void Aim()
   {
     const float JoystickDeadzone = 0.05f;
-    var joystickVector = new Vector2(
-      Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightX),
-      Input.GetJoyAxis(PlayerNumber - 1, JoyAxis.RightY)
-    );
+    var joystickVector = _gamepad.GetAim();
 
     // Controller has priority over mouse.
     if (joystickVector.Length() > JoystickDeadzone)
@@ -273,13 +271,9 @@ public partial class Player : CharacterBody2D
     return connectedGamePads.Count == 2 ? connectedGamePads[PlayerNumber - 1] : 0;
   }
 
-  public void VibrateGamepadStrong(float seconds)
-  {
-    Input.StartJoyVibration(_gamepadIndex, 0.25f, 0.25f, seconds);
-  }
 
-  public void VibrateGamepadWeak(float seconds)
+  public void VibrateGamepad()
   {
-    Input.StartJoyVibration(_gamepadIndex, 0.75f, 0.75f, seconds);
+    _gamepad.Vibrate();
   }
 }

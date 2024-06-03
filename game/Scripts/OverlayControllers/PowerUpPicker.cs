@@ -97,7 +97,7 @@ public partial class PowerUpPicker : Control
     DisableRerollButton();
     _timer.Start(_timeToChoose);
 
-    loser.VibrateGamepadWeak(0.25f);
+    loser.VibrateGamepad();
     Visible = true;
     GrabFocus();
   }
