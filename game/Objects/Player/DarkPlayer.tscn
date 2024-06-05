@@ -3,6 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cmxhv53no4cy5" path="res://Objects/Player/Player.tscn" id="1_p7pa8"]
 
 [node name="DarkPlayer" instance=ExtResource("1_p7pa8")]
+LightMode = 1
 
 [node name="Sprite2D" parent="." index="2"]
 frame = 133

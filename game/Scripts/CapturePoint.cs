@@ -13,7 +13,7 @@ namespace PhotonPhighters.Scripts;
 [Scene("res://Objects/CapturePoint.tscn")]
 public partial class CapturePoint : Node2D
 {
-  public delegate void CapturedEvent(CapturePoint which, Player.TeamEnum team);
+  public delegate void CapturedEvent(CapturePoint which, LightMode team);
 
   public enum CapturePointReward
   {
@@ -133,12 +133,12 @@ public partial class CapturePoint : Node2D
     if (_captureTime >= TimeToCapture)
     {
       _captured = true;
-      CapturedListeners?.Invoke(this, Player.TeamEnum.Light);
+      CapturedListeners?.Invoke(this, LightMode.Light);
     }
     else if (_captureTime <= -TimeToCapture)
     {
       _captured = true;
-      CapturedListeners?.Invoke(this, Player.TeamEnum.Dark);
+      CapturedListeners?.Invoke(this, LightMode.Dark);
     }
 
     UpdateProgress();
@@ -164,8 +164,8 @@ public partial class CapturePoint : Node2D
 
   private int CalcActiveCaptureDiff()
   {
-    var lightPlayers = _playersInside.Count(p => p.Team == Player.TeamEnum.Light);
-    var darkPlayers = _playersInside.Count(p => p.Team == Player.TeamEnum.Dark);
+    var lightPlayers = _playersInside.Count(p => p.LightMode == LightMode.Light);
+    var darkPlayers = _playersInside.Count(p => p.LightMode == LightMode.Dark);
     return lightPlayers - darkPlayers;
   }
 

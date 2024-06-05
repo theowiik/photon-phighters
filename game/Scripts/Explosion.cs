@@ -29,7 +29,7 @@ public partial class Explosion : Node2D
 
   private bool _hasExploded;
 
-  public Light.LightMode LightMode { get; set; }
+  public LightMode LightMode { get; set; }
   public ExplosionRadiusEnum Radius { get; set; } = ExplosionRadiusEnum.Medium;
 
   public override void _Ready()

@@ -17,18 +17,11 @@ public partial class Player : CharacterBody2D
   [Signal]
   public delegate void PlayerHurtEventHandler(Player player, int damage, PlayerHurtEvent playerHurtEvent);
 
-  public enum TeamEnum
-  {
-    Light,
-    Dark
-  }
-
   private const float JoystickDeadzone = 0.05f;
   private bool _canTakeDamage;
   private bool _frozen;
 
   private GamepadWrapper _gamepad;
-  private int _gamepadIndex;
 
   [GetNode("Marker2D")]
   private Marker2D _gunMarker;
@@ -108,9 +101,7 @@ public partial class Player : CharacterBody2D
   public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
 
   [Export]
-  public int PlayerNumber { get; set; }
-
-  public TeamEnum Team => PlayerNumber == 1 ? TeamEnum.Light : TeamEnum.Dark;
+  public LightMode LightMode { get; set; }
 
   /// <summary>
   ///   The player's health.
@@ -125,8 +116,6 @@ public partial class Player : CharacterBody2D
       _healthBar.Value = (float)_health / MaxHealth;
     }
   }
-
-  public Light.LightMode LightMode => PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
 
   public override void _PhysicsProcess(double delta)
   {
@@ -147,13 +136,12 @@ public partial class Player : CharacterBody2D
   public override void _Ready()
   {
     this.GetNodes();
-    _gamepad = new GamepadWrapper(PlayerNumber - 1);
+    _gamepad = new GamepadWrapper(0); // TODO
 
     Health = MaxHealth;
     IsAlive = true;
-    _gamepadIndex = GetGamepadIndex();
     Gun.Gamepad = _gamepad;
-    Gun.LightMode = PlayerNumber == 1 ? Light.LightMode.Light : Light.LightMode.Dark;
+    Gun.LightMode = LightMode;
 
     EffectsDelegate.PlayerSprite = _sprite2D;
     PlayerMovementDelegate.Gamepad = _gamepad;
@@ -253,13 +241,6 @@ public partial class Player : CharacterBody2D
     TakeDamage(bullet.Damage);
     ApplyBulletKnockback(bullet);
     bullet.QueueFree();
-  }
-
-  private int GetGamepadIndex()
-  {
-    GD.Print("refactor!");
-    var connectedGamePads = Input.GetConnectedJoypads();
-    return connectedGamePads.Count == 2 ? connectedGamePads[PlayerNumber - 1] : 0;
   }
 
   public void VibrateGamepad()

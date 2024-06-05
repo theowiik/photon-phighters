@@ -65,17 +65,17 @@ public partial class PowerUpPicker : Control
     _timerLabel.Text = string.Format("Time left: {0}", _timer.TimeLeft.ToString("0.0"));
   }
 
-  public void SetTheme(TeamEnum value)
+  public void SetTheme(LightMode value)
   {
     switch (value)
     {
-      case TeamEnum.Light:
+      case LightMode.Light:
         _backgroundRect.Color = new Color(1, 1, 1, 0.5f);
         _label.Modulate = Colors.Black;
         _label.Text = "Light team won! Darkness, pick a helping hand";
         break;
 
-      case TeamEnum.Dark:
+      case LightMode.Dark:
         _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
         _label.Modulate = Colors.White;
         _label.Text = "Dark team won! Lightness, pick a helping hand";
@@ -90,7 +90,7 @@ public partial class PowerUpPicker : Control
   {
     _winner = winner;
     _loser = loser;
-    SetTheme(winner.Team);
+    SetTheme(winner.LightMode);
 
     Clear();
     Populate(loser);

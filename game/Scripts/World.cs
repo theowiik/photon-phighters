@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
+using Godot.Collections;
 using GodotSharper;
 using GodotSharper.AutoGetNode;
 using GodotSharper.Instancing;
@@ -27,13 +28,8 @@ public partial class World : Node2D
   [GetNode("FollowingCamera")]
   private FollowingCamera _camera;
 
-  public Player _darkPlayer;
-
   [GetNode("Sfx/DarkWin")]
   private AudioStreamPlayer _darkWin;
-
-  private Player _lastPlayerToScore;
-  public Player _lightPlayer;
 
   [GetNode("Sfx/LightWin")]
   private AudioStreamPlayer _lightWin;
@@ -56,7 +52,7 @@ public partial class World : Node2D
   private PowerUpPicker _powerUpPicker;
 
   [GetNode("CanvasLayer/PowerUpsHUD")]
-  private PowerUpsHUD _powerUpsHUD;
+  private PowerUpsHUD _powerUpsHud;
 
   [GetNode("RoundTimer")]
   private Timer _roundTimer;
@@ -105,12 +101,10 @@ public partial class World : Node2D
       player.PlayerEffectAddedListeners += OnPlayerEffectAdded;
     }
 
-    _lightPlayer = _players.First(p => p.PlayerNumber == 1);
-    _darkPlayer = _players.First(p => p.PlayerNumber == 2);
-
-    if (_lightPlayer == null || _darkPlayer == null)
+    var hasBoth = _players.Any(x => x.LightMode == LightMode.Dark) && _players.Any(x => x.LightMode == LightMode.Light);
+    if (!hasBoth)
     {
-      throw new NodeNotFoundException("Could not find both players");
+      throw new NodeNotFoundException("Match does not have both light and dark players");
     }
 
     // Start round
@@ -145,15 +139,15 @@ public partial class World : Node2D
     return _gameMode.GetResults(this);
   }
 
-  private Player Other(Player player)
+  private static LightMode Opposite(LightMode light)
   {
-    return player == _lightPlayer ? _darkPlayer : _lightPlayer;
+    return light == LightMode.Dark ? LightMode.Dark : LightMode.Light;
   }
 
-  private void OnCapturePointCaptured(CapturePoint which, Player.TeamEnum team)
+  private void OnCapturePointCaptured(CapturePoint which, LightMode team)
   {
-    var playerWhoCaptured = team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
-    var otherPlayer = Other(playerWhoCaptured);
+    var playerWhoCaptured = team == LightMode.Light ? _lightPlayer : _darkPlayer;
+    var otherPlayer = Opposite(playerWhoCaptured);
 
     switch (which.Reward)
     {
@@ -172,8 +166,8 @@ public partial class World : Node2D
 
   private void OnPlayerDied(Player player)
   {
-    RoundState.IncrementDeathForTeam(player.Team);
-    var oppositeLight = player.Team == Player.TeamEnum.Light ? Light.LightMode.Dark : Light.LightMode.Light;
+    RoundState.IncrementDeathForTeam(player.LightMode);
+    var oppositeLight = player.LightMode == LightMode.Light ? LightMode.Dark : LightMode.Light;
 
     SpawnRagdoll(player);
     SpawnExplosion(player, oppositeLight, Explosion.ExplosionRadiusEnum.Medium);
@@ -205,30 +199,24 @@ public partial class World : Node2D
     SpawnHurtIndicator(player, damage.ToString());
   }
 
+  private LightMode _lastLightToScore;
+
   private void OnPowerUpSelected(IPowerUpApplier powerUpApplier)
   {
-    _powerUpsHUD.Add(powerUpApplier, Other(_lastPlayerToScore).Team);
+    _powerUpsHud.Add(powerUpApplier, Opposite(_lastLightToScore));
     StartRound();
   }
 
-  private Player GetLosingPlayer()
+  // TODO: Remove
+  private LightMode GetLosingLight()
   {
-    if (_lastPlayerToScore == null)
-    {
-      throw new NullReferenceException("No player has scored yet!");
-    }
-
-    return _lastPlayerToScore.Team == Player.TeamEnum.Light ? _darkPlayer : _lightPlayer;
+    return Opposite(_lastLightToScore);
   }
 
-  private Player GetWinningPlayer()
+  // TODO: Remove
+  private LightMode GetWinningLight()
   {
-    if (_lastPlayerToScore == null)
-    {
-      throw new NullReferenceException("No player has scored yet!");
-    }
-
-    return _lastPlayerToScore.Team == Player.TeamEnum.Light ? _lightPlayer : _darkPlayer;
+    return _lastLightToScore;
   }
 
   /// <summary>
@@ -270,13 +258,13 @@ public partial class World : Node2D
     if (results.Light > results.Dark)
     {
       _score.Light++;
-      _lastPlayerToScore = _lightPlayer;
+      _lastLightToScore = _lightPlayer;
       _lightWin.Play();
     }
     else
     {
       _score.Dark++;
-      _lastPlayerToScore = _darkPlayer;
+      _lastLightToScore = _darkPlayer;
       _darkWin.Play();
     }
 
@@ -309,7 +297,7 @@ public partial class World : Node2D
         throw new NodeNotFoundException("Light node is not a Light!!");
       }
 
-      lightNode.SetLight(Light.LightMode.None);
+      lightNode.SetLight(LightMode.None);
     }
   }
 
@@ -352,7 +340,7 @@ public partial class World : Node2D
     capturePoint.AddChild(timer);
   }
 
-  private void SpawnExplosion(Node2D where, Light.LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
+  private void SpawnExplosion(Node2D where, LightMode who, Explosion.ExplosionRadiusEnum explosionRadius)
   {
     var explosion = Instanter.Instantiate<Explosion>();
     explosion.LightMode = who;
@@ -374,7 +362,7 @@ public partial class World : Node2D
   private void SpawnRagdoll(Player player)
   {
     var ragdoll =
-      player.Team == Player.TeamEnum.Light
+      player.LightMode == LightMode.Light
         ? _ragdollLightScene.Instantiate<RigidBody2D>()
         : _ragdollDarkScene.Instantiate<RigidBody2D>();
     var timer = TimerFactory.StartedSelfDestructingOneShot(5, () => ragdoll.QueueFree());
@@ -389,8 +377,8 @@ public partial class World : Node2D
 
   private void StartPowerUpSelection()
   {
-    var loser = GetLosingPlayer();
-    var winner = GetWinningPlayer();
+    var loser = GetLosingLight();
+    var winner = GetWinningLight();
     _powerUpPicker.BeginPowerUpSelection(winner, loser);
   }
 

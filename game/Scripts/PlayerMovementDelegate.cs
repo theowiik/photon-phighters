@@ -6,9 +6,6 @@ namespace PhotonPhighters.Scripts;
 public partial class PlayerMovementDelegate : Node
 {
   [Signal]
-  public delegate void PlayerDoubleTappedEventHandler(PlayerMovementEvent playerMoveEvent);
-
-  [Signal]
   public delegate void PlayerJumpEventHandler(PlayerMovementEvent playerMoveEvent);
 
   [Signal]
@@ -31,8 +28,6 @@ public partial class PlayerMovementDelegate : Node
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
-  private const float DoubleTapTimeThreshold = 0.3f;
-  private Timer _doubleTapTimer;
   private bool _isLeftArrowPressed;
   private bool _isRightArrowPressed;
   private bool _isWaitingForSecondTap;
@@ -53,11 +48,6 @@ public partial class PlayerMovementDelegate : Node
   {
     get => _speed;
     set => _speed = Mathf.Max(100f, value);
-  }
-
-  public override void _Ready()
-  {
-    InitializeDoubletap();
   }
 
   public override void _PhysicsProcess(double delta)
@@ -130,6 +120,7 @@ public partial class PlayerMovementDelegate : Node
     if (Gamepad.IsJumpPressed())
     {
       EmitSignal(SignalName.PlayerJump, moveEvent);
+
       if (moveEvent.CanJump)
       {
         if (onFloor || _jumpCount < moveEvent.MaxJumps)
@@ -160,21 +151,6 @@ public partial class PlayerMovementDelegate : Node
     CharacterBody.MoveAndSlide();
 
     WalkAnimationHandler();
-  }
-
-  private void InitializeDoubletap()
-  {
-    _doubleTapTimer = new Timer();
-    AddChild(_doubleTapTimer);
-    _doubleTapTimer.WaitTime = DoubleTapTimeThreshold;
-    _doubleTapTimer.OneShot = true;
-    _doubleTapTimer.Timeout += ResetTapState;
-  }
-
-  private void ResetTapState()
-  {
-    _isWaitingForSecondTap = false;
-    _doubleTapTimer.Stop();
   }
 
   public void AddKnockback(Vector2 knockback)

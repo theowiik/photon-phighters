@@ -13,7 +13,6 @@ config_version=5
 config/name="Photon Phighters"
 run/main_scene="res://Scenes/Screens/StartScreen.tscn"
 config/features=PackedStringArray("4.2", "C#", "Forward Plus")
-config/icon="res://AssetsProjectFiles/Logo/logo.png"
 
 [display]
 
@@ -68,11 +67,6 @@ ui_down={
 dev_finish_round={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":76,"key_label":0,"unicode":108,"echo":false,"script":null)
-]
-}
-dev_switch_light_mode={
-"deadzone": 0.5,
-"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":79,"key_label":0,"unicode":111,"echo":false,"script":null)
 ]
 }
 dev_power_up_menu={

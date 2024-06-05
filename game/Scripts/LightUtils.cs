@@ -10,9 +10,9 @@ public static class LightUtils
     var lightsArr = lights as Light[] ?? lights.ToArray();
     return new Score
     {
-      Dark = lightsArr.Count(light => light.LightState == Light.LightMode.Dark),
-      Light = lightsArr.Count(light => light.LightState == Light.LightMode.Light),
-      Ties = lightsArr.Count(light => light.LightState == Light.LightMode.None)
+      Dark = lightsArr.Count(light => light.LightState == LightMode.Dark),
+      Light = lightsArr.Count(light => light.LightState == LightMode.Light),
+      Ties = lightsArr.Count(light => light.LightState == LightMode.None)
     };
   }
 }

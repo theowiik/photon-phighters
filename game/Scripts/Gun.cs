@@ -62,7 +62,7 @@ public partial class Gun : Node2D
   }
 
   public bool Frozen { get; set; }
-  public Light.LightMode LightMode { get; set; }
+  public LightMode LightMode { get; set; }
 
   private bool Loading
   {
@@ -92,20 +92,12 @@ public partial class Gun : Node2D
     this.GetNodes();
     FireRate = 3f;
     _shootTimer.Timeout += () => Loading = !Loading;
-    LightMode = Light.LightMode.Light;
-  }
-
-  public override void _UnhandledInput(InputEvent @event)
-  {
-    if (@event.IsActionPressed("dev_switch_light_mode"))
-    {
-      LightMode = LightMode == Light.LightMode.Light ? Light.LightMode.Dark : Light.LightMode.Light;
-    }
+    LightMode = LightMode.Light;
   }
 
   private float GetLightPitch()
   {
-    return LightMode == Light.LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
+    return LightMode == LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
   }
 
   private void Shoot()

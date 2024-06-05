@@ -18,7 +18,7 @@ public partial class Bullet : Area2D
   private Vector2 _velocity;
   public float GravityFactor { get; set; } = 1.0f;
   public int Damage { get; set; } = 10;
-  public Light.LightMode LightMode { get; set; } = Light.LightMode.Dark;
+  public LightMode LightMode { get; set; } = LightMode.Dark;
   public float Speed { get; set; }
 
   public override void _PhysicsProcess(double delta)
@@ -40,7 +40,7 @@ public partial class Bullet : Area2D
     BodyEntered += OnBodyEntered;
 
     var sprite = this.GetNodeOrExplode<Sprite2D>("Sprite2D");
-    if (LightMode == Light.LightMode.Dark)
+    if (LightMode == LightMode.Dark)
     {
       sprite.Modulate = new Color(0, 0, 0);
     }

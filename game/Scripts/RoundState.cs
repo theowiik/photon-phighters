@@ -1,6 +1,4 @@
-﻿using static PhotonPhighters.Scripts.Player;
-
-namespace PhotonPhighters.Scripts;
+﻿namespace PhotonPhighters.Scripts;
 
 public sealed class RoundState
 {
@@ -15,9 +13,9 @@ public sealed class RoundState
     DarkDeaths = 0;
   }
 
-  public void IncrementDeathForTeam(TeamEnum team)
+  public void IncrementDeathForTeam(LightMode team)
   {
-    if (team == TeamEnum.Light)
+    if (team == LightMode.Light)
     {
       LightDeaths++;
     }

@@ -1,8 +1,9 @@
 using System;
 using Godot;
 using GodotSharper.AutoGetNode;
-using PhotonPhighters.Scripts;
 using PhotonPhighters.Scripts.PowerUps;
+
+namespace PhotonPhighters.Scripts.OverlayControllers;
 
 public partial class PowerUpsHUD : Control
 {
@@ -17,14 +18,14 @@ public partial class PowerUpsHUD : Control
     this.GetNodes();
   }
 
-  public void Add(IPowerUpApplier powerUp, Player.TeamEnum who)
+  public void Add(IPowerUpApplier powerUp, LightMode who)
   {
     switch (who)
     {
-      case Player.TeamEnum.Light:
+      case LightMode.Light:
         _lightLabel.Text += $"\n- {powerUp.Name}";
         break;
-      case Player.TeamEnum.Dark:
+      case LightMode.Dark:
         _darkLabel.Text += $"[right]\n- {powerUp.Name}[/right]";
         break;
       default:
