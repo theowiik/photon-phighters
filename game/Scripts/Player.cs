@@ -101,7 +101,7 @@ public partial class Player : CharacterBody2D
   public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
 
   [Export]
-  public LightMode LightMode { get; set; }
+  public Team Team { get; set; }
 
   /// <summary>
   ///   The player's health.
@@ -141,7 +141,7 @@ public partial class Player : CharacterBody2D
     Health = MaxHealth;
     IsAlive = true;
     Gun.Gamepad = _gamepad;
-    Gun.LightMode = LightMode;
+    Gun.Team = Team;
 
     EffectsDelegate.PlayerSprite = _sprite2D;
     PlayerMovementDelegate.Gamepad = _gamepad;
@@ -233,7 +233,7 @@ public partial class Player : CharacterBody2D
       return;
     }
 
-    if (area is not Bullet bullet || bullet.LightMode == Gun.LightMode)
+    if (area is not Bullet bullet || bullet.Team == Gun.Team)
     {
       return;
     }

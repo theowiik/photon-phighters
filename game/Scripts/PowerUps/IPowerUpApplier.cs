@@ -6,8 +6,17 @@
 public interface IPowerUpApplier
 {
   string Name { get; }
-  PowerUps.Rarity Rarity { get; }
+  Rarity Rarity { get; }
   bool IsCurse { get; }
-  string GetMarkName(Player player);
+
+  /// <summary>
+  ///   Get the mark name for the power up.
+  ///   A mark is a an upgrade of the power up.
+  ///   For example, a power up that can be taken 3 times will be mark 3.
+  /// </summary>
+  /// <param name="team">The team.</param>
+  /// <returns>The mark name.</returns>
+  string GetMarkName(Team team);
+
   void Apply(Player playerWhoSelected, Player otherPlayer);
 }

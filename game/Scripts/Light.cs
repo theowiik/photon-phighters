@@ -17,31 +17,31 @@ public partial class Light : Area2D
   [GetNode("LightSprite")]
   private Sprite2D _lightSprite;
 
-  public LightMode LightState { get; private set; }
+  public Team Team { get; private set; }
 
   public override void _Ready()
   {
     this.GetNodes();
     _lightSprite.Visible = false;
-    LightState = LightMode.None;
+    Team = Team.Neutral;
   }
 
-  public void SetLight(LightMode lightMode)
+  public void SetLight(Team team)
   {
-    if (LightState == lightMode)
+    if (Team == team)
     {
       return;
     }
 
-    if (lightMode == LightMode.None)
+    if (team == Team.Neutral)
     {
       _lightSprite.Visible = false;
-      LightState = LightMode.None;
+      Team = Team.Neutral;
       return;
     }
 
-    LightState = lightMode;
+    Team = team;
     _lightSprite.Visible = true;
-    _lightSprite.Modulate = LightState == LightMode.Light ? _lightColorModulate : _darkColorModulate;
+    _lightSprite.Modulate = Team == Team.Light ? _lightColorModulate : _darkColorModulate;
   }
 }

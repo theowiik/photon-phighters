@@ -5,49 +5,40 @@ using PhotonPhighters.Scripts.Utils;
 
 namespace PhotonPhighters.Scripts.PowerUps;
 
-public static partial class PowerUps
+public abstract class AbstractPowerUpApplier : IPowerUpApplier
 {
-  public abstract class AbstractPowerUpApplier : IPowerUpApplier
+  private readonly IList<Team> _haveTaken = new List<Team>();
+
+  public virtual string GetMarkName(Team team)
   {
-    private readonly IList<Player> _haveTaken = new List<Player>();
+    return null;
+  }
 
-    public virtual string GetMarkName(Player player)
-    {
-      return null;
-    }
+  public abstract string Name { get; }
+  public abstract Rarity Rarity { get; }
 
-    public abstract string Name { get; }
-    public abstract Rarity Rarity { get; }
+  public void Apply(Player playerWhoSelected, Player otherPlayer)
+  {
+    _Apply(playerWhoSelected, otherPlayer);
+    _haveTaken.Add(playerWhoSelected.Team);
 
-    public void Apply(Player playerWhoSelected, Player otherPlayer)
-    {
-      _Apply(playerWhoSelected, otherPlayer);
-      _haveTaken.Add(playerWhoSelected);
+    var playerToAddEffect = IsCurse ? otherPlayer : playerWhoSelected;
+    playerToAddEffect.EffectsDelegate.DisplayPowerUpEffect(this);
+  }
 
-      if (IsCurse)
-      {
-        otherPlayer.EffectsDelegate.DisplayPowerUpEffect(this);
-      }
-      else
-      {
-        playerWhoSelected.EffectsDelegate.DisplayPowerUpEffect(this);
-      }
-    }
+  public abstract bool IsCurse { get; }
 
-    public abstract bool IsCurse { get; }
+  protected int TimesTakenBy(Team team)
+  {
+    return _haveTaken.Count(t => t == team);
+  }
 
-    protected int TimesTakenBy(Player player)
-    {
-      return _haveTaken.Count(p => p == player);
-    }
+  protected abstract void _Apply(Player playerWhoSelected, Player otherPlayer);
 
-    protected abstract void _Apply(Player playerWhoSelected, Player otherPlayer);
-
-    protected string LazyGetMarkName(int max, Player player)
-    {
-      var timesTaken = TimesTakenBy(player);
-      var mark = Mathf.Min(timesTaken + 1, max);
-      return $"MK.{NumberUtil.ToRoman(mark)}";
-    }
+  protected string LazyGetMarkName(int max, Team team)
+  {
+    var timesTaken = TimesTakenBy(team);
+    var mark = Mathf.Min(timesTaken + 1, max);
+    return $"MK.{NumberUtil.ToRoman(mark)}";
   }
 }

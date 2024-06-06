@@ -18,14 +18,14 @@ public partial class PowerUpsHUD : Control
     this.GetNodes();
   }
 
-  public void Add(IPowerUpApplier powerUp, LightMode who)
+  public void Add(IPowerUpApplier powerUp, Team who)
   {
     switch (who)
     {
-      case LightMode.Light:
+      case Team.Light:
         _lightLabel.Text += $"\n- {powerUp.Name}";
         break;
-      case LightMode.Dark:
+      case Team.Dark:
         _darkLabel.Text += $"[right]\n- {powerUp.Name}[/right]";
         break;
       default:

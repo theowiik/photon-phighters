@@ -1,46 +1,44 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.Events;
-using static PhotonPhighters.Scripts.PowerUps.PowerUps;
 
 namespace PhotonPhighters.Scripts.PowerUps.Appliers;
 
-public static partial class PowerUps
+/// <summary>
+///   Getting hurt briefly increases movement speed.
+/// </summary>
+public class FluorescentBurst : AbstractPowerUpApplier
 {
-  public class FluorescentBurst : AbstractPowerUpApplier
-  {
-    // Getting hurt briefly increases movement speed
-    public override string Name => "Fluorescent Burst";
-    public override Rarity Rarity => Rarity.Common;
-    public override bool IsCurse => false;
+  public override string Name => "Fluorescent Burst";
+  public override Rarity Rarity => Rarity.Common;
+  public override bool IsCurse => false;
 
-    protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
+  protected override void _Apply(Player playerWhoSelected, Player otherPlayer)
+  {
+    new StatefulFluorescentBurst().Apply(playerWhoSelected);
+  }
+
+  private class StatefulFluorescentBurst
+  {
+    private ulong _msecSinceLastHurt;
+
+    public void Apply(Player playerWhoSelected)
     {
-      new StatefulFluorescentBurst().Apply(playerWhoSelected);
+      playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
+      playerWhoSelected.PlayerHurt += RecordTimeSinceHurt;
     }
 
-    private class StatefulFluorescentBurst
+    private void GiveSpeedBoost(PlayerMovementEvent playerMovementEvent)
     {
-      private ulong _msecSinceLastHurt;
-
-      public void Apply(Player playerWhoSelected)
+      var currentTimeMsec = Time.GetTicksMsec();
+      if (currentTimeMsec - _msecSinceLastHurt < 2000)
       {
-        playerWhoSelected.PlayerMovementDelegate.PlayerMove += GiveSpeedBoost;
-        playerWhoSelected.PlayerHurt += RecordTimeSinceHurt;
+        playerMovementEvent.Speed *= 1.5f;
       }
+    }
 
-      private void GiveSpeedBoost(PlayerMovementEvent playerMovementEvent)
-      {
-        var currentTimeMsec = Time.GetTicksMsec();
-        if (currentTimeMsec - _msecSinceLastHurt < 2000)
-        {
-          playerMovementEvent.Speed *= 1.5f;
-        }
-      }
-
-      private void RecordTimeSinceHurt(Player player, int damage, PlayerHurtEvent playerHurtEvent)
-      {
-        _msecSinceLastHurt = Time.GetTicksMsec();
-      }
+    private void RecordTimeSinceHurt(Player player, int damage, PlayerHurtEvent playerHurtEvent)
+    {
+      _msecSinceLastHurt = Time.GetTicksMsec();
     }
   }
 }

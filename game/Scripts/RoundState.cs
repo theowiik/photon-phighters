@@ -13,9 +13,9 @@ public sealed class RoundState
     DarkDeaths = 0;
   }
 
-  public void IncrementDeathForTeam(LightMode team)
+  public void IncrementDeathForTeam(Team team)
   {
-    if (team == LightMode.Light)
+    if (team == Team.Light)
     {
       LightDeaths++;
     }

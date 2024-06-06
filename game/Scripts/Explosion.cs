@@ -12,7 +12,7 @@ namespace PhotonPhighters.Scripts;
 [Scene("res://Objects/Explosion.tscn")]
 public partial class Explosion : Node2D
 {
-  public enum ExplosionRadiusEnum
+  public enum ExplosionSize
   {
     Medium = 100,
     Large = 150
@@ -29,15 +29,15 @@ public partial class Explosion : Node2D
 
   private bool _hasExploded;
 
-  public LightMode LightMode { get; set; }
-  public ExplosionRadiusEnum Radius { get; set; } = ExplosionRadiusEnum.Medium;
+  public Team Team { get; set; }
+  public ExplosionSize Size { get; set; } = ExplosionSize.Medium;
 
   public override void _Ready()
   {
     this.GetNodes();
 
     var shape = _area.GetNodeOrExplode<CollisionShape2D>("CollisionShape2D");
-    shape.Shape = new CircleShape2D { Radius = (int)Radius };
+    shape.Shape = new CircleShape2D { Radius = (int)Size };
   }
 
   public override void _PhysicsProcess(double delta)
@@ -64,7 +64,7 @@ public partial class Explosion : Node2D
   {
     foreach (var light in GetAllLightsInsideArea())
     {
-      light.SetLight(LightMode);
+      light.SetLight(Team);
     }
   }
 

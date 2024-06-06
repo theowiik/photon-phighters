@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using Godot;
 using GodotSharper;
 using GodotSharper.AutoGetNode;
 using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.PowerUps;
-using static PhotonPhighters.Scripts.Player;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
 
@@ -15,16 +15,17 @@ public partial class PowerUpPicker : Control
 {
   public delegate void PowerUpSelectionEnded(IPowerUpApplier powerUpApplier);
 
-  private static readonly Dictionary<PowerUps.PowerUps.Rarity, (string color, string text)> s_rarityThemes =
+  private static readonly Dictionary<Rarity, (string color, string text)> s_rarityThemes =
     new()
     {
-      { PowerUps.PowerUps.Rarity.Common, ("Green", "") },
-      { PowerUps.PowerUps.Rarity.Rare, ("Blue", "(Rare)") },
-      { PowerUps.PowerUps.Rarity.Epic, ("Purple", "(Epic)") },
-      { PowerUps.PowerUps.Rarity.Legendary, ("Orange", "(LEGENDARY)") }
+      { Rarity.Common, ("Green", "") },
+      { Rarity.Rare, ("Blue", "(Rare)") },
+      { Rarity.Epic, ("Purple", "(Epic)") },
+      { Rarity.Legendary, ("Orange", "(LEGENDARY)") }
     };
 
   private readonly List<IPowerUpApplier> _availablePowerups = new();
+  private IEnumerable<Player> _allPlayers;
 
   [GetNode("BackgroundRect")]
   private ColorRect _backgroundRect;
@@ -37,7 +38,7 @@ public partial class PowerUpPicker : Control
   [GetNode("Label")]
   private Label _label;
 
-  private Player _loser;
+  private Team _loser;
 
   [GetNode("RerollTextureButton")]
   private TextureButton _rerollButton;
@@ -50,54 +51,56 @@ public partial class PowerUpPicker : Control
 
   private int _timeToChoose = 20;
 
-  private Player _winner;
+  private Team _winner;
   public event PowerUpSelectionEnded PowerUpSelectionEndedListeners;
 
   public override void _Ready()
   {
     this.GetNodes();
-    _rerollButton.Pressed += () => HandleReroll();
+    _rerollButton.Pressed += HandleReroll;
     _timer.Timeout += HandleTimerRunOut;
   }
 
   public override void _Process(double delta)
   {
-    _timerLabel.Text = string.Format("Time left: {0}", _timer.TimeLeft.ToString("0.0"));
+    _timerLabel.Text = $"Time left: {_timer.TimeLeft:0.0}";
   }
 
-  public void SetTheme(LightMode value)
+  public void SetTheme(Team value)
   {
     switch (value)
     {
-      case LightMode.Light:
+      case Team.Light:
         _backgroundRect.Color = new Color(1, 1, 1, 0.5f);
         _label.Modulate = Colors.Black;
         _label.Text = "Light team won! Darkness, pick a helping hand";
         break;
 
-      case LightMode.Dark:
+      case Team.Dark:
         _backgroundRect.Color = new Color(0, 0, 0, 0.5f);
         _label.Modulate = Colors.White;
         _label.Text = "Dark team won! Lightness, pick a helping hand";
         break;
 
+      case Team.Neutral:
       default:
         throw new ArgumentOutOfRangeException(nameof(value), value, null);
     }
   }
 
-  public void BeginPowerUpSelection(Player winner, Player loser)
+  public void BeginPowerUpSelection(Team winner, Team loser, IEnumerable<Player> players)
   {
+    _allPlayers = players;
     _winner = winner;
     _loser = loser;
-    SetTheme(winner.LightMode);
+    SetTheme(winner);
 
     Clear();
     Populate(loser);
     DisableRerollButton();
     _timer.Start(_timeToChoose);
 
-    loser.VibrateGamepad();
+    // TODO: Possibly re-add vibration for the loser (the one to select a power up)
     Visible = true;
     GrabFocus();
   }
@@ -105,7 +108,14 @@ public partial class PowerUpPicker : Control
   private void EndPowerUpSelection(IPowerUpApplier powerUpApplier)
   {
     Visible = false;
-    powerUpApplier.Apply(_loser, _winner);
+    // powerUpApplier.Apply(_loser, _winner);
+
+    foreach (var player in _allPlayers)
+    {
+      GD.Print("Apply!!!!!!");
+      // TODO
+    }
+
     _timer.Stop();
     PowerUpSelectionEndedListeners?.Invoke(powerUpApplier);
   }
@@ -115,7 +125,8 @@ public partial class PowerUpPicker : Control
     Clear();
     Populate(_loser);
     DisableRerollButton();
-    _loser.MaxHealth -= 10;
+
+    GetLoosingPlayers().ForEach(p => p.MaxHealth -= 10);
   }
 
   private void DisableRerollButton()
@@ -151,7 +162,17 @@ public partial class PowerUpPicker : Control
     }
   }
 
-  private void Populate(Player losingPlayer)
+  private IEnumerable<Player> GetWinningPlayers()
+  {
+    return _allPlayers.Where(p => p.Team == _winner).ToList();
+  }
+
+  private IEnumerable<Player> GetLoosingPlayers()
+  {
+    return _allPlayers.Where(p => p.Team == _loser).ToList();
+  }
+
+  private void Populate(Team losingPlayer)
   {
     foreach (var powerUp in PowerUpManager.GetUniquePowerUps(4))
     {

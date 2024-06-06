@@ -62,7 +62,7 @@ public partial class Gun : Node2D
   }
 
   public bool Frozen { get; set; }
-  public LightMode LightMode { get; set; }
+  public Team Team { get; set; }
 
   private bool Loading
   {
@@ -92,12 +92,12 @@ public partial class Gun : Node2D
     this.GetNodes();
     FireRate = 3f;
     _shootTimer.Timeout += () => Loading = !Loading;
-    LightMode = LightMode.Light;
+    Team = Team.Light;
   }
 
   private float GetLightPitch()
   {
-    return LightMode == LightMode.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
+    return Team == Team.Light ? (float)GD.RandRange(1.5f, 1.8f) : (float)GD.RandRange(0.7f, 0.9f);
   }
 
   private void Shoot()
@@ -129,7 +129,7 @@ public partial class Gun : Node2D
       bullet.Scale *= shootEvent.BulletSizeFactor;
       bullet.GravityFactor = shootEvent.BulletGravity;
       bullet.Damage = shootEvent.BulletDamage;
-      bullet.LightMode = LightMode;
+      bullet.Team = Team;
 
       EmitSignal(SignalName.ShootDelegate, bullet);
     }

@@ -18,7 +18,7 @@ public partial class Bullet : Area2D
   private Vector2 _velocity;
   public float GravityFactor { get; set; } = 1.0f;
   public int Damage { get; set; } = 10;
-  public LightMode LightMode { get; set; } = LightMode.Dark;
+  public Team Team { get; set; } = Team.Dark;
   public float Speed { get; set; }
 
   public override void _PhysicsProcess(double delta)
@@ -40,7 +40,7 @@ public partial class Bullet : Area2D
     BodyEntered += OnBodyEntered;
 
     var sprite = this.GetNodeOrExplode<Sprite2D>("Sprite2D");
-    if (LightMode == LightMode.Dark)
+    if (Team == Team.Dark)
     {
       sprite.Modulate = new Color(0, 0, 0);
     }
@@ -53,7 +53,7 @@ public partial class Bullet : Area2D
       return;
     }
 
-    light.SetLight(LightMode);
+    light.SetLight(Team);
     var bulletCollideFloorEvent = new BulletCollideFloorEvent(this, _velocity, true);
     EmitSignal(SignalName.BulletCollideFloorDelegate, bulletCollideFloorEvent);
     if (bulletCollideFloorEvent.IsFinished)

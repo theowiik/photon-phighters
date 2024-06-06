@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using PhotonPhighters.Scripts.PowerUps.Appliers;
 using PhotonPhighters.Scripts.Utils;
-using static PhotonPhighters.Scripts.PowerUps.Appliers.PowerUps;
-using static PhotonPhighters.Scripts.PowerUps.PowerUps.Rarity;
+using static PhotonPhighters.Scripts.PowerUps.Rarity;
 
 namespace PhotonPhighters.Scripts.PowerUps;
 
@@ -25,7 +25,7 @@ public static class PowerUpManager
       new PhotonBoost(),
       new HealthBoost(),
       new BunnyBoost(),
-      new MiniGun(),
+      new MillionLumen(),
       new PhotonMultiplier(),
       new PhotonEnlarger(),
       new PhotonAccelerator(),
@@ -33,7 +33,7 @@ public static class PowerUpManager
       new PhotonMuncher(),
       new AirWalker(),
       new GeneratorEngine(),
-      new MiniGun(),
+      new MillionLumen(),
       new SteelBootsCurse(),
       new StickyThickyCurse(),
       new BulletRain(),
@@ -58,8 +58,7 @@ public static class PowerUpManager
     CalculateOdds();
   }
 
-  private static bool RaritySumIs100 =>
-    Enum.GetValues(typeof(PowerUps.Rarity)).Cast<PowerUps.Rarity>().Sum(rarity => (int)rarity) == 100;
+  private static bool RaritySumIs100 => Enum.GetValues(typeof(Rarity)).Cast<Rarity>().Sum(rarity => (int)rarity) == 100;
 
   private static RarityCumulative RarityCumulativeOdds
   {
@@ -109,7 +108,7 @@ public static class PowerUpManager
     return PowerUps.Where(p => p.Rarity == rarity).ToList().Sample();
   }
 
-  private static PowerUps.Rarity GetRandomRarityWithOdds()
+  private static Rarity GetRandomRarityWithOdds()
   {
     var random = new Random();
     var randomNumber = random.Next(1, RarityCumulativeOdds.Legendary + 1);
@@ -139,20 +138,20 @@ public static class PowerUpManager
 
   private static void CalculateOdds()
   {
-    var powerUpProbabilites = new List<Tuple<string, float>>();
+    var powerUpProbabilities = new List<Tuple<string, float>>();
 
-    foreach (var rarity in Enum.GetValues(typeof(PowerUps.Rarity)).Cast<PowerUps.Rarity>())
+    foreach (var rarity in Enum.GetValues(typeof(Rarity)).Cast<Rarity>())
     {
       var powerUpsOfRarity = PowerUps.Where(p => p.Rarity == rarity).ToList();
       var probabilityPerPowerUp = (int)rarity / (float)powerUpsOfRarity.Count;
-      powerUpProbabilites.AddRange(
+      powerUpProbabilities.AddRange(
         powerUpsOfRarity.Select(
           powerUp => new Tuple<string, float>($"{powerUp.Rarity} - {powerUp.Name}", probabilityPerPowerUp)
         )
       );
     }
 
-    WriteTupleListToFile(powerUpProbabilites, "probabilities.csv", "Power Up", "Probability");
+    WriteTupleListToFile(powerUpProbabilities, "probabilities.csv", "Power Up", "Probability");
   }
 
   private static void WriteTupleListToFile(

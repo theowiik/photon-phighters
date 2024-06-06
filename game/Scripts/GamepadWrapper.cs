@@ -2,7 +2,7 @@ using System;
 using Godot;
 using Vector2 = Godot.Vector2;
 
-namespace PhotonPhighters;
+namespace PhotonPhighters.Scripts;
 
 public class GamepadWrapper
 {
