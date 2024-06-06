@@ -114,6 +114,7 @@ script = ExtResource("1_stbcu")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -135,6 +136,7 @@ offset_right = 74.0
 offset_bottom = 48.0
 grow_horizontal = 2
 grow_vertical = 2
+alignment = 1
 
 [node name="TitleLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
@@ -189,3 +191,17 @@ autoplay = "gradient"
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("3_svkrb")
 autoplay = true
+
+[node name="AvatarsRoot" type="Node2D" parent="."]
+position = Vector2(168, 899)
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = 20.0
+offset_top = 593.0
+offset_right = 592.0
+offset_bottom = 765.0
+theme_override_font_sizes/normal_font_size = 46
+theme_override_font_sizes/bold_font_size = 46
+bbcode_enabled = true
+text = "Press [b]START[/b] to join
+[b]LB[/b], [b]RB[/b], to switch teams"

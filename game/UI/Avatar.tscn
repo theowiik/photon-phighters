@@ -1,0 +1,31 @@
+[gd_scene load_steps=3 format=3 uid="uid://cfffgrfema0py"]
+
+[ext_resource type="Script" path="res://Scripts/Avatar.cs" id="1_nb2ja"]
+[ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/Sprites/pp_spritesheet.png" id="1_sf0q4"]
+
+[node name="Avatar" type="Node2D"]
+script = ExtResource("1_nb2ja")
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -325.0
+offset_top = 81.0
+offset_right = 328.0
+offset_bottom = 254.0
+theme_override_font_sizes/font_size = 41
+text = "Name"
+horizontal_alignment = 1
+
+[node name="Pivot" type="Node2D" parent="."]
+scale = Vector2(5, 5)
+
+[node name="LightPlayer" type="Sprite2D" parent="Pivot"]
+texture = ExtResource("1_sf0q4")
+hframes = 12
+vframes = 12
+frame = 132
+
+[node name="DarkPlayer" type="Sprite2D" parent="Pivot"]
+texture = ExtResource("1_sf0q4")
+hframes = 12
+vframes = 12
+frame = 133

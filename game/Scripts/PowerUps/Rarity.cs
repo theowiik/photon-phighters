@@ -6,8 +6,8 @@
 /// </summary>
 public enum Rarity
 {
-  Legendary = 2,
-  Epic = 8,
-  Rare = 25,
+  Legendary = 1,
+  Epic = 7,
+  Rare = 27,
   Common = 65
 }

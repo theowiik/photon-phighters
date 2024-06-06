@@ -465,7 +465,7 @@ monitoring = false
 
 [node name="TileMap" type="TileMap" parent="." groups=["floors"]]
 tile_set = SubResource("TileSet_60hpj")
-cell_quadrant_size = 32
+rendering_quadrant_size = 32
 format = 2
 
 [node name="ScaleReference" parent="." instance=ExtResource("3_4spj6")]

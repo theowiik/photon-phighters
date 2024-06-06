@@ -7,4 +7,5 @@ public static class SceneResourceWrapper
   public static string WorldPath => "res://Scenes/World.tscn";
   public static string EndScreenLightnessPath => "res://Scenes/Screens/EndScreenLight.tscn";
   public static string EndScreenDarknessPath => "res://Scenes/Screens/EndScreenDark.tscn";
+
 }

@@ -91,6 +91,46 @@ public partial class World : Node2D
     _mapManager.GameMode = _gameMode;
 
     // Setup players
+    SpawnPlayers();
+
+    // Start round
+    SetupCapturePoint();
+    StartRound();
+  }
+
+  /// <summary>
+  ///   Done ONCE at the start of the game.
+  ///   Players are never removed from the game when they die.
+  /// </summary>
+  private void SpawnPlayers()
+  {
+    if (GlobalGameState.Players.Count < 2)
+    {
+      throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Two players are required to start the game");
+    }
+
+    if (GlobalGameState.Players.Any(x => x.Value == Team.Neutral))
+    {
+      throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Cannot have neutral players");
+    }
+
+    var lightPlayers = GlobalGameState.Players.Count(x => x.Value == Team.Light);
+    var darkPlayers = GlobalGameState.Players.Count(x => x.Value == Team.Dark);
+
+    lightPlayers.TimesDo(() =>
+    {
+      var packedScene = GDX.LoadOrFail<PackedScene>(ObjectResourceWrapper.LightPLayerPath);
+      var player = packedScene.Instantiate<Player>();
+      AddChild(player);
+    });
+
+    darkPlayers.TimesDo(() =>
+    {
+      var packedScene = GDX.LoadOrFail<PackedScene>(ObjectResourceWrapper.DarkPlayerPath);
+      var player = packedScene.Instantiate<Player>();
+      AddChild(player);
+    });
+
     _players = GetTree().GetNodesInGroup("players").Cast<Player>().ToList();
     foreach (var player in _players)
     {
@@ -107,10 +147,6 @@ public partial class World : Node2D
     {
       throw new NodeNotFoundException("Match does not have both light and dark players");
     }
-
-    // Start round
-    SetupCapturePoint();
-    StartRound();
   }
 
   public override void _UnhandledInput(InputEvent @event)
@@ -414,7 +450,7 @@ public partial class World : Node2D
 
   private void UpdateRoundTimer()
   {
-    _overlay.SetTime($"{_roundTimer.TimeLeft:0.0}");
+    _overlay.SetTime($"{_roundTimer.TimeLeft:0}");
   }
 
   private void UpdateScore()

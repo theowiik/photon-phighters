@@ -12,9 +12,6 @@ public partial class Overlay : Control
   [GetNode("VBox/RoundScoreBar")]
   private ProgressBar _roundScoreBar;
 
-  [GetNode("VBox/RoundScoreLabel")]
-  private Label _roundScoreLabel;
-
   [GetNode("VBox/RoundTimerLabel")]
   private Label _timerLabel;
 
@@ -23,9 +20,14 @@ public partial class Overlay : Control
 
   public void SetRoundScore(Score value)
   {
+    if (value.Light + value.Dark == 0)
+    {
+      _roundScoreBar.Value = 0.5f;
+      return;
+    }
+
     var pLight = value.Light / (float)(value.Light + value.Dark);
     _roundScoreBar.Value = pLight;
-    _roundScoreLabel.Text = $"{Math.Round(pLight * 100)}% - {Math.Round((1 - pLight) * 100)}%";
   }
 
   public void SetTime(string value)

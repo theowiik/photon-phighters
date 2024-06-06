@@ -15,13 +15,14 @@ public partial class PowerUpPicker : Control
 {
   public delegate void PowerUpSelectionEnded(IPowerUpApplier powerUpApplier);
 
+  // TODO: Remove unused label (the empty strings)
   private static readonly Dictionary<Rarity, (string color, string text)> s_rarityThemes =
     new()
     {
       { Rarity.Common, ("Green", "") },
-      { Rarity.Rare, ("Blue", "(Rare)") },
-      { Rarity.Epic, ("Purple", "(Epic)") },
-      { Rarity.Legendary, ("Orange", "(LEGENDARY)") }
+      { Rarity.Rare, ("Blue", "") },
+      { Rarity.Epic, ("Purple", "") },
+      { Rarity.Legendary, ("Orange", "") }
     };
 
   private readonly List<IPowerUpApplier> _availablePowerups = new();

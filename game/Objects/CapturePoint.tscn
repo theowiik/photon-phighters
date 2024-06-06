@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://b75o7rthcbu4e"]
+[gd_scene load_steps=10 format=3 uid="uid://b75o7rthcbu4e"]
 
 [ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_782k1"]
 [ext_resource type="Script" path="res://Scripts/CapturePoint.cs" id="1_no0dn"]
 [ext_resource type="AudioStream" uid="uid://bl6qdi2p2tdy3" path="res://Assets/Sfx/WorldSounds/charging_loop.wav" id="3_1uela"]
 [ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="4_2fhxl"]
+[ext_resource type="FontFile" uid="uid://dmjapkgffohxu" path="res://Assets/Fonts/digitalt-font/Digitalt-04no.ttf" id="5_q0jno"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_grmef"]
 radius = 91.1373
@@ -52,10 +53,12 @@ visible = false
 position = Vector2(-160, -113)
 
 [node name="RewardLabel" type="Label" parent="."]
-offset_left = -73.0
-offset_top = -87.0
-offset_right = 74.0
-offset_bottom = -44.0
-text = "hello world lorem"
+offset_left = -153.0
+offset_top = -78.0
+offset_right = 153.0
+offset_bottom = -35.0
+theme_override_fonts/font = ExtResource("5_q0jno")
+theme_override_font_sizes/font_size = 25
+text = "EXPLOSION"
 horizontal_alignment = 1
 vertical_alignment = 1
