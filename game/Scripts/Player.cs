@@ -21,8 +21,6 @@ public partial class Player : CharacterBody2D
   private bool _canTakeDamage;
   private bool _frozen;
 
-  private GamepadWrapper _gamepad;
-
   [GetNode("Marker2D")]
   private Marker2D _gunMarker;
 
@@ -35,6 +33,8 @@ public partial class Player : CharacterBody2D
 
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
+
+  public GamepadWrapper Gamepad { get; set; }
 
   [GetNode("PlayerEffectsDelegate")]
   public PlayerEffectsDelegate EffectsDelegate { get; private set; }
@@ -136,15 +136,14 @@ public partial class Player : CharacterBody2D
   public override void _Ready()
   {
     this.GetNodes();
-    _gamepad = new GamepadWrapper(0); // TODO
 
     Health = MaxHealth;
     IsAlive = true;
-    Gun.Gamepad = _gamepad;
+    Gun.Gamepad = Gamepad;
     Gun.Team = Team;
 
     EffectsDelegate.PlayerSprite = _sprite2D;
-    PlayerMovementDelegate.Gamepad = _gamepad;
+    PlayerMovementDelegate.Gamepad = Gamepad;
     PlayerMovementDelegate.CharacterBody = this;
     PlayerMovementDelegate.PlayerEffectsDelegate = EffectsDelegate;
     PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners += effect =>
@@ -194,7 +193,7 @@ public partial class Player : CharacterBody2D
 
   private void Aim()
   {
-    var joystickVector = _gamepad.GetAim();
+    var joystickVector = Gamepad.GetAim();
     if (joystickVector.Length() > JoystickDeadzone)
     {
       _gunMarker.Rotation = joystickVector.Angle();
@@ -245,6 +244,6 @@ public partial class Player : CharacterBody2D
 
   public void VibrateGamepad()
   {
-    _gamepad.Vibrate();
+    Gamepad.Vibrate();
   }
 }

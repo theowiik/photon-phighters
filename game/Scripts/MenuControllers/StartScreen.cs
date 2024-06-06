@@ -10,14 +10,14 @@ namespace PhotonPhighters.Scripts.MenuControllers;
 
 public partial class StartScreen : Node2D
 {
-  private SpinBox _roundsToWinLineEdit;
-  private SpinBox _roundTimeLineEdit;
+  private readonly IDictionary<int, Avatar> _avatars = new Dictionary<int, Avatar>();
   private PackedScene _avatarScene = GDX.LoadOrFail<PackedScene>(ObjectResourceWrapper.AvatarPath);
-  private IDictionary<int, Avatar> _avatars = new Dictionary<int, Avatar>();
 
   [GetUniqueNode("AvatarsRoot")]
   private Node2D _avatarsRoot;
 
+  private SpinBox _roundsToWinLineEdit;
+  private SpinBox _roundTimeLineEdit;
 
   public override void _Ready()
   {
@@ -41,10 +41,12 @@ public partial class StartScreen : Node2D
     GetTree().Quit();
   }
 
-  public override void _UnhandledInput(InputEvent @event) {
-
-    if (@event is InputEventJoypadButton e && e.Pressed) {
-      if (e.ButtonIndex == JoyButton.Start) {
+  public override void _UnhandledInput(InputEvent @event)
+  {
+    if (@event is InputEventJoypadButton e && e.Pressed)
+    {
+      if (e.ButtonIndex == JoyButton.Start)
+      {
         // join game
 
         AddPlayer(e.Device);
@@ -52,12 +54,15 @@ public partial class StartScreen : Node2D
     }
   }
 
-  private void AddPlayer(int deviceId) {
-    if (deviceId < 0) {
+  private void AddPlayer(int deviceId)
+  {
+    if (deviceId < 0)
+    {
       return;
     }
 
-    if (_avatars.ContainsKey(deviceId)) {
+    if (_avatars.ContainsKey(deviceId))
+    {
       return;
     }
 

@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using Godot;
 using GodotSharper.AutoGetNode;
 using PhotonPhighters.Scripts.Utils;
@@ -7,33 +7,30 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Avatar : Node2D
 {
-  [GetUniqueNode("LightPlayer")]
-  private Sprite2D _lightPlayer;
-
   [GetUniqueNode("DarkPlayer")]
   private Sprite2D _darkPlayer;
 
-  [GetUniqueNode("Pivot")]
-  private Node2D _pivot;
+  [GetUniqueNode("LightPlayer")]
+  private Sprite2D _lightPlayer;
 
   [GetUniqueNode("NameLabel")]
   private Label _nameLabel;
 
-  public int DeviceId { get; set; } = -1;
+  [GetUniqueNode("Pivot")]
+  private Node2D _pivot;
+
   private Team _team;
+
+  public int DeviceId { get; set; } = -1;
+
   public Team Team
   {
     get => _team;
     set
     {
-      if (value == _team)
-      {
-        return;
-      }
-
       if (value == Team.Neutral)
       {
-        throw new System.ArgumentException("Team cannot be neutral");
+        throw new ArgumentException("Team cannot be neutral");
       }
 
       _team = value;

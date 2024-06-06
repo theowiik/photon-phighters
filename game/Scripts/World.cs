@@ -104,49 +104,36 @@ public partial class World : Node2D
   /// </summary>
   private void SpawnPlayers()
   {
-    if (GlobalGameState.Players.Count < 2)
-    {
-      throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Two players are required to start the game");
-    }
-
     if (GlobalGameState.Players.Any(x => x.Value == Team.Neutral))
     {
       throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Cannot have neutral players");
     }
 
-    var lightPlayers = GlobalGameState.Players.Count(x => x.Value == Team.Light);
-    var darkPlayers = GlobalGameState.Players.Count(x => x.Value == Team.Dark);
-
-    lightPlayers.TimesDo(() =>
+    var hasLight = GlobalGameState.Players.Any(x => x.Value == Team.Light);
+    var hasDark = GlobalGameState.Players.Any(x => x.Value == Team.Dark);
+    if (!hasLight || !hasDark)
     {
-      var packedScene = GDX.LoadOrFail<PackedScene>(ObjectResourceWrapper.LightPLayerPath);
+      throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Need at least one player on each team");
+    }
+
+    foreach (var (deviceId, team) in GlobalGameState.Players)
+    {
+      var packedScene = GDX.LoadOrFail<PackedScene>(
+        team == Team.Light ? ObjectResourceWrapper.LightPLayerPath : ObjectResourceWrapper.DarkPlayerPath
+      );
       var player = packedScene.Instantiate<Player>();
+      player.Gamepad = new GamepadWrapper(deviceId);
       AddChild(player);
-    });
 
-    darkPlayers.TimesDo(() =>
-    {
-      var packedScene = GDX.LoadOrFail<PackedScene>(ObjectResourceWrapper.DarkPlayerPath);
-      var player = packedScene.Instantiate<Player>();
-      AddChild(player);
-    });
-
-    _players = GetTree().GetNodesInGroup("players").Cast<Player>().ToList();
-    foreach (var player in _players)
-    {
       player.Frozen = true;
       player.PlayerDied += OnPlayerDied;
       player.PlayerHurt += OnPlayerHurt;
+      player.PlayerEffectAddedListeners += OnPlayerEffectAdded;
       player.Gun.ShootDelegate += OnShoot;
       _camera.AddTarget(player);
-      player.PlayerEffectAddedListeners += OnPlayerEffectAdded;
     }
 
-    var hasBoth = _players.Any(x => x.Team == Team.Dark) && _players.Any(x => x.Team == Team.Light);
-    if (!hasBoth)
-    {
-      throw new NodeNotFoundException("Match does not have both light and dark players");
-    }
+    _players = GetTree().GetNodesInGroup("players").Cast<Player>().ToList();
   }
 
   public override void _UnhandledInput(InputEvent @event)

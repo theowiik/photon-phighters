@@ -1,5 +1,4 @@
-﻿using System;
-using Godot;
+﻿using Godot;
 using GodotSharper.AutoGetNode;
 
 namespace PhotonPhighters.Scripts.OverlayControllers;
