@@ -6,8 +6,8 @@
 [ext_resource type="Script" path="res://Scripts/PlayerEffectsDelegate.cs" id="5_gj8sb"]
 [ext_resource type="AudioStream" uid="uid://cejp1iop25cwx" path="res://Assets/Sfx/PlayerEffects/jump-sfx.wav" id="5_iig84"]
 [ext_resource type="AudioStream" uid="uid://gsq23mjnumjx" path="res://Assets/Sfx/PlayerEffects/death.wav" id="6_km5ul"]
+[ext_resource type="AudioStream" uid="uid://e7lppgqposd3" path="res://Assets/Sfx/power_up.mp3" id="8_015e8"]
 [ext_resource type="AudioStream" uid="uid://gxa7ilnrmauj" path="res://Assets/Sfx/PlayerEffects/damage2.wav" id="8_k35ro"]
-[ext_resource type="AudioStream" uid="uid://cn0lmxy5j65ho" path="res://Assets/Sfx/PowerUpNames/elias_special_sauce.mp3" id="8_uvxot"]
 [ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/Sprites/pp_spritesheet.png" id="8_v52hp"]
 [ext_resource type="AudioStream" uid="uid://b2o3mu15ew2r2" path="res://Assets/Sfx/PlayerEffects/fall-death.wav" id="9_jshgc"]
 [ext_resource type="Script" path="res://Scripts/PlayerMovementDelegate.cs" id="10_ueqen"]
@@ -143,6 +143,7 @@ ProgressBar/styles/background = SubResource("StyleBoxFlat_nggpt")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_ctffe")
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
+collision_layer = 8
 collision_mask = 5
 script = ExtResource("1_be4dv")
 
@@ -177,9 +178,9 @@ libraries = {
 }
 
 [node name="PowerUpsPickedPlayer" type="AudioStreamPlayer2D" parent="PlayerEffectsDelegate"]
-stream = ExtResource("8_uvxot")
-volume_db = 11.0
-pitch_scale = 0.8
+stream = ExtResource("8_015e8")
+volume_db = -1.0
+pitch_scale = 2.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_k4h85")

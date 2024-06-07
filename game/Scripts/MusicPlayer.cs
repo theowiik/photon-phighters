@@ -5,7 +5,7 @@ namespace PhotonPhighters.Scripts;
 public partial class MusicPlayer : AudioStreamPlayer
 {
   private const float MinPitch = 1f;
-  private const float MaxPitch = 1.4f;
+  private const float MaxPitch = 1.3f;
 
   public void SetPitch(int lightWins, int darkWins, int scoreToWin)
   {

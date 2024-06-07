@@ -459,6 +459,8 @@ offset_bottom = 4039.0
 color = Color(0.337255, 0.305882, 0.341176, 1)
 
 [node name="OB" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 8
 monitoring = false
 
 [node name="SpawnPointsContainer" type="Node2D" parent="."]

@@ -164,7 +164,7 @@ public partial class PlayerEffectsDelegate : Node2D
     label.Position -= new Vector2(0, 30);
     label.SetText(powerUp.Name);
 
-    _powerUpsPickedPlayer.Stream = GetPowerUpNameAudioStream(powerUp);
+    // _powerUpsPickedPlayer.Stream = GetPowerUpNameAudioStream(powerUp); // TODO: Re-add
     _powerUpsPickedPlayer.Play();
   }
 

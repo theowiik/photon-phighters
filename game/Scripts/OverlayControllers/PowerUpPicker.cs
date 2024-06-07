@@ -109,14 +109,7 @@ public partial class PowerUpPicker : Control
   private void EndPowerUpSelection(IPowerUpApplier powerUpApplier)
   {
     Visible = false;
-    // powerUpApplier.Apply(_loser, _winner);
-
-    foreach (var player in _allPlayers)
-    {
-      GD.Print("Apply!!!!!!");
-      // TODO
-    }
-
+    powerUpApplier.Apply(_loser, _winner, _allPlayers);
     _timer.Stop();
     PowerUpSelectionEndedListeners?.Invoke(powerUpApplier);
   }

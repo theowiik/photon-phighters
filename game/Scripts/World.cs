@@ -170,7 +170,7 @@ public partial class World : Node2D
       throw new ArgumentOutOfRangeException(nameof(team), team, "Cannot get opposite of neutral team");
     }
 
-    return team == Team.Dark ? Team.Dark : Team.Light;
+    return team == Team.Dark ? Team.Light : Team.Dark;
   }
 
   private void OnCapturePointCaptured(CapturePoint which, Team team)
@@ -252,7 +252,7 @@ public partial class World : Node2D
   {
     foreach (var player in _players)
     {
-      powerUpApplier.Apply(player, player);
+      powerUpApplier.Apply(player.Team, player.Team, _players);
     }
   }
 
@@ -296,7 +296,7 @@ public partial class World : Node2D
       _darkWin.Play();
     }
 
-    _overlay.SetTotalScore($"Light vs Dark: {_score.Light} - {_score.Dark}");
+    _overlay.SetTotalScore($"Light: {_score.Light} Dark: {_score.Dark}");
     if (_score.Dark >= RoundState.RoundsToWin || _score.Light >= RoundState.RoundsToWin)
     {
       GetTree()

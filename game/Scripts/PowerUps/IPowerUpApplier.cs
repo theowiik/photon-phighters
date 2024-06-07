@@ -1,7 +1,9 @@
-﻿namespace PhotonPhighters.Scripts.PowerUps;
+﻿using System.Collections.Generic;
+
+namespace PhotonPhighters.Scripts.PowerUps;
 
 /// <summary>
-///   Stateless power up applier. Creates a new instance of the power up every time it is applied.
+///   Power up applier.
 /// </summary>
 public interface IPowerUpApplier
 {
@@ -18,5 +20,6 @@ public interface IPowerUpApplier
   /// <returns>The mark name.</returns>
   string GetMarkName(Team team);
 
-  void Apply(Player playerWhoSelected, Player otherPlayer);
+  // TODO: Opponent is obsolete, remove it
+  void Apply(Team selected, Team opponent, IEnumerable<Player> allPlayers);
 }

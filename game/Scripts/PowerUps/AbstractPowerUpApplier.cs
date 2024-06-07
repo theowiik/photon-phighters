@@ -17,13 +17,23 @@ public abstract class AbstractPowerUpApplier : IPowerUpApplier
   public abstract string Name { get; }
   public abstract Rarity Rarity { get; }
 
-  public void Apply(Player playerWhoSelected, Player otherPlayer)
+  public void Apply(Team selected, Team opponent, IEnumerable<Player> allPlayers)
   {
-    _Apply(playerWhoSelected, otherPlayer);
-    _haveTaken.Add(playerWhoSelected.Team);
+    _haveTaken.Add(selected);
 
-    var playerToAddEffect = IsCurse ? otherPlayer : playerWhoSelected;
-    playerToAddEffect.EffectsDelegate.DisplayPowerUpEffect(this);
+    var selecters = allPlayers.Where(p => p.Team == selected).Shuffled().ToList();
+    var opponents = allPlayers.Where(p => p.Team == opponent).Shuffled().ToList();
+
+    for (var i = 0; i < selecters.Count; i++)
+    {
+      var playerWhoSelected = selecters[i];
+      var otherPlayer = opponents[i % opponents.Count];
+
+      _Apply(playerWhoSelected, otherPlayer);
+
+      var playerToAddEffect = IsCurse ? otherPlayer : playerWhoSelected;
+      playerToAddEffect.EffectsDelegate.DisplayPowerUpEffect(this);
+    }
   }
 
   public abstract bool IsCurse { get; }

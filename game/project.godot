@@ -80,6 +80,7 @@ dev_power_up_menu={
 
 2d_physics/layer_2="cardboard"
 2d_physics/layer_3="floor"
+2d_physics/layer_4="player"
 
 [rendering]
 
