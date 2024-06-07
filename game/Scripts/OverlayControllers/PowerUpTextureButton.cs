@@ -27,6 +27,11 @@ public partial class PowerUpTextureButton : TextureButton
 
   public void SetPowerUpName(string text)
   {
+    if (_powerUpNameLabel == null)
+    {
+      return;
+    }
+
     _powerUpNameLabel.Text = $"[center]{text}[/center]";
   }
 
