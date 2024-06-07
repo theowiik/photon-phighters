@@ -52,7 +52,9 @@ public static class PowerUpManager
       new SketchyPillsGood(),
       new SketchyPillsBad(),
       new BerserkerJuice(),
-      new EliasSpecialSauce()
+      new EliasSpecialSauce(),
+      new Phart(),
+      new MoonwalkerCurse()
     };
 
     CalculateOdds();

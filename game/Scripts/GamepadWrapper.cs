@@ -8,6 +8,7 @@ public class GamepadWrapper
 {
   private const float DeadZone = 0.1f;
   private readonly int _gamepadIndex;
+  private bool _jumpedLastPoll = false;
 
   public GamepadWrapper(int gamepadIndex)
   {
@@ -52,7 +53,15 @@ public class GamepadWrapper
   /// </summary>
   public bool IsJumpPressed()
   {
-    return Input.GetJoyAxis(_gamepadIndex, JoyAxis.TriggerLeft) > DeadZone;
+    var isPressing = Input.GetJoyAxis(_gamepadIndex, JoyAxis.TriggerLeft) > DeadZone;
+
+    if (isPressing && _jumpedLastPoll)
+    {
+      return false;
+    }
+
+    _jumpedLastPoll = isPressing;
+    return isPressing;
   }
 
   /// <summary>

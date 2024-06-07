@@ -17,10 +17,10 @@ public class AirWalker : AbstractPowerUpApplier
 
     switch (times)
     {
-      case 0:
+      case 1:
         playerWhoSelected.PlayerMovementDelegate.MaxJumps++;
         break;
-      case >= 1:
+      case >= 2:
         playerWhoSelected.PlayerMovementDelegate.MaxJumps++;
         playerWhoSelected.PlayerMovementDelegate.JumpForce += 200;
         break;

@@ -24,7 +24,7 @@ public partial class PlayerMovementDelegate : Node
   public delegate void PlayerWallJumpEventHandler(PlayerMovementEvent playerMoveEvent);
 
   private const int AerodynamicHeatingVelocity = 10_000;
-  private const float Gravity = 800;
+  private float _gravity = 800;
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
@@ -48,6 +48,12 @@ public partial class PlayerMovementDelegate : Node
   {
     get => _speed;
     set => _speed = Mathf.Max(100f, value);
+  }
+
+  public float Gravity
+  {
+    get => _gravity;
+    set => _gravity = value;
   }
 
   public override void _PhysicsProcess(double delta)
@@ -123,6 +129,7 @@ public partial class PlayerMovementDelegate : Node
 
       if (moveEvent.CanJump)
       {
+
         if (onFloor || _jumpCount < moveEvent.MaxJumps)
         {
           moveEvent.Velocity = new Vector2(moveEvent.Velocity.X, -moveEvent.JumpForce);

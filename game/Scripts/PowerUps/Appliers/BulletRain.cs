@@ -19,11 +19,11 @@ public class BulletRain : AbstractPowerUpApplier
 
     switch (times)
     {
-      case 0:
+      case 1:
         playerWhoSelected.Gun.BulletCount *= 2; // Double the bullets
         playerWhoSelected.Gun.BulletGravity *= 2; // Bullets drop faster
         break;
-      case >= 1:
+      case >= 2:
         playerWhoSelected.Gun.BulletCount *= 2; // Double the bullets again
         playerWhoSelected.Gun.BulletGravity *= 2; // Bullets drop faster again
         playerWhoSelected.Gun.BulletSpeed *= 2; // Increase bullet speed

@@ -16,5 +16,17 @@ public static class GlobalGameState
   ///   A dictionary of players in the game.
   ///   Key is the device id of the player.
   /// </summary>
-  public static IDictionary<int, Team> Players { get; } = new Dictionary<int, Team>();
+  public static IDictionary<int, PlayerValues> Players { get; } = new Dictionary<int, PlayerValues>();
+
+  public struct PlayerValues
+  {
+    public Team Team { get; }
+    public string Name { get; }
+
+    public PlayerValues(Team team, string name)
+    {
+      Team = team;
+      Name = name;
+    }
+  }
 }

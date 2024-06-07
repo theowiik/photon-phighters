@@ -34,6 +34,9 @@ public partial class Player : CharacterBody2D
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
+  [GetNode("NameLabel")]
+  private Label _nameLabel;
+
   public GamepadWrapper Gamepad { get; set; }
 
   [GetNode("PlayerEffectsDelegate")]
@@ -157,6 +160,15 @@ public partial class Player : CharacterBody2D
   public void ResetHealth()
   {
     Health = MaxHealth;
+  }
+
+  public void SetName(string name)
+  {
+    _nameLabel.Text = name;
+  }
+
+  public void FlipSprite() {
+    _sprite2D.FlipV = !_sprite2D.FlipV;
   }
 
   private void ApplyInvincibilityShader(bool apply)

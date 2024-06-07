@@ -104,27 +104,28 @@ public partial class World : Node2D
   /// </summary>
   private void SpawnPlayers()
   {
-    if (GlobalGameState.Players.Any(x => x.Value == Team.Neutral))
+    if (GlobalGameState.Players.Any(x => x.Value.Team == Team.Neutral))
     {
       throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Cannot have neutral players");
     }
 
-    var hasLight = GlobalGameState.Players.Any(x => x.Value == Team.Light);
-    var hasDark = GlobalGameState.Players.Any(x => x.Value == Team.Dark);
+    var hasLight = GlobalGameState.Players.Any(x => x.Value.Team == Team.Light);
+    var hasDark = GlobalGameState.Players.Any(x => x.Value.Team == Team.Dark);
     if (!hasLight || !hasDark)
     {
       throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Need at least one player on each team");
     }
 
-    foreach (var (deviceId, team) in GlobalGameState.Players)
+    foreach (var (deviceId, info) in GlobalGameState.Players)
     {
       var packedScene = GDX.LoadOrFail<PackedScene>(
-        team == Team.Light ? ObjectResourceWrapper.LightPLayerPath : ObjectResourceWrapper.DarkPlayerPath
+        info.Team == Team.Light ? ObjectResourceWrapper.LightPLayerPath : ObjectResourceWrapper.DarkPlayerPath
       );
       var player = packedScene.Instantiate<Player>();
       player.Gamepad = new GamepadWrapper(deviceId);
       AddChild(player);
 
+      player.SetName(info.Name);
       player.Frozen = true;
       player.PlayerDied += OnPlayerDied;
       player.PlayerHurt += OnPlayerHurt;

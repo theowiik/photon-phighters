@@ -25,10 +25,10 @@ public class OingoBoingoCurse : AbstractPowerUpApplier
 
     switch (times)
     {
-      case 0:
+      case 1:
         otherPlayer.PlayerMovementDelegate.PlayerLand += _ApplyBounce;
         break;
-      case >= 1:
+      case >= 2:
         otherPlayer.PlayerMovementDelegate.PlayerLand += _ApplyRandomBounce;
         break;
       default:
