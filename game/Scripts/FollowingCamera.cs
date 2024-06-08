@@ -16,7 +16,7 @@ public partial class FollowingCamera : Camera2D
 
   /// <summary>
   /// </summary>
-  private const float ZoomFactor = 1.2f;
+  private const float ZoomFactor = 0.8f;
 
   private readonly IList<Node2D> _targets = new List<Node2D>();
   private float _remainingShakeTime;

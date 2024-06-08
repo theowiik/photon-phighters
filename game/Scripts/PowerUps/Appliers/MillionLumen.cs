@@ -17,16 +17,18 @@ public class MillionLumen : AbstractPowerUpApplier
   {
     var taken = TimesTakenBy(playerWhoSelected.Team);
 
+    GD.Print("Taken: " + taken);
+
     switch (taken)
     {
-      case 0:
+      case 1:
         playerWhoSelected.Gun.BulletCount += 4;
         playerWhoSelected.Gun.BulletDamage = 1;
         playerWhoSelected.Gun.BulletSpread += 0.3f;
         playerWhoSelected.Gun.BulletSpeed /= 1.4f;
         playerWhoSelected.Gun.FireRate += 1.8f;
         break;
-      case >= 1:
+      case >= 2:
         playerWhoSelected.Gun.BulletSpread = Mathf.Pi * 2;
         playerWhoSelected.Gun.BulletCount += 10;
         break;

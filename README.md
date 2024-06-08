@@ -12,6 +12,7 @@
     - [:earth\_americas: PP Alpha World Tour](#earth_americas-pp-alpha-world-tour)
     - [:eu: European Open Photon Phiesta](#eu-european-open-photon-phiesta)
     - [:us: 3 NA Regional Circuit Summer Split 2023](#us-3-na-regional-circuit-summer-split-2023)
+    - [🎓 Photon Phighters \& Weave Graduation Bash Bonanza Blitz Showdown 2024](#-photon-phighters--weave-graduation-bash-bonanza-blitz-showdown-2024)
 
 ## :book: About 
 
@@ -68,3 +69,11 @@ After each round the losing team gets to choose a power-up which will help them 
 2. Victor
 3. Erik
 4. Elias
+
+### 🎓 Photon Phighters & Weave Graduation Bash Bonanza Blitz Showdown 2024
+
+1. Elias & Theo
+2. Victor & Stefan
+3. Erik & Jonathan
+
+*standin/wildcard*: Renato

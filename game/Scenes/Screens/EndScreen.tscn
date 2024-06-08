@@ -54,3 +54,7 @@ stretch_mode = 2
 [node name="ExitButton" type="Button" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 text = "Main Menu"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+
+[node name="VoiceLine" type="AudioStreamPlayer" parent="."]

@@ -215,3 +215,12 @@ theme = SubResource("Theme_hil3n")
 max_value = 1.0
 value = 0.66
 show_percentage = false
+
+[node name="NameLabel" type="Label" parent="."]
+offset_left = -149.0
+offset_top = -56.0
+offset_right = 149.0
+offset_bottom = -33.0
+theme_override_font_sizes/font_size = 15
+text = "player name here"
+horizontal_alignment = 1

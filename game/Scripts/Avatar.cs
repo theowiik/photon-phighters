@@ -20,7 +20,7 @@ public partial class Avatar : Node2D
   private Node2D _pivot;
 
   private Team _team;
-
+  public string PlayerName => _nameLabel.Text;
   public int DeviceId { get; set; } = -1;
 
   public Team Team
