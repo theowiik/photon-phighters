@@ -1,7 +1,7 @@
 [gd_scene load_steps=13 format=3 uid="uid://cxt0fjve8r5yw"]
 
 [ext_resource type="Script" path="res://Scripts/World.cs" id="1_lvc03"]
-[ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Assets/Music/Logical_Sequence_of_Events.mp3" id="3_r0bcv"]
+[ext_resource type="AudioStream" uid="uid://2m8kvi0vrag6" path="res://Assets/Music/gameplay.mp3" id="3_r0bcv"]
 [ext_resource type="Script" path="res://Scripts/FollowingCamera.cs" id="4_g4vs6"]
 [ext_resource type="Script" path="res://Scripts/MusicPlayer.cs" id="4_kl11m"]
 [ext_resource type="PackedScene" uid="uid://nlos0lgshron" path="res://UI/Overlay.tscn" id="6_ukett"]
