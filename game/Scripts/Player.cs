@@ -167,7 +167,8 @@ public partial class Player : CharacterBody2D
     _nameLabel.Text = name;
   }
 
-  public void FlipSprite() {
+  public void FlipSprite()
+  {
     _sprite2D.FlipV = !_sprite2D.FlipV;
   }
 

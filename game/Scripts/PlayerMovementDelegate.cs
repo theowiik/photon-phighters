@@ -129,7 +129,6 @@ public partial class PlayerMovementDelegate : Node
 
       if (moveEvent.CanJump)
       {
-
         if (onFloor || _jumpCount < moveEvent.MaxJumps)
         {
           moveEvent.Velocity = new Vector2(moveEvent.Velocity.X, -moveEvent.JumpForce);
