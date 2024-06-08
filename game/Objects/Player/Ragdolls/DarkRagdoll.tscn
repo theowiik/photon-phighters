@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://7cthwi66s8vk"]
+
+[ext_resource type="PackedScene" uid="uid://d2rg8btxttugm" path="res://Objects/Player/Ragdolls/Ragdoll.tscn" id="1_kujx1"]
+
+[node name="DarkRagdoll" instance=ExtResource("1_kujx1")]
+
+[node name="Sprite2D" parent="." index="0"]
+frame = 133

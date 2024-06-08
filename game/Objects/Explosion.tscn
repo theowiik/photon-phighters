@@ -1,0 +1,52 @@
+[gd_scene load_steps=8 format=3 uid="uid://ghbuqncfeed2"]
+
+[ext_resource type="Texture2D" uid="uid://byg5f54ma4687" path="res://icon.svg" id="1_865aj"]
+[ext_resource type="Script" path="res://Scripts/Explosion.cs" id="1_dj6l3"]
+[ext_resource type="Texture2D" uid="uid://rqchpfitai2e" path="res://Assets/Sprites/cloud.png" id="3_ao227"]
+[ext_resource type="AudioStream" uid="uid://c1mmegitkhuun" path="res://Assets/Sfx/WorldSounds/explosion2.wav" id="4_w728g"]
+[ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="5_8wr5m"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lpe6q"]
+radius = 0.01
+
+[sub_resource type="Gradient" id="Gradient_gtx85"]
+colors = PackedColorArray(0.89059, 0.89059, 0.89059, 1, 1, 1, 1, 0)
+
+[node name="Explosion" type="Node2D"]
+script = ExtResource("1_dj6l3")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+visible = false
+modulate = Color(1, 0.231373, 0.172549, 1)
+texture = ExtResource("1_865aj")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_lpe6q")
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 70
+lifetime = 2.5
+one_shot = true
+explosiveness = 1.0
+texture = ExtResource("3_ao227")
+direction = Vector2(0, 0)
+spread = 180.0
+initial_velocity_min = 507.76
+initial_velocity_max = 767.44
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+linear_accel_min = -100.0
+linear_accel_max = -93.79
+angle_min = -720.0
+angle_max = 720.0
+color_ramp = SubResource("Gradient_gtx85")
+
+[node name="ExplosionPlayer" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_w728g")
+
+[node name="ScaleReference" parent="." instance=ExtResource("5_8wr5m")]
+visible = false
+position = Vector2(-98, -102)

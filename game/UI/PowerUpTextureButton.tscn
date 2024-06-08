@@ -1,0 +1,27 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvqsava8yffpg"]
+
+[ext_resource type="Texture2D" uid="uid://x04dc4vplxye" path="res://Assets/Sprites/Buttons/Blue/card_blue.png" id="1_gbo6s"]
+[ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpTextureButton.cs" id="2_7h6rd"]
+
+[node name="PowerUpTextureButton" type="TextureButton"]
+texture_normal = ExtResource("1_gbo6s")
+script = ExtResource("2_7h6rd")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_left = 5.0
+offset_top = 51.0
+offset_right = 211.0
+offset_bottom = 105.0
+mouse_filter = 1
+bbcode_enabled = true
+text = "[center] powerup text goes here [/center]"
+
+[node name="MarkLabel" type="RichTextLabel" parent="."]
+layout_mode = 0
+offset_top = 103.0
+offset_right = 216.0
+offset_bottom = 143.0
+mouse_filter = 1
+bbcode_enabled = true
+text = "[center][i]MRK.X[/i][/center]"

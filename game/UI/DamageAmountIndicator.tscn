@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1q271l4uhqs2"]
+
+[ext_resource type="Script" path="res://Scripts/DamageAmountIndicator.cs" id="1_pa0h1"]
+[ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="2_5hi3y"]
+[ext_resource type="FontFile" uid="uid://dmjapkgffohxu" path="res://Assets/Fonts/digitalt-font/Digitalt-04no.ttf" id="2_mmi4r"]
+
+[node name="DamageAmountIndicator" type="Node2D"]
+script = ExtResource("1_pa0h1")
+
+[node name="Label" type="Label" parent="."]
+offset_left = -42.0
+offset_top = -55.0
+offset_right = 42.0
+offset_bottom = 50.0
+theme_override_colors/font_color = Color(1, 0.141176, 0.141176, 1)
+theme_override_colors/font_outline_color = Color(0.294118, 0, 0, 1)
+theme_override_constants/outline_size = 3
+theme_override_fonts/font = ExtResource("2_mmi4r")
+text = "30"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScaleReference" parent="." instance=ExtResource("2_5hi3y")]
+visible = false
+position = Vector2(-4, -94)

@@ -1,0 +1,14 @@
+[gd_scene format=3 uid="uid://b8n06kh7te5bk"]
+
+[node name="HurtParticles" type="CPUParticles2D"]
+amount = 2
+explosiveness = 1.0
+spread = 180.0
+initial_velocity_min = 375.6
+initial_velocity_max = 375.6
+angular_velocity_min = -720.0
+angular_velocity_max = 720.0
+angle_min = -720.0
+angle_max = 720.0
+scale_amount_min = 0.05
+scale_amount_max = 0.1

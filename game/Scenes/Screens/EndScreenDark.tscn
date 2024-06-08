@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://cbfoopu4203sn"]
+
+[ext_resource type="PackedScene" uid="uid://bsx0cugw6ijg8" path="res://Scenes/Screens/EndScreen.tscn" id="1_3eoj2"]
+[ext_resource type="AudioStream" uid="uid://cpwmy346ngw2i" path="res://Assets/Music/DarkWin/Metal Music - Dar Golan - 90bpm - 02-29.mp3" id="2_mh6n7"]
+[ext_resource type="AudioStream" uid="uid://iap4cykj10p5" path="res://Assets/Sfx/Win/darkness.mp3" id="3_7n6sb"]
+
+[node name="EndScreenDark" instance=ExtResource("1_3eoj2")]
+
+[node name="ColorRect" parent="CanvasLayer" index="0"]
+color = Color(0, 0, 0, 0.647059)
+
+[node name="Label" parent="CanvasLayer/VBoxContainer" index="0"]
+text = "Darkness won!"
+
+[node name="Label2" parent="CanvasLayer/VBoxContainer" index="1"]
+text = "Death... Death everywhere..."
+
+[node name="AudioStreamPlayer" parent="." index="2"]
+stream = ExtResource("2_mh6n7")
+autoplay = true
+
+[node name="VoiceLine" parent="." index="3"]
+stream = ExtResource("3_7n6sb")
+volume_db = 8.0
+autoplay = true

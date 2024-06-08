@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://d2rg8btxttugm"]
+
+[ext_resource type="Texture2D" uid="uid://bjs8cvjni8jo3" path="res://Assets/Sprites/pp_spritesheet.png" id="1_j2erd"]
+[ext_resource type="PackedScene" uid="uid://uc47m72vtwou" path="res://Objects/Utils/ScaleReference.tscn" id="2_hcal1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vb7dg"]
+size = Vector2(35, 20)
+
+[node name="Ragdoll" type="RigidBody2D"]
+collision_layer = 2
+collision_mask = 0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-0.999878, 0)
+scale = Vector2(1.24867, 0.622858)
+texture = ExtResource("1_j2erd")
+hframes = 12
+vframes = 12
+frame = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1.5, 0)
+shape = SubResource("RectangleShape2D_vb7dg")
+
+[node name="ScaleReference" parent="." instance=ExtResource("2_hcal1")]
+visible = false
+position = Vector2(-35, -134)

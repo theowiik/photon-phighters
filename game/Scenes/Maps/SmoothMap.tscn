@@ -1,0 +1,54 @@
+[gd_scene load_steps=6 format=3 uid="uid://by366vybbn60n"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_nywif"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fweah"]
+size = Vector2(4160, 304)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6l20a"]
+size = Vector2(410, 4345.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7d2sx"]
+size = Vector2(4190, 451.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hvdb2"]
+size = Vector2(556, 4335)
+
+[node name="SmoothMap" instance=ExtResource("1_nywif")]
+
+[node name="ColorRect" parent="." index="0"]
+color = Color(0.211765, 0.341176, 0.384314, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(471, 1102)
+shape = SubResource("RectangleShape2D_fweah")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="1"]
+position = Vector2(-1429, -904.25)
+shape = SubResource("RectangleShape2D_6l20a")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="2"]
+position = Vector2(466, -2853.75)
+shape = SubResource("RectangleShape2D_7d2sx")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
+position = Vector2(2279, -930.5)
+shape = SubResource("RectangleShape2D_hvdb2")
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
+position = Vector2(363, 469)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
+position = Vector2(112, 343)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnPointsContainer" index="2"]
+position = Vector2(561, 171)
+
+[node name="Marker2D4" type="Marker2D" parent="SpawnPointsContainer" index="3"]
+position = Vector2(615, 465)
+
+[node name="Marker2D5" type="Marker2D" parent="SpawnPointsContainer" index="4"]
+position = Vector2(847, 616)
+
+[node name="TileMap" parent="." index="3"]
+layer_0/tile_data = PackedInt32Array(1048577, 65536, 1, 1048578, 65536, 1, 1048579, 65536, 1, 1048580, 65536, 1, 1048581, 65536, 1, 1048582, 65536, 1, 1048583, 65536, 1, 1048584, 65536, 1, 1048585, 65536, 1, 1048586, 65536, 1, 1048587, 65536, 1, 1048588, 65536, 1, 1048592, 65536, 1, 1048593, 65536, 1, 1048594, 65536, 1, 1048595, 65536, 1, 1048591, 65536, 1, 1048590, 65536, 1, 1048589, 65536, 1, 458752, 655360, 2, 458758, 655360, 2, 589834, 655360, 2, 458772, 655360, 2, 720916, 655360, 2, 720899, 655360, 2, 786434, 65536, 1, 786435, 65536, 1, 786436, 65536, 1, 655367, 65536, 1, 655368, 65536, 1, 655369, 65536, 1, 524300, 65536, 1, 524301, 65536, 1, 524302, 65536, 1, 458768, 65536, 1, 458769, 65536, 1, 458770, 65536, 1, 983053, 655360, 1, 917517, 655360, 0, 851981, 655360, 0, 786445, 655360, 0, 720909, 655360, 0, 655373, 655360, 0, 589837, 655360, 0, 983057, 655360, 1, 917521, 655360, 0, 851985, 655360, 0, 786449, 655360, 0, 720913, 655360, 0, 655377, 655360, 0, 589841, 655360, 0, 524305, 655360, 0, 983048, 655360, 1, 917512, 655360, 0, 851976, 655360, 0, 786440, 655360, 0, 720904, 655360, 0, 983043, 655360, 1, 917507, 655360, 0, 851971, 655360, 0, 1245208, 262144, 1, 1310744, 262144, 1, 1376280, 262144, 1, 1376281, 262144, 1, 1376282, 262144, 1, 1376283, 262144, 1, 1376284, 262144, 1, 1310748, 262144, 1, 1245212, 262144, 1)

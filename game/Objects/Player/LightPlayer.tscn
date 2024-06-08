@@ -1,0 +1,5 @@
+[gd_scene load_steps=2 format=3 uid="uid://bg2qjbajwiqdv"]
+
+[ext_resource type="PackedScene" uid="uid://cmxhv53no4cy5" path="res://Objects/Player/Player.tscn" id="1_gahsl"]
+
+[node name="LightPlayer" instance=ExtResource("1_gahsl")]

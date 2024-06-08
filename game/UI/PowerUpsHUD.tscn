@@ -1,0 +1,38 @@
+[gd_scene load_steps=2 format=3 uid="uid://5fw7v1bd7pjv"]
+
+[ext_resource type="Script" path="res://Scripts/OverlayControllers/PowerUpsHUD.cs" id="1_adh24"]
+
+[node name="PowerUpsHUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("1_adh24")
+
+[node name="LightLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -364.0
+offset_right = 378.0
+grow_vertical = 0
+bbcode_enabled = true
+text = "[font_size=23][b][bgcolor=white][color=black]Lightness[/color][/bgcolor][/b][/font_size]"
+
+[node name="DarkLabel" type="RichTextLabel" parent="."]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -378.0
+offset_top = -364.0
+grow_horizontal = 0
+grow_vertical = 0
+bbcode_enabled = true
+text = "[right][font_size=23][b][bgcolor=black][color=white]Darkness[/color][/bgcolor][/b][/font_size][/right]"
