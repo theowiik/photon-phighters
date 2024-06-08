@@ -105,9 +105,6 @@ public partial class StartScreen : Node2D
       return false;
     }
 
-    var lightCount = _avatars.Count(p => p.Value.Team == Team.Light);
-    var darkCount = _avatars.Count(p => p.Value.Team == Team.Dark);
-
-    return lightCount > 0 && darkCount > 0;
+    return _avatars.Any();
   }
 }

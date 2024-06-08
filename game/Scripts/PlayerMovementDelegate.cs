@@ -1,5 +1,6 @@
 ﻿using Godot;
 using PhotonPhighters.Scripts.Events;
+using PhotonPhighters.Scripts.Gamepad;
 
 namespace PhotonPhighters.Scripts;
 
@@ -36,7 +37,7 @@ public partial class PlayerMovementDelegate : Node
   private bool _onFloorLastCall;
   private float _speed = 300;
   private Vector2 _velocity;
-  public GamepadWrapper Gamepad { get; set; }
+  public IGamepad Gamepad { get; set; }
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;

@@ -2,6 +2,7 @@
 using GodotSharper;
 using GodotSharper.AutoGetNode;
 using PhotonPhighters.Scripts.Events;
+using PhotonPhighters.Scripts.Gamepad;
 using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
@@ -37,7 +38,7 @@ public partial class Player : CharacterBody2D
   [GetNode("NameLabel")]
   private Label _nameLabel;
 
-  public GamepadWrapper Gamepad { get; set; }
+  public IGamepad Gamepad { get; set; }
 
   [GetNode("PlayerEffectsDelegate")]
   public PlayerEffectsDelegate EffectsDelegate { get; private set; }

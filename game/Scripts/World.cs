@@ -8,6 +8,7 @@ using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.GameMode;
+using PhotonPhighters.Scripts.Gamepad;
 using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.PowerUps;
@@ -111,9 +112,19 @@ public partial class World : Node2D
 
     var hasLight = GlobalGameState.Players.Any(x => x.Value.Team == Team.Light);
     var hasDark = GlobalGameState.Players.Any(x => x.Value.Team == Team.Dark);
-    if (!hasLight || !hasDark)
+    if (!hasLight && !hasDark)
     {
-      throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Need at least one player on each team");
+      throw new ArgumentException("No players in the game");
+    }
+
+    // Add bots
+    if (!hasLight)
+    {
+      GlobalGameState.Players.Add(-1, new GlobalGameState.PlayerValues(Team.Light, "Light Bot"));
+    }
+    else if (!hasDark)
+    {
+      GlobalGameState.Players.Add(-1, new GlobalGameState.PlayerValues(Team.Dark, "Dark Bot"));
     }
 
     foreach (var (deviceId, info) in GlobalGameState.Players)
@@ -122,7 +133,16 @@ public partial class World : Node2D
         info.Team == Team.Light ? ObjectResourceWrapper.LightPLayerPath : ObjectResourceWrapper.DarkPlayerPath
       );
       var player = packedScene.Instantiate<Player>();
-      player.Gamepad = new GamepadWrapper(deviceId);
+
+      if (deviceId < 0)
+      {
+        player.Gamepad = new BotGamepad();
+      }
+      else
+      {
+        player.Gamepad = new GamepadImpl(deviceId);
+      }
+
       AddChild(player);
 
       player.SetName(info.Name);
@@ -147,7 +167,7 @@ public partial class World : Node2D
     // Test vibration
     if (@event is InputEventKey keyEvent && int.TryParse(keyEvent.AsTextKeycode(), out var number))
     {
-      new GamepadWrapper(number - 1).Vibrate();
+      new Gamepad.GamepadImpl(number - 1).Vibrate();
     }
   }
 

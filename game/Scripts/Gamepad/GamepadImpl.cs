@@ -2,15 +2,15 @@ using System;
 using Godot;
 using Vector2 = Godot.Vector2;
 
-namespace PhotonPhighters.Scripts;
+namespace PhotonPhighters.Scripts.Gamepad;
 
-public class GamepadWrapper
+public class GamepadImpl : IGamepad
 {
   private const float DeadZone = 0.1f;
   private readonly int _gamepadIndex;
-  private bool _jumpedLastPoll = false;
+  private bool _jumpedLastPoll;
 
-  public GamepadWrapper(int gamepadIndex)
+  public GamepadImpl(int gamepadIndex)
   {
     if (gamepadIndex < 0)
     {
