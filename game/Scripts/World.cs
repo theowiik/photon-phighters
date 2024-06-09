@@ -134,7 +134,7 @@ public partial class World : Node2D
 
       if (deviceId < 0)
       {
-        player.Gamepad = new BotRandomGamepad();
+        player.Gamepad = new BotGreedyGamepad(player);
       }
       else
       {
@@ -153,6 +153,14 @@ public partial class World : Node2D
     }
 
     _players = GetTree().GetNodesInGroup("players").Cast<Player>().ToList();
+
+    foreach (var player in _players)
+    {
+      if (player.Gamepad is BotGreedyGamepad bot) // TODO: Can be made prettier
+      {
+        bot.AddOpponents(_players);
+      }
+    }
   }
 
   public override void _UnhandledInput(InputEvent @event)
