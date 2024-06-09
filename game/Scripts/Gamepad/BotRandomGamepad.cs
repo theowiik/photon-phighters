@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using Godot;
 
 namespace PhotonPhighters.Scripts.Gamepad;
@@ -7,12 +6,10 @@ namespace PhotonPhighters.Scripts.Gamepad;
 /// <summary>
 ///   Represents a bot-controlled gamepad with semi-human behavior for aiming, moving, shooting, and jumping.
 /// </summary>
-public sealed class BotRandomGamepad : IGamepad
+public sealed class BotRandomGamepad : AbstractBotGamepad
 {
   private const float JumpProbability = 0.05f;
   private const float MoveProbability = 0.5f;
-  private const float DecisionIntervalSeconds = 0.5f;
-  private readonly Stopwatch _decisionTimer;
   private readonly Random _random;
   private Vector2 _aim = Vector2.Zero;
 
@@ -25,53 +22,37 @@ public sealed class BotRandomGamepad : IGamepad
   public BotRandomGamepad()
   {
     _random = new Random();
-    _decisionTimer = new Stopwatch();
-    _decisionTimer.Start();
   }
 
-  public void Vibrate() { }
+  public override void Vibrate()
+  {
+    throw new NotImplementedException();
+  }
 
-  public bool IsShootPressed()
+  public override bool IsShootPressed()
   {
     return true;
   }
 
-  public bool IsJumpPressed()
+  public override bool IsJumpPressed()
   {
     Update();
     return _jumpPressed;
   }
 
-  public Vector2 GetAim()
+  public override Vector2 GetAim()
   {
     Update();
     return _aim.Normalized();
   }
 
-  public Vector2 GetMovement()
+  public override Vector2 GetMovement()
   {
     Update();
     return _movement.Normalized();
   }
 
-  /// <summary>
-  ///   Updates the bot's decisions based on the elapsed time.
-  /// </summary>
-  private void Update()
-  {
-    if (_decisionTimer.Elapsed.TotalSeconds < DecisionIntervalSeconds)
-    {
-      return;
-    }
-
-    MakeDecision();
-    _decisionTimer.Restart();
-  }
-
-  /// <summary>
-  ///   Makes a decision for the bot's actions, such as shooting, jumping, aiming, and moving.
-  /// </summary>
-  private void MakeDecision()
+  protected override void MakeDecision()
   {
     _jumpPressed = _random.NextDouble() < JumpProbability;
 
