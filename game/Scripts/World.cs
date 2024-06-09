@@ -130,10 +130,11 @@ public partial class World : Node2D
     foreach (var (deviceId, info) in GlobalGameState.Players)
     {
       var player = Instanter.Instantiate<Player>();
+      player.Team = info.Team;
 
       if (deviceId < 0)
       {
-        player.Gamepad = new BotGamepad();
+        player.Gamepad = new BotRandomGamepad();
       }
       else
       {
@@ -164,7 +165,7 @@ public partial class World : Node2D
     // Test vibration
     if (@event is InputEventKey keyEvent && int.TryParse(keyEvent.AsTextKeycode(), out var number))
     {
-      new Gamepad.GamepadImpl(number - 1).Vibrate();
+      new GamepadImpl(number - 1).Vibrate();
     }
   }
 

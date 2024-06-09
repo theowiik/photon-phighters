@@ -1,6 +1,5 @@
 ﻿using Godot;
 using GodotSharper.AutoGetNode;
-using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 

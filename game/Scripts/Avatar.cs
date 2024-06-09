@@ -7,14 +7,14 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Avatar : Node2D
 {
-  [GetUniqueNode("Sprite2D")]
-  private Sprite2D _sprite;
-
   [GetUniqueNode("NameLabel")]
   private Label _nameLabel;
 
   [GetUniqueNode("Pivot")]
   private Node2D _pivot;
+
+  [GetUniqueNode("Sprite2D")]
+  private Sprite2D _sprite;
 
   private Team _team;
   public string PlayerName => _nameLabel.Text;
