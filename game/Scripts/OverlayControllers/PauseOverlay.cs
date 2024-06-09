@@ -60,7 +60,7 @@ public partial class PauseOverlay : Control
     this.GetNodes();
     _resumeButton.Pressed += () => EmitSignal(SignalName.ResumeGame);
     _quitButton.Pressed += () => GetTree().Quit();
-    _restartButton.Pressed += () => GetTree().ChangeOrExplode(SceneResourceWrapper.StartScreenPath);
+    _restartButton.Pressed += () => GetTree().ChangeSceneToFile(SceneResourceWrapper.StartScreenPath);
     _powerUpButton.Pressed += OnPowerUpButtonPressed;
     _powerUpsContainer.Visible = false;
     _powerUpButton.Visible = false;

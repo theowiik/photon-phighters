@@ -13,6 +13,6 @@ public partial class EndScreen : Node2D
   public override void _Ready()
   {
     this.GetNodes();
-    _exitButton.Pressed += () => GetTree().ChangeOrExplode(SceneResourceWrapper.StartScreenPath);
+    _exitButton.Pressed += () => GetTree().ChangeSceneToFile(SceneResourceWrapper.StartScreenPath);
   }
 }

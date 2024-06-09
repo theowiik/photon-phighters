@@ -10,8 +10,8 @@ namespace PhotonPhighters.Scripts.Gamepad;
 public class BotGamepad : IGamepad
 {
   private readonly Random _random;
-  private readonly float _jumpProbability = 0.05f;
-  private readonly float _moveProbability = 0.5f;
+  private const float JumpProbability = 0.05f;
+  private const float MoveProbability = 0.5f;
   private const float DecisionIntervalSeconds = 0.5f;
   private readonly Stopwatch _decisionTimer;
 
@@ -48,14 +48,14 @@ public class BotGamepad : IGamepad
   /// </summary>
   private void MakeDecision()
   {
-    _jumpPressed = _random.NextDouble() < _jumpProbability;
+    _jumpPressed = _random.NextDouble() < JumpProbability;
 
     // Completely switch aim direction randomly
     var aimDir = (float)_random.NextDouble() * 2 * (float)Math.PI;
     _aim = new Vector2((float)Math.Cos(aimDir), (float)Math.Sin(aimDir));
 
     // Randomly decide whether to move or not
-    if (_random.NextDouble() < _moveProbability)
+    if (_random.NextDouble() < MoveProbability)
     {
       var dir = (float)_random.NextDouble() * 2 * (float)Math.PI;
       _movement = new Vector2((float)Math.Cos(dir), (float)Math.Sin(dir));

@@ -2,8 +2,6 @@
 
 public static class ObjectResourceWrapper
 {
-  public static string LightPLayerPath = "res://Objects/Player/LightPlayer.tscn";
-  public static string DarkPlayerPath = "res://Objects/Player/DarkPlayer.tscn";
   public static string DarkRagdollPath => "res://Objects/Player/Ragdolls/DarkRagdoll.tscn";
   public static string LightRagdollPath => "res://Objects/Player/Ragdolls/LightRagdoll.tscn";
   public static string HurtParticlesPath => "res://Objects/Player/Particles/HurtParticles.tscn";

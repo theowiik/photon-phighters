@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://c3fl8xddmbi74"]
 
 [ext_resource type="Script" path="res://Scripts/MenuControllers/StartScreen.cs" id="1_stbcu"]
-[ext_resource type="AudioStream" uid="uid://dvbvwniowpr0v" path="res://Assets/Music/StartMusic/Free Background Chill Music - Dar Golan - 180bpm - 01-42.mp3" id="3_svkrb"]
+[ext_resource type="AudioStream" uid="uid://dvbvwniowpr0v" path="res://Assets/Music/lobby.mp3" id="3_svkrb"]
 
 [sub_resource type="Animation" id="Animation_dwxtr"]
 length = 0.001

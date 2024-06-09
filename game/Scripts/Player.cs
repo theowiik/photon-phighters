@@ -1,6 +1,7 @@
 ﻿using Godot;
 using GodotSharper;
 using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Gamepad;
 using PhotonPhighters.Scripts.GSAlpha;
@@ -8,6 +9,7 @@ using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
 
+[Scene("res://Objects/Player/Player.tscn")]
 public partial class Player : CharacterBody2D
 {
   [Signal]

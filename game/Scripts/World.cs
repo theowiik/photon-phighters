@@ -129,10 +129,7 @@ public partial class World : Node2D
 
     foreach (var (deviceId, info) in GlobalGameState.Players)
     {
-      var packedScene = GDX.LoadOrFail<PackedScene>(
-        info.Team == Team.Light ? ObjectResourceWrapper.LightPLayerPath : ObjectResourceWrapper.DarkPlayerPath
-      );
-      var player = packedScene.Instantiate<Player>();
+      var player = Instanter.Instantiate<Player>();
 
       if (deviceId < 0)
       {
