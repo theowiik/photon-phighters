@@ -143,6 +143,7 @@ ProgressBar/styles/background = SubResource("StyleBoxFlat_nggpt")
 ProgressBar/styles/fill = SubResource("StyleBoxFlat_ctffe")
 
 [node name="Player" type="CharacterBody2D" groups=["players"]]
+z_index = 5
 collision_layer = 8
 collision_mask = 5
 script = ExtResource("1_be4dv")

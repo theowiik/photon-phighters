@@ -16,14 +16,13 @@ script = ExtResource("1_no0dn")
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
 shape = SubResource("CircleShape2D_grmef")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="."]
-offset_left = -95.0
-offset_top = -95.0
-offset_right = 95.0
-offset_bottom = 95.0
+offset_left = -24.0
+offset_top = -24.0
+offset_right = 24.0
+offset_bottom = 24.0
 max_value = 1.0
 step = 0.01
 value = 0.5
