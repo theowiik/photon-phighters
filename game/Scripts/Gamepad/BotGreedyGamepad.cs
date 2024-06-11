@@ -15,9 +15,14 @@ public sealed class BotGreedyGamepad : AbstractBotGamepad
   private readonly Player _self;
   private Vector2 _aim;
   private Vector2 _movement;
-  
   private const float JumpIntervalSeconds = 0.4f;
   private readonly Stopwatch _jumpTimer;
+  private const float MarginDeg = (180 - JumpRangeDeg) / 2f;
+
+  /// <summary>
+  ///   The range in degrees from the top for which the bot will jump.
+  /// </summary>
+  private const int JumpRangeDeg = 166;
 
   /// <summary>
   ///   Creates a new bot that shoots towards the closest enemy.
@@ -67,7 +72,9 @@ public sealed class BotGreedyGamepad : AbstractBotGamepad
     if (_jumpTimer.Elapsed.TotalSeconds > JumpIntervalSeconds)
     {
       _jumpTimer.Restart();
-      return true;
+
+      var angleDeg = Mathf.RadToDeg(_movement.Angle());
+      return angleDeg is <= -MarginDeg and >= -(180 - MarginDeg);
     }
 
     return false;
