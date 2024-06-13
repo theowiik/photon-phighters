@@ -2,7 +2,6 @@
 using GodotSharper.AutoGetNode;
 using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.GameMode;
 using PhotonPhighters.Scripts.Gamepad;
 
 namespace PhotonPhighters.Scripts;

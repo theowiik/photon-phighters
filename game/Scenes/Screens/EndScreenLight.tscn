@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c3awhmdiqovno"]
 
 [ext_resource type="PackedScene" uid="uid://bsx0cugw6ijg8" path="res://Scenes/Screens/EndScreen.tscn" id="1_70aqy"]
-[ext_resource type="AudioStream" uid="uid://c7op87ibmyxam" path="res://Assets/Music/LightWin/Free Background Chill Music - Dar Golan - 180bpm - 01-42.mp3" id="2_fydt0"]
+[ext_resource type="AudioStream" uid="uid://c7op87ibmyxam" path="res://Assets/Music/light_win.mp3" id="2_fydt0"]
 [ext_resource type="AudioStream" uid="uid://bmjgk16qcqnnq" path="res://Assets/Sfx/Win/the light.mp3" id="3_nbpc2"]
 
 [node name="EndScreenLight" instance=ExtResource("1_70aqy")]

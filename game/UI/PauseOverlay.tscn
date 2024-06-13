@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Scripts/OverlayControllers/PauseOverlay.cs" id="1_omib1"]
 [ext_resource type="Shader" path="res://Assets/Shaders/blur.gdshader" id="2_yf1v0"]
-[ext_resource type="AudioStream" uid="uid://snsy5x5to21y" path="res://Assets/Music/Elevator/Elevator Music loop - Dar Golan - 130bpm - 03-11.mp3" id="4_q2ma0"]
+[ext_resource type="AudioStream" uid="uid://snsy5x5to21y" path="res://Assets/Music/elevator.mp3" id="4_q2ma0"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7fgg2"]
 shader = ExtResource("2_yf1v0")

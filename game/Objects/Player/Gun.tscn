@@ -12,7 +12,7 @@ script = ExtResource("1_va0s7")
 texture = ExtResource("2_grco1")
 hframes = 12
 vframes = 12
-frame = 140
+frame = 132
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

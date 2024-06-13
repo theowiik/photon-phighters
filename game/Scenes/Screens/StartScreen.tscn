@@ -1,10 +1,7 @@
-[gd_scene load_steps=9 format=3 uid="uid://c3fl8xddmbi74"]
+[gd_scene load_steps=6 format=3 uid="uid://c3fl8xddmbi74"]
 
 [ext_resource type="Script" path="res://Scripts/MenuControllers/StartScreen.cs" id="1_stbcu"]
-[ext_resource type="Theme" uid="uid://byf4lfjyrbtkt" path="res://Assets/Themes/LargeText.tres" id="2_nlhw4"]
-[ext_resource type="FontFile" uid="uid://b87j3hdyqkwse" path="res://Assets/Fonts/disket/Disket-Mono-Bold.ttf" id="3_5odmr"]
-[ext_resource type="AudioStream" uid="uid://dvbvwniowpr0v" path="res://Assets/Music/StartMusic/Free Background Chill Music - Dar Golan - 180bpm - 01-42.mp3" id="3_svkrb"]
-[ext_resource type="FontFile" uid="uid://dmjapkgffohxu" path="res://Assets/Fonts/digitalt-font/Digitalt-04no.ttf" id="5_0bf75"]
+[ext_resource type="AudioStream" uid="uid://dvbvwniowpr0v" path="res://Assets/Music/lobby.mp3" id="3_svkrb"]
 
 [sub_resource type="Animation" id="Animation_dwxtr"]
 length = 0.001
@@ -141,7 +138,6 @@ alignment = 1
 
 [node name="TitleLabel" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
-theme = ExtResource("2_nlhw4")
 text = "Photon Phighters"
 horizontal_alignment = 1
 
@@ -159,7 +155,6 @@ layout_mode = 2
 
 [node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_5odmr")
 text = "Round Time"
 
 [node name="RoundTimeSpinBox" type="SpinBox" parent="CanvasLayer/VBoxContainer"]
@@ -174,7 +169,6 @@ layout_mode = 2
 
 [node name="Label2" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
-theme_override_fonts/font = ExtResource("3_5odmr")
 text = "Rounds to Win"
 
 [node name="RoundsToWinSpinBox" type="SpinBox" parent="CanvasLayer/VBoxContainer"]
@@ -201,8 +195,6 @@ offset_left = 20.0
 offset_top = 593.0
 offset_right = 592.0
 offset_bottom = 765.0
-theme_override_fonts/normal_font = ExtResource("5_0bf75")
-theme_override_fonts/bold_font = ExtResource("5_0bf75")
 theme_override_font_sizes/normal_font_size = 46
 theme_override_font_sizes/bold_font_size = 46
 bbcode_enabled = true

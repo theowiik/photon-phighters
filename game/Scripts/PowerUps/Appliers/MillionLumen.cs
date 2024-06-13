@@ -21,14 +21,14 @@ public class MillionLumen : AbstractPowerUpApplier
 
     switch (taken)
     {
-      case 1:
+      case 0:
         playerWhoSelected.Gun.BulletCount += 4;
         playerWhoSelected.Gun.BulletDamage = 1;
         playerWhoSelected.Gun.BulletSpread += 0.3f;
         playerWhoSelected.Gun.BulletSpeed /= 1.4f;
         playerWhoSelected.Gun.FireRate += 1.8f;
         break;
-      case >= 2:
+      case >= 1:
         playerWhoSelected.Gun.BulletSpread = Mathf.Pi * 2;
         playerWhoSelected.Gun.BulletCount += 10;
         break;

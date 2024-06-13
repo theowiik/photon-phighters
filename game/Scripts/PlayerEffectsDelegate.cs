@@ -37,23 +37,25 @@ public partial class PlayerEffectsDelegate : Node2D
   [GetNode("AnimationPlayer")]
   private AnimationPlayer _animationPlayer;
 
-  [GetNode("Sfx/DeathPlayer")]
+  [GetUniqueNode("DeathPlayer")]
   private AudioStreamPlayer2D _deathPlayer;
 
-  [GetNode("Sfx/FallDeathPlayer")]
+  [GetUniqueNode("FallDeathPlayer")]
   private AudioStreamPlayer2D _fallDeathPlayer;
 
-  [GetNode("Sfx/Hurt2Player")]
+  [GetUniqueNode("Hurt2Player")]
   private AudioStreamPlayer2D _hurt2Player;
 
-  [GetNode("Sfx/HurtPlayer")]
+  [GetUniqueNode("HurtPlayer")]
   private AudioStreamPlayer2D _hurtPlayer;
 
   [GetNode("HurtTimer")]
   private Timer _hurtTimer;
 
-  [GetNode("Sfx/JumpPlayer")]
+  [GetUniqueNode("JumpPlayer")]
   private AudioStreamPlayer2D _jumpPlayer;
+
+  private Color _originalModulation;
 
   [GetNode("PowerUpsPickedPlayer")]
   private AudioStreamPlayer2D _powerUpsPickedPlayer;
@@ -68,9 +70,30 @@ public partial class PlayerEffectsDelegate : Node2D
     _hurtTimer.Timeout += HurtTimerOnTimeout;
   }
 
+  /// <summary>
+  ///   Plays the hurt animation by modulating the player's sprite color.
+  ///   If the hurt timer is active, the method exits without applying changes.
+  /// </summary>
   public void AnimationPlayHurt()
   {
-    PlayerSprite.Modulate = _hurtColor;
+    if (!_hurtTimer.IsStopped())
+    {
+      return;
+    }
+
+    // Save the original modulation
+    _originalModulation = PlayerSprite.Modulate;
+    var currentColor = PlayerSprite.Modulate;
+
+    // Blend the hurt color with the current color
+    var result = new Color(
+      Mathf.Clamp(currentColor.R * (1 - _hurtColor.A) + _hurtColor.R * _hurtColor.A, 0, 1),
+      Mathf.Clamp(currentColor.G * (1 - _hurtColor.A) + _hurtColor.G * _hurtColor.A, 0, 1),
+      Mathf.Clamp(currentColor.B * (1 - _hurtColor.A) + _hurtColor.B * _hurtColor.A, 0, 1),
+      Mathf.Clamp(currentColor.A, 0, 1) // Maintain the original alpha
+    );
+
+    PlayerSprite.Modulate = result;
     _hurtTimer.Start();
   }
 
@@ -147,9 +170,12 @@ public partial class PlayerEffectsDelegate : Node2D
     return instance;
   }
 
+  /// <summary>
+  ///   Revert back to the players original color.
+  /// </summary>
   private void HurtTimerOnTimeout()
   {
-    PlayerSprite.Modulate = Colors.White;
+    PlayerSprite.Modulate = _originalModulation;
   }
 
   public void DisplayPowerUpEffect(IPowerUpApplier powerUp)

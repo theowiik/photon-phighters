@@ -1,6 +1,5 @@
 ﻿using Godot;
 using GodotSharper.AutoGetNode;
-using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.PowerUps;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
@@ -60,7 +59,7 @@ public partial class PauseOverlay : Control
     this.GetNodes();
     _resumeButton.Pressed += () => EmitSignal(SignalName.ResumeGame);
     _quitButton.Pressed += () => GetTree().Quit();
-    _restartButton.Pressed += () => GetTree().ChangeOrExplode(SceneResourceWrapper.StartScreenPath);
+    _restartButton.Pressed += () => GetTree().ChangeSceneToFile(SceneResourceWrapper.StartScreenPath);
     _powerUpButton.Pressed += OnPowerUpButtonPressed;
     _powerUpsContainer.Visible = false;
     _powerUpButton.Visible = false;

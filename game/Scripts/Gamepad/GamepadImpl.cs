@@ -36,18 +36,6 @@ public class GamepadImpl : IGamepad
     return GetAxis(JoyAxis.RightX, JoyAxis.RightY);
   }
 
-  private Vector2 GetAxis(JoyAxis axis1, JoyAxis axis2)
-  {
-    var vec = new Vector2(Input.GetJoyAxis(_gamepadIndex, axis1), Input.GetJoyAxis(_gamepadIndex, axis2));
-
-    if (vec.Length() < DeadZone)
-    {
-      return Vector2.Zero;
-    }
-
-    return vec;
-  }
-
   /// <summary>
   ///   Returns true if the jump button is pressed.
   /// </summary>
@@ -78,5 +66,17 @@ public class GamepadImpl : IGamepad
   public void Vibrate()
   {
     Input.StartJoyVibration(_gamepadIndex, 0.666f, 0.666f, 0.5f);
+  }
+
+  private Vector2 GetAxis(JoyAxis axis1, JoyAxis axis2)
+  {
+    var vec = new Vector2(Input.GetJoyAxis(_gamepadIndex, axis1), Input.GetJoyAxis(_gamepadIndex, axis2));
+
+    if (vec.Length() < DeadZone)
+    {
+      return Vector2.Zero;
+    }
+
+    return vec;
   }
 }

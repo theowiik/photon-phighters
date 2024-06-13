@@ -25,7 +25,6 @@ public partial class PlayerMovementDelegate : Node
   public delegate void PlayerWallJumpEventHandler(PlayerMovementEvent playerMoveEvent);
 
   private const int AerodynamicHeatingVelocity = 10_000;
-  private float _gravity = 800;
   private const float Deceleration = 12f;
   private const float GlideGravityScale = 0.5f;
   private const float KnockbackDecayRate = 0.04f;
@@ -51,11 +50,7 @@ public partial class PlayerMovementDelegate : Node
     set => _speed = Mathf.Max(100f, value);
   }
 
-  public float Gravity
-  {
-    get => _gravity;
-    set => _gravity = value;
-  }
+  public float Gravity { get; set; } = 800;
 
   public override void _PhysicsProcess(double delta)
   {

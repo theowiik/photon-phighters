@@ -1,13 +1,16 @@
 ﻿using Godot;
 using GodotSharper;
 using GodotSharper.AutoGetNode;
+using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Gamepad;
 using PhotonPhighters.Scripts.GSAlpha;
+using PhotonPhighters.Scripts.Utils;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts;
 
+[Scene("res://Objects/Player/Player.tscn")]
 public partial class Player : CharacterBody2D
 {
   [Signal]
@@ -32,11 +35,11 @@ public partial class Player : CharacterBody2D
 
   private int _maxHealth = 60;
 
-  [GetNode("Sprite2D")]
-  private Sprite2D _sprite2D;
-
   [GetNode("NameLabel")]
   private Label _nameLabel;
+
+  [GetNode("Sprite2D")]
+  private Sprite2D _sprite2D;
 
   public IGamepad Gamepad { get; set; }
 
@@ -104,7 +107,6 @@ public partial class Player : CharacterBody2D
   [GetNode("Movement")]
   public PlayerMovementDelegate PlayerMovementDelegate { get; private set; }
 
-  [Export]
   public Team Team { get; set; }
 
   /// <summary>
@@ -141,6 +143,7 @@ public partial class Player : CharacterBody2D
   {
     this.GetNodes();
 
+    _sprite2D.Color(Team);
     Health = MaxHealth;
     IsAlive = true;
     Gun.Gamepad = Gamepad;
@@ -175,6 +178,7 @@ public partial class Player : CharacterBody2D
 
   private void ApplyInvincibilityShader(bool apply)
   {
+    // TODO: Move to PlayerEffectsDelegate
     if (apply)
     {
       _sprite2D.Material = new ShaderMaterial { Shader = ShaderResourceWrapper.RainbowShader };

@@ -129,14 +129,12 @@ public partial class World : Node2D
 
     foreach (var (deviceId, info) in GlobalGameState.Players)
     {
-      var packedScene = GDX.LoadOrFail<PackedScene>(
-        info.Team == Team.Light ? ObjectResourceWrapper.LightPLayerPath : ObjectResourceWrapper.DarkPlayerPath
-      );
-      var player = packedScene.Instantiate<Player>();
+      var player = Instanter.Instantiate<Player>();
+      player.Team = info.Team;
 
       if (deviceId < 0)
       {
-        player.Gamepad = new BotGamepad();
+        player.Gamepad = new BotGreedyGamepad(player);
       }
       else
       {
@@ -155,6 +153,14 @@ public partial class World : Node2D
     }
 
     _players = GetTree().GetNodesInGroup("players").Cast<Player>().ToList();
+
+    foreach (var player in _players)
+    {
+      if (player.Gamepad is BotGreedyGamepad bot) // TODO: Can be made prettier
+      {
+        bot.AddOpponents(_players);
+      }
+    }
   }
 
   public override void _UnhandledInput(InputEvent @event)
@@ -167,7 +173,7 @@ public partial class World : Node2D
     // Test vibration
     if (@event is InputEventKey keyEvent && int.TryParse(keyEvent.AsTextKeycode(), out var number))
     {
-      new Gamepad.GamepadImpl(number - 1).Vibrate();
+      new GamepadImpl(number - 1).Vibrate();
     }
   }
 

@@ -7,17 +7,14 @@ namespace PhotonPhighters.Scripts;
 
 public partial class Avatar : Node2D
 {
-  [GetUniqueNode("DarkPlayer")]
-  private Sprite2D _darkPlayer;
-
-  [GetUniqueNode("LightPlayer")]
-  private Sprite2D _lightPlayer;
-
   [GetUniqueNode("NameLabel")]
   private Label _nameLabel;
 
   [GetUniqueNode("Pivot")]
   private Node2D _pivot;
+
+  [GetUniqueNode("Sprite2D")]
+  private Sprite2D _sprite;
 
   private Team _team;
   public string PlayerName => _nameLabel.Text;
@@ -34,8 +31,7 @@ public partial class Avatar : Node2D
       }
 
       _team = value;
-      _lightPlayer.Visible = value == Team.Light;
-      _darkPlayer.Visible = value == Team.Dark;
+      _sprite.Color(_team);
     }
   }
 

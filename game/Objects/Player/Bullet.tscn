@@ -13,7 +13,7 @@ script = ExtResource("1_xlknr")
 texture = ExtResource("2_jnmg2")
 hframes = 12
 vframes = 12
-frame = 141
+frame = 133
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0

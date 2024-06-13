@@ -1,0 +1,48 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvdbcyf5epk4h"]
+
+[ext_resource type="PackedScene" uid="uid://bb2vib63bh7gn" path="res://Scenes/BaseMap.tscn" id="1_pbssq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j5tds"]
+size = Vector2(3646, 492)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_slhk1"]
+size = Vector2(618, 4414)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mkie3"]
+size = Vector2(540, 4454)
+
+[node name="Arena" instance=ExtResource("1_pbssq")]
+
+[node name="ColorRect" parent="." index="0"]
+color = Color(0.475682, 0.306152, 0.39582, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="OB" index="0"]
+position = Vector2(793, 1696)
+shape = SubResource("RectangleShape2D_j5tds")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="OB" index="1"]
+position = Vector2(-721, -265)
+shape = SubResource("RectangleShape2D_slhk1")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="OB" index="2"]
+position = Vector2(2346, -285)
+shape = SubResource("RectangleShape2D_mkie3")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="OB" index="3"]
+position = Vector2(793, -2300)
+shape = SubResource("RectangleShape2D_j5tds")
+
+[node name="Marker2D" type="Marker2D" parent="SpawnPointsContainer" index="0"]
+position = Vector2(1003, 766)
+
+[node name="Marker2D2" type="Marker2D" parent="SpawnPointsContainer" index="1"]
+position = Vector2(752, 868)
+
+[node name="Marker2D3" type="Marker2D" parent="SpawnPointsContainer" index="2"]
+position = Vector2(509, 768)
+
+[node name="Marker2D4" type="Marker2D" parent="SpawnPointsContainer" index="3"]
+position = Vector2(748, 498)
+
+[node name="TileMap" parent="." index="3"]
+layer_0/tile_data = PackedInt32Array(1572885, 65536, 1, 1572886, 65536, 1, 1572887, 65536, 1, 1572888, 65536, 1, 1572889, 65536, 1, 1507349, 589824, 1, 1507353, 589824, 1, 1441817, 589824, 0, 1376281, 589824, 0, 1310745, 589824, 0, 1245209, 589824, 0, 1441813, 589824, 0, 1376277, 589824, 0, 1310741, 589824, 0, 1245205, 589824, 0, 1179669, 65536, 1, 1179670, 65536, 1, 1179671, 65536, 1, 1179672, 65536, 1, 1179673, 65536, 1, 1900561, 65536, 1, 1900562, 65536, 1, 1900563, 65536, 1, 1900564, 65536, 1, 1900565, 65536, 1, 1900566, 65536, 1, 1900567, 65536, 1, 1900568, 65536, 1, 1900569, 65536, 1, 1900570, 65536, 1, 1900571, 65536, 1, 1900572, 65536, 1, 1900573, 65536, 1, 1966108, 589824, 0, 2031644, 589824, 0, 2097180, 589824, 0, 2162716, 589824, 0, 2228252, 589824, 0, 2293788, 589824, 0, 2359324, 589824, 0, 2424860, 589824, 0, 2490396, 589824, 0, 2555932, 589824, 0, 2621468, 589824, 0, 1966098, 589824, 0, 2031634, 589824, 0, 2097170, 589824, 0, 2162706, 589824, 0, 2228242, 589824, 0, 2293778, 589824, 0, 2359314, 589824, 0, 2424850, 589824, 0, 2490386, 589824, 0, 2555922, 589824, 0, 2621458, 589824, 0, 2686993, 589824, 2, 2686994, 589824, 2, 2686995, 589824, 2, 2621459, 589824, 2, 2621457, 589824, 2, 2621467, 589824, 2, 2687003, 589824, 2, 2687004, 589824, 2, 2687005, 589824, 2, 2752542, 589824, 2, 2687002, 589824, 2, 2752538, 589824, 2, 2752539, 589824, 2, 2621452, 589824, 2, 2686985, 589824, 2, 2752527, 589824, 2, 2686982, 589824, 2, 2555906, 589824, 2, 2752549, 589824, 2, 2752553, 589824, 2, 2687021, 589824, 2, 2555938, 589824, 2, 2621463, 589824, 2, 1703953, 65536, 1, 1703952, 65536, 1, 1703951, 65536, 1, 1703950, 65536, 1, 1703965, 65536, 1, 1703966, 65536, 1, 1703967, 65536, 1, 1703968, 65536, 1, 1638421, 589824, 0, 1703957, 589824, 0, 1769493, 589824, 0, 1638425, 589824, 0, 1703961, 589824, 0, 1769497, 589824, 0, 1835029, 589824, 1, 1835033, 589824, 1, 1376294, 589824, 2, 1179682, 589824, 2, 1048607, 589824, 2, 1179656, 589824, 2, 1310736, 589824, 2, 1048593, 589824, 2, 983052, 589824, 2, 983063, 589824, 2, 1245227, 589824, 2, 1245213, 589824, 2, 1376270, 65536, 1, 1376271, 65536, 1, 1376272, 65536, 1, 1376273, 65536, 1, 1376285, 65536, 1, 1376286, 65536, 1, 1376287, 65536, 1, 1376288, 65536, 1, 1572875, 65536, 1, 1572874, 65536, 1, 1572876, 65536, 1, 1572898, 65536, 1, 1572899, 65536, 1, 1572900, 65536, 1)
