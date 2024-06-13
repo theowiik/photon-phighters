@@ -1,5 +1,8 @@
-﻿namespace PhotonPhighters.Scripts.GameMode;
+﻿namespace PhotonPhighters.Scripts.GameModes;
 
+/// <summary>
+///   A game mode where the team with the most kills wins.
+/// </summary>
 public sealed class DeathMatch : IGameMode
 {
   public bool SpawnLights => false;

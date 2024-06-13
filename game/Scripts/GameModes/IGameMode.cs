@@ -1,4 +1,4 @@
-﻿namespace PhotonPhighters.Scripts.GameMode;
+﻿namespace PhotonPhighters.Scripts.GameModes;
 
 public interface IGameMode
 {

@@ -1,39 +1,52 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using GodotSharper;
 using GodotSharper.AutoGetNode;
-using PhotonPhighters.Scripts.GSAlpha;
+using PhotonPhighters.Scripts.GameModes;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 
 namespace PhotonPhighters.Scripts.MenuControllers;
 
 public partial class StartScreen : Node2D
 {
+  private readonly List<GameMode> _gameModes = new() { GameMode.PhotonPhight, GameMode.BotBrawl };
   private readonly IDictionary<int, Avatar> _avatars = new Dictionary<int, Avatar>();
   private PackedScene _avatarScene = GDX.LoadOrFail<PackedScene>(ObjectResourceWrapper.AvatarPath);
 
   [GetUniqueNode("AvatarsRoot")]
   private Node2D _avatarsRoot;
 
-  private SpinBox _roundsToWinLineEdit;
-  private SpinBox _roundTimeLineEdit;
+  [GetUniqueNode("GameModeOptionButton")]
+  private OptionButton _gameModeOptionButton;
+
+  [GetUniqueNode("StartButton")]
+  private Button _startButton;
+
+  [GetUniqueNode("QuitButton")]
+  private Button _quitButton;
+
+  [GetUniqueNode("RoundTimeSpinBox")]
+  private SpinBox _roundTimeSpinBox;
+
+  [GetUniqueNode("RoundsToWinSpinBox")]
+  private SpinBox _roundsToWinSpinBox;
 
   public override void _Ready()
   {
     this.GetNodes();
     GetTree().Paused = false;
 
-    const string ButtonsRoot = "CanvasLayer/VBoxContainer/";
-    var startButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "StartButton");
-    var quitButton = this.GetNodeOrExplode<Button>(ButtonsRoot + "QuitButton");
-    _roundTimeLineEdit = this.GetNodeOrExplode<SpinBox>(ButtonsRoot + "RoundTimeSpinBox");
-    _roundsToWinLineEdit = this.GetNodeOrExplode<SpinBox>(ButtonsRoot + "RoundsToWinSpinBox");
+    foreach (var gameMode in _gameModes)
+    {
+      _gameModeOptionButton.AddItem(gameMode.Title());
+    }
 
-    startButton.Pressed += StartGame;
-    quitButton.Pressed += QuitGame;
+    _startButton.Pressed += StartGame;
+    _quitButton.Pressed += QuitGame;
 
-    startButton.GrabFocus();
+    _startButton.GrabFocus();
   }
 
   private void QuitGame()
@@ -78,21 +91,21 @@ public partial class StartScreen : Node2D
 
   private void StartGame()
   {
-    if (!ValidTeams())
+    var gameMode = _gameModes.First(gm => gm.Title() == _gameModeOptionButton.Text);
+    if (gameMode != GameMode.BotBrawl && !ValidTeams())
     {
       return;
     }
 
-    var roundTime = _roundTimeLineEdit.Value;
-    var roundsToWin = _roundsToWinLineEdit.Value;
-
-    GlobalGameState.RoundTime = (int)roundTime;
-    GlobalGameState.RoundsToWin = (int)roundsToWin;
+    GlobalGameState.RoundTime = (int)_roundTimeSpinBox.Value;
+    GlobalGameState.RoundsToWin = (int)_roundsToWinSpinBox.Value;
+    GlobalGameState.GameMode = gameMode;
 
     foreach (var (deviceId, avatar) in _avatars)
     {
       var playerValues = new GlobalGameState.PlayerValues(avatar.Team, avatar.PlayerName);
-      GlobalGameState.Players.Add(deviceId, playerValues);
+      var tuple = new Tuple<int, GlobalGameState.PlayerValues>(deviceId, playerValues);
+      GlobalGameState.Players.Add(tuple);
     }
 
     GetTree().ChangeSceneToFile(SceneResourceWrapper.WorldPath);

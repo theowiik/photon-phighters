@@ -153,6 +153,17 @@ text = "Quit"
 custom_minimum_size = Vector2(0, 32)
 layout_mode = 2
 
+[node name="Label3" type="Label" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+text = "Game Mode"
+
+[node name="GameModeOptionButton" type="OptionButton" parent="CanvasLayer/VBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 8)
+layout_mode = 2
+
 [node name="Label" type="Label" parent="CanvasLayer/VBoxContainer"]
 layout_mode = 2
 text = "Round Time"

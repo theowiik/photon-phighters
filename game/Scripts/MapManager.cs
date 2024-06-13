@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Godot;
 using GodotSharper.AutoGetNode;
 using GodotSharper.Instancing;
-using PhotonPhighters.Scripts.GameMode;
+using PhotonPhighters.Scripts.GameModes;
 using PhotonPhighters.Scripts.Utils;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
 

@@ -7,7 +7,7 @@ using GodotSharper.AutoGetNode;
 using GodotSharper.Instancing;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
-using PhotonPhighters.Scripts.GameMode;
+using PhotonPhighters.Scripts.GameModes;
 using PhotonPhighters.Scripts.Gamepad;
 using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.OverlayControllers;
@@ -105,26 +105,39 @@ public partial class World : Node2D
   /// </summary>
   private void SpawnPlayers()
   {
-    if (GlobalGameState.Players.Any(x => x.Value.Team == Team.Neutral))
+    if (GlobalGameState.Players.Any(x => x.Item2.Team == Team.Neutral))
     {
       throw new ArgumentOutOfRangeException(nameof(GlobalGameState.Players), "Cannot have neutral players");
     }
 
-    var hasLight = GlobalGameState.Players.Any(x => x.Value.Team == Team.Light);
-    var hasDark = GlobalGameState.Players.Any(x => x.Value.Team == Team.Dark);
-    if (!hasLight && !hasDark)
+    if (GlobalGameState.GameMode == GameMode.BotBrawl)
     {
-      throw new ArgumentException("No players in the game");
-    }
+      var light = new Tuple<int, GlobalGameState.PlayerValues>(-1, new GlobalGameState.PlayerValues(Team.Light, "Light Bot"));
+      GlobalGameState.Players.Add(light);
 
-    // Add bots
-    if (!hasLight)
-    {
-      GlobalGameState.Players.Add(-1, new GlobalGameState.PlayerValues(Team.Light, "Light Bot"));
+      var dark = new Tuple<int, GlobalGameState.PlayerValues>(-1, new GlobalGameState.PlayerValues(Team.Dark, "Dark Bot"));
+      GlobalGameState.Players.Add(dark);
     }
-    else if (!hasDark)
+    else
     {
-      GlobalGameState.Players.Add(-1, new GlobalGameState.PlayerValues(Team.Dark, "Dark Bot"));
+      var hasLight = GlobalGameState.Players.Any(x => x.Item2.Team == Team.Light);
+      var hasDark = GlobalGameState.Players.Any(x => x.Item2.Team == Team.Dark);
+      if (!hasLight && !hasDark)
+      {
+        throw new ArgumentException("No players in the game");
+      }
+
+      // Add bots
+      if (!hasLight)
+      {
+        var lightBot = new Tuple<int, GlobalGameState.PlayerValues>(-1, new GlobalGameState.PlayerValues(Team.Light, "Light Bot"));
+        GlobalGameState.Players.Add(lightBot);
+      }
+      else if (!hasDark)
+      {
+        var darkBot = new Tuple<int, GlobalGameState.PlayerValues>(-1, new GlobalGameState.PlayerValues(Team.Dark, "Dark Bot"));
+        GlobalGameState.Players.Add(darkBot);
+      }
     }
 
     foreach (var (deviceId, info) in GlobalGameState.Players)

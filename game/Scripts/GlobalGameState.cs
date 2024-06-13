@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using PhotonPhighters.Scripts.GameModes;
 
 namespace PhotonPhighters.Scripts;
 
@@ -13,10 +15,12 @@ public static class GlobalGameState
   public static int RoundTime { get; set; } = -1;
 
   /// <summary>
-  ///   A dictionary of players in the game.
-  ///   Key is the device id of the player.
+  ///   A list of players in the game.
+  ///   (Device ID, PlayerValue)
   /// </summary>
-  public static IDictionary<int, PlayerValues> Players { get; } = new Dictionary<int, PlayerValues>();
+  public static IList<Tuple<int, PlayerValues>> Players { get; } = new List<Tuple<int, PlayerValues>>();
+
+  public static GameMode GameMode { get; set; }
 
   public struct PlayerValues
   {

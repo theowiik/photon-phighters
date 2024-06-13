@@ -1,8 +1,11 @@
 ﻿using System.Linq;
 
-namespace PhotonPhighters.Scripts.GameMode;
+namespace PhotonPhighters.Scripts.GameModes;
 
-public sealed class PhotonPhight : IGameMode
+/// <summary>
+///   A game mode where the team with the most lights wins.
+/// </summary>
+public class PhotonPhight : IGameMode
 {
   public bool SpawnLights => true;
 
