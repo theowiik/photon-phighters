@@ -19,12 +19,12 @@ public class Phart : AbstractPowerUpApplier
 
     switch (times)
     {
-      case 1:
+      case 0:
         playerWhoSelected.Gun.BulletSpread += Mathf.Pi / 4;
         playerWhoSelected.Gun.BulletCount += 3;
         playerWhoSelected.Gun.BulletSpeed /= 2f;
         break;
-      case >= 2:
+      case >= 1:
         playerWhoSelected.Gun.BulletSpread += Mathf.Pi / 4;
         playerWhoSelected.Gun.BulletCount += 10;
         break;

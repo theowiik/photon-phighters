@@ -11,12 +11,7 @@ namespace PhotonPhighters.Scripts.Gamepad;
 /// </summary>
 public sealed class BotGreedyGamepad : AbstractBotGamepad
 {
-  private readonly List<Player> _opponents;
-  private readonly Player _self;
-  private Vector2 _aim;
-  private Vector2 _movement;
   private const float JumpIntervalSeconds = 0.4f;
-  private readonly Stopwatch _jumpTimer;
   private const float MarginDeg = (180 - JumpRangeDeg) / 2f;
 
   /// <summary>
@@ -24,12 +19,17 @@ public sealed class BotGreedyGamepad : AbstractBotGamepad
   /// </summary>
   private const int JumpRangeDeg = 166;
 
+  private readonly Stopwatch _jumpTimer;
+  private readonly List<Player> _opponents;
+  private readonly Player _self;
+  private Vector2 _aim;
+  private Vector2 _movement;
+
   /// <summary>
   ///   Creates a new bot that shoots towards the closest enemy.
   /// </summary>
-
   /// <param name="self">
-  ///  The bot itself.
+  ///   The bot itself.
   /// </param>
   public BotGreedyGamepad(Player self)
   {

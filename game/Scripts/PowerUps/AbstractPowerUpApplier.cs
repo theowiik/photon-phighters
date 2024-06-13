@@ -19,8 +19,6 @@ public abstract class AbstractPowerUpApplier : IPowerUpApplier
 
   public void Apply(Team selected, Team opponent, IEnumerable<Player> allPlayers)
   {
-    _haveTaken.Add(selected);
-
     var selecters = allPlayers.Where(p => p.Team == selected).Shuffled().ToList();
     var opponents = allPlayers.Where(p => p.Team == opponent).Shuffled().ToList();
 
@@ -34,10 +32,16 @@ public abstract class AbstractPowerUpApplier : IPowerUpApplier
       var playerToAddEffect = IsCurse ? otherPlayer : playerWhoSelected;
       playerToAddEffect.EffectsDelegate.DisplayPowerUpEffect(this);
     }
+
+    _haveTaken.Add(selected);
   }
 
   public abstract bool IsCurse { get; }
 
+  /// <summary>
+  ///   Returns the number of times the team has taken this power up.
+  ///   Note: Zero the first time it's taken.
+  /// </summary>
   protected int TimesTakenBy(Team team)
   {
     return _haveTaken.Count(t => t == team);

@@ -17,13 +17,13 @@ public class BunnyBoost : AbstractPowerUpApplier
 
     switch (times)
     {
-      case 1:
+      case 0:
         playerWhoSelected.PlayerMovementDelegate.JumpForce += 300;
         break;
-      case 2:
+      case 1:
         playerWhoSelected.PlayerMovementDelegate.JumpForce += 600;
         break;
-      case >= 3:
+      case >= 2:
         playerWhoSelected.PlayerMovementDelegate.JumpForce += 900;
         playerWhoSelected.Gun.BulletDamage *= 3;
         break;

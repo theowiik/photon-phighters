@@ -178,6 +178,7 @@ public partial class Player : CharacterBody2D
 
   private void ApplyInvincibilityShader(bool apply)
   {
+    // TODO: Move to PlayerEffectsDelegate
     if (apply)
     {
       _sprite2D.Material = new ShaderMaterial { Shader = ShaderResourceWrapper.RainbowShader };

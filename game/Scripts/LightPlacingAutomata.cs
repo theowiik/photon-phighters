@@ -36,10 +36,13 @@ public partial class LightPlacingAutomata : Node2D
   {
     if (Enabled)
     {
-      CheckRays();
+      CheckRayCollisions();
     }
   }
 
+  /// <summary>
+  ///   Initializes the ray casts in a circle around the node.
+  /// </summary>
   private void PlaceRaysInCircle()
   {
     const int NRays = 64;
@@ -57,7 +60,10 @@ public partial class LightPlacingAutomata : Node2D
     }
   }
 
-  private void CheckRays()
+  /// <summary>
+  ///   Checks for collisions with the rays.
+  /// </summary>
+  private void CheckRayCollisions()
   {
     foreach (var ray in _rayCasts)
     {

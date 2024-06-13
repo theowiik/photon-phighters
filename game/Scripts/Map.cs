@@ -64,16 +64,23 @@ public partial class Map : Node2D
   {
     var positions = new List<Vector2>();
     var offsets = new List<Vector2> { new(0, -1), new(0, 1), new(-1, 0), new(1, 0) };
+    var usedCells = _tileMap.GetUsedCells(0);
 
-    foreach (var cellCoordinate in _tileMap.GetUsedCells(0))
+    foreach (var cellCoordinate in usedCells)
     {
       foreach (var (x, y) in offsets)
       {
         var c = cellCoordinate + new Vector2I((int)x, (int)y);
-        positions.Add(ToGlobal(_tileMap.MapToLocal(c)));
+
+        // TODO: Actually check that the cell is collidable, and not "cardboard" layer
+        // Add if empty
+        if (!usedCells.Any(coord => coord == c))
+        {
+          positions.Add(ToGlobal(_tileMap.MapToLocal(c)));
+        }
       }
     }
 
-    return positions.Distinct().ToList().Shuffled();
+    return positions.Distinct().Shuffled();
   }
 }
