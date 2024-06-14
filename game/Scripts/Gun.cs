@@ -1,8 +1,8 @@
 ﻿using Godot;
 using GodotSharper.AutoGetNode;
 using GodotSharper.Instancing;
+using PhotonPhighters.Scripts.Controller;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.Gamepad;
 
 namespace PhotonPhighters.Scripts;
 
@@ -42,7 +42,7 @@ public partial class Gun : Node2D
   public float BulletGravity { get; set; } = 1.0f;
   public float BulletSizeFactor { get; set; } = 1.0f;
   public float BulletSpeed { get; set; } = 500;
-  public IGamepad Gamepad { get; set; }
+  public IController Controller { get; set; }
 
   /// <summary>
   ///   The spread of the bullets in radians.
@@ -82,7 +82,7 @@ public partial class Gun : Node2D
       return;
     }
 
-    if (Gamepad.IsShootPressed() && !Loading)
+    if (Controller.IsShootPressed() && !Loading)
     {
       Shoot();
     }

@@ -1,6 +1,6 @@
 ﻿using Godot;
+using PhotonPhighters.Scripts.Controller;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.Gamepad;
 
 namespace PhotonPhighters.Scripts;
 
@@ -36,7 +36,7 @@ public partial class PlayerMovementDelegate : Node
   private bool _onFloorLastCall;
   private float _speed = 300;
   private Vector2 _velocity;
-  public IGamepad Gamepad { get; set; }
+  public IController Controller { get; set; }
   public float Acceleration { get; set; } = 12f;
   public CharacterBody2D CharacterBody { get; set; }
   public bool HasReachedAerodynamicHeatingVelocity => _velocity.Length() > AerodynamicHeatingVelocity;
@@ -54,7 +54,7 @@ public partial class PlayerMovementDelegate : Node
 
   public override void _PhysicsProcess(double delta)
   {
-    var inputDirection = Gamepad.GetMovement();
+    var inputDirection = Controller.GetMovement();
 
     var moveEvent = new PlayerMovementEvent(
       Gravity,
@@ -119,7 +119,7 @@ public partial class PlayerMovementDelegate : Node
     }
 
     // Jumping + walljumping
-    if (Gamepad.IsJumpPressed())
+    if (Controller.IsJumpPressed())
     {
       EmitSignal(SignalName.PlayerJump, moveEvent);
 

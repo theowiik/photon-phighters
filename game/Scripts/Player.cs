@@ -2,8 +2,8 @@
 using GodotSharper;
 using GodotSharper.AutoGetNode;
 using GodotSharper.Instancing;
+using PhotonPhighters.Scripts.Controller;
 using PhotonPhighters.Scripts.Events;
-using PhotonPhighters.Scripts.Gamepad;
 using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.Utils;
 using PhotonPhighters.Scripts.Utils.ResourceWrapper;
@@ -41,7 +41,7 @@ public partial class Player : CharacterBody2D
   [GetNode("Sprite2D")]
   private Sprite2D _sprite2D;
 
-  public IGamepad Gamepad { get; set; }
+  public IController Controller { get; set; }
 
   [GetNode("PlayerEffectsDelegate")]
   public PlayerEffectsDelegate EffectsDelegate { get; private set; }
@@ -146,11 +146,11 @@ public partial class Player : CharacterBody2D
     _sprite2D.Color(Team);
     Health = MaxHealth;
     IsAlive = true;
-    Gun.Gamepad = Gamepad;
+    Gun.Controller = Controller;
     Gun.Team = Team;
 
     EffectsDelegate.PlayerSprite = _sprite2D;
-    PlayerMovementDelegate.Gamepad = Gamepad;
+    PlayerMovementDelegate.Controller = Controller;
     PlayerMovementDelegate.CharacterBody = this;
     PlayerMovementDelegate.PlayerEffectsDelegate = EffectsDelegate;
     PlayerMovementDelegate.PlayerEffectsDelegate.PlayerEffectAddedListeners += effect =>
@@ -211,7 +211,7 @@ public partial class Player : CharacterBody2D
 
   private void Aim()
   {
-    var joystickVector = Gamepad.GetAim();
+    var joystickVector = Controller.GetAim();
     if (joystickVector.Length() > JoystickDeadzone)
     {
       _gunMarker.Rotation = joystickVector.Angle();
@@ -262,6 +262,6 @@ public partial class Player : CharacterBody2D
 
   public void VibrateGamepad()
   {
-    Gamepad.Vibrate();
+    Controller.Vibrate();
   }
 }

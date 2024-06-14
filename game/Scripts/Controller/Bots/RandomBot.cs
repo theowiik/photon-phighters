@@ -1,12 +1,12 @@
 ﻿using System;
 using Godot;
 
-namespace PhotonPhighters.Scripts.Gamepad;
+namespace PhotonPhighters.Scripts.Controller.Bots;
 
 /// <summary>
 ///   Represents a bot-controlled gamepad with semi-human behavior for aiming, moving, shooting, and jumping.
 /// </summary>
-public sealed class BotRandomGamepad : AbstractBotGamepad
+public sealed class RandomBot : AbstractBot
 {
   private const float JumpProbability = 0.05f;
   private const float MoveProbability = 0.5f;
@@ -17,9 +17,9 @@ public sealed class BotRandomGamepad : AbstractBotGamepad
   private Vector2 _movement = Vector2.Zero;
 
   /// <summary>
-  ///   Initializes a new instance of the <see cref="BotRandomGamepad" /> class.
+  ///   Initializes a new instance of the <see cref="RandomBot" /> class.
   /// </summary>
-  public BotRandomGamepad()
+  public RandomBot()
   {
     _random = new Random();
   }

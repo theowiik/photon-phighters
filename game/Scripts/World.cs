@@ -5,10 +5,11 @@ using Godot;
 using GodotSharper;
 using GodotSharper.AutoGetNode;
 using GodotSharper.Instancing;
+using PhotonPhighters.Scripts.Controller;
+using PhotonPhighters.Scripts.Controller.Bots;
 using PhotonPhighters.Scripts.Events;
 using PhotonPhighters.Scripts.Exceptions;
 using PhotonPhighters.Scripts.GameModes;
-using PhotonPhighters.Scripts.Gamepad;
 using PhotonPhighters.Scripts.GSAlpha;
 using PhotonPhighters.Scripts.OverlayControllers;
 using PhotonPhighters.Scripts.PowerUps;
@@ -147,11 +148,11 @@ public partial class World : Node2D
 
       if (deviceId < 0)
       {
-        player.Gamepad = new BotGreedyGamepad(player);
+        player.Controller = new GreedyBot(player);
       }
       else
       {
-        player.Gamepad = new GamepadImpl(deviceId);
+        player.Controller = new Gamepad(deviceId);
       }
 
       AddChild(player);
@@ -169,7 +170,7 @@ public partial class World : Node2D
 
     foreach (var player in _players)
     {
-      if (player.Gamepad is BotGreedyGamepad bot) // TODO: Can be made prettier
+      if (player.Controller is GreedyBot bot) // TODO: Can be made prettier
       {
         bot.AddOpponents(_players);
       }
@@ -186,7 +187,7 @@ public partial class World : Node2D
     // Test vibration
     if (@event is InputEventKey keyEvent && int.TryParse(keyEvent.AsTextKeycode(), out var number))
     {
-      new GamepadImpl(number - 1).Vibrate();
+      new Gamepad(number - 1).Vibrate();
     }
   }
 

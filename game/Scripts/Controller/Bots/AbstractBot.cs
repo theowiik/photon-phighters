@@ -1,17 +1,17 @@
 ﻿using System.Diagnostics;
 using Godot;
 
-namespace PhotonPhighters.Scripts.Gamepad;
+namespace PhotonPhighters.Scripts.Controller.Bots;
 
 /// <summary>
 ///   Bot that makes decisions every x seconds.
 /// </summary>
-public abstract class AbstractBotGamepad : IGamepad
+public abstract class AbstractBot : IController
 {
   private const float DecisionIntervalSeconds = 0.5f;
   private readonly Stopwatch _decisionTimer;
 
-  protected AbstractBotGamepad()
+  protected AbstractBot()
   {
     _decisionTimer = new Stopwatch();
     _decisionTimer.Start();

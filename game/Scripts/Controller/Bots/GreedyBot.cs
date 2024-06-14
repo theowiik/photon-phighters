@@ -4,12 +4,12 @@ using System.Diagnostics;
 using System.Linq;
 using Godot;
 
-namespace PhotonPhighters.Scripts.Gamepad;
+namespace PhotonPhighters.Scripts.Controller.Bots;
 
 /// <summary>
 ///   Shoot towards the closest enemy.
 /// </summary>
-public sealed class BotGreedyGamepad : AbstractBotGamepad
+public sealed class GreedyBot : AbstractBot
 {
   private const float JumpIntervalSeconds = 0.4f;
   private const float MarginDeg = (180 - JumpRangeDeg) / 2f;
@@ -31,7 +31,7 @@ public sealed class BotGreedyGamepad : AbstractBotGamepad
   /// <param name="self">
   ///   The bot itself.
   /// </param>
-  public BotGreedyGamepad(Player self)
+  public GreedyBot(Player self)
   {
     _self = self ?? throw new ArgumentNullException(nameof(self), "Self must not be null.");
     _opponents = new List<Player>();

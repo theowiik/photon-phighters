@@ -1,5 +1,6 @@
 using System;
-using PhotonPhighters.Scripts.GameModes;
+
+namespace PhotonPhighters.Scripts.GameModes;
 
 public static class GameModeExtensions
 {

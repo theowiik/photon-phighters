@@ -1,8 +1,8 @@
 ﻿using Godot;
 
-namespace PhotonPhighters.Scripts.Gamepad;
+namespace PhotonPhighters.Scripts.Controller;
 
-public interface IGamepad
+public interface IController
 {
   void Vibrate();
   bool IsShootPressed();
